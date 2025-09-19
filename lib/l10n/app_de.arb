@@ -9,6 +9,12 @@
   "tag": "Tag",
   "tags": "Tags",
 
+  "autologin_failed_title": "Automatische Anmeldung fehlgeschlagen",
+  "autologin_failed_message": "Die automatische Anmeldung ist fehlgeschlagen. Möglicherweise ist deine Sitzung abgelaufen oder die Instanz ist nicht erreichbar.",
+  "autologin_retry": "Erneut versuchen",
+  "autologin_reconnect": "Abmelden und neu verbinden",
+  "autologin_quit": "Beenden",
+
   "connect_title": "Verbinden",
   "connect_description": "Verbinde dich mit deiner Vibin'-Instanz.",
   "connect_label_instance": "Instanz-URL",

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:vibin_app/auth/auto_login_result.dart';
 import 'package:vibin_app/dtos/login_result.dart';
 import 'package:vibin_app/dtos/user/user.dart';
 import 'package:vibin_app/main.dart';
@@ -12,6 +13,7 @@ class AuthState extends ChangeNotifier {
   String? _serverAddress;
   User? _user;
   List<String> _permissions = [];
+  AutoLoginResult? autoLoginResult;
 
   FlutterSecureStorage prefs = const FlutterSecureStorage();
 
@@ -21,14 +23,14 @@ class AuthState extends ChangeNotifier {
   User? get user => _user;
   List<String> get permissions => _permissions;
 
-  Future<void> tryAutoLogin() async {
+  Future<AutoLoginResult> tryAutoLogin() async {
 
     try {
       await loadFromPrefs();
       final apiManager = getIt<ApiManager>();
 
       if (_serverAddress == null || _accessToken == null) {
-        return;
+        return AutoLoginResult(false, "Not configured.", false);
       }
 
       apiManager.setBaseUrl(_serverAddress!);
@@ -40,12 +42,13 @@ class AuthState extends ChangeNotifier {
         _user = validation.user;
         _permissions = validation.permissions;
         notifyListeners();
+        return AutoLoginResult.success;
       } else {
-        await logout();
+        return AutoLoginResult(false, "Auto-login failed.", true);
       }
     }
     catch (e) {
-      await logout();
+      return AutoLoginResult(false, "$e", true);
     }
   }
 
@@ -67,6 +70,7 @@ class AuthState extends ChangeNotifier {
     _loggedIn = false;
     _serverAddress = null;
     _accessToken = null;
+    autoLoginResult = null;
 
     await prefs.delete(key: 'serverAddress');
     await prefs.delete(key: 'accessToken');
@@ -86,5 +90,10 @@ class AuthState extends ChangeNotifier {
   Future<void> loadFromPrefs() async {
     _serverAddress = await prefs.read(key: 'serverAddress');
     _accessToken = await prefs.read(key: 'accessToken');
+  }
+
+  void clearAutoLoginResult() {
+    autoLoginResult = null;
+    notifyListeners();
   }
 }

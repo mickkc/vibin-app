@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/auth/AuthState.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/pages/auto_login_error.dart';
 import 'package:vibin_app/pages/connect_page.dart';
 import 'package:vibin_app/pages/home_page.dart';
 import 'package:vibin_app/pages/login_page.dart';
@@ -49,11 +50,17 @@ GoRouter configureRouter(AuthState authState) {
           GoRoute(path: '/connect', builder: (context, state) => ConnectPage()),
           GoRoute(path: '/login', builder: (context, state) => LoginPage()),
           GoRoute(path: '/home', builder: (context, state) => HomePage()),
+          GoRoute(path: '/login-error', builder: (context, state) => AutoLoginErrorPage())
         ],
       )
     ],
     initialLocation: '/connect',
     redirect: (context, state) {
+
+      final hasAutoLoginError = authState.autoLoginResult != null && authState.autoLoginResult!.isError();
+      if (hasAutoLoginError) {
+        return '/login-error';
+      }
 
       final loggedIn = authState.loggedIn;
       final loggingIn = state.fullPath == '/connect' || state.fullPath == '/login';

@@ -9,6 +9,12 @@
   "tag": "Tag",
   "tags": "Tags",
 
+  "autologin_failed_title": "Auto Login Failed",
+  "autologin_failed_message": "Auto login failed. Your session may have expired or the instance is unreachable.",
+  "autologin_retry": "Retry",
+  "autologin_reconnect": "Logout and Reconnect",
+  "autologin_quit": "Quit",
+
   "connect_title": "Connect",
   "connect_description": "Connect to your Vibin' instance.",
   "connect_label_instance": "Instance URL",

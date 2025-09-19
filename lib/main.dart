@@ -16,7 +16,9 @@ void main() async {
   setupDependencyInjection();
 
   final authState = getIt<AuthState>();
-  await authState.tryAutoLogin();
+
+  final autoLoginResult = await authState.tryAutoLogin();
+  authState.autoLoginResult = autoLoginResult;
 
   runApp(
     ChangeNotifierProvider(

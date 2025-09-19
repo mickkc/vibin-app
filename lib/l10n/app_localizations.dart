@@ -146,6 +146,36 @@ abstract class AppLocalizations {
   /// **'Tags'**
   String get tags;
 
+  /// No description provided for @autologin_failed_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Login Failed'**
+  String get autologin_failed_title;
+
+  /// No description provided for @autologin_failed_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto login failed. Your session may have expired or the instance is unreachable.'**
+  String get autologin_failed_message;
+
+  /// No description provided for @autologin_retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get autologin_retry;
+
+  /// No description provided for @autologin_reconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout and Reconnect'**
+  String get autologin_reconnect;
+
+  /// No description provided for @autologin_quit.
+  ///
+  /// In en, this message translates to:
+  /// **'Quit'**
+  String get autologin_quit;
+
   /// No description provided for @connect_title.
   ///
   /// In en, this message translates to:

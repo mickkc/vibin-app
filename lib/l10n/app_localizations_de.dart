@@ -33,6 +33,22 @@ class AppLocalizationsDe extends AppLocalizations {
   String get tags => 'Tags';
 
   @override
+  String get autologin_failed_title => 'Automatische Anmeldung fehlgeschlagen';
+
+  @override
+  String get autologin_failed_message =>
+      'Die automatische Anmeldung ist fehlgeschlagen. Möglicherweise ist deine Sitzung abgelaufen oder die Instanz ist nicht erreichbar.';
+
+  @override
+  String get autologin_retry => 'Erneut versuchen';
+
+  @override
+  String get autologin_reconnect => 'Abmelden und neu verbinden';
+
+  @override
+  String get autologin_quit => 'Beenden';
+
+  @override
   String get connect_title => 'Verbinden';
 
   @override

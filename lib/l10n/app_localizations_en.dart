@@ -33,6 +33,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tags => 'Tags';
 
   @override
+  String get autologin_failed_title => 'Auto Login Failed';
+
+  @override
+  String get autologin_failed_message =>
+      'Auto login failed. Your session may have expired or the instance is unreachable.';
+
+  @override
+  String get autologin_retry => 'Retry';
+
+  @override
+  String get autologin_reconnect => 'Logout and Reconnect';
+
+  @override
+  String get autologin_quit => 'Quit';
+
+  @override
   String get connect_title => 'Connect';
 
   @override
