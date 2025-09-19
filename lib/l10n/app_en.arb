@@ -1,0 +1,30 @@
+{
+  "app_name": "Vibin'",
+  "welcome_message": "Welcome to Vibin'!",
+
+  "artist": "Artist",
+  "album": "Album",
+  "track": "Track",
+  "playlist": "Playlist",
+  "tag": "Tag",
+  "tags": "Tags",
+
+  "connect_title": "Connect",
+  "connect_description": "Connect to your Vibin' instance.",
+  "connect_label_instance": "Instance URL",
+  "connect_placeholder_instance": "http://localhost:8080",
+  "connect_button_connect": "Connect",
+
+  "login_title": "Login",
+  "login_description": "Log in to your Vibin' instance.",
+  "login_placeholder_username": "Username",
+  "login_placeholder_password": "Password",
+  "login_button_login": "Log In",
+
+  "section_recently_listened": "Recently Listened",
+  "section_random_tracks": "Discover",
+  "section_top_artists": "Top Artists This Month",
+
+  "section_view_all": "View all",
+  "section_no_data": "No data available"
+}
