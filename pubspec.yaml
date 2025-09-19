@@ -1,5 +1,5 @@
 name: vibin_app
-description: "Client app for the Vibin music server"
+description: "Cross-platform app for the self-hosted music streaming server Vibin'"
 
 publish_to: 'none'
 
