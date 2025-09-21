@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:retrofit/dio.dart';
 import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/playlist/playlist.dart';
@@ -69,51 +70,67 @@ class EntityCard extends StatelessWidget {
     }
   }
 
+  void onTap(BuildContext context) {
+    final route = switch (type) {
+      "TRACK" || "FTRACK" => "/tracks/${entity.id}",
+      "ALBUM" => "/albums/${entity.id}",
+      "ARTIST" => "/artists/${entity.id}",
+      "PLAYLIST" => "/playlists/${entity.id}",
+      _ => null
+    };
+    if (route != null) {
+      GoRouter.of(context).push(route);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final apiManager = getIt<ApiManager>();
 
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Expanded(
-          child: SizedBox(
-            width: coverSize,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                  borderRadius: type == "ARTIST"
-                      ? BorderRadius.circular(coverSize / 2)
-                      : BorderRadius.circular(8),
-                  child: NetworkImageWidget(
-                    imageFuture: getCover(apiManager),
-                    width: coverSize,
-                    height: coverSize,
-                    fit: BoxFit.cover,
+      child: GestureDetector(
+        onTap: () => onTap(context),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Expanded(
+            child: SizedBox(
+              width: coverSize,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: type == "ARTIST"
+                        ? BorderRadius.circular(coverSize / 2)
+                        : BorderRadius.circular(8),
+                    child: NetworkImageWidget(
+                      imageFuture: getCover(apiManager),
+                      width: coverSize,
+                      height: coverSize,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  getTitle(),
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                  const SizedBox(height: 12),
+                  Text(
+                    getTitle(),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1
                   ),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  getDescription(context),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.white70
+                  const SizedBox(height: 2),
+                  Text(
+                    getDescription(context),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.white70
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1
                   ),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
