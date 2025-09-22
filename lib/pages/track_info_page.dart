@@ -4,6 +4,7 @@ import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/sections/explore_section.dart';
+import 'package:vibin_app/sections/related_section.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
 import 'package:vibin_app/widgets/network_image.dart';
@@ -174,7 +175,7 @@ class TrackInfoPage extends StatelessWidget {
         ),
         Column(
           children: [
-            ExploreSection()
+            RelatedSection(trackId: trackId)
           ],
         )
       ],

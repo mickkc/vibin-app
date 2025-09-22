@@ -200,6 +200,9 @@ abstract class ApiService {
   @GET("/api/tracks/random")
   Future<List<MinimalTrack>> getRandomTracks(@Query("limit") int limit);
 
+  @GET("/api/tracks/{trackId}/related")
+  Future<List<MinimalTrack>> getRelatedTracks(@Path("trackId") int trackId, @Query("limit") int limit);
+
   // Users
 
   @GET("/api/users")

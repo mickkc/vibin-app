@@ -1085,7 +1085,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<Success> reportAlbumListen(int itemId) async {
+  Future<Success> reportAlbumListen(int albumId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -1094,7 +1094,7 @@ class _ApiService implements ApiService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/stats/listen/ALBUM/${itemId}',
+            '/api/stats/listen/ALBUM/${albumId}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -1112,7 +1112,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<Success> reportArtistListen(int itemId) async {
+  Future<Success> reportArtistListen(int artistId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -1121,7 +1121,7 @@ class _ApiService implements ApiService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/stats/listen/ARTIST/${itemId}',
+            '/api/stats/listen/ARTIST/${artistId}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -1139,7 +1139,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<Success> reportPlaylistListen(int itemId) async {
+  Future<Success> reportPlaylistListen(int playlistId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -1148,7 +1148,7 @@ class _ApiService implements ApiService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/stats/listen/PLAYLIST/${itemId}',
+            '/api/stats/listen/PLAYLIST/${playlistId}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -1390,6 +1390,35 @@ class _ApiService implements ApiService {
           .compose(
             _dio.options,
             '/api/tracks/random',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<MinimalTrack> _value;
+    try {
+      _value = _result.data!
+          .map((dynamic i) => MinimalTrack.fromJson(i as Map<String, dynamic>))
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<List<MinimalTrack>> getRelatedTracks(int trackId, int limit) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'limit': limit};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<MinimalTrack>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/tracks/${trackId}/related',
             queryParameters: queryParameters,
             data: _data,
           )

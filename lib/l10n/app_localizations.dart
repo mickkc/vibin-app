@@ -254,6 +254,12 @@ abstract class AppLocalizations {
   /// **'Top Artists This Month'**
   String get section_top_artists;
 
+  /// No description provided for @section_related_tracks.
+  ///
+  /// In en, this message translates to:
+  /// **'Related Tracks'**
+  String get section_related_tracks;
+
   /// No description provided for @section_view_all.
   ///
   /// In en, this message translates to:
