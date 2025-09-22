@@ -4,12 +4,14 @@ import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/sections/explore_section.dart';
-import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/permission_widget.dart';
 import 'package:vibin_app/widgets/tag_widget.dart';
+
+import '../audio/audio_manager.dart';
+import '../dtos/track/track.dart';
 
 class TrackInfoPage extends StatelessWidget {
 
@@ -26,6 +28,11 @@ class TrackInfoPage extends StatelessWidget {
 
   void openAlbumPage(BuildContext context, int albumId) {
     // TODO: Implement navigation to album page
+  }
+
+  void playTrack(Track track) {
+    final audioManager = getIt<AudioManager>();
+    audioManager.playTrack(track);
   }
 
   @override
@@ -109,6 +116,9 @@ class TrackInfoPage extends StatelessWidget {
                           if (track.bitrate != null) ... [
                             IconText(icon: Icons.multitrack_audio, text: "${track.bitrate!} kbps")
                           ],
+                          if (track.explicit) ... [
+                            IconText(icon: Icons.explicit, text: "Explicit")
+                          ],
                           for (var tag in track.tags) ...[
                             TagWidget(tag: tag)
                           ]
@@ -123,16 +133,22 @@ class TrackInfoPage extends StatelessWidget {
         Row(
           spacing: 16,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(32),
-              child: Container(
-                color: Theme.of(context).colorScheme.primary,
-                padding: const EdgeInsets.all(8),
-                child: Icon(
-                  Icons.play_arrow,
-                  size: 48,
-                  color: Theme.of(context).colorScheme.surface,
-                )
+            GestureDetector(
+              onTap: () async {
+                final track = await trackFuture;
+                playTrack(track);
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(32),
+                child: Container(
+                  color: Theme.of(context).colorScheme.primary,
+                  padding: const EdgeInsets.all(8),
+                  child: Icon(
+                    Icons.play_arrow,
+                    size: 48,
+                    color: Theme.of(context).colorScheme.surface,
+                  )
+                ),
               ),
             ),
             IconButton(
