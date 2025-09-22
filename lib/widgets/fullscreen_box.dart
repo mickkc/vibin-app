@@ -10,7 +10,7 @@ class FullScreenBox extends StatelessWidget {
     final size = MediaQuery.sizeOf(context);
     final padding = MediaQuery.paddingOf(context);
 
-    final availableHeight = size.height - padding.top - padding.bottom - kToolbarHeight;
+    final availableHeight = size.height - padding.top - padding.bottom - kToolbarHeight - kBottomNavigationBarHeight;
     final availableWidth = size.width - padding.left - padding.right;
 
     return SizedBox(

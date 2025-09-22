@@ -92,45 +92,43 @@ class EntityCard extends StatelessWidget {
         onTap: () => onTap(context),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Expanded(
-            child: SizedBox(
-              width: coverSize,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius: type == "ARTIST"
-                        ? BorderRadius.circular(coverSize / 2)
-                        : BorderRadius.circular(8),
-                    child: NetworkImageWidget(
-                      url: getCoverUrl(apiManager),
-                      width: coverSize,
-                      height: coverSize,
-                      fit: BoxFit.cover,
-                    ),
+          child: SizedBox(
+            width: coverSize,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: type == "ARTIST"
+                      ? BorderRadius.circular(coverSize / 2)
+                      : BorderRadius.circular(8),
+                  child: NetworkImageWidget(
+                    url: getCoverUrl(apiManager),
+                    width: coverSize,
+                    height: coverSize,
+                    fit: BoxFit.cover,
                   ),
-                  const SizedBox(height: 12),
-                  Text(
-                    getTitle(),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  getTitle(),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    getDescription(context),
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.white70
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  getDescription(context),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.white70
                   ),
-                ],
-              ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1
+                ),
+              ],
             ),
           ),
         ),

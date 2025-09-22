@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/main.dart';
@@ -16,22 +18,32 @@ class _NowPlayingBarContext extends State<NowPlayingBar> {
   late var position = audioManager.audioPlayer.position;
   late var currentMediaItem = audioManager.getCurrentMediaItem();
 
+  List<StreamSubscription> subscriptions = [];
+
   _NowPlayingBarContext() {
-    audioManager.audioPlayer.playingStream.listen((event) {
+    subscriptions.add(audioManager.audioPlayer.playingStream.listen((event) {
       setState(() {
         isPlaying = event;
       });
-    });
-    audioManager.audioPlayer.positionStream.listen((event) {
+    }));
+    subscriptions.add(audioManager.audioPlayer.positionStream.listen((event) {
       setState(() {
         position = event;
       });
-    });
-    audioManager.audioPlayer.sequenceStateStream.listen((event) {
+    }));
+    subscriptions.add(audioManager.audioPlayer.sequenceStateStream.listen((event) {
       setState(() {
         currentMediaItem = audioManager.getCurrentMediaItem();
       });
-    });
+    }));
+  }
+
+  @override
+  void dispose() {
+    for (var sub in subscriptions) {
+      sub.cancel();
+    }
+    super.dispose();
   }
 
   void playPause() {

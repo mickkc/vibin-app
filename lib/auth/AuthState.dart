@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:vibin_app/auth/auto_login_result.dart';
 import 'package:vibin_app/dtos/login_result.dart';
+import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/user/user.dart';
 import 'package:vibin_app/main.dart';
 
@@ -71,6 +72,8 @@ class AuthState extends ChangeNotifier {
     _serverAddress = null;
     _accessToken = null;
     autoLoginResult = null;
+    _user = null;
+    _permissions = [];
 
     await prefs.delete(key: 'serverAddress');
     await prefs.delete(key: 'accessToken');
@@ -95,5 +98,13 @@ class AuthState extends ChangeNotifier {
   void clearAutoLoginResult() {
     autoLoginResult = null;
     notifyListeners();
+  }
+
+
+  bool hasPermission(PermissionType permission) {
+    if (user != null && user!.isAdmin) {
+      return true;
+    }
+    return _permissions.contains(permission.name);
   }
 }

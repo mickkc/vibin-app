@@ -95,4 +95,19 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get section_no_data => 'Keine Daten verfügbar';
+
+  @override
+  String get settings_title => 'Einstellungen';
+
+  @override
+  String get settings_edit_profile => 'Profil bearbeiten';
+
+  @override
+  String get settings_app_settings => 'App-Einstellungen';
+
+  @override
+  String get settings_server_settings => 'Server-Einstellungen';
+
+  @override
+  String get settings_logout => 'Abmelden';
 }

@@ -271,6 +271,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No data available'**
   String get section_no_data;
+
+  /// No description provided for @settings_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings_title;
+
+  /// No description provided for @settings_edit_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get settings_edit_profile;
+
+  /// No description provided for @settings_app_settings.
+  ///
+  /// In en, this message translates to:
+  /// **'App Settings'**
+  String get settings_app_settings;
+
+  /// No description provided for @settings_server_settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Server Settings'**
+  String get settings_server_settings;
+
+  /// No description provided for @settings_logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Out'**
+  String get settings_logout;
 }
 
 class _AppLocalizationsDelegate

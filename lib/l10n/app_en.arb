@@ -33,5 +33,11 @@
   "section_related_tracks": "Related Tracks",
 
   "section_view_all": "View all",
-  "section_no_data": "No data available"
+  "section_no_data": "No data available",
+
+  "settings_title": "Settings",
+  "settings_edit_profile": "Edit Profile",
+  "settings_app_settings": "App Settings",
+  "settings_server_settings": "Server Settings",
+  "settings_logout": "Log Out"
 }

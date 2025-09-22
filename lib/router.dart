@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/auth/AuthState.dart';
-import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/auto_login_error_page.dart';
 import 'package:vibin_app/pages/connect_page.dart';
 import 'package:vibin_app/pages/home_page.dart';
 import 'package:vibin_app/pages/login_page.dart';
+import 'package:vibin_app/pages/settings/settings_page.dart';
 import 'package:vibin_app/pages/track_info_page.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/now_playing_bar.dart';
 
 GoRouter configureRouter(AuthState authState) {
-  final apiManager = getIt<ApiManager>();
   final router = GoRouter(
     refreshListenable: authState,
     routes: [
@@ -22,20 +20,20 @@ GoRouter configureRouter(AuthState authState) {
           return Scaffold(
             appBar: loggedIn ? AppBar(
               leading: IconButton(
-                  onPressed: () {
-                    final router = GoRouter.of(context);
-                    if (router.canPop()) {
-                      router.pop();
-                    }
-                  },
-                  icon: Icon(Icons.arrow_back)
+                onPressed: () {
+                  final router = GoRouter.of(context);
+                  if (router.canPop()) {
+                    router.pop();
+                  }
+                },
+                icon: Icon(Icons.arrow_back)
               ),
               title: Text('Vibin\''),
               backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               actions: [
                 IconButton(
                     onPressed: () {
-                      GoRouter.of(context).go('/settings');
+                      GoRouter.of(context).push('/settings');
                     },
                     icon: Icon(Icons.settings)
                 ),
@@ -62,6 +60,7 @@ GoRouter configureRouter(AuthState authState) {
           GoRoute(path: '/connect', builder: (context, state) => ConnectPage()),
           GoRoute(path: '/login', builder: (context, state) => LoginPage()),
           GoRoute(path: '/home', builder: (context, state) => HomePage()),
+          GoRoute(path: '/settings', builder: (context, state) => SettingsPage()),
           GoRoute(path: '/login-error', builder: (context, state) => AutoLoginErrorPage()),
           GoRoute(path: '/tracks/:id', builder: (context, state) => TrackInfoPage(trackId: int.parse(state.pathParameters['id']!))),
         ],

@@ -95,4 +95,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get section_no_data => 'No data available';
+
+  @override
+  String get settings_title => 'Settings';
+
+  @override
+  String get settings_edit_profile => 'Edit Profile';
+
+  @override
+  String get settings_app_settings => 'App Settings';
+
+  @override
+  String get settings_server_settings => 'Server Settings';
+
+  @override
+  String get settings_logout => 'Log Out';
 }
