@@ -71,6 +71,16 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     audioPlayer.play();
   }
 
+  MediaItem? getCurrentMediaItem() {
+    final current = audioPlayer.sequenceState.currentSource;
+    if (current == null) return null;
+    final tag = current.tag;
+    if (tag is MediaItem) {
+      return tag;
+    }
+    return null;
+  }
+
   AudioSource fromMinimalTrack(MinimalTrack track) {
     final url = "${apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/stream?token=${apiManager.accessToken}";
     final artUrl = "${apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/cover?token=${apiManager.accessToken}";

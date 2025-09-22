@@ -1,18 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
-import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/main.dart';
-import 'package:vibin_app/sections/explore_section.dart';
 import 'package:vibin_app/sections/related_section.dart';
+import 'package:vibin_app/sections/track_action_bar.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
 import 'package:vibin_app/widgets/network_image.dart';
-import 'package:vibin_app/widgets/permission_widget.dart';
 import 'package:vibin_app/widgets/tag_widget.dart';
-
-import '../audio/audio_manager.dart';
-import '../dtos/track/track.dart';
 
 class TrackInfoPage extends StatelessWidget {
 
@@ -31,13 +25,11 @@ class TrackInfoPage extends StatelessWidget {
     // TODO: Implement navigation to album page
   }
 
-  void playTrack(Track track) {
-    final audioManager = getIt<AudioManager>();
-    audioManager.playTrack(track);
-  }
+
 
   @override
   Widget build(BuildContext context) {
+
     final apiManager = getIt<ApiManager>();
     final trackFuture = apiManager.service.getTrack(trackId);
     final imageFuture = apiManager.service.getTrackCover(trackId, "original");
@@ -131,48 +123,7 @@ class TrackInfoPage extends StatelessWidget {
             )
           ],
         ),
-        Row(
-          spacing: 16,
-          children: [
-            GestureDetector(
-              onTap: () async {
-                final track = await trackFuture;
-                playTrack(track);
-              },
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(32),
-                child: Container(
-                  color: Theme.of(context).colorScheme.primary,
-                  padding: const EdgeInsets.all(8),
-                  child: Icon(
-                    Icons.play_arrow,
-                    size: 48,
-                    color: Theme.of(context).colorScheme.surface,
-                  )
-                ),
-              ),
-            ),
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.playlist_add, size: 32)
-            ),
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(CupertinoIcons.heart, size: 32)
-            ),
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.download, size: 32)
-            ),
-            PermissionWidget(
-                requiredPermissions: [PermissionType.manageTracks],
-                child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.edit, size: 32),
-                )
-            )
-          ],
-        ),
+        TrackActionBar(trackId: trackId),
         Column(
           children: [
             RelatedSection(trackId: trackId)
