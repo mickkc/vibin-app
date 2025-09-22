@@ -54,17 +54,17 @@ class EntityCard extends StatelessWidget {
     }
   }
 
-  Future<HttpResponse<List<int>>> getCover(ApiManager apiManager) {
+  String getCoverUrl(ApiManager apiManager) {
     switch (type) {
       case "TRACK":
       case "FTRACK":
-        return apiManager.service.getTrackCover(entity.id, "large");
+        return "/api/tracks/${entity.id}/cover?quality=large";
       case "ALBUM":
-        return apiManager.service.getAlbumCover(entity.id, "large");
+        return "/api/albums/${entity.id}/cover?quality=large";
       case "ARTIST":
-        return apiManager.service.getArtistImage(entity.id, "large");
+        return "/api/artists/${entity.id}/image?quality=large";
       case "PLAYLIST":
-        return apiManager.service.getPlaylistImage(entity.id, "large");
+        return "/api/playlists/${entity.id}/image?quality=large";
       default:
         throw Exception("INVALID TYPE");
     }
@@ -103,7 +103,7 @@ class EntityCard extends StatelessWidget {
                         ? BorderRadius.circular(coverSize / 2)
                         : BorderRadius.circular(8),
                     child: NetworkImageWidget(
-                      imageFuture: getCover(apiManager),
+                      url: getCoverUrl(apiManager),
                       width: coverSize,
                       height: coverSize,
                       fit: BoxFit.cover,

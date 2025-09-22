@@ -1,10 +1,10 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:retrofit/dio.dart';
+import 'package:vibin_app/api/api_manager.dart';
+
+import '../main.dart';
 
 class NetworkImageWidget extends StatelessWidget {
-  final Future<HttpResponse<List<int>>> imageFuture;
+  final String url;
   final double width;
   final double height;
   final BoxFit fit;
@@ -13,7 +13,7 @@ class NetworkImageWidget extends StatelessWidget {
 
   const NetworkImageWidget({
     super.key,
-    required this.imageFuture,
+    required this.url,
     this.width = double.infinity,
     this.height = double.infinity,
     this.fit = BoxFit.cover,
@@ -21,63 +21,63 @@ class NetworkImageWidget extends StatelessWidget {
     this.borderRadius = BorderRadius.zero,
   });
 
+  bool isAbsoluteUrl() {
+    return url.startsWith("http://") || url.startsWith("https://");
+  }
+
+  String getUrl() {
+    if (isAbsoluteUrl()) {
+      return url;
+    } else {
+      ApiManager apiManager = getIt<ApiManager>();
+      return "${apiManager.baseUrl}/$url";
+    }
+  }
+
+  Map<String, String> getHeaders() {
+    if (isAbsoluteUrl()) {
+      return {};
+    }
+    ApiManager apiManager = getIt<ApiManager>();
+    return {
+      "Authorization": "Bearer ${apiManager.accessToken}"
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: padding,
       child: ClipRRect(
         borderRadius: borderRadius,
-        child: FutureBuilder<HttpResponse<List<int>>>(
-          future: imageFuture,
-          builder: (context, snapshot) {
-
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return SizedBox(
-                width: width,
-                height: height,
-                child: const Center(child: CircularProgressIndicator()),
-              );
-            }
-
-            else if (snapshot.hasError) {
-              return SizedBox(
-                width: width,
-                height: height,
-                child: const Center(child: Icon(Icons.error)),
-              );
-            }
-
-            else if (snapshot.hasData) {
-
-              final response = snapshot.data!;
-
-              if (response.response.statusCode == 200) {
-                final bytes = response.data;
-                return Image.memory(
-                  Uint8List.fromList(bytes),
-                  width: width,
-                  height: height,
-                  fit: fit,
-                );
-              }
-              else {
-                return SizedBox(
-                  width: width,
-                  height: height,
-                  child: const Center(child: Icon(Icons.broken_image)),
-                );
-              }
-            }
-
-            else {
-              return SizedBox(
-                width: width,
-                height: height,
-                child: const Center(child: Icon(Icons.image_not_supported)),
-              );
-            }
+        child: Image.network(
+          getUrl(),
+          width: width,
+          height: height,
+          fit: fit,
+          headers: getHeaders(),
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return SizedBox(
+              width: width,
+              height: height,
+              child: Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                      : null,
+                ),
+              ),
+            );
           },
-        ),
+          errorBuilder: (context, error, stackTrace) {
+            return SizedBox(
+              width: width,
+              height: height,
+              child: const Center(child: Icon(Icons.error)),
+            );
+          },
+        )
       ),
     );
   }

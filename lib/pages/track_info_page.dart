@@ -32,7 +32,6 @@ class TrackInfoPage extends StatelessWidget {
 
     final apiManager = getIt<ApiManager>();
     final trackFuture = apiManager.service.getTrack(trackId);
-    final imageFuture = apiManager.service.getTrackCover(trackId, "original");
 
     return Column(
       spacing: 16,
@@ -42,7 +41,7 @@ class TrackInfoPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             NetworkImageWidget(
-              imageFuture: imageFuture,
+              url: "/api/tracks/$trackId/cover?quality=original",
               width: 200,
               height: 200,
             ),

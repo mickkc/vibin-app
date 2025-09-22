@@ -40,7 +40,7 @@ GoRouter configureRouter(AuthState authState) {
                     icon: Icon(Icons.settings)
                 ),
                 NetworkImageWidget(
-                  imageFuture: apiManager.service.getUserProfilePicture(authState.user!.id),
+                  url: "/api/users/${authState.user?.id}/pfp?quality=small",
                   fit: BoxFit.contain,
                   width: 32,
                   height: 32,
