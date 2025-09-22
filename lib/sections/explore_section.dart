@@ -17,33 +17,29 @@ class ExploreSection extends StatelessWidget {
     final apiManager = getIt<ApiManager>();
     final tracks = apiManager.service.getRandomTracks(20);
 
-    return SizedBox(
-      height: 255,
-      child: Column(
-        spacing: 8,
-        children: [
-          SectionHeader(
-              title: AppLocalizations.of(context)!.section_random_tracks,
-              viewAllRoute: "/tracks",
-          ),
-          Expanded(
-            child: FutureContent(
-              future: tracks,
-              builder: (context, tracks) {
-                return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: tracks.length,
-                  itemBuilder: (context, index) {
-                    final track = tracks[index];
-                    return EntityCard(entity: track);
-                  },
-                  primary: false,
-                );
-              }
-            )
-          )
-        ],
-      ),
+    return Column(
+      spacing: 8,
+      children: [
+        SectionHeader(
+            title: AppLocalizations.of(context)!.section_random_tracks,
+            viewAllRoute: "/tracks",
+        ),
+        FutureContent(
+          future: tracks,
+          height: 215,
+          builder: (context, tracks) {
+            return ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: tracks.length,
+              itemBuilder: (context, index) {
+                final track = tracks[index];
+                return EntityCard(entity: track);
+              },
+              primary: false,
+            );
+          }
+        )
+      ],
     );
   }
 }

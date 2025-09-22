@@ -21,24 +21,22 @@ class _HomePagState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        spacing: 16,
-        children: [
-          PermissionWidget(
-              requiredPermissions: [PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists],
-              child: RecommendedStartSection()),
-          PermissionWidget(
-              requiredPermissions: [PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists],
-              child: LastListenedToSection()),
-          PermissionWidget(
-              requiredPermissions: [PermissionType.viewTracks],
-              child: ExploreSection()),
-          PermissionWidget(
-              requiredPermissions: [PermissionType.viewArtists],
-              child: MostListenedToArtistsSection())
-        ],
-      ),
+    return Column(
+      spacing: 16,
+      children: [
+        PermissionWidget(
+            requiredPermissions: [PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists],
+            child: RecommendedStartSection()),
+        PermissionWidget(
+            requiredPermissions: [PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists],
+            child: LastListenedToSection()),
+        PermissionWidget(
+            requiredPermissions: [PermissionType.viewTracks],
+            child: ExploreSection()),
+        PermissionWidget(
+            requiredPermissions: [PermissionType.viewArtists],
+            child: MostListenedToArtistsSection())
+      ],
     );
   }
 }
