@@ -1,6 +1,7 @@
 
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
+import 'package:vibin_app/dtos/album/album_data.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/artist/artist_metadata.dart';
 import 'package:vibin_app/dtos/login_result.dart';
@@ -53,8 +54,8 @@ abstract class ApiService {
   @GET("/api/albums")
   Future<AlbumPagination> getAlbums(@Query("page") int page, @Query("pageSize") int pageSize);
 
-  @GET("/api/users/{id}")
-  Future<User> getUser(@Path("id") int id);
+  @GET("/api/albums/{id}")
+  Future<AlbumData> getAlbum(@Path("id") int id);
 
   @GET("/api/albums/{id}/cover")
   @DioResponseType(ResponseType.bytes)
@@ -158,6 +159,18 @@ abstract class ApiService {
 
   @GET("/api/stats/nontracks/top{num}")
   Future<List<NonTrackListen>> getTopListenedNonTrackItems(@Path("num") int num, @Query("since") int since);
+
+  @POST("/api/stats/listen/TRACK/{trackId}")
+  Future<Success> reportTrackListen(@Path("trackId") int trackId);
+
+  @POST("/api/stats/listen/ALBUM/{albumId}")
+  Future<Success> reportAlbumListen(@Path("albumId") int albumId);
+
+  @POST("/api/stats/listen/ARTIST/{artistId}")
+  Future<Success> reportArtistListen(@Path("artistId") int artistId);
+
+  @POST("/api/stats/listen/PLAYLIST/{playlistId}")
+  Future<Success> reportPlaylistListen(@Path("playlistId") int playlistId);
 
   // Tracks
 
