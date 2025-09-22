@@ -30,7 +30,7 @@ GoRouter configureRouter(AuthState authState) {
                 }
               ),
               title: Text('Vibin\''),
-              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
               actions: [
                 NetworkImageWidget(
                   url: "/api/users/${authState.user?.id}/pfp?quality=small",

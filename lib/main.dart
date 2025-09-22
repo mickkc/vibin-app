@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
@@ -45,21 +46,33 @@ class MyApp extends StatelessWidget {
 
     final router = configureRouter(authState);
 
-    return MaterialApp.router(
-      title: 'Vibin\'',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green, brightness: Brightness.dark),
-        fontFamily: "Roboto Flex",
-      ),
-      routerConfig: router,
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate
-      ],
-      supportedLocales: AppLocalizations.supportedLocales
+
+    return DynamicColorBuilder(
+      builder: (lightColorScheme, darkColorScheme) {
+        return MaterialApp.router(
+          title: 'Vibin\'',
+          theme: ThemeData(
+            colorScheme: lightColorScheme ?? ColorScheme.fromSeed(seedColor: Colors.green),
+            fontFamily: "Roboto Flex",
+            useMaterial3: true
+          ),
+          darkTheme: ThemeData(
+            colorScheme: darkColorScheme ?? ColorScheme.fromSeed(seedColor: Colors.green, brightness: Brightness.dark),
+            fontFamily: "Roboto Flex",
+            useMaterial3: true
+          ),
+          themeMode: ThemeMode.system,
+          routerConfig: router,
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate
+          ],
+          supportedLocales: AppLocalizations.supportedLocales
+        );
+      }
     );
   }
 }
