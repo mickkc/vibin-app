@@ -3,9 +3,13 @@
   "welcome_message": "Welcome to Vibin'!",
 
   "artist": "Artist",
+  "artists": "Artists",
   "album": "Album",
+  "albums": "Albums",
   "track": "Track",
+  "tracks": "Tracks",
   "playlist": "Playlist",
+  "playlists": "Playlists",
   "tag": "Tag",
   "tags": "Tags",
 
@@ -35,9 +39,11 @@
   "section_view_all": "View all",
   "section_no_data": "No data available",
 
-  "settings_title": "Settings",
-  "settings_edit_profile": "Edit Profile",
-  "settings_app_settings": "App Settings",
-  "settings_server_settings": "Server Settings",
-  "settings_logout": "Log Out"
+  "drawer_title": "Vibin'",
+  "drawer_home": "Home",
+  "drawer_search": "Search",
+  "drawer_profile": "Profile",
+  "drawer_app_settings": "App Settings",
+  "drawer_server_settings": "Server Settings",
+  "drawer_logout": "Logout"
 }

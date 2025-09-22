@@ -116,11 +116,23 @@ abstract class AppLocalizations {
   /// **'Artist'**
   String get artist;
 
+  /// No description provided for @artists.
+  ///
+  /// In en, this message translates to:
+  /// **'Artists'**
+  String get artists;
+
   /// No description provided for @album.
   ///
   /// In en, this message translates to:
   /// **'Album'**
   String get album;
+
+  /// No description provided for @albums.
+  ///
+  /// In en, this message translates to:
+  /// **'Albums'**
+  String get albums;
 
   /// No description provided for @track.
   ///
@@ -128,11 +140,23 @@ abstract class AppLocalizations {
   /// **'Track'**
   String get track;
 
+  /// No description provided for @tracks.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracks'**
+  String get tracks;
+
   /// No description provided for @playlist.
   ///
   /// In en, this message translates to:
   /// **'Playlist'**
   String get playlist;
+
+  /// No description provided for @playlists.
+  ///
+  /// In en, this message translates to:
+  /// **'Playlists'**
+  String get playlists;
 
   /// No description provided for @tag.
   ///
@@ -272,35 +296,47 @@ abstract class AppLocalizations {
   /// **'No data available'**
   String get section_no_data;
 
-  /// No description provided for @settings_title.
+  /// No description provided for @drawer_title.
   ///
   /// In en, this message translates to:
-  /// **'Settings'**
-  String get settings_title;
+  /// **'Vibin\''**
+  String get drawer_title;
 
-  /// No description provided for @settings_edit_profile.
+  /// No description provided for @drawer_home.
   ///
   /// In en, this message translates to:
-  /// **'Edit Profile'**
-  String get settings_edit_profile;
+  /// **'Home'**
+  String get drawer_home;
 
-  /// No description provided for @settings_app_settings.
+  /// No description provided for @drawer_search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get drawer_search;
+
+  /// No description provided for @drawer_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get drawer_profile;
+
+  /// No description provided for @drawer_app_settings.
   ///
   /// In en, this message translates to:
   /// **'App Settings'**
-  String get settings_app_settings;
+  String get drawer_app_settings;
 
-  /// No description provided for @settings_server_settings.
+  /// No description provided for @drawer_server_settings.
   ///
   /// In en, this message translates to:
   /// **'Server Settings'**
-  String get settings_server_settings;
+  String get drawer_server_settings;
 
-  /// No description provided for @settings_logout.
+  /// No description provided for @drawer_logout.
   ///
   /// In en, this message translates to:
-  /// **'Log Out'**
-  String get settings_logout;
+  /// **'Logout'**
+  String get drawer_logout;
 }
 
 class _AppLocalizationsDelegate

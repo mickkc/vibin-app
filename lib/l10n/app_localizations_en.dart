@@ -18,13 +18,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get artist => 'Artist';
 
   @override
+  String get artists => 'Artists';
+
+  @override
   String get album => 'Album';
+
+  @override
+  String get albums => 'Albums';
 
   @override
   String get track => 'Track';
 
   @override
+  String get tracks => 'Tracks';
+
+  @override
   String get playlist => 'Playlist';
+
+  @override
+  String get playlists => 'Playlists';
 
   @override
   String get tag => 'Tag';
@@ -97,17 +109,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get section_no_data => 'No data available';
 
   @override
-  String get settings_title => 'Settings';
+  String get drawer_title => 'Vibin\'';
 
   @override
-  String get settings_edit_profile => 'Edit Profile';
+  String get drawer_home => 'Home';
 
   @override
-  String get settings_app_settings => 'App Settings';
+  String get drawer_search => 'Search';
 
   @override
-  String get settings_server_settings => 'Server Settings';
+  String get drawer_profile => 'Profile';
 
   @override
-  String get settings_logout => 'Log Out';
+  String get drawer_app_settings => 'App Settings';
+
+  @override
+  String get drawer_server_settings => 'Server Settings';
+
+  @override
+  String get drawer_logout => 'Logout';
 }

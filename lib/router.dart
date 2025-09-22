@@ -3,9 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:vibin_app/auth/AuthState.dart';
 import 'package:vibin_app/pages/auto_login_error_page.dart';
 import 'package:vibin_app/pages/connect_page.dart';
+import 'package:vibin_app/pages/drawer.dart';
 import 'package:vibin_app/pages/home_page.dart';
 import 'package:vibin_app/pages/login_page.dart';
-import 'package:vibin_app/pages/settings/settings_page.dart';
 import 'package:vibin_app/pages/track_info_page.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/now_playing_bar.dart';
@@ -19,24 +19,19 @@ GoRouter configureRouter(AuthState authState) {
           final loggedIn = authState.loggedIn;
           return Scaffold(
             appBar: loggedIn ? AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  final router = GoRouter.of(context);
-                  if (router.canPop()) {
-                    router.pop();
-                  }
-                },
-                icon: Icon(Icons.arrow_back)
+              leading: Builder(
+                builder: (context) {
+                  return IconButton(
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    icon: Icon(Icons.menu)
+                  );
+                }
               ),
               title: Text('Vibin\''),
               backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               actions: [
-                IconButton(
-                    onPressed: () {
-                      GoRouter.of(context).push('/settings');
-                    },
-                    icon: Icon(Icons.settings)
-                ),
                 NetworkImageWidget(
                   url: "/api/users/${authState.user?.id}/pfp?quality=small",
                   fit: BoxFit.contain,
@@ -46,6 +41,9 @@ GoRouter configureRouter(AuthState authState) {
                   borderRadius: BorderRadius.circular(16),
                 )
               ],
+            ) : null,
+            drawer: authState.loggedIn ? Drawer(
+              child: DrawerComponent(),
             ) : null,
             bottomNavigationBar: loggedIn ? NowPlayingBar() : null,
             body: SingleChildScrollView(
@@ -60,7 +58,6 @@ GoRouter configureRouter(AuthState authState) {
           GoRoute(path: '/connect', builder: (context, state) => ConnectPage()),
           GoRoute(path: '/login', builder: (context, state) => LoginPage()),
           GoRoute(path: '/home', builder: (context, state) => HomePage()),
-          GoRoute(path: '/settings', builder: (context, state) => SettingsPage()),
           GoRoute(path: '/login-error', builder: (context, state) => AutoLoginErrorPage()),
           GoRoute(path: '/tracks/:id', builder: (context, state) => TrackInfoPage(trackId: int.parse(state.pathParameters['id']!))),
         ],
