@@ -9,6 +9,7 @@ import 'package:vibin_app/pages/home_page.dart';
 import 'package:vibin_app/pages/login_page.dart';
 import 'package:vibin_app/pages/track_info_page.dart';
 import 'package:vibin_app/widgets/network_image.dart';
+import 'package:vibin_app/widgets/now_playing_bar.dart';
 
 GoRouter configureRouter(AuthState authState) {
   final apiManager = getIt<ApiManager>();
@@ -48,6 +49,7 @@ GoRouter configureRouter(AuthState authState) {
                 )
               ],
             ) : null,
+            bottomNavigationBar: loggedIn ? NowPlayingBar() : null,
             body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
