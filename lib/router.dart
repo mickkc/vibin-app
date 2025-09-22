@@ -20,6 +20,15 @@ GoRouter configureRouter(AuthState authState) {
           final loggedIn = authState.loggedIn;
           return Scaffold(
             appBar: loggedIn ? AppBar(
+              leading: IconButton(
+                  onPressed: () {
+                    final router = GoRouter.of(context);
+                    if (router.canPop()) {
+                      router.pop();
+                    }
+                  },
+                  icon: Icon(Icons.arrow_back)
+              ),
               title: Text('Vibin\''),
               backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               actions: [
