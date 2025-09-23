@@ -19,7 +19,13 @@ class IconText extends StatelessWidget {
       spacing: 8,
       children: [
         Icon(icon),
-        Text(text)
+        Flexible(
+          child: Text(
+            text,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1
+          )
+        ),
       ],
     );
   }

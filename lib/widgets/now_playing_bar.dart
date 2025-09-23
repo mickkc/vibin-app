@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/pages/now_playing_page.dart';
 
 class NowPlayingBar extends StatefulWidget {
   const NowPlayingBar({super.key});
@@ -105,17 +106,8 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
           skipPrevious();
         }
       },
-      onVerticalDragEnd: (details) {
-        if (details.primaryVelocity == null) return;
-        if (details.primaryVelocity! < 0) {
-          Navigator.of(context).pushNamed("/nowplaying");
-        }
-        else if (details.primaryVelocity! > 0) {
-          audioManager.audioPlayer.stop();
-        }
-      },
       onTap: () {
-
+        NowPlayingPage.show(context);
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -130,7 +122,7 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
             ),
             child: Slider(
               onChanged: seek,
-              value: position.inMilliseconds.toDouble(),
+              value: position.inMilliseconds.clamp(0, (currentMediaItem?.duration?.inMilliseconds.toDouble() ?? audioManager.audioPlayer.duration?.inMilliseconds ?? 1).toDouble()).toDouble(),
               min: 0,
               max: (currentMediaItem?.duration?.inMilliseconds.toDouble() ?? audioManager.audioPlayer.duration?.inMilliseconds ?? 1).toDouble()
             ),
