@@ -52,7 +52,7 @@ abstract class ApiService {
   // Albums
 
   @GET("/api/albums")
-  Future<AlbumPagination> getAlbums(@Query("page") int page, @Query("pageSize") int pageSize);
+  Future<AlbumPagination> getAlbums(@Query("page") int page, @Query("pageSize") int? pageSize);
 
   @GET("/api/albums/{id}")
   Future<AlbumData> getAlbum(@Path("id") int id);
@@ -105,7 +105,7 @@ abstract class ApiService {
   // Playlists
 
   @GET("/api/playlists")
-  Future<PlaylistPagination> getPlaylists(@Query("page") int page, @Query("pageSize") int pageSize);
+  Future<PlaylistPagination> getPlaylists(@Query("page") int page, @Query("pageSize") int? pageSize);
 
   @GET("/api/playlists/{id}")
   Future<PlaylistData> getPlaylist(@Path("id") int id);
@@ -175,7 +175,7 @@ abstract class ApiService {
   // Tracks
 
   @GET("/api/tracks")
-  Future<MinimalTrackPagination> getTracks(@Query("page") int page, @Query("pageSize") int pageSize);
+  Future<MinimalTrackPagination> getTracks(@Query("page") int page, @Query("pageSize") int? pageSize);
 
   @GET("/api/tracks/{id}")
   Future<Track> getTrack(@Path("id") int id);

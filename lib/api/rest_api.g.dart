@@ -131,12 +131,13 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<AlbumPagination> getAlbums(int page, int pageSize) async {
+  Future<AlbumPagination> getAlbums(int page, int? pageSize) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'pageSize': pageSize,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<AlbumPagination>(
@@ -557,12 +558,13 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<PlaylistPagination> getPlaylists(int page, int pageSize) async {
+  Future<PlaylistPagination> getPlaylists(int page, int? pageSize) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'pageSize': pageSize,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<PlaylistPagination>(
@@ -1166,12 +1168,13 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<MinimalTrackPagination> getTracks(int page, int pageSize) async {
+  Future<MinimalTrackPagination> getTracks(int page, int? pageSize) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'pageSize': pageSize,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<MinimalTrackPagination>(

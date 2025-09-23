@@ -7,6 +7,7 @@ import 'package:vibin_app/pages/drawer.dart';
 import 'package:vibin_app/pages/home_page.dart';
 import 'package:vibin_app/pages/login_page.dart';
 import 'package:vibin_app/pages/track_info_page.dart';
+import 'package:vibin_app/pages/tracks_page.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/now_playing_bar.dart';
 
@@ -60,6 +61,7 @@ GoRouter configureRouter(AuthState authState) {
           GoRoute(path: '/home', builder: (context, state) => HomePage()),
           GoRoute(path: '/login-error', builder: (context, state) => AutoLoginErrorPage()),
           GoRoute(path: '/tracks/:id', builder: (context, state) => TrackInfoPage(trackId: int.parse(state.pathParameters['id']!))),
+          GoRoute(path: '/tracks', builder: (context, state) => TrackPage())
         ],
       )
     ],
