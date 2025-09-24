@@ -6,12 +6,13 @@ enum PermissionType {
   changeOwnSettings("change_own_settings"),
   changeUserSettings("change_user_settings"),
 
-  manaagePermissions("manage_permissions"),
+  managePermissions("manage_permissions"),
 
   viewTracks("view_tracks"),
   streamTracks("stream_tracks"),
   manageTracks("manage_tracks"),
   uploadTracks("upload_tracks"),
+  downloadTracks("download_tracks"),
   deleteTracks("delete_tracks"),
 
   viewAlbums("view_albums"),

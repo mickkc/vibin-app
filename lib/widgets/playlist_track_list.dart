@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibin_app/auth/AuthState.dart';
+import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/track/track.dart';
+import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
@@ -75,6 +78,7 @@ class _TrackListState extends State<TrackList> {
 
     final lm = AppLocalizations.of(context)!;
     final isMobile = MediaQuery.sizeOf(context).width < 600;
+    final as = getIt<AuthState>();
 
     return Table(
       border: TableBorder(horizontalInside: BorderSide(color: Theme.of(context).colorScheme.surfaceContainerHighest)),
@@ -142,28 +146,42 @@ class _TrackListState extends State<TrackList> {
               padding: const EdgeInsets.all(8.0),
               child: PopupMenuButton(
                 icon: Icon(Icons.more_vert),
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    child: IconText(icon: Icons.add_outlined, text: lm.track_actions_add_to_playlist),
-                  ),
-                  PopupMenuItem(
-                    child: IconText(icon: Icons.queue_music_outlined, text: lm.track_actions_add_to_queue),
-                  ),
-                  PopupMenuItem(
-                    child: IconText(icon: Icons.library_music_outlined, text: lm.track_actions_view_track),
-                    onTap: () { openTrack(context, track); },
-                  ),
-                  PopupMenuItem(
-                    child: IconText(icon: Icons.person_outlined, text: lm.track_actions_view_artist),
-                    onTap: () { showArtistPicker(context, track); },
-                  ),
-                  PopupMenuItem(
-                    child: IconText(icon: Icons.album_outlined, text: lm.track_actions_view_album),
-                    onTap: () { openAlbum(context, track); },
-                  ),
-                  PopupMenuItem(
-                    child: IconText(icon: Icons.download_outlined, text: lm.track_actions_download),
-                  ),
+                itemBuilder: (context) => <PopupMenuEntry>[
+                  if (as.hasPermission(PermissionType.managePlaylists)) ... [
+                    PopupMenuItem(
+                      child: IconText(icon: Icons.add_outlined, text: lm.track_actions_add_to_playlist),
+                    )
+                  ],
+                  if (as.hasPermission(PermissionType.streamTracks)) ... [
+                    PopupMenuItem(
+                      child: IconText(icon: Icons.queue_music_outlined, text: lm.track_actions_add_to_queue),
+                    )
+                  ],
+                  PopupMenuDivider(),
+                  if (as.hasPermission(PermissionType.viewTracks)) ... [
+                    PopupMenuItem(
+                      child: IconText(icon: Icons.library_music_outlined, text: lm.track_actions_view_track),
+                      onTap: () { openTrack(context, track); },
+                    )
+                  ],
+                  if (as.hasPermission(PermissionType.viewArtists)) ... [
+                    PopupMenuItem(
+                      child: IconText(icon: Icons.person_outlined, text: lm.track_actions_view_artist),
+                      onTap: () { showArtistPicker(context, track); },
+                    )
+                  ],
+                  if(as.hasPermission(PermissionType.viewAlbums)) ... [
+                    PopupMenuItem(
+                      child: IconText(icon: Icons.album_outlined, text: lm.track_actions_view_album),
+                      onTap: () { openAlbum(context, track); },
+                    ),
+                  ],
+                  if (as.hasPermission(PermissionType.downloadTracks)) ... [
+                    PopupMenuDivider(),
+                    PopupMenuItem(
+                      child: IconText(icon: Icons.download_outlined, text: lm.track_actions_download),
+                    ),
+                  ],
                 ]
               )
             )

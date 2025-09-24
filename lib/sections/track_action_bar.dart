@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vibin_app/auth/AuthState.dart';
+import 'package:vibin_app/widgets/colored_icon_button.dart';
 
 import '../api/api_manager.dart';
 import '../audio/audio_manager.dart';
 import '../dtos/permission_type.dart';
 import '../dtos/track/track.dart';
+import '../l10n/app_localizations.dart';
 import '../main.dart';
 import '../widgets/permission_widget.dart';
 
@@ -24,6 +27,7 @@ class TrackActionBar extends StatefulWidget {
 
 class _TrackActionBarState extends State<TrackActionBar> {
 
+  final AuthState authState = getIt<AuthState>();
   final ApiManager apiManager = getIt<ApiManager>();
   final AudioManager audioManager = getIt<AudioManager>();
 
@@ -65,54 +69,56 @@ class _TrackActionBarState extends State<TrackActionBar> {
 
   @override
   Widget build(BuildContext context) {
+    final lm = AppLocalizations.of(context)!;
     return Row(
       spacing: 16,
       children: [
-        GestureDetector(
-          onTap: () async {
-            if (isCurrentTrack) {
-              if (isPlaying) {
-                await audioManager.audioPlayer.pause();
+        if (authState.hasPermission(PermissionType.streamTracks)) ... [
+          ColoredIconButton(
+            icon: isCurrentTrack && isPlaying ? Icons.pause : Icons.play_arrow,
+            size: 48,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            iconColor: Theme.of(context).colorScheme.surface,
+            onPressed: () async {
+              if (isCurrentTrack) {
+                if (isPlaying) {
+                  await audioManager.audioPlayer.pause();
+                } else {
+                  await audioManager.audioPlayer.play();
+                }
               } else {
-                await audioManager.audioPlayer.play();
+                final track = await apiManager.service.getTrack(widget.trackId);
+                playTrack(track);
               }
-            } else {
-              final track = await apiManager.service.getTrack(widget.trackId);
-              playTrack(track);
             }
-          },
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(32),
-            child: Container(
-                color: Theme.of(context).colorScheme.primary,
-                padding: const EdgeInsets.all(8),
-                child: Icon(
-                  isCurrentTrack && isPlaying ? Icons.pause : Icons.play_arrow,
-                  size: 48,
-                  color: Theme.of(context).colorScheme.surface,
-                )
-            ),
           ),
-        ),
-        IconButton(
+          IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.playlist_add, size: 32)
-        ),
-        IconButton(
+            icon: const Icon(Icons.queue_music, size: 32),
+            tooltip: lm.track_actions_add_to_queue,
+          )
+        ],
+        if (authState.hasPermission(PermissionType.managePlaylists)) ... [
+          IconButton(
             onPressed: () {},
-            icon: const Icon(CupertinoIcons.heart, size: 32)
-        ),
-        IconButton(
+            icon: const Icon(Icons.playlist_add, size: 32),
+            tooltip: lm.track_actions_add_to_playlist,
+          )
+        ],
+        if (authState.hasPermission(PermissionType.downloadTracks)) ... [
+          IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.download, size: 32)
-        ),
-        PermissionWidget(
-            requiredPermissions: [PermissionType.manageTracks],
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.edit, size: 32),
-            )
-        )
+            icon: const Icon(Icons.download, size: 32),
+            tooltip: lm.track_actions_download,
+          )
+        ],
+        if (authState.hasPermission(PermissionType.manageTracks)) ... [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.edit, size: 32),
+            tooltip: lm.track_actions_edit,
+          )
+        ]
       ],
     );
   }

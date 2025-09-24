@@ -152,4 +152,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get track_actions_download => 'Download';
+
+  @override
+  String get track_actions_play => 'Play';
+
+  @override
+  String get track_actions_pause => 'Pause';
+
+  @override
+  String get track_actions_edit => 'Edit';
 }

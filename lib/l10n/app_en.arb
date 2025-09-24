@@ -55,5 +55,8 @@
   "track_actions_view_track": "View Track",
   "track_actions_view_album": "View Album",
   "track_actions_view_artist": "View Artists",
-  "track_actions_download": "Download"
+  "track_actions_download": "Download",
+  "track_actions_play": "Play",
+  "track_actions_pause": "Pause",
+  "track_actions_edit": "Edit"
 }

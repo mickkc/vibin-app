@@ -385,6 +385,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Download'**
   String get track_actions_download;
+
+  /// No description provided for @track_actions_play.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get track_actions_play;
+
+  /// No description provided for @track_actions_pause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get track_actions_pause;
+
+  /// No description provided for @track_actions_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get track_actions_edit;
 }
 
 class _AppLocalizationsDelegate
