@@ -337,6 +337,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Logout'**
   String get drawer_logout;
+
+  /// No description provided for @playlists_private.
+  ///
+  /// In en, this message translates to:
+  /// **'Private'**
+  String get playlists_private;
+
+  /// No description provided for @playlists_public.
+  ///
+  /// In en, this message translates to:
+  /// **'Public'**
+  String get playlists_public;
+
+  /// No description provided for @track_actions_add_to_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Playlist'**
+  String get track_actions_add_to_playlist;
+
+  /// No description provided for @track_actions_add_to_queue.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Queue'**
+  String get track_actions_add_to_queue;
+
+  /// No description provided for @track_actions_view_track.
+  ///
+  /// In en, this message translates to:
+  /// **'View Track'**
+  String get track_actions_view_track;
+
+  /// No description provided for @track_actions_view_album.
+  ///
+  /// In en, this message translates to:
+  /// **'View Album'**
+  String get track_actions_view_album;
+
+  /// No description provided for @track_actions_view_artist.
+  ///
+  /// In en, this message translates to:
+  /// **'View Artists'**
+  String get track_actions_view_artist;
+
+  /// No description provided for @track_actions_download.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get track_actions_download;
 }
 
 class _AppLocalizationsDelegate

@@ -16,3 +16,16 @@ extension HexColor on Color {
       '${green.toRadixString(16).padLeft(2, '0')}'
       '${blue.toRadixString(16).padLeft(2, '0')}';
 }
+
+String formatDurationMs(int milliseconds) {
+  final totalSeconds = (milliseconds / 1000).floor();
+  final minutes = (totalSeconds / 60).floor();
+  final remainingSeconds = totalSeconds % 60;
+  return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
+}
+
+String formatDuration(int seconds) {
+  final minutes = (seconds / 60).floor();
+  final remainingSeconds = seconds % 60;
+  return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
+}

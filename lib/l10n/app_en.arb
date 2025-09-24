@@ -45,5 +45,15 @@
   "drawer_profile": "Profile",
   "drawer_app_settings": "App Settings",
   "drawer_server_settings": "Server Settings",
-  "drawer_logout": "Logout"
+  "drawer_logout": "Logout",
+
+  "playlists_private": "Private",
+  "playlists_public": "Public",
+
+  "track_actions_add_to_playlist": "Add to Playlist",
+  "track_actions_add_to_queue": "Add to Queue",
+  "track_actions_view_track": "View Track",
+  "track_actions_view_album": "View Album",
+  "track_actions_view_artist": "View Artists",
+  "track_actions_download": "Download"
 }

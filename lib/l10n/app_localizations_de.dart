@@ -128,4 +128,28 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get drawer_logout => 'Abmelden';
+
+  @override
+  String get playlists_private => 'Privat';
+
+  @override
+  String get playlists_public => 'Öffentlich';
+
+  @override
+  String get track_actions_add_to_playlist => 'Zu Playlist hinzufügen';
+
+  @override
+  String get track_actions_add_to_queue => 'Zur Warteschlange hinzufügen';
+
+  @override
+  String get track_actions_view_track => 'View Track';
+
+  @override
+  String get track_actions_view_album => 'View Album';
+
+  @override
+  String get track_actions_view_artist => 'View Artists';
+
+  @override
+  String get track_actions_download => 'Herunterladen';
 }
