@@ -142,13 +142,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get track_actions_add_to_queue => 'Zur Warteschlange hinzufügen';
 
   @override
-  String get track_actions_view_track => 'View Track';
+  String get track_actions_goto_track => 'Titel anzeigen';
 
   @override
-  String get track_actions_view_album => 'View Album';
+  String get track_actions_goto_album => 'Album anzeigen';
 
   @override
-  String get track_actions_view_artist => 'View Artists';
+  String get track_actions_goto_artist => 'Künstler anzeigen';
 
   @override
   String get track_actions_download => 'Herunterladen';

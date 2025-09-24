@@ -362,23 +362,23 @@ abstract class AppLocalizations {
   /// **'Add to Queue'**
   String get track_actions_add_to_queue;
 
-  /// No description provided for @track_actions_view_track.
+  /// No description provided for @track_actions_goto_track.
   ///
   /// In en, this message translates to:
   /// **'View Track'**
-  String get track_actions_view_track;
+  String get track_actions_goto_track;
 
-  /// No description provided for @track_actions_view_album.
+  /// No description provided for @track_actions_goto_album.
   ///
   /// In en, this message translates to:
   /// **'View Album'**
-  String get track_actions_view_album;
+  String get track_actions_goto_album;
 
-  /// No description provided for @track_actions_view_artist.
+  /// No description provided for @track_actions_goto_artist.
   ///
   /// In en, this message translates to:
   /// **'View Artists'**
-  String get track_actions_view_artist;
+  String get track_actions_goto_artist;
 
   /// No description provided for @track_actions_download.
   ///

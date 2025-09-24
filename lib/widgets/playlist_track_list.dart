@@ -160,19 +160,19 @@ class _TrackListState extends State<TrackList> {
                   PopupMenuDivider(),
                   if (as.hasPermission(PermissionType.viewTracks)) ... [
                     PopupMenuItem(
-                      child: IconText(icon: Icons.library_music_outlined, text: lm.track_actions_view_track),
+                      child: IconText(icon: Icons.library_music_outlined, text: lm.track_actions_goto_track),
                       onTap: () { openTrack(context, track); },
                     )
                   ],
                   if (as.hasPermission(PermissionType.viewArtists)) ... [
                     PopupMenuItem(
-                      child: IconText(icon: Icons.person_outlined, text: lm.track_actions_view_artist),
+                      child: IconText(icon: Icons.person_outlined, text: lm.track_actions_goto_artist),
                       onTap: () { showArtistPicker(context, track); },
                     )
                   ],
                   if(as.hasPermission(PermissionType.viewAlbums)) ... [
                     PopupMenuItem(
-                      child: IconText(icon: Icons.album_outlined, text: lm.track_actions_view_album),
+                      child: IconText(icon: Icons.album_outlined, text: lm.track_actions_goto_album),
                       onTap: () { openAlbum(context, track); },
                     ),
                   ],

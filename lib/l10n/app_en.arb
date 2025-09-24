@@ -52,9 +52,9 @@
 
   "track_actions_add_to_playlist": "Add to Playlist",
   "track_actions_add_to_queue": "Add to Queue",
-  "track_actions_view_track": "View Track",
-  "track_actions_view_album": "View Album",
-  "track_actions_view_artist": "View Artists",
+  "track_actions_goto_track": "View Track",
+  "track_actions_goto_album": "View Album",
+  "track_actions_goto_artist": "View Artists",
   "track_actions_download": "Download",
   "track_actions_play": "Play",
   "track_actions_pause": "Pause",
