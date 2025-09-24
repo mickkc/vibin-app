@@ -1,3 +1,4 @@
+import 'package:dbus/dbus.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -5,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:just_audio_media_kit/just_audio_media_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
+import 'package:vibin_app/dbus/mpris_player.dart';
 import 'package:vibin_app/dependency_injection.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/router.dart';
@@ -21,6 +23,12 @@ void main() async {
   JustAudioMediaKit.ensureInitialized();
 
   await AudioManager.initBackgroundTask();
+
+  final session = DBusClient.session();
+  final mpris = MprisPlayer();
+
+  session.registerObject(mpris);
+  await session.requestName("org.mpris.MediaPlayer2.vibin");
 
   final authState = getIt<AuthState>();
 

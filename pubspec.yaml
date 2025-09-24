@@ -39,6 +39,8 @@ dependencies:
   media_kit_libs_macos_audio: any
   just_audio_web: any
 
+  dbus: ^0.7.11
+
 
 dev_dependencies:
   flutter_test:
