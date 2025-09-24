@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
@@ -26,7 +24,7 @@ class NowPlayingPage extends StatefulWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       constraints: BoxConstraints(
-        maxWidth: max(MediaQuery.of(context).size.width * 0.9, 600.0)
+        maxWidth: (MediaQuery.of(context).size.width * 0.9).clamp(600, 900)
       ),
     );
   }
@@ -36,10 +34,6 @@ class NowPlayingPage extends StatefulWidget {
 }
 
 class _NowPlayingPageState extends State<NowPlayingPage> {
-
-  void close() {
-    GoRouter.of(context).pop();
-  }
 
   AudioManager audioManager = getIt<AudioManager>();
   late MediaItem? currentMediaItem = audioManager.getCurrentMediaItem();
@@ -77,7 +71,7 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
       child: Padding(
         padding: const EdgeInsets.all(32.0),
         child: Wrap(
-          runSpacing: 8,
+          runSpacing: 32,
           children: currentMediaItem == null ? [
             const Text("No track is currently playing")
           ] : [
@@ -108,7 +102,6 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
                 ),
               ]
             ),
-            SizedBox(height: 32),
             NowPlayingControlBar(mediaItem: currentMediaItem!)
           ]
         ),

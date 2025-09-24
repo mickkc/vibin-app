@@ -105,7 +105,7 @@ class EntityCard extends StatelessWidget {
                     url: getCoverUrl(apiManager),
                     width: coverSize,
                     height: coverSize,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
                 ),
                 const SizedBox(height: 12),

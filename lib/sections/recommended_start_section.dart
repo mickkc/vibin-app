@@ -61,10 +61,12 @@ class RecommendedStartSection extends StatelessWidget {
                               height: 50,
                               fit: BoxFit.cover,
                             ),
-                            Text(
-                                item.key == "ARTIST" || item.key == "PLAYLIST" ? item.value["name"] : item.value["title"],
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              overflow: TextOverflow.ellipsis,
+                            Flexible(
+                              child: Text(
+                                  item.key == "ARTIST" || item.key == "PLAYLIST" ? item.value["name"] : item.value["title"],
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ],
                         ),
