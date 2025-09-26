@@ -24,4 +24,13 @@ class ArtistEditData {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'sortName': sortName,
+      'imageUrl': imageUrl,
+      'tagIds': tagIds,
+    };
+  }
 }

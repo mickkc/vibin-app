@@ -30,4 +30,15 @@ class PlaylistEditData {
       vibedef: json['vibedef'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'description': description,
+      'isPublic': isPublic,
+      'coverImageUrl': coverImageUrl,
+      'collaboratorIds': collaboratorIds,
+      'vibedef': vibedef,
+    };
+  }
 }

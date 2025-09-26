@@ -34,4 +34,17 @@ class UserEditData {
       password: json['password'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'username': username,
+      'displayName': displayName,
+      'email': email,
+      'isAdmin': isAdmin,
+      'isActive': isActive,
+      'profilePictureUrl': profilePictureUrl,
+      'oldPassword': oldPassword,
+      'password': password,
+    };
+  }
 }

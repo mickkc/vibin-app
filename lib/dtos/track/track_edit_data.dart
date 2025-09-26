@@ -50,4 +50,21 @@ class TrackEditData {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'explicit': explicit,
+      'trackNumber': trackNumber,
+      'trackCount': trackCount,
+      'discNumber': discNumber,
+      'discCount': discCount,
+      'year': year,
+      'comment': comment,
+      'imageUrl': imageUrl,
+      'albumId': albumId,
+      'artistIds': artistIds,
+      'tagIds': tagIds,
+    };
+  }
 }

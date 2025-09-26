@@ -5,8 +5,10 @@ import 'package:vibin_app/dtos/album/album_data.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/artist/artist_metadata.dart';
 import 'package:vibin_app/dtos/login_result.dart';
+import 'package:vibin_app/dtos/media_token_response.dart';
 import 'package:vibin_app/dtos/metadata_sources.dart';
 import 'package:vibin_app/dtos/non_track_listen.dart';
+import 'package:vibin_app/dtos/playlist/playlist_edit_data.dart';
 import 'package:vibin_app/dtos/server_check.dart';
 import 'package:vibin_app/dtos/tag.dart';
 import 'package:vibin_app/dtos/track/minimal_track.dart';
@@ -48,6 +50,15 @@ abstract class ApiService {
 
   @POST("/api/auth/logout")
   Future<Success> logout();
+
+  @POST("/api/auth/media/token")
+  Future<MediaTokenResponse> createMediaToken(@Query("deviceId") String deviceId);
+
+  @GET("/api/auth/meda")
+  Future<Success> checkMediaToken(@Query("mediaToken") String mediaToken);
+
+  @DELETE("/api/auth/media/token")
+  Future<Success> invalidateMediaToken(@Query("deviceId") String deviceId);
 
   // Albums
 
@@ -111,10 +122,10 @@ abstract class ApiService {
   Future<PlaylistData> getPlaylist(@Path("id") int id);
 
   @POST("/api/playlists")
-  Future<Playlist> createPlaylist(@Body() PlaylistData data);
+  Future<Playlist> createPlaylist(@Body() PlaylistEditData data);
 
   @PUT("/api/playlists/{id}")
-  Future<Playlist> updatePlaylist(@Path("id") int id, @Body() PlaylistData data);
+  Future<Playlist> updatePlaylist(@Path("id") int id, @Body() PlaylistEditData data);
 
   @DELETE("/api/playlists/{id}")
   Future<Success> deletePlaylist(@Path("id") int id);

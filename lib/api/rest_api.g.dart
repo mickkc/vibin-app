@@ -131,6 +131,87 @@ class _ApiService implements ApiService {
   }
 
   @override
+  Future<MediaTokenResponse> createMediaToken(String deviceId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'deviceId': deviceId};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<MediaTokenResponse>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/auth/media/token',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late MediaTokenResponse _value;
+    try {
+      _value = MediaTokenResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Success> checkMediaToken(String mediaToken) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'mediaToken': mediaToken};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Success>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/auth/meda',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Success _value;
+    try {
+      _value = Success.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Success> invalidateMediaToken(String deviceId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'deviceId': deviceId};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Success>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/auth/media/token',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Success _value;
+    try {
+      _value = Success.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<AlbumPagination> getAlbums(int page, int? pageSize) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -256,7 +337,8 @@ class _ApiService implements ApiService {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = artistData;
+    final _data = <String, dynamic>{};
+    _data.addAll(artistData.toJson());
     final _options = _setStreamType<Artist>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
@@ -616,11 +698,12 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<Playlist> createPlaylist(PlaylistData data) async {
+  Future<Playlist> createPlaylist(PlaylistEditData data) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = data;
+    final _data = <String, dynamic>{};
+    _data.addAll(data.toJson());
     final _options = _setStreamType<Playlist>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
@@ -643,11 +726,12 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<Playlist> updatePlaylist(int id, PlaylistData data) async {
+  Future<Playlist> updatePlaylist(int id, PlaylistEditData data) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = data;
+    final _data = <String, dynamic>{};
+    _data.addAll(data.toJson());
     final _options = _setStreamType<Playlist>(
       Options(method: 'PUT', headers: _headers, extra: _extra)
           .compose(
@@ -1230,7 +1314,8 @@ class _ApiService implements ApiService {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = data;
+    final _data = <String, dynamic>{};
+    _data.addAll(data.toJson());
     final _options = _setStreamType<Track>(
       Options(method: 'PUT', headers: _headers, extra: _extra)
           .compose(
@@ -1528,7 +1613,8 @@ class _ApiService implements ApiService {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = data;
+    final _data = <String, dynamic>{};
+    _data.addAll(data.toJson());
     final _options = _setStreamType<User>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
@@ -1555,7 +1641,8 @@ class _ApiService implements ApiService {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = data;
+    final _data = <String, dynamic>{};
+    _data.addAll(data.toJson());
     final _options = _setStreamType<User>(
       Options(method: 'PUT', headers: _headers, extra: _extra)
           .compose(
