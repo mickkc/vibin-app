@@ -180,10 +180,10 @@ class MprisPlayer extends DBusObject {
               audioManager.audioPlayer.setLoopMode(LoopMode.off);
               return DBusMethodSuccessResponse();
             case "Track":
-              audioManager.audioPlayer.setLoopMode(LoopMode.all);
+              audioManager.audioPlayer.setLoopMode(LoopMode.one);
               return DBusMethodSuccessResponse();
             case "Playlist":
-              audioManager.audioPlayer.setLoopMode(LoopMode.one);
+              audioManager.audioPlayer.setLoopMode(LoopMode.all);
               return DBusMethodSuccessResponse();
             default:
               return DBusMethodErrorResponse("Invalid LoopStatus value.");
@@ -275,9 +275,9 @@ class MprisPlayer extends DBusObject {
       case LoopMode.off:
         return "None";
       case LoopMode.all:
-        return "Track";
-      case LoopMode.one:
         return "Playlist";
+      case LoopMode.one:
+        return "Track";
     }
   }
 }
