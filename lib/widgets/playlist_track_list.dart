@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/auth/AuthState.dart';
+import 'package:vibin_app/dialogs/add_track_to_playlist_dialog.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/track/track.dart';
 import 'package:vibin_app/main.dart';
@@ -71,6 +73,15 @@ class _TrackListState extends State<TrackList> {
   void openTrack(BuildContext context, Track track) {
     Navigator.pop(context);
     GoRouter.of(context).push('/tracks/${track.id}');
+  }
+
+  Future<void> addToQueue(Track track) async {
+    final audioManager = getIt<AudioManager>();
+    await audioManager.addTrackToQueue(track.id);
+    if (!mounted || !context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(AppLocalizations.of(context)!.track_actions_added_to_queue))
+    );
   }
 
   @override
@@ -150,11 +161,13 @@ class _TrackListState extends State<TrackList> {
                   if (as.hasPermission(PermissionType.managePlaylists)) ... [
                     PopupMenuItem(
                       child: IconText(icon: Icons.add_outlined, text: lm.track_actions_add_to_playlist),
+                      onTap: () { AddTrackToPlaylistDialog.show(track.id, context); },
                     )
                   ],
                   if (as.hasPermission(PermissionType.streamTracks)) ... [
                     PopupMenuItem(
                       child: IconText(icon: Icons.queue_music_outlined, text: lm.track_actions_add_to_queue),
+                      onTap: () { addToQueue(track); },
                     )
                   ],
                   PopupMenuDivider(),
