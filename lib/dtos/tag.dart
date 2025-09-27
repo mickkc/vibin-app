@@ -4,14 +4,14 @@ import 'package:json_annotation/json_annotation.dart';
 class Tag {
   final int id;
   final String name;
-  final String color;
+  final String? color;
   final int createdAt;
   final int? updatedAt;
 
   Tag({
     required this.id,
     required this.name,
-    required this.color,
+    this.color,
     required this.createdAt,
     this.updatedAt,
   });

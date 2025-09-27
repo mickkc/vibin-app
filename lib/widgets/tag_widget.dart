@@ -10,12 +10,12 @@ class TagWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = HexColor.fromHex(tag.color);
+    final color = tag.color == null ? Theme.of(context).colorScheme.primary : HexColor.fromHex(tag.color!);
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainerHigh,
           borderRadius: BorderRadius.circular(16),
@@ -24,6 +24,7 @@ class TagWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           spacing: 4,
           children: [
             Icon(Icons.sell, size: 16, color: color),
