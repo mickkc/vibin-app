@@ -58,5 +58,13 @@
   "track_actions_download": "Download",
   "track_actions_play": "Play",
   "track_actions_pause": "Pause",
-  "track_actions_edit": "Edit"
+  "track_actions_edit": "Edit",
+
+  "add_track_to_playlist_title": "Add to Playlist",
+
+  "dialog_finish": "Done",
+  "dialog_cancel": "Cancel",
+  "dialog_create": "Create",
+  "dialog_save": "Save",
+  "dialog_delete": "Delete"
 }

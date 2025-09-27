@@ -403,6 +403,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit'**
   String get track_actions_edit;
+
+  /// No description provided for @add_track_to_playlist_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Playlist'**
+  String get add_track_to_playlist_title;
+
+  /// No description provided for @dialog_finish.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get dialog_finish;
+
+  /// No description provided for @dialog_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get dialog_cancel;
+
+  /// No description provided for @dialog_create.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get dialog_create;
+
+  /// No description provided for @dialog_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get dialog_save;
+
+  /// No description provided for @dialog_delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get dialog_delete;
 }
 
 class _AppLocalizationsDelegate

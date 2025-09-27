@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/auth/AuthState.dart';
+import 'package:vibin_app/dialogs/add_track_to_playlist_dialog.dart';
 import 'package:vibin_app/widgets/colored_icon_button.dart';
 
 import '../api/api_manager.dart';
@@ -11,7 +11,6 @@ import '../dtos/permission_type.dart';
 import '../dtos/track/track.dart';
 import '../l10n/app_localizations.dart';
 import '../main.dart';
-import '../widgets/permission_widget.dart';
 
 class TrackActionBar extends StatefulWidget {
   final int trackId;
@@ -100,7 +99,7 @@ class _TrackActionBarState extends State<TrackActionBar> {
         ],
         if (authState.hasPermission(PermissionType.managePlaylists)) ... [
           IconButton(
-            onPressed: () {},
+            onPressed: () { AddTrackToPlaylistDialog.show(widget.trackId, context); },
             icon: const Icon(Icons.playlist_add, size: 32),
             tooltip: lm.track_actions_add_to_playlist,
           )

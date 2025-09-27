@@ -58,5 +58,13 @@
   "track_actions_download": "Herunterladen",
   "track_actions_play": "Abspielen",
   "track_actions_pause": "Pause",
-  "track_actions_edit": "Bearbeiten"
+  "track_actions_edit": "Bearbeiten",
+
+  "add_track_to_playlist_title": "Zu Playlist hinzufügen",
+
+  "dialog_finish": "Fertig",
+  "dialog_cancel": "Abbrechen",
+  "dialog_create": "Erstellen",
+  "dialog_save": "Speichern",
+  "dialog_delete": "Löschen"
 }

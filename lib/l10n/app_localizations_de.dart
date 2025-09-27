@@ -161,4 +161,22 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get track_actions_edit => 'Bearbeiten';
+
+  @override
+  String get add_track_to_playlist_title => 'Zu Playlist hinzufügen';
+
+  @override
+  String get dialog_finish => 'Fertig';
+
+  @override
+  String get dialog_cancel => 'Abbrechen';
+
+  @override
+  String get dialog_create => 'Erstellen';
+
+  @override
+  String get dialog_save => 'Speichern';
+
+  @override
+  String get dialog_delete => 'Löschen';
 }
