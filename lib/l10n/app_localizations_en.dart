@@ -142,6 +142,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get track_actions_add_to_queue => 'Add to Queue';
 
   @override
+  String get track_actions_added_to_queue => 'Added to Queue';
+
+  @override
   String get track_actions_goto_track => 'View Track';
 
   @override

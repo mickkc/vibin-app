@@ -52,6 +52,7 @@
 
   "track_actions_add_to_playlist": "Add to Playlist",
   "track_actions_add_to_queue": "Add to Queue",
+  "track_actions_added_to_queue": "Added to Queue",
   "track_actions_goto_track": "View Track",
   "track_actions_goto_album": "View Album",
   "track_actions_goto_artist": "View Artists",

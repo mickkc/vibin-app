@@ -362,6 +362,12 @@ abstract class AppLocalizations {
   /// **'Add to Queue'**
   String get track_actions_add_to_queue;
 
+  /// No description provided for @track_actions_added_to_queue.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to Queue'**
+  String get track_actions_added_to_queue;
+
   /// No description provided for @track_actions_goto_track.
   ///
   /// In en, this message translates to:

@@ -142,6 +142,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get track_actions_add_to_queue => 'Zur Warteschlange hinzufügen';
 
   @override
+  String get track_actions_added_to_queue => 'Zur Warteschlange hinzugefügt';
+
+  @override
   String get track_actions_goto_track => 'Titel anzeigen';
 
   @override

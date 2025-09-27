@@ -66,6 +66,14 @@ class _TrackActionBarState extends State<TrackActionBar> {
     audioManager.playTrack(track);
   }
 
+  Future<void> addToQueue(BuildContext context, int trackId) async {
+    await audioManager.addTrackToQueue(trackId);
+    if (!mounted || !context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(AppLocalizations.of(context)!.track_actions_added_to_queue))
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final lm = AppLocalizations.of(context)!;
@@ -92,7 +100,9 @@ class _TrackActionBarState extends State<TrackActionBar> {
             }
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              addToQueue(context, widget.trackId);
+            },
             icon: const Icon(Icons.queue_music, size: 32),
             tooltip: lm.track_actions_add_to_queue,
           )
