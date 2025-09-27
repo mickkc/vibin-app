@@ -2,6 +2,7 @@ import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vibin_app/api/api_manager.dart';
+import 'package:vibin_app/api/client_data.dart';
 import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/album/album_data.dart';
 import 'package:vibin_app/dtos/playlist/playlist.dart';
@@ -14,9 +15,11 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   late final ApiManager apiManager;
   late final AudioPlayer audioPlayer;
+  late final ClientData clientData;
 
   AudioManager() {
     apiManager = getIt<ApiManager>();
+    clientData = getIt<ClientData>();
     audioPlayer = AudioPlayer();
   }
 
@@ -31,7 +34,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     var tracks = data.tracks.map((i) => i.track).toList();
     final initialIndex = preferredTrackId != null ? tracks.indexWhere((t) => t.id == preferredTrackId) : 0;
 
-    final sources = data.tracks.map((track) => fromTrack(track.track)).toList();
+    final mediaToken = await clientData.getMediaToken();
+    final sources = data.tracks.map((track) => fromTrack(track.track, mediaToken)).toList();
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSources(sources, initialIndex: initialIndex);
     await audioPlayer.play();
@@ -48,7 +52,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     var tracks = data.tracks;
     final initialIndex = preferredTrackId != null ? tracks.indexWhere((t) => t.id == preferredTrackId) : 0;
 
-    final sources = data.tracks.map((track) => fromMinimalTrack(track)).toList();
+    final mediaToken = await clientData.getMediaToken();
+    final sources = data.tracks.map((track) => fromMinimalTrack(track, mediaToken)).toList();
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSources(sources, initialIndex: initialIndex);
     await audioPlayer.play();
@@ -56,7 +61,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   }
 
   Future<void> playMinimalTrack(MinimalTrack track) async {
-    final source = fromMinimalTrack(track);
+    final mediaToken = await clientData.getMediaToken();
+    final source = fromMinimalTrack(track, mediaToken);
     await audioPlayer.stop();
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSource(source);
@@ -64,7 +70,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   }
 
   Future<void> playTrack(Track track) async {
-    final source = fromTrack(track);
+    final mediaToken = await clientData.getMediaToken();
+    final source = fromTrack(track, mediaToken);
     await audioPlayer.stop();
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSource(source);
@@ -81,9 +88,9 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     return null;
   }
 
-  AudioSource fromMinimalTrack(MinimalTrack track) {
-    final url = "${apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/stream?token=${apiManager.accessToken}";
-    final artUrl = "${apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/cover?token=${apiManager.accessToken}";
+  AudioSource fromMinimalTrack(MinimalTrack track, String mediaToken) {
+    final url = "${apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/stream?mediaToken=$mediaToken";
+    final artUrl = "${apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/cover?mediaToken=$mediaToken";
     final mi = MediaItem(
       id: track.id.toString(),
       title: track.title,
@@ -104,9 +111,9 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     );
   }
 
-  AudioSource fromTrack(Track track) {
-    final url = "${apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/stream?token=${apiManager.accessToken}";
-    final artUrl = "${apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/cover?token=${apiManager.accessToken}";
+  AudioSource fromTrack(Track track, String mediaToken) {
+    final url = "${apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/stream?mediaToken=$mediaToken";
+    final artUrl = "${apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/cover?mediaToken=$mediaToken";
     final mi = MediaItem(
       id: track.id.toString(),
       title: track.title,

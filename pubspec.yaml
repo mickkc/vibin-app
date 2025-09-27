@@ -15,7 +15,10 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
+
+  shared_preferences: ^2.5.3
   flutter_secure_storage: ^9.2.4
+
   retrofit: ^4.6.0
   logger: ^2.6.0
   json_annotation: ^4.9.0

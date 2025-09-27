@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 extension HexColor on Color {
@@ -28,4 +29,10 @@ String formatDuration(int seconds) {
   final minutes = (seconds / 60).floor();
   final remainingSeconds = seconds % 60;
   return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
+}
+
+String randomString(int length) {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  final rand = Random();
+  return List.generate(length, (index) => chars[rand.nextInt(chars.length)]).join();
 }

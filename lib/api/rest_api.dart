@@ -54,7 +54,7 @@ abstract class ApiService {
   @POST("/api/auth/media/token")
   Future<MediaTokenResponse> createMediaToken(@Query("deviceId") String deviceId);
 
-  @GET("/api/auth/meda")
+  @GET("/api/auth/media")
   Future<Success> checkMediaToken(@Query("mediaToken") String mediaToken);
 
   @DELETE("/api/auth/media/token")

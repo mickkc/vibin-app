@@ -18,7 +18,7 @@ final getIt = GetIt.instance;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  setupDependencyInjection();
+  await setupDependencyInjection();
 
   JustAudioMediaKit.ensureInitialized();
 
