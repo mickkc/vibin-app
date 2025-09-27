@@ -104,7 +104,7 @@ class PlaylistInfoPage extends StatelessWidget {
         FutureContent(
           future: playlistDataFuture,
           builder: (context, data) {
-            return TrackList(tracks: data.tracks.map((e) => e.track).toList());
+            return TrackList(tracks: data.tracks.map((e) => e.track).toList(), playlistId: playlistId);
           }
         )
       ],

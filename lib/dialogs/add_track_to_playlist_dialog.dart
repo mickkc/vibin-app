@@ -8,7 +8,9 @@ import '../main.dart';
 
 class AddTrackToPlaylistDialog {
 
-  static Future<void> show(int trackId, BuildContext context) async {
+  /// Shows a dialog that allows the user to add or remove the track from playlists.
+  /// Returns a list of playlist IDs that were modified (track added or removed).
+  static Future<List<int>> show(int trackId, BuildContext context) async {
 
     final apiManager = getIt<ApiManager>();
 
@@ -16,8 +18,14 @@ class AddTrackToPlaylistDialog {
     final playlistsFuture = apiManager.service.getPlaylists(1, 100);
     final playlistsContainingTrack = await apiManager.service.getPlaylistsContainingTrack(trackId);
 
+    if (!context.mounted) {
+      return [];
+    }
+
     final lm = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
+
+    List<int> modifiedPlaylists = [];
 
     await showGeneralDialog(
       context: context,
@@ -66,6 +74,13 @@ class AddTrackToPlaylistDialog {
                                 p.id == playlist.id);
                               }
 
+                              if (!modifiedPlaylists.contains(playlist.id)) {
+                                modifiedPlaylists.add(playlist.id);
+                              }
+                              else {
+                                modifiedPlaylists.remove(playlist.id);
+                              }
+
                               // TODO: Check if there's a better way to refresh the dialog
                               (context as Element).markNeedsBuild();
                             },
@@ -91,6 +106,8 @@ class AddTrackToPlaylistDialog {
         );
       },
     );
+
+    return modifiedPlaylists;
   }
 
 }

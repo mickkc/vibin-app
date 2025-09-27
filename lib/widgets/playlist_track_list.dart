@@ -14,10 +14,12 @@ import '../l10n/app_localizations.dart';
 
 class TrackList extends StatefulWidget {
   final List<Track> tracks;
+  final int? playlistId;
 
   const TrackList({
     super.key,
-    required this.tracks
+    required this.tracks,
+    this.playlistId
   });
 
   @override
@@ -82,6 +84,16 @@ class _TrackListState extends State<TrackList> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(AppLocalizations.of(context)!.track_actions_added_to_queue))
     );
+  }
+
+  Future<void> addTrackToPlaylist(int trackId, BuildContext context) async {
+    final modifiedPlaylistIds = await AddTrackToPlaylistDialog.show(trackId, context);
+    if (widget.playlistId != null && modifiedPlaylistIds.contains(widget.playlistId)) {
+      // If the current playlist was modified, the track must have been removed. Update the UI.
+      setState(() {
+        widget.tracks.removeWhere((t) => t.id == trackId);
+      });
+    }
   }
 
   @override
@@ -161,7 +173,7 @@ class _TrackListState extends State<TrackList> {
                   if (as.hasPermission(PermissionType.managePlaylists)) ... [
                     PopupMenuItem(
                       child: IconText(icon: Icons.add_outlined, text: lm.track_actions_add_to_playlist),
-                      onTap: () { AddTrackToPlaylistDialog.show(track.id, context); },
+                      onTap: () { addTrackToPlaylist(track.id, context); },
                     )
                   ],
                   if (as.hasPermission(PermissionType.streamTracks)) ... [
