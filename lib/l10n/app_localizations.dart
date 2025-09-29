@@ -410,6 +410,48 @@ abstract class AppLocalizations {
   /// **'Edit'**
   String get track_actions_edit;
 
+  /// No description provided for @playlist_actions_play.
+  ///
+  /// In en, this message translates to:
+  /// **'Play Playlist'**
+  String get playlist_actions_play;
+
+  /// No description provided for @playlist_actions_pause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause Playlist'**
+  String get playlist_actions_pause;
+
+  /// No description provided for @playlist_actions_resume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume Playlist'**
+  String get playlist_actions_resume;
+
+  /// No description provided for @playlist_actions_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Playlist'**
+  String get playlist_actions_edit;
+
+  /// No description provided for @playlist_actions_enable_shuffling.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Shuffling'**
+  String get playlist_actions_enable_shuffling;
+
+  /// No description provided for @playlist_actions_disable_shuffling.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable Shuffling'**
+  String get playlist_actions_disable_shuffling;
+
+  /// No description provided for @playlist_actions_add_collaborators.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Collaborators'**
+  String get playlist_actions_add_collaborators;
+
   /// No description provided for @add_track_to_playlist_title.
   ///
   /// In en, this message translates to:

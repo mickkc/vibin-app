@@ -3,6 +3,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/api/client_data.dart';
+import 'package:vibin_app/audio/audio_type.dart';
 import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/album/album_data.dart';
 import 'package:vibin_app/dtos/playlist/playlist.dart';
@@ -17,22 +18,31 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   late final AudioPlayer audioPlayer;
   late final ClientData clientData;
 
+  CurrentAudioType? currentAudioType;
+
+  void setAudioType(AudioType type, int? id) {
+    currentAudioType = CurrentAudioType(audioType: type, id: id);
+  }
+
   AudioManager() {
     apiManager = getIt<ApiManager>();
     clientData = getIt<ClientData>();
     audioPlayer = AudioPlayer();
   }
 
-  Future<void> playPlaylist(Playlist playlist) async {
+  Future<void> playPlaylist(Playlist playlist, bool shuffle) async {
     await audioPlayer.stop();
     final playlistData = await apiManager.service.getPlaylist(playlist.id);
-    await playPlaylistData(playlistData, null);
+    await playPlaylistData(playlistData, null, shuffle);
   }
 
-  Future<void> playPlaylistData(PlaylistData data, int? preferredTrackId) async {
+  Future<void> playPlaylistData(PlaylistData data, int? preferredTrackId, bool shuffle) async {
 
     var tracks = data.tracks.map((i) => i.track).toList();
     final initialIndex = preferredTrackId != null ? tracks.indexWhere((t) => t.id == preferredTrackId) : 0;
+
+    audioPlayer.setShuffleModeEnabled(shuffle);
+    setAudioType(AudioType.playlist, data.playlist.id);
 
     final mediaToken = await clientData.getMediaToken();
     final sources = data.tracks.map((track) => fromTrack(track.track, mediaToken)).toList();
@@ -42,15 +52,18 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     await apiManager.service.reportPlaylistListen(data.playlist.id);
   }
 
-  Future<void> playAlbum(Album album) async {
+  Future<void> playAlbum(Album album, bool shuffle) async {
     await audioPlayer.stop();
     final albumData = await apiManager.service.getAlbum(album.id);
-    await playAlbumData(albumData, null);
+    await playAlbumData(albumData, null, shuffle);
   }
 
-  Future<void> playAlbumData(AlbumData data, int? preferredTrackId) async {
+  Future<void> playAlbumData(AlbumData data, int? preferredTrackId, bool shuffle) async {
     var tracks = data.tracks;
     final initialIndex = preferredTrackId != null ? tracks.indexWhere((t) => t.id == preferredTrackId) : 0;
+
+    audioPlayer.setShuffleModeEnabled(shuffle);
+    setAudioType(AudioType.album, data.album.id);
 
     final mediaToken = await clientData.getMediaToken();
     final sources = data.tracks.map((track) => fromMinimalTrack(track, mediaToken)).toList();
@@ -64,6 +77,9 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final mediaToken = await clientData.getMediaToken();
     final source = fromMinimalTrack(track, mediaToken);
     await audioPlayer.stop();
+
+    setAudioType(AudioType.tracks, null);
+
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSource(source);
     audioPlayer.play();
@@ -73,6 +89,9 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final mediaToken = await clientData.getMediaToken();
     final source = fromTrack(track, mediaToken);
     await audioPlayer.stop();
+
+    setAudioType(AudioType.tracks, null);
+
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSource(source);
     audioPlayer.play();
@@ -83,6 +102,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final mediaToken = await clientData.getMediaToken();
     final source = fromTrack(track, mediaToken);
     await audioPlayer.addAudioSource(source);
+
+    setAudioType(AudioType.tracks, null);
 
     if (audioPlayer.sequence.length == 1) {
       await audioPlayer.play();

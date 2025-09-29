@@ -61,6 +61,14 @@
   "track_actions_pause": "Pause",
   "track_actions_edit": "Bearbeiten",
 
+  "playlist_actions_play": "Playlist abspielen",
+  "playlist_actions_pause": "Playlist pausieren",
+  "playlist_actions_resume": "Playlist fortsetzen",
+  "playlist_actions_edit": "Playlist bearbeiten",
+  "playlist_actions_enable_shuffling": "Zufallswiedergabe aktivieren",
+  "playlist_actions_disable_shuffling": "Zufallswiedergabe deaktivieren",
+  "playlist_actions_add_collaborators": "Mitwirkende hinzufügen",
+
   "add_track_to_playlist_title": "Zu Playlist hinzufügen",
 
   "dialog_finish": "Fertig",

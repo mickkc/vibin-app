@@ -3,6 +3,7 @@ import 'package:vibin_app/dtos/playlist/playlist_track.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
 import 'package:vibin_app/widgets/network_image.dart';
+import 'package:vibin_app/widgets/playlist_action_bar.dart';
 import 'package:vibin_app/widgets/playlist_track_list.dart';
 
 import '../api/api_manager.dart';
@@ -46,7 +47,7 @@ class PlaylistInfoPage extends StatelessWidget {
     final lm = AppLocalizations.of(context)!;
 
     return Column(
-      spacing: 32,
+      spacing: 16,
       children: [
         Row(
           spacing: 32,
@@ -100,6 +101,12 @@ class PlaylistInfoPage extends StatelessWidget {
               ),
             )
           ],
+        ),
+        FutureContent(
+          future: playlistDataFuture,
+          builder: (context, data) {
+            return PlaylistActionBar(playlistData: data);
+          }
         ),
         FutureContent(
           future: playlistDataFuture,

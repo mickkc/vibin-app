@@ -7,6 +7,7 @@ class ColoredIconButton extends StatelessWidget {
   final VoidCallback onPressed;
   final double? size;
   final EdgeInsetsGeometry padding;
+  final String? tooltip;
 
   const ColoredIconButton({
     super.key,
@@ -16,6 +17,7 @@ class ColoredIconButton extends StatelessWidget {
     required this.onPressed,
     this.size,
     this.padding = const EdgeInsets.all(4.0),
+    this.tooltip,
   });
 
   @override
@@ -29,6 +31,7 @@ class ColoredIconButton extends StatelessWidget {
           padding: padding,
           child: IconButton(
             onPressed: onPressed,
+            tooltip: tooltip,
             icon: Icon(icon, size: size, color: iconColor),
           )
         ),

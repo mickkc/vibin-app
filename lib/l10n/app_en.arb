@@ -61,6 +61,14 @@
   "track_actions_pause": "Pause",
   "track_actions_edit": "Edit",
 
+  "playlist_actions_play": "Play Playlist",
+  "playlist_actions_pause": "Pause Playlist",
+  "playlist_actions_resume": "Resume Playlist",
+  "playlist_actions_edit": "Edit Playlist",
+  "playlist_actions_enable_shuffling": "Enable Shuffling",
+  "playlist_actions_disable_shuffling": "Disable Shuffling",
+  "playlist_actions_add_collaborators": "Add Collaborators",
+
   "add_track_to_playlist_title": "Add to Playlist",
 
   "dialog_finish": "Done",

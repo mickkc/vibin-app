@@ -166,6 +166,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get track_actions_edit => 'Edit';
 
   @override
+  String get playlist_actions_play => 'Play Playlist';
+
+  @override
+  String get playlist_actions_pause => 'Pause Playlist';
+
+  @override
+  String get playlist_actions_resume => 'Resume Playlist';
+
+  @override
+  String get playlist_actions_edit => 'Edit Playlist';
+
+  @override
+  String get playlist_actions_enable_shuffling => 'Enable Shuffling';
+
+  @override
+  String get playlist_actions_disable_shuffling => 'Disable Shuffling';
+
+  @override
+  String get playlist_actions_add_collaborators => 'Add Collaborators';
+
+  @override
   String get add_track_to_playlist_title => 'Add to Playlist';
 
   @override

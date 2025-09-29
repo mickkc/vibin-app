@@ -166,6 +166,29 @@ class AppLocalizationsDe extends AppLocalizations {
   String get track_actions_edit => 'Bearbeiten';
 
   @override
+  String get playlist_actions_play => 'Playlist abspielen';
+
+  @override
+  String get playlist_actions_pause => 'Playlist pausieren';
+
+  @override
+  String get playlist_actions_resume => 'Playlist fortsetzen';
+
+  @override
+  String get playlist_actions_edit => 'Playlist bearbeiten';
+
+  @override
+  String get playlist_actions_enable_shuffling =>
+      'Zufallswiedergabe aktivieren';
+
+  @override
+  String get playlist_actions_disable_shuffling =>
+      'Zufallswiedergabe deaktivieren';
+
+  @override
+  String get playlist_actions_add_collaborators => 'Mitwirkende hinzufügen';
+
+  @override
   String get add_track_to_playlist_title => 'Zu Playlist hinzufügen';
 
   @override
