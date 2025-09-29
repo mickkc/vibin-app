@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
@@ -38,14 +39,24 @@ class RecommendedStartSection extends StatelessWidget {
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
                   final item = items[index];
-                  return ClipRRect(
+                  return InkWell(
                     borderRadius: BorderRadius.circular(8),
-                    child: GestureDetector(
-                      onTap: () {
-                        print("Tapped on ${item.value}");
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(color: Theme.of(context).colorScheme.surfaceContainerHigh),
+                    onTap: () {
+                      final id = item.value["id"];
+                      final route =  switch (item.key) {
+                        "ALBUM" => "/albums/$id",
+                        "ARTIST" => "/artists/$id",
+                        "PLAYLIST" => "/playlists/$id",
+                        _ => "/",
+                      };
+                      GoRouter.of(context).push(route);
+                    },
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Theme.of(context).colorScheme.surfaceContainerHigh,
+                      ),
+                      child: SizedBox(
                         height: 50,
                         child: Row(
                           spacing: 16,
