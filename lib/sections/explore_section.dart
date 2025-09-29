@@ -33,7 +33,10 @@ class ExploreSection extends StatelessWidget {
               itemCount: tracks.length,
               itemBuilder: (context, index) {
                 final track = tracks[index];
-                return EntityCard(entity: track);
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: EntityCard(entity: track),
+                );
               },
               primary: false,
             );

@@ -37,7 +37,10 @@ class MostListenedToArtistsSection extends StatelessWidget {
                     itemCount: artists.length,
                     itemBuilder: (context, index) {
                       final artist = artists[index];
-                      return EntityCard(type: "ARTIST", entity: artist, coverSize: 128);
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: EntityCard(type: "ARTIST", entity: artist, coverSize: 128),
+                      );
                     },
                     primary: false,
                   )

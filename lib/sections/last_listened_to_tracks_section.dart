@@ -36,7 +36,8 @@ class LastListenedToSection extends StatelessWidget {
               itemCount: items.length,
               itemBuilder: (context, index) {
                 final entity = items[index];
-                return Center(
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: EntityCard(
                     entity: switch (entity.key) {
                       "ARTIST" => Artist.fromJson(entity.value),
