@@ -20,11 +20,13 @@ class SectionHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.headlineSmall,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+        Flexible(
+          child: Text(
+            title,
+            style: Theme.of(context).textTheme.headlineSmall,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
 
         Visibility(
