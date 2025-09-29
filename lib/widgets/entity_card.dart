@@ -87,9 +87,13 @@ class EntityCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final apiManager = getIt<ApiManager>();
 
-    return Card(
-      child: GestureDetector(
-        onTap: () => onTap(context),
+    return InkWell(
+      onTap: () => onTap(context),
+      child: Ink(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Theme.of(context).colorScheme.surfaceContainerLow,
+        ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(

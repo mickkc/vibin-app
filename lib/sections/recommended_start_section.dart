@@ -51,35 +51,38 @@ class RecommendedStartSection extends StatelessWidget {
                       };
                       GoRouter.of(context).push(route);
                     },
-                    child: Ink(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Theme.of(context).colorScheme.surfaceContainerHigh,
-                      ),
-                      child: SizedBox(
-                        height: 50,
-                        child: Row(
-                          spacing: 16,
-                          children: [
-                            NetworkImageWidget(
-                              url: switch (item.key) {
-                                "ALBUM" => "/api/albums/${item.value["id"]}/cover?quality=small",
-                                "ARTIST" => "/api/artists/${item.value["id"]}/image?quality=small",
-                                "PLAYLIST" => "/api/playlists/${item.value["id"]}/image?quality=small",
-                                _ => "",
-                              },
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.cover,
-                            ),
-                            Flexible(
-                              child: Text(
-                                  item.key == "ARTIST" || item.key == "PLAYLIST" ? item.value["name"] : item.value["title"],
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                overflow: TextOverflow.ellipsis,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Theme.of(context).colorScheme.surfaceContainerHigh,
+                        ),
+                        child: SizedBox(
+                          height: 50,
+                          child: Row(
+                            spacing: 16,
+                            children: [
+                              NetworkImageWidget(
+                                url: switch (item.key) {
+                                  "ALBUM" => "/api/albums/${item.value["id"]}/cover?quality=small",
+                                  "ARTIST" => "/api/artists/${item.value["id"]}/image?quality=small",
+                                  "PLAYLIST" => "/api/playlists/${item.value["id"]}/image?quality=small",
+                                  _ => "",
+                                },
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.cover,
                               ),
-                            ),
-                          ],
+                              Flexible(
+                                child: Text(
+                                    item.key == "ARTIST" || item.key == "PLAYLIST" ? item.value["name"] : item.value["title"],
+                                    style: Theme.of(context).textTheme.bodyLarge,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
