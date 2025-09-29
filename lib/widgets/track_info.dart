@@ -69,7 +69,7 @@ class TrackInfoView extends StatelessWidget {
                 ),
               ],
             ),
-            if (track.comment != null && showMetadata) ... [
+            if (track.comment != null && track.comment!.isNotEmpty && showMetadata) ... [
               IconText(icon: Icons.comment, text: track.comment!)
             ],
             if (showMetadata) ... [
