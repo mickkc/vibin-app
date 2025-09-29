@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
@@ -27,6 +29,27 @@ class TrackList extends StatefulWidget {
 }
 
 class _TrackListState extends State<TrackList> {
+
+  late final AudioManager audioManager = getIt<AudioManager>();
+
+  late String? currentlyPlayingTrackId = audioManager.getCurrentMediaItem()?.id;
+
+  late final StreamSubscription sequenceSubscription;
+
+  _TrackListState() {
+    sequenceSubscription = audioManager.audioPlayer.sequenceStateStream.listen((event) {
+      if (!mounted) return;
+      setState(() {
+        currentlyPlayingTrackId = audioManager.getCurrentMediaItem()?.id;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    sequenceSubscription.cancel();
+    super.dispose();
+  }
 
   void showArtistPicker(BuildContext context, Track track) {
     showModalBottomSheet(
@@ -113,6 +136,7 @@ class _TrackListState extends State<TrackList> {
     final lm = AppLocalizations.of(context)!;
     final isMobile = MediaQuery.sizeOf(context).width < 600;
     final as = getIt<AuthState>();
+    final theme = Theme.of(context);
 
     return Table(
       border: TableBorder(horizontalInside: BorderSide(color: Theme.of(context).colorScheme.surfaceContainerHighest)),
@@ -130,6 +154,7 @@ class _TrackListState extends State<TrackList> {
       },
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: widget.tracks.map((track) {
+        final isCurrentTrack = currentlyPlayingTrackId == track.id.toString();
         return TableRow(
           children: [
             NetworkImageWidget(
@@ -144,15 +169,16 @@ class _TrackListState extends State<TrackList> {
                 children: [
                   Text(
                     track.title,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    overflow: TextOverflow.ellipsis),
+                    style: theme.textTheme.bodyLarge?.copyWith(color: isCurrentTrack ? theme.colorScheme.primary : theme.colorScheme.onSurface),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   InkWell(
                     onTap: () {
                       openArtist(context, track);
                     },
                     child: Text(
                       track.artists.map((e) => e.name).join(", "),
-                      style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                      style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
                       overflow: TextOverflow.ellipsis,
                     ),
                   )
@@ -173,7 +199,7 @@ class _TrackListState extends State<TrackList> {
                 padding: const EdgeInsets.all(8.0),
                 child: track.duration == null
                     ? SizedBox.shrink()
-                    : Text(formatDurationMs(track.duration!), style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                    : Text(formatDurationMs(track.duration!), style: TextStyle(color: theme.colorScheme.onSurfaceVariant)),
               ),
             ],
             Padding(

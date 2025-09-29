@@ -5,7 +5,7 @@ import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/playlist_action_bar.dart';
-import 'package:vibin_app/widgets/playlist_track_list.dart';
+import 'package:vibin_app/widgets/track_list.dart';
 import 'package:vibin_app/widgets/row_small_column.dart';
 
 import '../api/api_manager.dart';
