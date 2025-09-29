@@ -29,38 +29,40 @@ class TrackList extends StatefulWidget {
 class _TrackListState extends State<TrackList> {
 
   void showArtistPicker(BuildContext context, Track track) {
-    showDialog(
+    showModalBottomSheet(
+      showDragHandle: true,
+      isScrollControlled: false,
+      enableDrag: true,
+      useRootNavigator: true,
       context: context,
+      constraints: BoxConstraints(
+        maxWidth: 400,
+      ),
       builder: (context) {
-        return Dialog(
-          constraints: BoxConstraints(
-            maxWidth: 400,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView.builder(
-              itemCount: track.artists.length,
-              physics: const AlwaysScrollableScrollPhysics(),
-              primary: false,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                final artist = track.artists[index];
-                return ListTile(
-                  leading: NetworkImageWidget(
-                    url: "/api/artists/${artist.id}/image?quality=small",
-                    width: 40,
-                    height: 40,
-                    borderRadius: BorderRadius.circular(20),
-                    fit: BoxFit.cover,
-                  ),
-                  title: Text(artist.name),
-                  onTap: () {
-                    Navigator.pop(context);
-                    GoRouter.of(context).push('/artists/${artist.id}');
-                  },
-                );
-              },
-            ),
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView.builder(
+            itemCount: track.artists.length,
+            physics: const AlwaysScrollableScrollPhysics(),
+            primary: false,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              final artist = track.artists[index];
+              return ListTile(
+                leading: NetworkImageWidget(
+                  url: "/api/artists/${artist.id}/image?quality=small",
+                  width: 40,
+                  height: 40,
+                  borderRadius: BorderRadius.circular(20),
+                  fit: BoxFit.cover,
+                ),
+                title: Text(artist.name),
+                onTap: () {
+                  Navigator.pop(context);
+                  GoRouter.of(context).push('/artists/${artist.id}');
+                },
+              );
+            },
           ),
         );
       }
@@ -75,6 +77,15 @@ class _TrackListState extends State<TrackList> {
   void openTrack(BuildContext context, Track track) {
     Navigator.pop(context);
     GoRouter.of(context).push('/tracks/${track.id}');
+  }
+
+  void openArtist(BuildContext context, Track track) {
+    if (track.artists.length == 1) {
+      Navigator.pop(context);
+      GoRouter.of(context).push('/artists/${track.artists.first.id}');
+    } else {
+      showArtistPicker(context, track);
+    }
   }
 
   Future<void> addToQueue(Track track) async {
@@ -137,7 +148,7 @@ class _TrackListState extends State<TrackList> {
                     overflow: TextOverflow.ellipsis),
                   InkWell(
                     onTap: () {
-                      showArtistPicker(context, track);
+                      openArtist(context, track);
                     },
                     child: Text(
                       track.artists.map((e) => e.name).join(", "),
@@ -168,6 +179,7 @@ class _TrackListState extends State<TrackList> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: PopupMenuButton(
+                useRootNavigator: true,
                 icon: Icon(Icons.more_vert),
                 itemBuilder: (context) => <PopupMenuEntry>[
                   if (as.hasPermission(PermissionType.managePlaylists)) ... [
@@ -192,7 +204,7 @@ class _TrackListState extends State<TrackList> {
                   if (as.hasPermission(PermissionType.viewArtists)) ... [
                     PopupMenuItem(
                       child: IconText(icon: Icons.person_outlined, text: lm.track_actions_goto_artist),
-                      onTap: () { showArtistPicker(context, track); },
+                      onTap: () { openArtist(context, track); },
                     )
                   ],
                   if(as.hasPermission(PermissionType.viewAlbums)) ... [
