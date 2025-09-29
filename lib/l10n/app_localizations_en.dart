@@ -130,6 +130,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get drawer_logout => 'Logout';
 
   @override
+  String get now_playing_nothing => 'Nothing is playing';
+
+  @override
+  String get now_playing_lyrics => 'Lyrics';
+
+  @override
+  String get now_plying_advanced_controls => 'Advanced Controls';
+
+  @override
+  String get now_playing_queue => 'Queue';
+
+  @override
   String get playlists_private => 'Private';
 
   @override

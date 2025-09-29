@@ -47,6 +47,11 @@
   "drawer_server_settings": "Server Settings",
   "drawer_logout": "Logout",
 
+  "now_playing_nothing": "Nothing is playing",
+  "now_playing_lyrics": "Lyrics",
+  "now_plying_advanced_controls": "Advanced Controls",
+  "now_playing_queue": "Queue",
+
   "playlists_private": "Private",
   "playlists_public": "Public",
 

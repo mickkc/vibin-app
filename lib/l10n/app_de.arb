@@ -50,6 +50,11 @@
   "playlists_private": "Privat",
   "playlists_public": "Öffentlich",
 
+  "now_playing_nothing": "Nichts wird abgespielt",
+  "now_playing_lyrics": "Liedtext",
+  "now_plying_advanced_controls": "Erweiterte Steuerung",
+  "now_playing_queue": "Warteschlange",
+
   "track_actions_add_to_playlist": "Zu Playlist hinzufügen",
   "track_actions_add_to_queue": "Zur Warteschlange hinzufügen",
   "track_actions_added_to_queue": "Zur Warteschlange hinzugefügt",

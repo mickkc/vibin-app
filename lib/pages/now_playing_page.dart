@@ -5,7 +5,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/main.dart';
-import 'package:vibin_app/widgets/now_playing_control_bar.dart';
+import 'package:vibin_app/widgets/nowplaying/now_playing_control_bar.dart';
 import 'package:vibin_app/widgets/row_small_column.dart';
 import 'package:vibin_app/widgets/track_info.dart';
 

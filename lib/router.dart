@@ -10,7 +10,7 @@ import 'package:vibin_app/pages/playlist_info_page.dart';
 import 'package:vibin_app/pages/track_info_page.dart';
 import 'package:vibin_app/pages/tracks_page.dart';
 import 'package:vibin_app/widgets/network_image.dart';
-import 'package:vibin_app/widgets/now_playing_bar.dart';
+import 'package:vibin_app/widgets/nowplaying/now_playing_bar.dart';
 
 GoRouter configureRouter(AuthState authState) {
   final router = GoRouter(

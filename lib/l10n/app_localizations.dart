@@ -338,6 +338,30 @@ abstract class AppLocalizations {
   /// **'Logout'**
   String get drawer_logout;
 
+  /// No description provided for @now_playing_nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing is playing'**
+  String get now_playing_nothing;
+
+  /// No description provided for @now_playing_lyrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Lyrics'**
+  String get now_playing_lyrics;
+
+  /// No description provided for @now_plying_advanced_controls.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced Controls'**
+  String get now_plying_advanced_controls;
+
+  /// No description provided for @now_playing_queue.
+  ///
+  /// In en, this message translates to:
+  /// **'Queue'**
+  String get now_playing_queue;
+
   /// No description provided for @playlists_private.
   ///
   /// In en, this message translates to:

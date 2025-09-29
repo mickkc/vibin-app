@@ -130,6 +130,18 @@ class AppLocalizationsDe extends AppLocalizations {
   String get drawer_logout => 'Abmelden';
 
   @override
+  String get now_playing_nothing => 'Nichts wird abgespielt';
+
+  @override
+  String get now_playing_lyrics => 'Liedtext';
+
+  @override
+  String get now_plying_advanced_controls => 'Erweiterte Steuerung';
+
+  @override
+  String get now_playing_queue => 'Warteschlange';
+
+  @override
   String get playlists_private => 'Privat';
 
   @override
