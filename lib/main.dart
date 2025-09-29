@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dbus/dbus.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
@@ -24,11 +26,13 @@ void main() async {
 
   await AudioManager.initBackgroundTask();
 
-  final session = DBusClient.session();
-  final mpris = MprisPlayer();
+  if (Platform.isLinux) {
+    final session = DBusClient.session();
+    final mpris = MprisPlayer();
 
-  session.registerObject(mpris);
-  await session.requestName("org.mpris.MediaPlayer2.vibin");
+    session.registerObject(mpris);
+    await session.requestName("org.mpris.MediaPlayer2.vibin");
+  }
 
   final authState = getIt<AuthState>();
 
