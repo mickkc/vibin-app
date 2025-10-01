@@ -6,7 +6,7 @@ import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/fullscreen_box.dart';
 
-import '../auth/auto_login_result.dart';
+import '../../auth/auto_login_result.dart';
 
 class AutoLoginErrorPage extends StatefulWidget {
   const AutoLoginErrorPage({super.key});

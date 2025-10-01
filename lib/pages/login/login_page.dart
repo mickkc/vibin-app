@@ -5,7 +5,7 @@ import 'package:vibin_app/auth/AuthState.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/fullscreen_box.dart';
 
-import '../l10n/app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

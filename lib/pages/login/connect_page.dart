@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/widgets/fullscreen_box.dart';
 
-import '../api/api_manager.dart';
-import '../main.dart';
+import '../../api/api_manager.dart';
+import '../../main.dart';
 
 class ConnectPage extends StatefulWidget {
   const ConnectPage({super.key});

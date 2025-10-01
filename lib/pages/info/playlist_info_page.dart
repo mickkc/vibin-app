@@ -8,9 +8,9 @@ import 'package:vibin_app/widgets/playlist_action_bar.dart';
 import 'package:vibin_app/widgets/track_list.dart';
 import 'package:vibin_app/widgets/row_small_column.dart';
 
-import '../api/api_manager.dart';
-import '../l10n/app_localizations.dart';
-import '../main.dart';
+import '../../api/api_manager.dart';
+import '../../l10n/app_localizations.dart';
+import '../../main.dart';
 
 class PlaylistInfoPage extends StatelessWidget {
 
