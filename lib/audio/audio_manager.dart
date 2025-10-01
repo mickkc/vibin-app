@@ -66,7 +66,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     setAudioType(AudioType.album, data.album.id);
 
     final mediaToken = await clientData.getMediaToken();
-    final sources = data.tracks.map((track) => fromMinimalTrack(track, mediaToken)).toList();
+    final sources = data.tracks.map((track) => fromTrack(track, mediaToken)).toList();
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSources(sources, initialIndex: initialIndex);
     await audioPlayer.play();
