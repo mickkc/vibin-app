@@ -13,7 +13,8 @@ import 'package:vibin_app/pages/home_page.dart';
 import 'package:vibin_app/pages/login/login_page.dart';
 import 'package:vibin_app/pages/info/playlist_info_page.dart';
 import 'package:vibin_app/pages/info/track_info_page.dart';
-import 'package:vibin_app/pages/tracks_page.dart';
+import 'package:vibin_app/pages/overview/albums_page.dart';
+import 'package:vibin_app/pages/overview/tracks_page.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/nowplaying/now_playing_bar.dart';
 
@@ -111,6 +112,7 @@ GoRouter configureRouter(AuthState authState) {
           GoRoute(path: '/login-error', builder: (context, state) => AutoLoginErrorPage()),
           GoRoute(path: '/tracks/:id', builder: (context, state) => TrackInfoPage(trackId: int.parse(state.pathParameters['id']!))),
           GoRoute(path: '/playlists/:id', builder: (context, state) => PlaylistInfoPage(playlistId: int.parse(state.pathParameters['id']!))),
+          GoRoute(path: '/albums', builder: (context, state) => AlbumPage()),
           GoRoute(path: '/albums/:id', builder: (context, state) => AlbumInfoPage(albumId: int.parse(state.pathParameters['id']!))),
           GoRoute(path: '/albums/:id/edit', builder: (context, state) => EditAlbumPage(albumId: int.parse(state.pathParameters['id']!))),
           GoRoute(path: '/tracks', builder: (context, state) => TrackPage())

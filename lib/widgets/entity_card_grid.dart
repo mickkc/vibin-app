@@ -6,12 +6,14 @@ import 'entity_card.dart';
 
 class EntityCardGrid extends StatelessWidget {
   final List<dynamic> items;
+  final String type;
   final double maxWidthPerColumn;
 
   const EntityCardGrid({
     super.key,
     required this.items,
     this.maxWidthPerColumn = 150,
+    this.type = "TRACK"
   });
 
   @override
@@ -34,7 +36,7 @@ class EntityCardGrid extends StatelessWidget {
           itemCount: items.length,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            return EntityCard(entity: items[index], coverSize: widthPerCol - 16);
+            return EntityCard(entity: items[index], coverSize: widthPerCol - 16, type: type);
           }
         ),
       ),

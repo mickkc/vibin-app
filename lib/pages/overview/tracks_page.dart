@@ -1,0 +1,24 @@
+import 'package:flutter/material.dart';
+import 'package:vibin_app/api/api_manager.dart';
+import 'package:vibin_app/main.dart';
+import 'package:vibin_app/widgets/paginated_overview.dart';
+
+import '../../l10n/app_localizations.dart';
+
+class TrackPage extends StatelessWidget {
+
+  const TrackPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final ApiManager apiManager = getIt<ApiManager>();
+    return PaginatedOverview(
+      fetchFunction: (page, query) {
+        return apiManager.service.searchTracks(query, false, page, null);
+      },
+      type: "TRACK",
+      title: AppLocalizations.of(context)!.tracks,
+      icon: Icons.library_music
+    );
+  }
+}

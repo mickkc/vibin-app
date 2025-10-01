@@ -212,11 +212,16 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<AlbumPagination> getAlbums(int page, int? pageSize) async {
+  Future<AlbumPagination> getAlbums(
+    int page,
+    int? pageSize,
+    String? query,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'pageSize': pageSize,
+      r'query': query,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

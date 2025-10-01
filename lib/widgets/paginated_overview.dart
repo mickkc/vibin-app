@@ -1,41 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:vibin_app/api/api_manager.dart';
-import 'package:vibin_app/dtos/pagination/minimal_track_pagination.dart';
-import 'package:vibin_app/main.dart';
-import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/entity_card_grid.dart';
+import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/pagination_footer.dart';
 
 import '../l10n/app_localizations.dart';
 
-class TrackPage extends StatefulWidget {
-  final int page;
+class PaginatedOverview extends StatefulWidget {
+  final Function(int page, String searchQuery) fetchFunction;
+  final String type;
+  final String title;
+  final IconData? icon;
 
-  const TrackPage({
+  const PaginatedOverview({
     super.key,
-    this.page = 1
+    required this.fetchFunction,
+    required this.type,
+    required this.title,
+    this.icon,
   });
 
   @override
-  State<TrackPage> createState() => _TrackPageState();
+  State<PaginatedOverview> createState() => _PaginatedOverviewState();
 }
 
-class _TrackPageState extends State<TrackPage> {
-
-  ApiManager apiManager = getIt<ApiManager>();
+class _PaginatedOverviewState extends State<PaginatedOverview> {
   String searchQuery = "";
-  late int page = widget.page;
-  late Future<MinimalTrackPagination> currentPagination = fetch();
+  int page = 1;
+  late Future<dynamic> currentPagination;
+
+  @override
+  void initState() {
+    super.initState();
+    currentPagination = widget.fetchFunction(page, searchQuery);
+  }
 
   void updatePage(int newPage) {
     setState(() {
       page = newPage;
-      currentPagination = fetch();
+      currentPagination = widget.fetchFunction(page, searchQuery);
     });
   }
 
-  Future<MinimalTrackPagination> fetch() {
-    return apiManager.service.searchTracks(searchQuery, true, page, 50);
+  void updateSearch(String newSearch) {
+    setState(() {
+      searchQuery = newSearch;
+      page = 1;
+      currentPagination = widget.fetchFunction(page, searchQuery);
+    });
   }
 
   @override
@@ -55,10 +66,10 @@ class _TrackPageState extends State<TrackPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(Icons.library_music, size: 32),
+                if (widget.icon != null) Icon(widget.icon, size: 32),
                 Text(
-                  lm.tracks,
-                  style: Theme.of(context).textTheme.headlineMedium
+                  widget.title,
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ],
             ),
@@ -70,7 +81,7 @@ class _TrackPageState extends State<TrackPage> {
                   hintText: lm.search,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none
+                    borderSide: BorderSide.none,
                   ),
                   filled: true,
                   contentPadding: EdgeInsets.zero,
@@ -83,31 +94,30 @@ class _TrackPageState extends State<TrackPage> {
                 },
                 textInputAction: TextInputAction.search,
                 onSubmitted: (value) {
-                  setState(() {
-                    searchQuery = value;
-                    page = 1;
-                    currentPagination = fetch();
-                  });
-                }
+                  updateSearch(value);
+                },
               ),
             )
-          ],
+          ]
         ),
         FutureContent(
           future: currentPagination,
           builder: (context, pagination) {
             return Column(
               children: [
-                EntityCardGrid(items: pagination.items),
+                EntityCardGrid(
+                  items: pagination.items,
+                  type: widget.type,
+                ),
                 PaginationFooter(
                   pagination: pagination,
-                  onPageChanged: (newPage) => updatePage(newPage)
+                  onPageChanged: (newPage) => updatePage(newPage),
                 )
               ],
             );
           }
         )
-      ]
+      ],
     );
   }
 }
