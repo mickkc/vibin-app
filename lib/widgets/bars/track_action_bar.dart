@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/auth/AuthState.dart';
 import 'package:vibin_app/dialogs/add_track_to_playlist_dialog.dart';
-import 'package:vibin_app/widgets/colored_icon_button.dart';
+import 'package:vibin_app/widgets/play_button.dart';
 
-import '../api/api_manager.dart';
-import '../audio/audio_manager.dart';
-import '../dtos/permission_type.dart';
-import '../dtos/track/track.dart';
-import '../l10n/app_localizations.dart';
-import '../main.dart';
+import '../../api/api_manager.dart';
+import '../../audio/audio_manager.dart';
+import '../../dtos/permission_type.dart';
+import '../../dtos/track/track.dart';
+import '../../l10n/app_localizations.dart';
+import '../../main.dart';
 
 class TrackActionBar extends StatefulWidget {
   final int trackId;
@@ -81,12 +81,9 @@ class _TrackActionBarState extends State<TrackActionBar> {
       spacing: 16,
       children: [
         if (authState.hasPermission(PermissionType.streamTracks)) ... [
-          ColoredIconButton(
-            icon: isCurrentTrack && isPlaying ? Icons.pause : Icons.play_arrow,
-            size: 48,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            iconColor: Theme.of(context).colorScheme.surface,
-            onPressed: () async {
+          PlayButton(
+            isPlaying: isCurrentTrack && isPlaying,
+            onTap: () async {
               if (isCurrentTrack) {
                 if (isPlaying) {
                   await audioManager.audioPlayer.pause();

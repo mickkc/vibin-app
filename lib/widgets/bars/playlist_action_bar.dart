@@ -8,10 +8,10 @@ import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/playlist/playlist_data.dart';
 import 'package:vibin_app/dtos/shuffle_state.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
-import 'package:vibin_app/widgets/colored_icon_button.dart';
+import 'package:vibin_app/widgets/play_button.dart';
 
-import '../audio/audio_type.dart';
-import '../main.dart';
+import '../../audio/audio_type.dart';
+import '../../main.dart';
 
 class PlaylistActionBar extends StatefulWidget {
   final PlaylistData playlistData;
@@ -112,15 +112,9 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         if (authState.hasPermission(PermissionType.streamTracks)) ... [
-          ColoredIconButton(
-            icon: isCurrent && isPlaying ? Icons.pause : Icons.play_arrow,
-            backgroundColor: theme.colorScheme.primary,
-            iconColor: theme.colorScheme.onPrimary,
-            onPressed: playPause,
-            size: 48,
-            tooltip: isCurrent
-              ? (isPlaying ? lm.playlist_actions_pause : lm.playlist_actions_resume)
-              : lm.playlist_actions_play
+          PlayButton(
+            isPlaying: isCurrent && isPlaying,
+            onTap: playPause
           ),
           IconButton(
             onPressed: toggleShuffle,

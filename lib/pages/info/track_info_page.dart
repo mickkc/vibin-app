@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/sections/related_section.dart';
-import 'package:vibin_app/sections/track_action_bar.dart';
+import 'package:vibin_app/widgets/bars/track_action_bar.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/row_small_column.dart';
 import 'package:vibin_app/widgets/track_info.dart';
