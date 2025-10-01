@@ -9,6 +9,7 @@ import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/row_small_column.dart';
 import 'package:vibin_app/widgets/track_list.dart';
 
+import '../../audio/audio_manager.dart';
 import '../../l10n/app_localizations.dart';
 
 class AlbumInfoPage extends StatelessWidget {
@@ -64,6 +65,7 @@ class AlbumInfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final apiManager = getIt<ApiManager>();
+    final audioManager = getIt<AudioManager>();
     final albumFuture = apiManager.service.getAlbum(albumId);
 
     return Column(
@@ -99,7 +101,13 @@ class AlbumInfoPage extends StatelessWidget {
         FutureContent(
           future: albumFuture,
           builder: (context, data) {
-            return TrackList(tracks: data.tracks, albumId: data.album.id);
+            return TrackList(
+              tracks: data.tracks,
+              albumId: data.album.id,
+              onTrackTapped: (track) {
+                audioManager.playAlbumData(data, track.id, true);
+              }
+            );
           }
         )
       ],

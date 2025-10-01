@@ -6,6 +6,7 @@ import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/auth/AuthState.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/playlist/playlist_data.dart';
+import 'package:vibin_app/dtos/shuffle_state.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/widgets/colored_icon_button.dart';
 
@@ -14,8 +15,13 @@ import '../main.dart';
 
 class PlaylistActionBar extends StatefulWidget {
   final PlaylistData playlistData;
+  final ShuffleState? shuffleState;
 
-  const PlaylistActionBar({super.key, required this.playlistData});
+  const PlaylistActionBar({
+    super.key,
+    required this.playlistData,
+    this.shuffleState,
+  });
 
   @override
   State<PlaylistActionBar> createState() => _PlaylistActionBarState();
@@ -69,6 +75,7 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
     setState(() {
       isShuffleEnabled = !isShuffleEnabled;
     });
+    widget.shuffleState?.isShuffling = isShuffleEnabled;
   }
 
   void playPause() {

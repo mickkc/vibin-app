@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/dtos/playlist/playlist_data.dart';
+import 'package:vibin_app/dtos/shuffle_state.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
@@ -9,6 +10,7 @@ import 'package:vibin_app/widgets/row_small_column.dart';
 import 'package:vibin_app/widgets/track_list.dart';
 
 import '../../api/api_manager.dart';
+import '../../audio/audio_manager.dart';
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 
@@ -68,8 +70,10 @@ class PlaylistInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ApiManager apiManager = getIt<ApiManager>();
+    final AudioManager audioManager = getIt<AudioManager>();
     final playlistDataFuture = apiManager.service.getPlaylist(playlistId);
     final width = MediaQuery.sizeOf(context).width;
+    final shuffleState = ShuffleState(isShuffling: false);
 
     return Column(
       spacing: 16,
@@ -102,13 +106,19 @@ class PlaylistInfoPage extends StatelessWidget {
         FutureContent(
           future: playlistDataFuture,
           builder: (context, data) {
-            return PlaylistActionBar(playlistData: data);
+            return PlaylistActionBar(playlistData: data, shuffleState: shuffleState);
           }
         ),
         FutureContent(
           future: playlistDataFuture,
           builder: (context, data) {
-            return TrackList(tracks: data.tracks.map((e) => e.track).toList(), playlistId: playlistId);
+            return TrackList(
+              tracks: data.tracks.map((e) => e.track).toList(),
+              playlistId: playlistId,
+              onTrackTapped: (track) {
+                audioManager.playPlaylistData(data, track.id, shuffleState.isShuffling);
+              }
+            );
           }
         )
       ],

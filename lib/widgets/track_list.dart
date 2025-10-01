@@ -19,11 +19,14 @@ class TrackList extends StatefulWidget {
   final int? playlistId;
   final int? albumId;
 
+  final Function(Track)? onTrackTapped;
+
   const TrackList({
     super.key,
     required this.tracks,
     this.playlistId,
-    this.albumId
+    this.albumId,
+    this.onTrackTapped,
   });
 
   @override
@@ -164,27 +167,30 @@ class _TrackListState extends State<TrackList> {
               width: 48,
               height: 48
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    track.title,
-                    style: theme.textTheme.bodyLarge?.copyWith(color: isCurrentTrack ? theme.colorScheme.primary : theme.colorScheme.onSurface),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      openArtist(context, track);
-                    },
-                    child: Text(
-                      track.artists.map((e) => e.name).join(", "),
-                      style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
+            InkWell(
+              onTap: widget.onTrackTapped == null ? null : () { widget.onTrackTapped!(track); },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      track.title,
+                      style: theme.textTheme.bodyLarge?.copyWith(color: isCurrentTrack ? theme.colorScheme.primary : theme.colorScheme.onSurface),
                       overflow: TextOverflow.ellipsis,
                     ),
-                  )
-                ],
+                    InkWell(
+                      onTap: () {
+                        openArtist(context, track);
+                      },
+                      child: Text(
+                        track.artists.map((e) => e.name).join(", "),
+                        style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
             if (!isMobile) ... [
