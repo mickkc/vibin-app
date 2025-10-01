@@ -15,7 +15,7 @@ class AddTrackToPlaylistDialog {
     final apiManager = getIt<ApiManager>();
 
     // TODO: Create a better endpoint that returns all playlists
-    final playlistsFuture = apiManager.service.getPlaylists(1, 100);
+    final playlistsFuture = apiManager.service.getPlaylists(1, 100, null);
     final playlistsContainingTrack = await apiManager.service.getPlaylistsContainingTrack(trackId);
 
     if (!context.mounted) {

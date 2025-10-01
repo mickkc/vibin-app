@@ -80,7 +80,7 @@ abstract class ApiService {
   // Artists
 
   @GET("/api/artists")
-  Future<ArtistPagination> getArtists(@Query("page") int page, @Query("pageSize") int? pageSize);
+  Future<ArtistPagination> getArtists(@Query("page") int page, @Query("pageSize") int? pageSize, @Query("query") String? query);
 
   @POST("/api/artists")
   Future<Artist> createArtist(@Body() ArtistEditData artistData);
@@ -121,7 +121,7 @@ abstract class ApiService {
   // Playlists
 
   @GET("/api/playlists")
-  Future<PlaylistPagination> getPlaylists(@Query("page") int page, @Query("pageSize") int? pageSize);
+  Future<PlaylistPagination> getPlaylists(@Query("page") int page, @Query("pageSize") int? pageSize, @Query("query") String? query);
 
   @GET("/api/playlists/{id}")
   Future<PlaylistData> getPlaylist(@Path("id") int id);

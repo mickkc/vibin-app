@@ -336,11 +336,16 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ArtistPagination> getArtists(int page, int? pageSize) async {
+  Future<ArtistPagination> getArtists(
+    int page,
+    int? pageSize,
+    String? query,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'pageSize': pageSize,
+      r'query': query,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -674,11 +679,16 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<PlaylistPagination> getPlaylists(int page, int? pageSize) async {
+  Future<PlaylistPagination> getPlaylists(
+    int page,
+    int? pageSize,
+    String? query,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'pageSize': pageSize,
+      r'query': query,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
