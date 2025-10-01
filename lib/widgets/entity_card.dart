@@ -100,15 +100,18 @@ class EntityCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: type == "ARTIST"
-                      ? BorderRadius.circular(coverSize / 2)
-                      : BorderRadius.circular(8),
-                  child: NetworkImageWidget(
-                    url: getCoverUrl(apiManager),
-                    width: coverSize,
-                    height: coverSize,
-                    fit: BoxFit.contain,
+                AspectRatio(
+                  aspectRatio: 1,
+                  child: ClipRRect(
+                    borderRadius: type == "ARTIST"
+                        ? BorderRadius.circular(coverSize / 2)
+                        : BorderRadius.circular(8),
+                    child: NetworkImageWidget(
+                      url: getCoverUrl(apiManager),
+                      width: coverSize,
+                      height: coverSize,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 12),
