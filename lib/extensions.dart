@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'dtos/track/track.dart';
+
 extension HexColor on Color {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
   static Color fromHex(String hexString) {
@@ -35,4 +37,24 @@ String randomString(int length) {
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
   final rand = Random();
   return List.generate(length, (index) => chars[rand.nextInt(chars.length)]).join();
+}
+
+String getTotalDurationString(Iterable<Track> tracks) {
+  int totalSeconds = 0;
+  for (var track in tracks) {
+    if (track.duration != null) {
+      totalSeconds += (track.duration! / 1000).round();
+    }
+  }
+  final hours = (totalSeconds / 3600).floor();
+  final minutes = ((totalSeconds % 3600) / 60).floor();
+  final seconds = totalSeconds % 60;
+
+  if (hours > 0) {
+    return "${hours}h ${minutes}m ${seconds}s";
+  } else if (minutes > 0) {
+    return "${minutes}m ${seconds}s";
+  } else {
+    return "${seconds}s";
+  }
 }

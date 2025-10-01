@@ -17,11 +17,13 @@ import '../l10n/app_localizations.dart';
 class TrackList extends StatefulWidget {
   final List<Track> tracks;
   final int? playlistId;
+  final int? albumId;
 
   const TrackList({
     super.key,
     required this.tracks,
-    this.playlistId
+    this.playlistId,
+    this.albumId
   });
 
   @override
@@ -233,7 +235,7 @@ class _TrackListState extends State<TrackList> {
                       onTap: () { openArtist(context, track); },
                     )
                   ],
-                  if(as.hasPermission(PermissionType.viewAlbums)) ... [
+                  if(as.hasPermission(PermissionType.viewAlbums) && (widget.albumId == null || widget.albumId != track.album.id)) ... [
                     PopupMenuItem(
                       child: IconText(icon: Icons.album_outlined, text: lm.track_actions_goto_album),
                       onTap: () { openAlbum(context, track); },

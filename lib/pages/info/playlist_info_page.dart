@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/dtos/playlist/playlist_data.dart';
-import 'package:vibin_app/dtos/playlist/playlist_track.dart';
+import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/playlist_action_bar.dart';
-import 'package:vibin_app/widgets/track_list.dart';
 import 'package:vibin_app/widgets/row_small_column.dart';
+import 'package:vibin_app/widgets/track_list.dart';
 
 import '../../api/api_manager.dart';
 import '../../l10n/app_localizations.dart';
@@ -20,26 +20,6 @@ class PlaylistInfoPage extends StatelessWidget {
     super.key,
     required this.playlistId
   });
-
-  String getTotalDurationString(List<PlaylistTrack> pts) {
-    int totalSeconds = 0;
-    for (var pt in pts) {
-      if (pt.track.duration != null) {
-        totalSeconds += (pt.track.duration! / 1000).round();
-      }
-    }
-    final hours = (totalSeconds / 3600).floor();
-    final minutes = ((totalSeconds % 3600) / 60).floor();
-    final seconds = totalSeconds % 60;
-
-    if (hours > 0) {
-      return "${hours}h ${minutes}m ${seconds}s";
-    } else if (minutes > 0) {
-      return "${minutes}m ${seconds}s";
-    } else {
-      return "${seconds}s";
-    }
-  }
 
   Widget playlistInfo(BuildContext context, Future<PlaylistData> playlistDataFuture) {
     final lm = AppLocalizations.of(context)!;
@@ -72,7 +52,7 @@ class PlaylistInfoPage extends StatelessWidget {
               runSpacing: 16,
               children: [
                 IconText(icon: Icons.library_music, text: "${data.tracks.length} ${lm.tracks}"),
-                IconText(icon: Icons.access_time, text: getTotalDurationString(data.tracks)),
+                IconText(icon: Icons.access_time, text: getTotalDurationString(data.tracks.map((e) => e.track))),
                 IconText(
                     icon: data.playlist.public ? Icons.public : Icons.lock,
                     text: data.playlist.public ? lm.playlists_public : lm.playlists_private

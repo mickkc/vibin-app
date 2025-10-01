@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vibin_app/widgets/tag_widget.dart';
 
 import '../api/api_manager.dart';
@@ -21,7 +22,7 @@ class TrackInfoView extends StatelessWidget {
   }
 
   void openAlbumPage(BuildContext context, int albumId) {
-    // TODO: Implement navigation to album page
+    GoRouter.of(context).push('/albums/$albumId');
   }
 
   @override
