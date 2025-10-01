@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/album/album_data.dart';
+import 'package:vibin_app/dtos/shuffle_state.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/widgets/bars/album_action_bar.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
 import 'package:vibin_app/widgets/network_image.dart';
@@ -67,6 +69,7 @@ class AlbumInfoPage extends StatelessWidget {
     final apiManager = getIt<ApiManager>();
     final audioManager = getIt<AudioManager>();
     final albumFuture = apiManager.service.getAlbum(albumId);
+    final shuffleState = ShuffleState(isShuffling: false);
 
     return Column(
       spacing: 16,
@@ -98,6 +101,10 @@ class AlbumInfoPage extends StatelessWidget {
             );
           },
         ),
+        AlbumActionBar(
+          albumId: albumId,
+          shuffleState: shuffleState
+        ),
         FutureContent(
           future: albumFuture,
           builder: (context, data) {
@@ -105,7 +112,7 @@ class AlbumInfoPage extends StatelessWidget {
               tracks: data.tracks,
               albumId: data.album.id,
               onTrackTapped: (track) {
-                audioManager.playAlbumData(data, track.id, true);
+                audioManager.playAlbumData(data, track.id, shuffleState.isShuffling);
               }
             );
           }

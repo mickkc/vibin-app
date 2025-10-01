@@ -196,12 +196,12 @@ class _TrackListState extends State<TrackList> {
             if (!isMobile) ... [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: InkWell(
+                child: widget.albumId == null ? InkWell(
                   onTap: () {
                     GoRouter.of(context).push('/albums/${track.album.id}');
                   },
                   child: Text(track.album.title),
-                ),
+                ) : track.trackNumber != null ? IconText(icon: Icons.numbers, text: track.trackNumber.toString()) : SizedBox.shrink(),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
