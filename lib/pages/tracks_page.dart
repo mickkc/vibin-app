@@ -1,11 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/pagination/minimal_track_pagination.dart';
 import 'package:vibin_app/main.dart';
-import 'package:vibin_app/widgets/entity_card.dart';
 import 'package:vibin_app/widgets/future_content.dart';
+import 'package:vibin_app/widgets/entity_card_grid.dart';
 import 'package:vibin_app/widgets/pagination_footer.dart';
 
 import '../l10n/app_localizations.dart';
@@ -44,9 +42,6 @@ class _TrackPageState extends State<TrackPage> {
   Widget build(BuildContext context) {
     final lm = AppLocalizations.of(context)!;
     final width = MediaQuery.of(context).size.width;
-    final cols = max((width / 200).floor(), 2);
-    final widthPerCol = (width - ((cols - 1) * 8)) / cols;
-    final height = (widthPerCol - 16) + 85;
     return Column(
       spacing: 8,
       children: [
@@ -103,27 +98,10 @@ class _TrackPageState extends State<TrackPage> {
           builder: (context, pagination) {
             return Column(
               children: [
-                SizedBox(
-                  height: (pagination.items.length / cols).ceil() * height + ((pagination.items.length / cols).ceil() - 1) * 8,
-                  child: Center(
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: cols,
-                        mainAxisSpacing: 8,
-                        crossAxisSpacing: 8,
-                        mainAxisExtent: height,
-                      ),
-                      itemCount: pagination.items.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return EntityCard(entity: pagination.items[index], coverSize: widthPerCol - 16);
-                      }
-                    ),
-                  ),
-                ),
+                EntityCardGrid(items: pagination.items),
                 PaginationFooter(
-                    pagination: pagination,
-                    onPageChanged: (newPage) => updatePage(newPage)
+                  pagination: pagination,
+                  onPageChanged: (newPage) => updatePage(newPage)
                 )
               ],
             );
