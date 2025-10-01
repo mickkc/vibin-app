@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/auth/AuthState.dart';
@@ -14,11 +17,37 @@ import 'package:vibin_app/pages/tracks_page.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/nowplaying/now_playing_bar.dart';
 
+class PopObserver extends NavigatorObserver {
+
+  final Function onPush;
+
+  PopObserver({required this.onPush});
+
+  @override
+  void didPush(Route route, Route? previousRoute) {
+    super.didPush(route, previousRoute);
+    onPush();
+  }
+}
+
 GoRouter configureRouter(AuthState authState) {
+
+  // Workaround to differentiate between mouse-initiated and code-initiated pushes
+  bool pushedPreviousPage = false;
+
+  final List<String> poppedRoutes = [];
+
+  final observer = PopObserver(onPush: () {
+    if (pushedPreviousPage) return;
+    poppedRoutes.clear();
+  });
+
+
   final router = GoRouter(
     refreshListenable: authState,
     routes: [
       ShellRoute(
+        observers: [observer],
         builder: (context, state, child) {
           final loggedIn = authState.loggedIn;
           return Scaffold(
@@ -51,9 +80,26 @@ GoRouter configureRouter(AuthState authState) {
             ) : null,
             bottomNavigationBar: loggedIn ? NowPlayingBar() : null,
             body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: child,
+              child: Listener(
+                onPointerDown: (PointerDownEvent event) async {
+                  final router = GoRouter.of(context);
+                  if (event.kind == PointerDeviceKind.mouse) {
+                    if (event.buttons == kBackMouseButton && router.canPop()) {
+                      poppedRoutes.add(router.state.matchedLocation);
+                      router.pop();
+                    }
+                    else if (event.buttons == kForwardMouseButton && poppedRoutes.isNotEmpty) {
+                      final routeToPush = poppedRoutes.removeLast();
+                      pushedPreviousPage = true;
+                      await router.push(routeToPush, extra: 1);
+                      pushedPreviousPage = false;
+                    }
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: child,
+                ),
               ),
             ),
           );
