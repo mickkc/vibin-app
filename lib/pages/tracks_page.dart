@@ -1,10 +1,8 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/pagination/minimal_track_pagination.dart';
-import 'package:vibin_app/l10n/app_localizations_de.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
 import 'package:vibin_app/widgets/future_content.dart';
@@ -27,6 +25,7 @@ class TrackPage extends StatefulWidget {
 class _TrackPageState extends State<TrackPage> {
 
   ApiManager apiManager = getIt<ApiManager>();
+  String searchQuery = "";
   late int page = widget.page;
   late Future<MinimalTrackPagination> currentPagination = fetch();
 
@@ -38,28 +37,65 @@ class _TrackPageState extends State<TrackPage> {
   }
 
   Future<MinimalTrackPagination> fetch() {
-    return apiManager.service.getTracks(page, null);
+    return apiManager.service.searchTracks(searchQuery, true, page, 50);
   }
 
   @override
   Widget build(BuildContext context) {
     final lm = AppLocalizations.of(context)!;
-    final cols = max((MediaQuery.of(context).size.width / 200).floor(), 2);
-    final widthPerCol = (MediaQuery.of(context).size.width - ((cols - 1) * 8)) / cols;
+    final width = MediaQuery.of(context).size.width;
+    final cols = max((width / 200).floor(), 2);
+    final widthPerCol = (width - ((cols - 1) * 8)) / cols;
     final height = (widthPerCol - 16) + 85;
     return Column(
       spacing: 8,
       children: [
         Row(
           spacing: 8,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(Icons.library_music, size: 32),
-            Text(
-              lm.tracks,
-              style: Theme.of(context).textTheme.headlineMedium
+            Row(
+              spacing: 8,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(Icons.library_music, size: 32),
+                Text(
+                  lm.tracks,
+                  style: Theme.of(context).textTheme.headlineMedium
+                ),
+              ],
             ),
+            SizedBox(
+              width: width > 800 ? width / 3 : 200,
+              child: TextField(
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.search),
+                  hintText: lm.search,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide.none
+                  ),
+                  filled: true,
+                  contentPadding: EdgeInsets.zero,
+                  fillColor: Theme.of(context).colorScheme.surfaceContainerHigh
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    searchQuery = value;
+                  });
+                },
+                textInputAction: TextInputAction.search,
+                onSubmitted: (value) {
+                  setState(() {
+                    searchQuery = value;
+                    page = 1;
+                    currentPagination = fetch();
+                  });
+                }
+              ),
+            )
           ],
         ),
         FutureContent(
@@ -78,7 +114,7 @@ class _TrackPageState extends State<TrackPage> {
                         mainAxisExtent: height,
                       ),
                       itemCount: pagination.items.length,
-                      scrollDirection: Axis.vertical,
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         return EntityCard(entity: pagination.items[index], coverSize: widthPerCol - 16);
                       }

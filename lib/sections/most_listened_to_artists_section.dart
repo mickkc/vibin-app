@@ -24,13 +24,12 @@ class MostListenedToArtistsSection extends StatelessWidget {
           viewAllRoute: "/artists",
         ),
         FutureContent(
-          height: 220,
+          height: 205,
           future: artists,
           hasData: (d) => d.isNotEmpty,
           builder: (context, artists) {
             return Column(
               children: [
-                const SizedBox(height: 8),
                 Expanded(
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,

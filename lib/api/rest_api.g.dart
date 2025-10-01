@@ -331,12 +331,13 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ArtistPagination> getArtists(int page, int pageSize) async {
+  Future<ArtistPagination> getArtists(int page, int? pageSize) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'pageSize': pageSize,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<ArtistPagination>(
@@ -1397,7 +1398,7 @@ class _ApiService implements ApiService {
     String query,
     bool advanced,
     int page,
-    int pageSize,
+    int? pageSize,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -1406,6 +1407,7 @@ class _ApiService implements ApiService {
       r'page': page,
       r'pageSize': pageSize,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<MinimalTrackPagination>(

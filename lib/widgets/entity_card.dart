@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:retrofit/dio.dart';
 import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/playlist/playlist.dart';
 import 'package:vibin_app/dtos/track/minimal_track.dart';

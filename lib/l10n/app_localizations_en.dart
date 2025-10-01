@@ -45,6 +45,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tags => 'Tags';
 
   @override
+  String get search => 'Search';
+
+  @override
   String get autologin_failed_title => 'Auto Login Failed';
 
   @override

@@ -13,6 +13,8 @@
   "tag": "Tag",
   "tags": "Tags",
 
+  "search": "Suchen",
+
   "autologin_failed_title": "Automatische Anmeldung fehlgeschlagen",
   "autologin_failed_message": "Die automatische Anmeldung ist fehlgeschlagen. Möglicherweise ist deine Sitzung abgelaufen oder die Instanz ist nicht erreichbar.",
   "autologin_retry": "Erneut versuchen",

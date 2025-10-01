@@ -45,6 +45,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get tags => 'Tags';
 
   @override
+  String get search => 'Suchen';
+
+  @override
   String get autologin_failed_title => 'Automatische Anmeldung fehlgeschlagen';
 
   @override

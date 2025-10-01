@@ -13,6 +13,8 @@
   "tag": "Tag",
   "tags": "Tags",
 
+  "search": "Search",
+
   "autologin_failed_title": "Auto Login Failed",
   "autologin_failed_message": "Auto login failed. Your session may have expired or the instance is unreachable.",
   "autologin_retry": "Retry",

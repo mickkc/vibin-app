@@ -170,6 +170,12 @@ abstract class AppLocalizations {
   /// **'Tags'**
   String get tags;
 
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
+
   /// No description provided for @autologin_failed_title.
   ///
   /// In en, this message translates to:

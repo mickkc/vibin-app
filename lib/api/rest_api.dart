@@ -80,7 +80,7 @@ abstract class ApiService {
   // Artists
 
   @GET("/api/artists")
-  Future<ArtistPagination> getArtists(@Query("page") int page, @Query("pageSize") int pageSize);
+  Future<ArtistPagination> getArtists(@Query("page") int page, @Query("pageSize") int? pageSize);
 
   @POST("/api/artists")
   Future<Artist> createArtist(@Body() ArtistEditData artistData);
@@ -203,7 +203,7 @@ abstract class ApiService {
   Future<Success> deleteTrack(@Path("id") int id);
 
   @GET("/api/tracks/search")
-  Future<MinimalTrackPagination> searchTracks(@Query("query") String query, @Query("advanced") bool advanced, @Query("page") int page, @Query("pageSize") int pageSize);
+  Future<MinimalTrackPagination> searchTracks(@Query("query") String query, @Query("advanced") bool advanced, @Query("page") int page, @Query("pageSize") int? pageSize);
 
   @GET("/api/tracks/{id}/stream")
   @DioResponseType(ResponseType.stream)
