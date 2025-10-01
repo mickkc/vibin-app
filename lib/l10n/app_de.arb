@@ -80,5 +80,18 @@
   "dialog_cancel": "Abbrechen",
   "dialog_create": "Erstellen",
   "dialog_save": "Speichern",
-  "dialog_delete": "Löschen"
+  "dialog_delete": "Löschen",
+
+  "edit_album_title": "Album bearbeiten",
+  "edit_album_name": "Albumname",
+  "edit_album_cover": "Albumcover",
+  "edit_album_save_error": "Beim Speichern des Albums ist ein Fehler aufgetreten.",
+
+  "edit_image_upload": "Bild hochladen",
+  "edit_image_remove": "Bild entfernen",
+  "edit_image_enter_url": "Bild-URL eingeben",
+  "edit_image_reset": "Zurücksetzen",
+  "edit_image_invalid_extension": "Ungültige Dateierweiterung. Unterstützte Erweiterungen sind: .jpg, .jpeg, .png, .gif",
+  "edit_image_too_large": "Die Bilddatei ist zu groß. Die maximale Dateigröße beträgt 5 MB.",
+  "edit_image_error": "Beim Hochladen des Bildes ist ein Fehler aufgetreten."
 }

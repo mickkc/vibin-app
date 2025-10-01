@@ -25,6 +25,10 @@ class NetworkImageWidget extends StatelessWidget {
     return url.startsWith("http://") || url.startsWith("https://");
   }
 
+  bool isBase64Url() {
+    return url.startsWith("data:image/");
+  }
+
   String getUrl() {
     if (isAbsoluteUrl()) {
       return url;
@@ -44,13 +48,29 @@ class NetworkImageWidget extends StatelessWidget {
     };
   }
 
+  Widget base64Image() {
+    return Image.memory(
+      Uri.parse(url).data!.contentAsBytes(),
+      width: width,
+      height: height,
+      fit: fit,
+      errorBuilder: (context, error, stackTrace) {
+        return SizedBox(
+          width: width,
+          height: height,
+          child: const Center(child: Icon(Icons.error)),
+        );
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: padding,
       child: ClipRRect(
         borderRadius: borderRadius,
-        child: Image.network(
+        child: isBase64Url() ? base64Image() : Image.network(
           getUrl(),
           width: width,
           height: height,

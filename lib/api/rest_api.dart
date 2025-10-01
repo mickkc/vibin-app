@@ -1,7 +1,9 @@
 
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
+import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/album/album_data.dart';
+import 'package:vibin_app/dtos/album/album_edit_data.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/artist/artist_metadata.dart';
 import 'package:vibin_app/dtos/login_result.dart';
@@ -67,6 +69,9 @@ abstract class ApiService {
 
   @GET("/api/albums/{id}")
   Future<AlbumData> getAlbum(@Path("id") int id);
+
+  @PUT("/api/albums/{id}")
+  Future<Album> updateAlbum(@Path("id") int id, @Body() AlbumEditData data);
 
   @GET("/api/albums/{id}/cover")
   @DioResponseType(ResponseType.bytes)

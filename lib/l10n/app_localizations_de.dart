@@ -217,4 +217,41 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get dialog_delete => 'Löschen';
+
+  @override
+  String get edit_album_title => 'Album bearbeiten';
+
+  @override
+  String get edit_album_name => 'Albumname';
+
+  @override
+  String get edit_album_cover => 'Albumcover';
+
+  @override
+  String get edit_album_save_error =>
+      'Beim Speichern des Albums ist ein Fehler aufgetreten.';
+
+  @override
+  String get edit_image_upload => 'Bild hochladen';
+
+  @override
+  String get edit_image_remove => 'Bild entfernen';
+
+  @override
+  String get edit_image_enter_url => 'Bild-URL eingeben';
+
+  @override
+  String get edit_image_reset => 'Zurücksetzen';
+
+  @override
+  String get edit_image_invalid_extension =>
+      'Ungültige Dateierweiterung. Unterstützte Erweiterungen sind: .jpg, .jpeg, .png, .gif';
+
+  @override
+  String get edit_image_too_large =>
+      'Die Bilddatei ist zu groß. Die maximale Dateigröße beträgt 5 MB.';
+
+  @override
+  String get edit_image_error =>
+      'Beim Hochladen des Bildes ist ein Fehler aufgetreten.';
 }

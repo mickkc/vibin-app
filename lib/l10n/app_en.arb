@@ -80,5 +80,18 @@
   "dialog_cancel": "Cancel",
   "dialog_create": "Create",
   "dialog_save": "Save",
-  "dialog_delete": "Delete"
+  "dialog_delete": "Delete",
+
+  "edit_album_title": "Edit Album",
+  "edit_album_name": "Album Name",
+  "edit_album_cover": "Album Cover",
+  "edit_album_save_error": "An error occurred while saving the album.",
+
+  "edit_image_upload": "Upload Image",
+  "edit_image_remove": "Remove Image",
+  "edit_image_enter_url": "Enter Image URL",
+  "edit_image_reset": "Reset to Default",
+  "edit_image_invalid_extension": "Invalid image file extension. Allowed extensions are: .jpg, .jpeg, .png, .gif.",
+  "edit_image_too_large": "Image file is too large. Maximum size is 5 MB.",
+  "edit_image_error": "An error occurred while uploading the image."
 }

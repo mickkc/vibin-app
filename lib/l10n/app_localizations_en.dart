@@ -215,4 +215,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dialog_delete => 'Delete';
+
+  @override
+  String get edit_album_title => 'Edit Album';
+
+  @override
+  String get edit_album_name => 'Album Name';
+
+  @override
+  String get edit_album_cover => 'Album Cover';
+
+  @override
+  String get edit_album_save_error =>
+      'An error occurred while saving the album.';
+
+  @override
+  String get edit_image_upload => 'Upload Image';
+
+  @override
+  String get edit_image_remove => 'Remove Image';
+
+  @override
+  String get edit_image_enter_url => 'Enter Image URL';
+
+  @override
+  String get edit_image_reset => 'Reset to Default';
+
+  @override
+  String get edit_image_invalid_extension =>
+      'Invalid image file extension. Allowed extensions are: .jpg, .jpeg, .png, .gif.';
+
+  @override
+  String get edit_image_too_large =>
+      'Image file is too large. Maximum size is 5 MB.';
+
+  @override
+  String get edit_image_error => 'An error occurred while uploading the image.';
 }

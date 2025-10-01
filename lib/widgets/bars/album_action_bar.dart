@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
@@ -105,7 +106,9 @@ class _AlbumActionBarState extends State<AlbumActionBar> {
         ],
         if (authState.hasPermission(PermissionType.manageAlbums))
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              GoRouter.of(context).push("/albums/${widget.albumId}/edit");
+            },
             icon: const Icon(Icons.edit, size: 32),
           )
       ],

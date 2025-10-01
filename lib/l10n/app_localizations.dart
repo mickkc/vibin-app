@@ -511,6 +511,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get dialog_delete;
+
+  /// No description provided for @edit_album_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Album'**
+  String get edit_album_title;
+
+  /// No description provided for @edit_album_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Album Name'**
+  String get edit_album_name;
+
+  /// No description provided for @edit_album_cover.
+  ///
+  /// In en, this message translates to:
+  /// **'Album Cover'**
+  String get edit_album_cover;
+
+  /// No description provided for @edit_album_save_error.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while saving the album.'**
+  String get edit_album_save_error;
+
+  /// No description provided for @edit_image_upload.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Image'**
+  String get edit_image_upload;
+
+  /// No description provided for @edit_image_remove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Image'**
+  String get edit_image_remove;
+
+  /// No description provided for @edit_image_enter_url.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Image URL'**
+  String get edit_image_enter_url;
+
+  /// No description provided for @edit_image_reset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to Default'**
+  String get edit_image_reset;
+
+  /// No description provided for @edit_image_invalid_extension.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid image file extension. Allowed extensions are: .jpg, .jpeg, .png, .gif.'**
+  String get edit_image_invalid_extension;
+
+  /// No description provided for @edit_image_too_large.
+  ///
+  /// In en, this message translates to:
+  /// **'Image file is too large. Maximum size is 5 MB.'**
+  String get edit_image_too_large;
+
+  /// No description provided for @edit_image_error.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while uploading the image.'**
+  String get edit_image_error;
 }
 
 class _AppLocalizationsDelegate
