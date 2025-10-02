@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:vibin_app/widgets/colored_icon_button.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -112,13 +113,14 @@ class ImageEditField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lm = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 8,
       children: [
         if (label != null)
-          Text(label!, style: Theme.of(context).textTheme.bodyMedium),
+          Text(label!, style: theme.textTheme.bodyMedium),
         SizedBox(
           width: size,
           height: size,
@@ -127,51 +129,63 @@ class ImageEditField extends StatelessWidget {
               : (fallbackImageUrl != null && (imageUrl == null || imageUrl!.isNotEmpty)
                 ? NetworkImageWidget(url: fallbackImageUrl!, width: size, height: size, fit: BoxFit.cover)
                 : Container(
-                    color: Theme.of(context).colorScheme.surfaceContainerHigh,
+                    color: theme.colorScheme.surfaceContainerHigh,
                     child: Center(
                       child: Icon(Icons.image_not_supported_outlined, size: size / 2))
                     )
                 )
         ),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            ElevatedButton.icon(
-              onPressed: () async {
-                final result = await uploadImage();
-                String? message = switch(result) {
-                  ImageUploadResult.success => null,
-                  ImageUploadResult.fileTooLarge => lm.edit_image_too_large,
-                  ImageUploadResult.unsupportedFileType => lm.edit_image_invalid_extension,
-                  ImageUploadResult.noFileSelected => null,
-                  ImageUploadResult.error => lm.edit_image_error,
-                };
-                if (message != null && context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(message))
-                  );
-                }
-              },
-              icon: Icon(Icons.upload_file),
-              label: Text(lm.edit_image_upload),
-            ),
-            ElevatedButton.icon(
-              onPressed: () { enterUrl(context); },
-              icon: Icon(Icons.link),
-              label: Text(lm.edit_image_enter_url),
-            ),
-            ElevatedButton.icon(
-              onPressed: (){ onImageChanged(""); },
-              icon: Icon(Icons.delete),
-              label: Text(lm.edit_image_remove),
-            ),
-            ElevatedButton.icon(
-              onPressed: (){ onImageChanged(null); },
-              icon: Icon(Icons.refresh),
-              label: Text(lm.edit_image_reset),
-            )
-          ]
+        SizedBox(
+          width: size,
+          child: Row(
+            spacing: 8,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ColoredIconButton(
+                onPressed: () async {
+                  final result = await uploadImage();
+                  String? message = switch(result) {
+                    ImageUploadResult.success => null,
+                    ImageUploadResult.fileTooLarge => lm.edit_image_too_large,
+                    ImageUploadResult.unsupportedFileType => lm.edit_image_invalid_extension,
+                    ImageUploadResult.noFileSelected => null,
+                    ImageUploadResult.error => lm.edit_image_error,
+                  };
+                  if (message != null && context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(message))
+                    );
+                  }
+                },
+                icon: Icons.upload_file,
+                backgroundColor: theme.colorScheme.primaryContainer,
+                iconColor: theme.colorScheme.onPrimaryContainer,
+                tooltip: lm.edit_image_upload,
+              ),
+              ColoredIconButton(
+                onPressed: () { enterUrl(context); },
+                icon: Icons.link,
+                backgroundColor: theme.colorScheme.primaryContainer,
+                iconColor: theme.colorScheme.onPrimaryContainer,
+                tooltip: lm.edit_image_enter_url,
+              ),
+              ColoredIconButton(
+                onPressed: (){ onImageChanged(null); },
+                icon: Icons.refresh,
+                backgroundColor: theme.colorScheme.secondaryContainer,
+                iconColor: theme.colorScheme.onSecondaryContainer,
+                tooltip: lm.edit_image_reset,
+              ),
+              ColoredIconButton(
+                onPressed: (){ onImageChanged(""); },
+                icon: Icons.delete,
+                backgroundColor: theme.colorScheme.errorContainer,
+                iconColor: theme.colorScheme.onErrorContainer,
+                tooltip: lm.edit_image_remove,
+              ),
+            ]
+          ),
         )
       ],
     );
