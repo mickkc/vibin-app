@@ -488,6 +488,24 @@ abstract class AppLocalizations {
   /// **'Add to Playlist'**
   String get add_track_to_playlist_title;
 
+  /// No description provided for @playlists_show_all.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all Playlists'**
+  String get playlists_show_all;
+
+  /// No description provided for @playlists_show_owned.
+  ///
+  /// In en, this message translates to:
+  /// **'Show my Playlists'**
+  String get playlists_show_owned;
+
+  /// No description provided for @playlists_create_new.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Playlist'**
+  String get playlists_create_new;
+
   /// No description provided for @dialog_finish.
   ///
   /// In en, this message translates to:

@@ -78,6 +78,10 @@
 
   "add_track_to_playlist_title": "Zu Playlist hinzufügen",
 
+  "playlists_show_all": "Alle Playlisten anzeigen",
+  "playlists_show_owned": "Eigene Playlisten anzeigen",
+  "playlists_create_new": "Neue Playlist erstellen",
+
   "dialog_finish": "Fertig",
   "dialog_cancel": "Abbrechen",
   "dialog_create": "Erstellen",

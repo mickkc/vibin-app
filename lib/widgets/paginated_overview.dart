@@ -10,6 +10,7 @@ class PaginatedOverview extends StatefulWidget {
   final String type;
   final String title;
   final IconData? icon;
+  final List<Widget>? actions;
 
   const PaginatedOverview({
     super.key,
@@ -17,6 +18,7 @@ class PaginatedOverview extends StatefulWidget {
     required this.type,
     required this.title,
     this.icon,
+    this.actions,
   });
 
   @override
@@ -100,8 +102,15 @@ class _PaginatedOverviewState extends State<PaginatedOverview> {
             )
           ]
         ),
+        if (widget.actions != null) Row(
+          spacing: 8,
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: widget.actions!,
+        ),
         FutureContent(
           future: currentPagination,
+          hasData: (data) => data.items.isNotEmpty,
           builder: (context, pagination) {
             return Column(
               children: [

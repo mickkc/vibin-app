@@ -683,12 +683,14 @@ class _ApiService implements ApiService {
     int page,
     int? pageSize,
     String? query,
+    bool? onlyOwn,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'pageSize': pageSize,
       r'query': query,
+      r'onlyOwn': onlyOwn,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

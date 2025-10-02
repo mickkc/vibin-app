@@ -182,7 +182,7 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
               if (context.mounted) {
                 final router = GoRouter.of(context);
                 if (widget.playlistId == null) {
-                  router.replace("/playlist/${playlist.id}");
+                  router.replace("/playlists/${playlist.id}");
                 }
                 else {
                   imageCache.clear();

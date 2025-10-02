@@ -207,6 +207,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get add_track_to_playlist_title => 'Zu Playlist hinzufügen';
 
   @override
+  String get playlists_show_all => 'Alle Playlists anzeigen';
+
+  @override
+  String get playlists_show_owned => 'Eigene Playlists anzeigen';
+
+  @override
+  String get playlists_create_new => 'Neue Playlist erstellen';
+
+  @override
   String get dialog_finish => 'Fertig';
 
   @override

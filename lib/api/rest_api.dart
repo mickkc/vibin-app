@@ -121,7 +121,7 @@ abstract class ApiService {
   // Playlists
 
   @GET("/api/playlists")
-  Future<PlaylistPagination> getPlaylists(@Query("page") int page, @Query("pageSize") int? pageSize, @Query("query") String? query);
+  Future<PlaylistPagination> getPlaylists(@Query("page") int page, @Query("pageSize") int? pageSize, @Query("query") String? query, @Query("onlyOwn") bool? onlyOwn);
 
   @GET("/api/playlists/{id}")
   Future<PlaylistData> getPlaylist(@Path("id") int id);
