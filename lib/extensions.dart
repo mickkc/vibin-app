@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:vibin_app/l10n/app_localizations.dart';
+
 import 'dtos/track/track.dart';
 
 extension HexColor on Color {

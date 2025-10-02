@@ -117,10 +117,9 @@ class ImageEditField extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 8,
       children: [
         if (label != null)
-          Text(label!, style: theme.textTheme.bodyMedium),
+          Text(label!, style: theme.textTheme.labelMedium),
         SizedBox(
           width: size,
           height: size,
@@ -135,6 +134,7 @@ class ImageEditField extends StatelessWidget {
                     )
                 )
         ),
+        SizedBox(height: 8),
         SizedBox(
           width: size,
           child: Row(

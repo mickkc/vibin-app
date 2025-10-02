@@ -45,6 +45,7 @@ class _EditAlbumPageState extends State<EditAlbumPage> {
   @override
   Widget build(BuildContext context) {
     final lm = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     apiManager.service.getAlbum(widget.albumId).then((value) {
       if (initialized) return;
@@ -74,6 +75,10 @@ class _EditAlbumPageState extends State<EditAlbumPage> {
           onPressed: () { Navigator.pop(context); },
           icon: const Icon(Icons.cancel),
           label: Text(lm.dialog_cancel),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: theme.colorScheme.secondaryContainer,
+            foregroundColor: theme.colorScheme.onSecondaryContainer,
+          ),
         ),
         ElevatedButton.icon(
           onPressed: () async {
@@ -87,13 +92,17 @@ class _EditAlbumPageState extends State<EditAlbumPage> {
             } else {
               if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(lm.edit_album_save_error))
+                  SnackBar(content: Text(lm.edit_album_save_error))
                 );
               }
             }
           },
           icon: const Icon(Icons.save),
-          label: Text(lm.dialog_save)
+          label: Text(lm.dialog_save),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: theme.colorScheme.primaryContainer,
+            foregroundColor: theme.colorScheme.onPrimaryContainer,
+          ),
         )
       ],
       children: [
