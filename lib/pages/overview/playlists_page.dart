@@ -27,8 +27,8 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
     return Material(
       child: PaginatedOverview(
         key: Key("playlists_overview_$showOnlyOwn"), // Forces rebuild when toggling showOnlyOwn
-        fetchFunction: (page, query) {
-          return apiManager.service.getPlaylists(page, null, query, showOnlyOwn);
+        fetchFunction: (page, pageSize, query) {
+          return apiManager.service.getPlaylists(page, pageSize, query, showOnlyOwn);
         },
         type: "PLAYLIST",
         title: AppLocalizations.of(context)!.playlists,

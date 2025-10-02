@@ -13,8 +13,8 @@ class TrackPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ApiManager apiManager = getIt<ApiManager>();
     return PaginatedOverview(
-      fetchFunction: (page, query) {
-        return apiManager.service.searchTracks(query, false, page, null);
+      fetchFunction: (page, pageSize, query) {
+        return apiManager.service.searchTracks(query, false, page, pageSize);
       },
       type: "TRACK",
       title: AppLocalizations.of(context)!.tracks,

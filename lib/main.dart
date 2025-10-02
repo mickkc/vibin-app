@@ -12,6 +12,8 @@ import 'package:vibin_app/dbus/mpris_player.dart';
 import 'package:vibin_app/dependency_injection.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/router.dart';
+import 'package:vibin_app/settings/setting_definitions.dart';
+import 'package:vibin_app/settings/settings_manager.dart';
 
 import 'auth/AuthState.dart';
 
@@ -47,44 +49,54 @@ void main() async {
   );
 }
 
+final themeModeNotifier = ValueNotifier(ThemeMode.system);
+
 class MyApp extends StatelessWidget {
 
   final AuthState authState;
 
   const MyApp({super.key, required this.authState});
 
+
   @override
   Widget build(BuildContext context) {
 
+    final SettingsManager settingsManager = getIt<SettingsManager>();
+    themeModeNotifier.value = settingsManager.get(Settings.themeMode);
+
     final router = configureRouter(authState);
 
-
-    return DynamicColorBuilder(
-      builder: (lightColorScheme, darkColorScheme) {
-        return MaterialApp.router(
-          title: 'Vibin\'',
-          theme: ThemeData(
-            colorScheme: lightColorScheme ?? ColorScheme.fromSeed(seedColor: Colors.green),
-            fontFamily: "Roboto Flex",
-            useMaterial3: true
-          ),
-          darkTheme: ThemeData(
-            colorScheme: darkColorScheme ?? ColorScheme.fromSeed(seedColor: Colors.green, brightness: Brightness.dark),
-            fontFamily: "Roboto Flex",
-            useMaterial3: true
-          ),
-          themeMode: ThemeMode.system,
-          routerConfig: router,
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate
-          ],
-          supportedLocales: AppLocalizations.supportedLocales
+    return ValueListenableBuilder(
+      valueListenable: themeModeNotifier,
+      builder: (context, themeMode, _) {
+        return DynamicColorBuilder(
+          builder: (lightColorScheme, darkColorScheme) {
+            return MaterialApp.router(
+              title: 'Vibin\'',
+              theme: ThemeData(
+                colorScheme: lightColorScheme ?? ColorScheme.fromSeed(seedColor: Colors.green),
+                fontFamily: "Roboto Flex",
+                useMaterial3: true
+              ),
+              darkTheme: ThemeData(
+                colorScheme: darkColorScheme ?? ColorScheme.fromSeed(seedColor: Colors.green, brightness: Brightness.dark),
+                fontFamily: "Roboto Flex",
+                useMaterial3: true
+              ),
+              themeMode: themeMode,
+              routerConfig: router,
+              debugShowCheckedModeBanner: false,
+              localizationsDelegates: [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate
+              ],
+              supportedLocales: AppLocalizations.supportedLocales
+            );
+          }
         );
-      }
+      },
     );
   }
 }

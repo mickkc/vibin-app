@@ -114,5 +114,17 @@
   "edit_image_reset": "Reset to Default",
   "edit_image_invalid_extension": "Invalid image file extension. Allowed extensions are: .jpg, .jpeg, .png, .gif.",
   "edit_image_too_large": "Image file is too large. Maximum size is 5 MB.",
-  "edit_image_error": "An error occurred while uploading the image."
+  "edit_image_error": "An error occurred while uploading the image.",
+
+
+  "settings_app_theme_title": "App Theme",
+  "settings_app_theme_system": "System Default",
+  "settings_app_theme_light": "Light",
+  "settings_app_theme_dark": "Dark",
+
+  "settings_app_page_size_title": "Page Size",
+  "settings_app_page_size_description": "Number of items to load per page in overviews.",
+
+  "settings_app_show_own_playlists_by_default": "Show Own Playlists by Default",
+  "settings_app_show_own_playlists_by_default_description": "When enabled, the playlist overview will show only your own playlists by default."
 }

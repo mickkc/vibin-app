@@ -37,3 +37,20 @@ class IntSettingsKey extends SettingsKey<int> {
   @override
   String serialize(int value) => value.toString();
 }
+
+class EnumSettingsKey<T> extends SettingsKey<T> {
+  final List<T> values;
+
+  const EnumSettingsKey(super.key, super.defaultValue, this.values);
+
+  @override
+  T parse(String value) {
+    return values.firstWhere(
+      (e) => e.toString().split('.').last == value,
+      orElse: () => defaultValue,
+    );
+  }
+
+  @override
+  String serialize(T value) => value.toString().split('.').last;
+}

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/main.dart';
+import 'package:vibin_app/settings/setting_definitions.dart';
+import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/entity_card_grid.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/pagination_footer.dart';
@@ -6,7 +9,7 @@ import 'package:vibin_app/widgets/pagination_footer.dart';
 import '../l10n/app_localizations.dart';
 
 class PaginatedOverview extends StatefulWidget {
-  final Function(int page, String searchQuery) fetchFunction;
+  final Function(int page, int pageSize, String searchQuery) fetchFunction;
   final String type;
   final String title;
   final IconData? icon;
@@ -30,16 +33,18 @@ class _PaginatedOverviewState extends State<PaginatedOverview> {
   int page = 1;
   late Future<dynamic> currentPagination;
 
+  final SettingsManager settingsManager = getIt<SettingsManager>();
+
   @override
   void initState() {
     super.initState();
-    currentPagination = widget.fetchFunction(page, searchQuery);
+    currentPagination = fetchData();
   }
 
   void updatePage(int newPage) {
     setState(() {
       page = newPage;
-      currentPagination = widget.fetchFunction(page, searchQuery);
+      currentPagination = fetchData();
     });
   }
 
@@ -47,8 +52,12 @@ class _PaginatedOverviewState extends State<PaginatedOverview> {
     setState(() {
       searchQuery = newSearch;
       page = 1;
-      currentPagination = widget.fetchFunction(page, searchQuery);
+      currentPagination = fetchData();
     });
+  }
+
+  Future<dynamic> fetchData() {
+    return widget.fetchFunction(page, settingsManager.get(Settings.pageSize), searchQuery);
   }
 
   @override

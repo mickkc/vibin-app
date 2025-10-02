@@ -306,4 +306,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get edit_image_error => 'An error occurred while uploading the image.';
+
+  @override
+  String get settings_app_theme_title => 'App Theme';
+
+  @override
+  String get settings_app_theme_system => 'System Default';
+
+  @override
+  String get settings_app_theme_light => 'Light';
+
+  @override
+  String get settings_app_theme_dark => 'Dark';
+
+  @override
+  String get settings_app_page_size_title => 'Page Size';
+
+  @override
+  String get settings_app_page_size_description =>
+      'Number of items to load per page in overviews.';
+
+  @override
+  String get settings_app_show_own_playlists_by_default =>
+      'Show Own Playlists by Default';
+
+  @override
+  String get settings_app_show_own_playlists_by_default_description =>
+      'When enabled, the playlist overview will show only your own playlists by default.';
 }

@@ -114,5 +114,17 @@
   "edit_image_reset": "Zurücksetzen",
   "edit_image_invalid_extension": "Ungültige Dateierweiterung. Unterstützte Erweiterungen sind: .jpg, .jpeg, .png, .gif",
   "edit_image_too_large": "Die Bilddatei ist zu groß. Die maximale Dateigröße beträgt 5 MB.",
-  "edit_image_error": "Beim Hochladen des Bildes ist ein Fehler aufgetreten."
+  "edit_image_error": "Beim Hochladen des Bildes ist ein Fehler aufgetreten.",
+
+
+  "settings_app_theme_title": "App-Design",
+  "settings_app_theme_system": "Systemstandard",
+  "settings_app_theme_light": "Hell",
+  "settings_app_theme_dark": "Dunkel",
+
+  "settings_app_page_size_title": "Seitengröße",
+  "settings_app_page_size_description": "Die Anzahl der Elemente, die pro Seite in Übersichten geladen werden.",
+
+  "settings_app_show_own_playlists_by_default": "Eigene Playlists standardmäßig anzeigen",
+  "settings_app_show_own_playlists_by_default_description": "Wenn aktiviert, werden in der Playlist-Übersicht standardmäßig nur deine eigenen Playlists angezeigt."
 }

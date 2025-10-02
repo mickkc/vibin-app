@@ -309,4 +309,31 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get edit_image_error =>
       'Beim Hochladen des Bildes ist ein Fehler aufgetreten.';
+
+  @override
+  String get settings_app_theme_title => 'App-Design';
+
+  @override
+  String get settings_app_theme_system => 'Systemstandard';
+
+  @override
+  String get settings_app_theme_light => 'Hell';
+
+  @override
+  String get settings_app_theme_dark => 'Dunkel';
+
+  @override
+  String get settings_app_page_size_title => 'Seitengröße';
+
+  @override
+  String get settings_app_page_size_description =>
+      'Die Anzahl der Elemente, die pro Seite in Übersichten geladen werden.';
+
+  @override
+  String get settings_app_show_own_playlists_by_default =>
+      'Eigene Playlists standardmäßig anzeigen';
+
+  @override
+  String get settings_app_show_own_playlists_by_default_description =>
+      'Wenn aktiviert, werden in der Playlist-Übersicht standardmäßig nur deine eigenen Playlists angezeigt.';
 }

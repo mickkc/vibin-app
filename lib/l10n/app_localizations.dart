@@ -679,6 +679,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error occurred while uploading the image.'**
   String get edit_image_error;
+
+  /// No description provided for @settings_app_theme_title.
+  ///
+  /// In en, this message translates to:
+  /// **'App Theme'**
+  String get settings_app_theme_title;
+
+  /// No description provided for @settings_app_theme_system.
+  ///
+  /// In en, this message translates to:
+  /// **'System Default'**
+  String get settings_app_theme_system;
+
+  /// No description provided for @settings_app_theme_light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get settings_app_theme_light;
+
+  /// No description provided for @settings_app_theme_dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get settings_app_theme_dark;
+
+  /// No description provided for @settings_app_page_size_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Page Size'**
+  String get settings_app_page_size_title;
+
+  /// No description provided for @settings_app_page_size_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of items to load per page in overviews.'**
+  String get settings_app_page_size_description;
+
+  /// No description provided for @settings_app_show_own_playlists_by_default.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Own Playlists by Default'**
+  String get settings_app_show_own_playlists_by_default;
+
+  /// No description provided for @settings_app_show_own_playlists_by_default_description.
+  ///
+  /// In en, this message translates to:
+  /// **'When enabled, the playlist overview will show only your own playlists by default.'**
+  String get settings_app_show_own_playlists_by_default_description;
 }
 
 class _AppLocalizationsDelegate

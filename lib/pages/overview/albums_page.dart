@@ -12,8 +12,8 @@ class AlbumPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ApiManager apiManager = getIt<ApiManager>();
     return PaginatedOverview(
-      fetchFunction: (page, query) {
-        return apiManager.service.getAlbums(page, null, query);
+      fetchFunction: (page, pageSize, query) {
+        return apiManager.service.getAlbums(page, pageSize, query);
       },
       type: "ALBUM",
       title: AppLocalizations.of(context)!.albums,

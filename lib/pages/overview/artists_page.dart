@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
@@ -13,8 +12,8 @@ class ArtistsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ApiManager apiManager = getIt<ApiManager>();
     return PaginatedOverview(
-      fetchFunction: (page, query) {
-        return apiManager.service.getArtists(page, null, query);
+      fetchFunction: (page, pageSize, query) {
+        return apiManager.service.getArtists(page, pageSize, query);
       },
       type: "ARTIST",
       title: AppLocalizations.of(context)!.artists,
