@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:vibin_app/auth/AuthState.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/main.dart';
@@ -21,22 +22,24 @@ class _HomePagState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      spacing: 16,
-      children: [
-        PermissionWidget(
-            requiredPermissions: [PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists],
-            child: RecommendedStartSection()),
-        PermissionWidget(
-            requiredPermissions: [PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists],
-            child: LastListenedToSection()),
-        PermissionWidget(
-            requiredPermissions: [PermissionType.viewTracks],
-            child: ExploreSection()),
-        PermissionWidget(
-            requiredPermissions: [PermissionType.viewArtists],
-            child: MostListenedToArtistsSection())
-      ],
+    return Material(
+      child: Column(
+        spacing: 16,
+        children: [
+          PermissionWidget(
+              requiredPermissions: [PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists],
+              child: RecommendedStartSection()),
+          PermissionWidget(
+              requiredPermissions: [PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists],
+              child: LastListenedToSection()),
+          PermissionWidget(
+              requiredPermissions: [PermissionType.viewTracks],
+              child: ExploreSection()),
+          PermissionWidget(
+              requiredPermissions: [PermissionType.viewArtists],
+              child: MostListenedToArtistsSection())
+        ],
+      ),
     );
   }
 }
