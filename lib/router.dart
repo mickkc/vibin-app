@@ -1,18 +1,17 @@
-import 'dart:ui';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/auth/AuthState.dart';
-import 'package:vibin_app/pages/edit/edit_album_page.dart';
-import 'package:vibin_app/pages/info/album_info_page.dart';
-import 'package:vibin_app/pages/login/auto_login_error_page.dart';
-import 'package:vibin_app/pages/login/connect_page.dart';
 import 'package:vibin_app/pages/drawer.dart';
+import 'package:vibin_app/pages/edit/edit_album_page.dart';
+import 'package:vibin_app/pages/edit/playlist_edit_page.dart';
 import 'package:vibin_app/pages/home_page.dart';
-import 'package:vibin_app/pages/login/login_page.dart';
+import 'package:vibin_app/pages/info/album_info_page.dart';
 import 'package:vibin_app/pages/info/playlist_info_page.dart';
 import 'package:vibin_app/pages/info/track_info_page.dart';
+import 'package:vibin_app/pages/login/auto_login_error_page.dart';
+import 'package:vibin_app/pages/login/connect_page.dart';
+import 'package:vibin_app/pages/login/login_page.dart';
 import 'package:vibin_app/pages/overview/albums_page.dart';
 import 'package:vibin_app/pages/overview/artists_page.dart';
 import 'package:vibin_app/pages/overview/playlists_page.dart';
@@ -116,6 +115,8 @@ GoRouter configureRouter(AuthState authState) {
           GoRoute(path: '/tracks/:id', builder: (context, state) => TrackInfoPage(trackId: int.parse(state.pathParameters['id']!))),
           GoRoute(path: '/playlists', builder: (context, state) => PlaylistsPage()),
           GoRoute(path: '/playlists/:id', builder: (context, state) => PlaylistInfoPage(playlistId: int.parse(state.pathParameters['id']!))),
+          GoRoute(path: '/playlists/:id/edit', builder: (context, state) => PlaylistEditPage(playlistId: int.parse(state.pathParameters['id']!))),
+          GoRoute(path: '/playlists/:id/create', builder: (context, state) => PlaylistEditPage(playlistId: null)),
           GoRoute(path: '/albums', builder: (context, state) => AlbumPage()),
           GoRoute(path: '/albums/:id', builder: (context, state) => AlbumInfoPage(albumId: int.parse(state.pathParameters['id']!))),
           GoRoute(path: '/albums/:id/edit', builder: (context, state) => EditAlbumPage(albumId: int.parse(state.pathParameters['id']!))),

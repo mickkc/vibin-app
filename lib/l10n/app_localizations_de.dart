@@ -222,6 +222,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get dialog_delete => 'Löschen';
 
   @override
+  String get dialog_yes => 'Ja';
+
+  @override
+  String get dialog_no => 'Nein';
+
+  @override
   String get edit_album_title => 'Album bearbeiten';
 
   @override
@@ -233,6 +239,43 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get edit_album_save_error =>
       'Beim Speichern des Albums ist ein Fehler aufgetreten.';
+
+  @override
+  String get edit_playlist_title => 'Playlist bearbeiten';
+
+  @override
+  String get edit_playlist_name => 'Name';
+
+  @override
+  String get edit_playlist_cover => 'Cover';
+
+  @override
+  String get edit_playlist_description => 'Beschreibung';
+
+  @override
+  String get edit_playlist_public => 'Öffentlich';
+
+  @override
+  String get edit_playlist_collaborators => 'Mitwirkende';
+
+  @override
+  String get edit_playlist_save_error =>
+      'Beim Speichern der Playlist ist ein Fehler aufgetreten.';
+
+  @override
+  String get edit_playlist_vibedef => 'Vibe-def';
+
+  @override
+  String get delete_playlist_confirmation =>
+      'Möchtest du diese Playlist wirklich löschen?';
+
+  @override
+  String get delete_playlist_confirmation_warning =>
+      'Diese Aktion kann nicht rückgängig gemacht werden.';
+
+  @override
+  String get delete_playlist_error =>
+      'Beim Löschen der Playlist ist ein Fehler aufgetreten.';
 
   @override
   String get edit_image_upload => 'Bild hochladen';

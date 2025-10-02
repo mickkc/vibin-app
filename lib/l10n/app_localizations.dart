@@ -518,6 +518,18 @@ abstract class AppLocalizations {
   /// **'Delete'**
   String get dialog_delete;
 
+  /// No description provided for @dialog_yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get dialog_yes;
+
+  /// No description provided for @dialog_no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get dialog_no;
+
   /// No description provided for @edit_album_title.
   ///
   /// In en, this message translates to:
@@ -541,6 +553,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error occurred while saving the album.'**
   String get edit_album_save_error;
+
+  /// No description provided for @edit_playlist_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Playlist'**
+  String get edit_playlist_title;
+
+  /// No description provided for @edit_playlist_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get edit_playlist_name;
+
+  /// No description provided for @edit_playlist_cover.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover'**
+  String get edit_playlist_cover;
+
+  /// No description provided for @edit_playlist_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get edit_playlist_description;
+
+  /// No description provided for @edit_playlist_public.
+  ///
+  /// In en, this message translates to:
+  /// **'Public'**
+  String get edit_playlist_public;
+
+  /// No description provided for @edit_playlist_collaborators.
+  ///
+  /// In en, this message translates to:
+  /// **'Collaborators'**
+  String get edit_playlist_collaborators;
+
+  /// No description provided for @edit_playlist_save_error.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while saving the playlist.'**
+  String get edit_playlist_save_error;
+
+  /// No description provided for @edit_playlist_vibedef.
+  ///
+  /// In en, this message translates to:
+  /// **'Vibe-def'**
+  String get edit_playlist_vibedef;
+
+  /// No description provided for @delete_playlist_confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this playlist?'**
+  String get delete_playlist_confirmation;
+
+  /// No description provided for @delete_playlist_confirmation_warning.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone.'**
+  String get delete_playlist_confirmation_warning;
+
+  /// No description provided for @delete_playlist_error.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while deleting the playlist.'**
+  String get delete_playlist_error;
 
   /// No description provided for @edit_image_upload.
   ///

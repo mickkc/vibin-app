@@ -83,11 +83,26 @@
   "dialog_create": "Erstellen",
   "dialog_save": "Speichern",
   "dialog_delete": "Löschen",
+  "dialog_yes": "Ja",
+  "dialog_no": "Nein",
 
   "edit_album_title": "Album bearbeiten",
   "edit_album_name": "Albumname",
   "edit_album_cover": "Albumcover",
   "edit_album_save_error": "Beim Speichern des Albums ist ein Fehler aufgetreten.",
+
+  "edit_playlist_title": "Playlist bearbeiten",
+  "edit_playlist_name": "Name",
+  "edit_playlist_cover": "Cover",
+  "edit_playlist_description": "Beschreibung",
+  "edit_playlist_public": "Öffentlich",
+  "edit_playlist_collaborators": "Mitwirkende",
+  "edit_playlist_save_error": "Beim Speichern der Playlist ist ein Fehler aufgetreten.",
+  "edit_playlist_vibedef": "Vibe-def",
+
+  "delete_playlist_confirmation": "Möchtest du diese Playlist wirklich löschen?",
+  "delete_playlist_confirmation_warning": "Diese Aktion kann nicht rückgängig gemacht werden.",
+  "delete_playlist_error": "Beim Löschen der Playlist ist ein Fehler aufgetreten.",
 
   "edit_image_upload": "Bild hochladen",
   "edit_image_remove": "Bild entfernen",

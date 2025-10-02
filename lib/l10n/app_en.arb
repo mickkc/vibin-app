@@ -83,11 +83,26 @@
   "dialog_create": "Create",
   "dialog_save": "Save",
   "dialog_delete": "Delete",
+  "dialog_yes": "Yes",
+  "dialog_no": "No",
 
   "edit_album_title": "Edit Album",
   "edit_album_name": "Album Name",
   "edit_album_cover": "Album Cover",
   "edit_album_save_error": "An error occurred while saving the album.",
+
+  "edit_playlist_title": "Edit Playlist",
+  "edit_playlist_name": "Name",
+  "edit_playlist_cover": "Cover",
+  "edit_playlist_description": "Description",
+  "edit_playlist_public": "Public",
+  "edit_playlist_collaborators": "Collaborators",
+  "edit_playlist_save_error": "An error occurred while saving the playlist.",
+  "edit_playlist_vibedef": "Vibe-def",
+
+  "delete_playlist_confirmation": "Are you sure you want to delete this playlist?",
+  "delete_playlist_confirmation_warning": "This action cannot be undone.",
+  "delete_playlist_error": "An error occurred while deleting the playlist.",
 
   "edit_image_upload": "Upload Image",
   "edit_image_remove": "Remove Image",

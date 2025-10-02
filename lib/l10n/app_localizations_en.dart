@@ -220,6 +220,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dialog_delete => 'Delete';
 
   @override
+  String get dialog_yes => 'Yes';
+
+  @override
+  String get dialog_no => 'No';
+
+  @override
   String get edit_album_title => 'Edit Album';
 
   @override
@@ -231,6 +237,43 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get edit_album_save_error =>
       'An error occurred while saving the album.';
+
+  @override
+  String get edit_playlist_title => 'Edit Playlist';
+
+  @override
+  String get edit_playlist_name => 'Name';
+
+  @override
+  String get edit_playlist_cover => 'Cover';
+
+  @override
+  String get edit_playlist_description => 'Description';
+
+  @override
+  String get edit_playlist_public => 'Public';
+
+  @override
+  String get edit_playlist_collaborators => 'Collaborators';
+
+  @override
+  String get edit_playlist_save_error =>
+      'An error occurred while saving the playlist.';
+
+  @override
+  String get edit_playlist_vibedef => 'Vibe-def';
+
+  @override
+  String get delete_playlist_confirmation =>
+      'Are you sure you want to delete this playlist?';
+
+  @override
+  String get delete_playlist_confirmation_warning =>
+      'This action cannot be undone.';
+
+  @override
+  String get delete_playlist_error =>
+      'An error occurred while deleting the playlist.';
 
   @override
   String get edit_image_upload => 'Upload Image';
