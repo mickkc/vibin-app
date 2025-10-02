@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/settings/setting_definitions.dart';
+import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/paginated_overview.dart';
 
 import '../../main.dart';
@@ -15,12 +17,13 @@ class PlaylistsPage extends StatefulWidget {
 
 class _PlaylistsPageState extends State<PlaylistsPage> {
 
-  bool showOnlyOwn = true;
+  final SettingsManager settingsManager = getIt<SettingsManager>();
+  final ApiManager apiManager = getIt<ApiManager>();
+  late final AppLocalizations lm = AppLocalizations.of(context)!;
+  late bool showOnlyOwn = settingsManager.get(Settings.showOwnPlaylistsByDefault);
 
   @override
   Widget build(BuildContext context) {
-    final lm = AppLocalizations.of(context)!;
-    final ApiManager apiManager = getIt<ApiManager>();
     return Material(
       child: PaginatedOverview(
         key: Key("playlists_overview_$showOnlyOwn"), // Forces rebuild when toggling showOnlyOwn
