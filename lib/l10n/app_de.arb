@@ -116,6 +116,24 @@
   "edit_image_too_large": "Die Bilddatei ist zu groß. Die maximale Dateigröße beträgt 5 MB.",
   "edit_image_error": "Beim Hochladen des Bildes ist ein Fehler aufgetreten.",
 
+  "edit_track_title": "Titel bearbeiten",
+  "edit_track_name": "Name",
+  "edit_track_number": "Tracknummer",
+  "edit_track_count": "Trackanzahl",
+  "edit_track_disc_number": "Discnnummer",
+  "edit_track_disc_count": "Discanzahl",
+  "edit_track_year": "Jahr",
+  "edit_track_comment": "Kommentar",
+  "edit_track_cover": "Cover",
+  "edit_track_album": "Album",
+  "edit_track_artists": "Künstler",
+  "edit_track_explicit": "Explizit",
+  "edit_track_save_error": "Beim Speichern des Titels ist ein Fehler aufgetreten.",
+  "edit_track_search_metadata": "Metadaten suchen",
+
+  "pick_artists_title": "Künstler auswählen",
+  "pick_artist_title": "Künstler auswählen",
+
 
   "settings_app_theme_title": "App-Design",
   "settings_app_theme_system": "Systemstandard",

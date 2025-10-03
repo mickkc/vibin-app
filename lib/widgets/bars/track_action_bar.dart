@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vibin_app/auth/AuthState.dart';
 import 'package:vibin_app/dialogs/add_track_to_playlist_dialog.dart';
 import 'package:vibin_app/widgets/play_button.dart';
@@ -120,7 +121,9 @@ class _TrackActionBarState extends State<TrackActionBar> {
         ],
         if (authState.hasPermission(PermissionType.manageTracks)) ... [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              GoRouter.of(context).push("/tracks/${widget.trackId}/edit");
+            },
             icon: const Icon(Icons.edit, size: 32),
             tooltip: lm.track_actions_edit,
           )

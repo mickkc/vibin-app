@@ -308,6 +308,55 @@ class AppLocalizationsEn extends AppLocalizations {
   String get edit_image_error => 'An error occurred while uploading the image.';
 
   @override
+  String get edit_track_title => 'Edit Track';
+
+  @override
+  String get edit_track_name => 'Title';
+
+  @override
+  String get edit_track_number => 'Track Number';
+
+  @override
+  String get edit_track_count => 'Total Tracks';
+
+  @override
+  String get edit_track_disc_number => 'Disc Number';
+
+  @override
+  String get edit_track_disc_count => 'Total Discs';
+
+  @override
+  String get edit_track_year => 'Year';
+
+  @override
+  String get edit_track_comment => 'Comment';
+
+  @override
+  String get edit_track_cover => 'Cover';
+
+  @override
+  String get edit_track_album => 'Album';
+
+  @override
+  String get edit_track_artists => 'Artists';
+
+  @override
+  String get edit_track_explicit => 'Explicit';
+
+  @override
+  String get edit_track_save_error =>
+      'An error occurred while saving the track.';
+
+  @override
+  String get edit_track_search_metadata => 'Search Metadata';
+
+  @override
+  String get pick_artist_title => 'Select Artist';
+
+  @override
+  String get pick_artists_title => 'Select Artists';
+
+  @override
   String get settings_app_theme_title => 'App Theme';
 
   @override

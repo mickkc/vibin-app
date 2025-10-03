@@ -680,6 +680,102 @@ abstract class AppLocalizations {
   /// **'An error occurred while uploading the image.'**
   String get edit_image_error;
 
+  /// No description provided for @edit_track_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Track'**
+  String get edit_track_title;
+
+  /// No description provided for @edit_track_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get edit_track_name;
+
+  /// No description provided for @edit_track_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Track Number'**
+  String get edit_track_number;
+
+  /// No description provided for @edit_track_count.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Tracks'**
+  String get edit_track_count;
+
+  /// No description provided for @edit_track_disc_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Disc Number'**
+  String get edit_track_disc_number;
+
+  /// No description provided for @edit_track_disc_count.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Discs'**
+  String get edit_track_disc_count;
+
+  /// No description provided for @edit_track_year.
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get edit_track_year;
+
+  /// No description provided for @edit_track_comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment'**
+  String get edit_track_comment;
+
+  /// No description provided for @edit_track_cover.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover'**
+  String get edit_track_cover;
+
+  /// No description provided for @edit_track_album.
+  ///
+  /// In en, this message translates to:
+  /// **'Album'**
+  String get edit_track_album;
+
+  /// No description provided for @edit_track_artists.
+  ///
+  /// In en, this message translates to:
+  /// **'Artists'**
+  String get edit_track_artists;
+
+  /// No description provided for @edit_track_explicit.
+  ///
+  /// In en, this message translates to:
+  /// **'Explicit'**
+  String get edit_track_explicit;
+
+  /// No description provided for @edit_track_save_error.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while saving the track.'**
+  String get edit_track_save_error;
+
+  /// No description provided for @edit_track_search_metadata.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Metadata'**
+  String get edit_track_search_metadata;
+
+  /// No description provided for @pick_artist_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Artist'**
+  String get pick_artist_title;
+
+  /// No description provided for @pick_artists_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Artists'**
+  String get pick_artists_title;
+
   /// No description provided for @settings_app_theme_title.
   ///
   /// In en, this message translates to:

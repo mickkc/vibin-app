@@ -77,6 +77,9 @@ abstract class ApiService {
   @DioResponseType(ResponseType.bytes)
   Future<HttpResponse<List<int>>> getAlbumCover(@Path("id") int id, @Query("quality") String quality);
 
+  @GET("/api/albums/autocomplete")
+  Future<List<String>> autocompleteAlbums(@Query("query") String query, @Query("limit") int? limit);
+
   // Artists
 
   @GET("/api/artists")
@@ -95,6 +98,9 @@ abstract class ApiService {
   @GET("/api/artists/{id}/image")
   @DioResponseType(ResponseType.bytes)
   Future<HttpResponse<List<int>>> getArtistImage(@Path("id") int id, @Query("quality") String quality);
+
+  @GET("/api/artists/autocomplete")
+  Future<List<String>> autocompleteArtists(@Query("query") String query, @Query("limit") int? limit);
 
   // Metadata
 

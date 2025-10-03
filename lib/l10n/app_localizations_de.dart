@@ -311,6 +311,55 @@ class AppLocalizationsDe extends AppLocalizations {
       'Beim Hochladen des Bildes ist ein Fehler aufgetreten.';
 
   @override
+  String get edit_track_title => 'Titel bearbeiten';
+
+  @override
+  String get edit_track_name => 'Name';
+
+  @override
+  String get edit_track_number => 'Tracknummer';
+
+  @override
+  String get edit_track_count => 'Trackanzahl';
+
+  @override
+  String get edit_track_disc_number => 'Discnnummer';
+
+  @override
+  String get edit_track_disc_count => 'Discanzahl';
+
+  @override
+  String get edit_track_year => 'Jahr';
+
+  @override
+  String get edit_track_comment => 'Kommentar';
+
+  @override
+  String get edit_track_cover => 'Cover';
+
+  @override
+  String get edit_track_album => 'Album';
+
+  @override
+  String get edit_track_artists => 'Künstler';
+
+  @override
+  String get edit_track_explicit => 'Explizit';
+
+  @override
+  String get edit_track_save_error =>
+      'Beim Speichern des Titels ist ein Fehler aufgetreten.';
+
+  @override
+  String get edit_track_search_metadata => 'Metadaten suchen';
+
+  @override
+  String get pick_artist_title => 'Künstler auswählen';
+
+  @override
+  String get pick_artists_title => 'Künstler auswählen';
+
+  @override
   String get settings_app_theme_title => 'App-Design';
 
   @override

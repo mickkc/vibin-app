@@ -11,9 +11,9 @@ class TrackEditData {
   final int? year;
   final String? comment;
   final String? imageUrl;
-  final int? albumId;
-  final List<int>? artistIds;
-  final List<int>? tagIds;
+  final String? albumName;
+  final List<String>? artistNames;
+  final List<String>? tagNames;
 
   TrackEditData({
     this.title,
@@ -25,9 +25,9 @@ class TrackEditData {
     this.year,
     this.comment,
     this.imageUrl,
-    this.albumId,
-    this.artistIds,
-    this.tagIds,
+    this.albumName,
+    this.artistNames,
+    this.tagNames,
   });
 
   factory TrackEditData.fromJson(Map<String, dynamic> json) {
@@ -41,12 +41,12 @@ class TrackEditData {
       year: json['year'],
       comment: json['comment'],
       imageUrl: json['imageUrl'],
-      albumId: json['albumId'],
-      artistIds: json['artistIds'] != null
-          ? List<int>.from(json['artistIds'])
+      albumName: json['albumName'],
+      artistNames: json['artistNames'] != null
+          ? List<String>.from(json['artistIds'])
           : null,
-      tagIds: json['tagIds'] != null
-          ? List<int>.from(json['tagIds'])
+      tagNames: json['tagNames'] != null
+          ? List<String>.from(json['tagIds'])
           : null,
     );
   }
@@ -62,9 +62,9 @@ class TrackEditData {
       'year': year,
       'comment': comment,
       'imageUrl': imageUrl,
-      'albumId': albumId,
-      'artistIds': artistIds,
-      'tagIds': tagIds,
+      'albumName': albumName,
+      'artistNames': artistNames,
+      'tagNames': tagNames,
     };
   }
 }
