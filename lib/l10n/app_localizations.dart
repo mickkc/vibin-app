@@ -812,6 +812,18 @@ abstract class AppLocalizations {
   /// **'Number of items to load per page in overviews.'**
   String get settings_app_page_size_description;
 
+  /// No description provided for @settings_app_advanced_track_search_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced Search'**
+  String get settings_app_advanced_track_search_title;
+
+  /// No description provided for @settings_app_advanced_track_search_description.
+  ///
+  /// In en, this message translates to:
+  /// **'When enabled, you can use advanced search operators in the track search bar (e.g., t:, a:, y:, ...).'**
+  String get settings_app_advanced_track_search_description;
+
   /// No description provided for @settings_app_show_own_playlists_by_default.
   ///
   /// In en, this message translates to:

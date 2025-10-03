@@ -143,6 +143,9 @@
   "settings_app_page_size_title": "Seitengröße",
   "settings_app_page_size_description": "Die Anzahl der Elemente, die pro Seite in Übersichten geladen werden.",
 
+  "settings_app_advanced_track_search_title": "Erweiterte Suche",
+  "settings_app_advanced_track_search_description": "Ermöglicht die Verwendung von erweiterten Suchoperatoren in der Track-Suche (z.B. t:, a:, y:, ...).",
+
   "settings_app_show_own_playlists_by_default": "Eigene Playlists standardmäßig anzeigen",
   "settings_app_show_own_playlists_by_default_description": "Wenn aktiviert, werden in der Playlist-Übersicht standardmäßig nur deine eigenen Playlists angezeigt."
 }

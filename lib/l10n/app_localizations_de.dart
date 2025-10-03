@@ -379,6 +379,13 @@ class AppLocalizationsDe extends AppLocalizations {
       'Die Anzahl der Elemente, die pro Seite in Übersichten geladen werden.';
 
   @override
+  String get settings_app_advanced_track_search_title => 'Erweiterte Suche';
+
+  @override
+  String get settings_app_advanced_track_search_description =>
+      'Ermöglicht die Verwendung von erweiterten Suchoperatoren in der Track-Suche (z.B. t:, a:, y:, ...).';
+
+  @override
   String get settings_app_show_own_playlists_by_default =>
       'Eigene Playlists standardmäßig anzeigen';
 

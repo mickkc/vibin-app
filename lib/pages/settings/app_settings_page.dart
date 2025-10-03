@@ -71,6 +71,13 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
             max: 100,
           ),
 
+          BoolSettingsField(
+            settingsKey: Settings.advancedTrackSearch,
+            title: lm.settings_app_advanced_track_search_title,
+            description: lm.settings_app_advanced_track_search_description,
+            icon: Icons.manage_search
+          ),
+
           Divider(),
 
           BoolSettingsField(

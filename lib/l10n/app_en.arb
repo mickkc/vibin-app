@@ -143,6 +143,9 @@
   "settings_app_page_size_title": "Page Size",
   "settings_app_page_size_description": "Number of items to load per page in overviews.",
 
+  "settings_app_advanced_track_search_title": "Advanced Search",
+  "settings_app_advanced_track_search_description": "When enabled, you can use advanced search operators in the track search bar (e.g., t:, a:, y:, ...).",
+
   "settings_app_show_own_playlists_by_default": "Show Own Playlists by Default",
   "settings_app_show_own_playlists_by_default_description": "When enabled, the playlist overview will show only your own playlists by default."
 }

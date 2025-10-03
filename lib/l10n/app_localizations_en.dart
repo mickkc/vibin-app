@@ -376,6 +376,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Number of items to load per page in overviews.';
 
   @override
+  String get settings_app_advanced_track_search_title => 'Advanced Search';
+
+  @override
+  String get settings_app_advanced_track_search_description =>
+      'When enabled, you can use advanced search operators in the track search bar (e.g., t:, a:, y:, ...).';
+
+  @override
   String get settings_app_show_own_playlists_by_default =>
       'Show Own Playlists by Default';
 
