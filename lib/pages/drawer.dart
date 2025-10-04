@@ -54,38 +54,51 @@ class DrawerComponent extends StatelessWidget {
           },
         ),
         Divider(),
-        ListTile(
-          leading: Icon(Icons.library_music),
-          title: Text(lm.tracks),
-          onTap: () {
-            Navigator.pop(context);
-            GoRouter.of(context).go('/tracks');
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.album),
-          title: Text(lm.albums),
-          onTap: () {
-            Navigator.pop(context);
-            GoRouter.of(context).push('/albums');
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.person),
-          title: Text(lm.artists),
-          onTap: () {
-            Navigator.pop(context);
-            GoRouter.of(context).push('/artists');
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.playlist_play),
-          title: Text(lm.playlists),
-          onTap: () {
-            Navigator.pop(context);
-            GoRouter.of(context).push('/playlists');
-          },
-        ),
+        if (authState.hasPermission(PermissionType.viewTracks))
+          ListTile(
+            leading: Icon(Icons.library_music),
+            title: Text(lm.tracks),
+            onTap: () {
+              Navigator.pop(context);
+              GoRouter.of(context).go('/tracks');
+            },
+          ),
+        if (authState.hasPermission(PermissionType.viewAlbums))
+          ListTile(
+            leading: Icon(Icons.album),
+            title: Text(lm.albums),
+            onTap: () {
+              Navigator.pop(context);
+              GoRouter.of(context).push('/albums');
+            },
+          ),
+        if (authState.hasPermission(PermissionType.viewArtists))
+          ListTile(
+            leading: Icon(Icons.person),
+            title: Text(lm.artists),
+            onTap: () {
+              Navigator.pop(context);
+              GoRouter.of(context).push('/artists');
+            },
+          ),
+        if (authState.hasPermission(PermissionType.viewPlaylists))
+          ListTile(
+            leading: Icon(Icons.playlist_play),
+            title: Text(lm.playlists),
+            onTap: () {
+              Navigator.pop(context);
+              GoRouter.of(context).push('/playlists');
+            },
+          ),
+        if (authState.hasPermission(PermissionType.viewTags))
+          ListTile(
+            leading: Icon(Icons.sell),
+            title: Text(lm.tags),
+            onTap: () {
+              Navigator.pop(context);
+              GoRouter.of(context).push('/tags');
+            },
+          ),
         Divider(),
         ListTile(
           leading: Icon(Icons.person),
