@@ -29,7 +29,7 @@ class PopularItemsSection extends StatelessWidget {
             title: AppLocalizations.of(context)!.section_popular_items,
           ),
           FutureContent(
-              height: 210,
+              height: 205,
               future: future,
               hasData: (d) => d.isNotEmpty,
               builder: (context, items) {

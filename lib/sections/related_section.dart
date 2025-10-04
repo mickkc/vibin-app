@@ -31,7 +31,7 @@ class RelatedSection extends StatelessWidget {
         ),
         FutureContent(
           future: tracks,
-          height: 215,
+          height: 205,
           hasData: (tracks) => tracks.isNotEmpty,
           builder: (context, tracks) {
             return ListView.builder(

@@ -26,7 +26,7 @@ class PlaylistsSection extends StatelessWidget {
         ),
         FutureContent(
           future: playlistFuture,
-          height: 215,
+          height: 205,
           builder: (context, playlists) {
             return ListView.builder(
               scrollDirection: Axis.horizontal,

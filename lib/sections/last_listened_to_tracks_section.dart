@@ -27,7 +27,7 @@ class LastListenedToSection extends StatelessWidget {
           title: AppLocalizations.of(context)!.section_recently_listened,
         ),
         FutureContent(
-          height: 210,
+          height: 205,
           future: future,
           hasData: (d) => d.isNotEmpty,
           builder: (context, items) {

@@ -26,7 +26,7 @@ class NewTracksSection extends StatelessWidget {
         ),
         FutureContent(
           future: tracks,
-          height: 215,
+          height: 205,
           builder: (context, tracks) {
             return ListView.builder(
               scrollDirection: Axis.horizontal,

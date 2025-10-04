@@ -21,7 +21,7 @@ class EntityCardGrid extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final cols = max((width / 150).floor(), 2);
     final widthPerCol = (width - ((cols - 1) * 8)) / cols;
-    final height = (widthPerCol - 16) + 85;
+    final height = (widthPerCol - 16) + 75;
 
     return SizedBox(
       height: (items.length / cols).ceil() * height + ((items.length / cols).ceil() - 1) * 8,

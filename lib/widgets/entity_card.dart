@@ -127,9 +127,9 @@ class EntityCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   getDescription(context),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
-                    color: Colors.white70
+                    color: Theme.of(context).colorScheme.onSurface.withAlpha(180),
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1
