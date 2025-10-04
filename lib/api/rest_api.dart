@@ -12,7 +12,8 @@ import 'package:vibin_app/dtos/metadata_sources.dart';
 import 'package:vibin_app/dtos/non_track_listen.dart';
 import 'package:vibin_app/dtos/playlist/playlist_edit_data.dart';
 import 'package:vibin_app/dtos/server_check.dart';
-import 'package:vibin_app/dtos/tag.dart';
+import 'package:vibin_app/dtos/tags/tag.dart';
+import 'package:vibin_app/dtos/tags/tag_edit_data.dart';
 import 'package:vibin_app/dtos/track/minimal_track.dart';
 import 'package:vibin_app/dtos/pagination/album_pagination.dart';
 import 'package:vibin_app/dtos/pagination/artist_pagination.dart';
@@ -199,6 +200,29 @@ abstract class ApiService {
 
   @POST("/api/stats/listen/PLAYLIST/{playlistId}")
   Future<Success> reportPlaylistListen(@Path("playlistId") int playlistId);
+
+  // Tags
+
+  @GET("/api/tags")
+  Future<List<Tag>> getAllTags();
+
+  @PUT("/api/tags/{id}")
+  Future<Tag> updateTag(@Path("id") int id, @Body() TagEditData data);
+
+  @POST("/api/tags")
+  Future<Tag> createTag(@Body() TagEditData data);
+
+  @DELETE("/api/tags/{id}")
+  Future<Success> deleteTag(@Path("id") int id);
+
+  @GET("/api/tags/named/{name}")
+  Future<Tag> getTagByName(@Path("name") String name);
+
+  @GET("/api/tags/autocomplete")
+  Future<List<String>> autocompleteTags(@Query("query") String query, @Query("limit") int? limit);
+
+  @GET("/api/tags/check/{name}")
+  Future<Success> checkTagName(@Path("name") String name);
 
   // Tracks
 

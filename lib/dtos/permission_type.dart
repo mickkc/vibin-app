@@ -37,7 +37,12 @@ enum PermissionType {
   manageOwnUser("edit_own_user"),
   deleteUsers("delete_users"),
   deleteOwnUser("delete_own_user"),
-  createUsers("create_users");
+  createUsers("create_users"),
+
+  viewTags("view_tags"),
+  manageTags("manage_tags"),
+  deleteTags("delete_tags"),
+  createTags("create_tags");
 
   final String value;
   const PermissionType(this.value);

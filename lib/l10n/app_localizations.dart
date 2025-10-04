@@ -530,6 +530,24 @@ abstract class AppLocalizations {
   /// **'Create New Playlist'**
   String get playlists_create_new;
 
+  /// No description provided for @dialog_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get dialog_error;
+
+  /// No description provided for @dialog_warning.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning'**
+  String get dialog_warning;
+
+  /// No description provided for @dialog_info.
+  ///
+  /// In en, this message translates to:
+  /// **'Info'**
+  String get dialog_info;
+
   /// No description provided for @dialog_finish.
   ///
   /// In en, this message translates to:
@@ -541,6 +559,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get dialog_cancel;
+
+  /// No description provided for @dialog_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get dialog_confirm;
 
   /// No description provided for @dialog_create.
   ///
@@ -787,6 +811,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search Metadata'**
   String get edit_track_search_metadata;
+
+  /// No description provided for @edit_tag_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Tag'**
+  String get edit_tag_title;
+
+  /// No description provided for @create_tag_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Tag'**
+  String get create_tag_title;
+
+  /// No description provided for @edit_tag_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get edit_tag_name;
+
+  /// No description provided for @edit_tag_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get edit_tag_description;
+
+  /// No description provided for @edit_tag_color.
+  ///
+  /// In en, this message translates to:
+  /// **'Color (Hex)'**
+  String get edit_tag_color;
+
+  /// No description provided for @edit_tag_name_validation_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag name cannot be empty.'**
+  String get edit_tag_name_validation_empty;
+
+  /// No description provided for @edit_tag_name_validation_already_exists.
+  ///
+  /// In en, this message translates to:
+  /// **'A tag with this name already exists.'**
+  String get edit_tag_name_validation_already_exists;
+
+  /// No description provided for @edit_tag_name_validation_length.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag name cannot exceed 255 characters.'**
+  String get edit_tag_name_validation_length;
+
+  /// No description provided for @edit_tag_color_not_hex.
+  ///
+  /// In en, this message translates to:
+  /// **'Color must be in hex format (#RRGGBB).'**
+  String get edit_tag_color_not_hex;
+
+  /// No description provided for @edit_tag_save_error.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while saving the tag.'**
+  String get edit_tag_save_error;
+
+  /// No description provided for @edit_tag_delete_error.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while deleting the tag.'**
+  String get edit_tag_delete_error;
+
+  /// No description provided for @edit_tag_delete_confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this tag?'**
+  String get edit_tag_delete_confirmation;
+
+  /// No description provided for @edit_tag_delete_confirmation_warning.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone.'**
+  String get edit_tag_delete_confirmation_warning;
 
   /// No description provided for @pick_artist_title.
   ///

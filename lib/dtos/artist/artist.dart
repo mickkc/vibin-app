@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:vibin_app/dtos/image.dart';
-import 'package:vibin_app/dtos/tag.dart';
+import 'package:vibin_app/dtos/tags/tag.dart';
 
 @JsonSerializable()
 class Artist {

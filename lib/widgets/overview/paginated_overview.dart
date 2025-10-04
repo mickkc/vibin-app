@@ -4,15 +4,14 @@ import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/entity_card_grid.dart';
 import 'package:vibin_app/widgets/future_content.dart';
+import 'package:vibin_app/widgets/overview/overview_header.dart';
 import 'package:vibin_app/widgets/pagination_footer.dart';
-
-import '../l10n/app_localizations.dart';
 
 class PaginatedOverview extends StatefulWidget {
   final Function(int page, int pageSize, String searchQuery) fetchFunction;
   final String type;
   final String title;
-  final IconData? icon;
+  final IconData icon;
   final List<Widget>? actions;
 
   const PaginatedOverview({
@@ -20,7 +19,7 @@ class PaginatedOverview extends StatefulWidget {
     required this.fetchFunction,
     required this.type,
     required this.title,
-    this.icon,
+    required this.icon,
     this.actions,
   });
 
@@ -62,54 +61,16 @@ class _PaginatedOverviewState extends State<PaginatedOverview> {
 
   @override
   Widget build(BuildContext context) {
-    final lm = AppLocalizations.of(context)!;
-    final width = MediaQuery.of(context).size.width;
     return Column(
       spacing: 8,
       children: [
-        Row(
-          spacing: 8,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              spacing: 8,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                if (widget.icon != null) Icon(widget.icon, size: 32),
-                Text(
-                  widget.title,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-              ],
-            ),
-            SizedBox(
-              width: width > 800 ? width / 3 : 200,
-              child: TextField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search),
-                  hintText: lm.search,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
-                  ),
-                  filled: true,
-                  contentPadding: EdgeInsets.zero,
-                  fillColor: Theme.of(context).colorScheme.surfaceContainerHigh
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    searchQuery = value;
-                  });
-                },
-                textInputAction: TextInputAction.search,
-                onSubmitted: (value) {
-                  updateSearch(value);
-                },
-              ),
-            )
-          ]
+        OverviewHeader(
+          title: widget.title,
+          icon: widget.icon,
+          searchQuery: searchQuery,
+          onSearchSubmitted: (value) {
+            updateSearch(value);
+          }
         ),
         if (widget.actions != null) Row(
           spacing: 8,

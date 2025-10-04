@@ -1,6 +1,6 @@
 import 'dart:math';
-import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 
 import 'dtos/track/track.dart';
@@ -59,4 +59,106 @@ String getTotalDurationString(Iterable<Track> tracks) {
   } else {
     return "${seconds}s";
   }
+}
+
+void showSnackBar(BuildContext context, String message) {
+  if (!context.mounted) return;
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+      duration: const Duration(seconds: 2),
+    ),
+  );
+}
+
+Future<bool> showConfirmDialog(BuildContext context, String title, String content, {String? confirmText, String? cancelText}) async {
+  bool confirmed = false;
+  final lm = AppLocalizations.of(context)!;
+
+  await showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(title),
+      content: Text(content),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text(cancelText ?? lm.dialog_cancel)
+        ),
+        ElevatedButton(
+          onPressed: () {
+            confirmed = true;
+            Navigator.pop(context);
+          },
+          child: Text(confirmText ?? lm.dialog_confirm)
+        )
+      ],
+    )
+  );
+  return confirmed;
+}
+
+Future<void> showMessageDialog(BuildContext context, String title, String content, {String? buttonText, IconData? icon}) async {
+  final lm = AppLocalizations.of(context)!;
+
+  await showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      icon: icon != null ? Icon(icon, size: 48) : null,
+      title: Text(title),
+      content: Text(content),
+      actions: [
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text(buttonText ?? lm.dialog_confirm)
+        )
+      ],
+    )
+  );
+}
+
+Future<void> showErrorDialog(BuildContext context, String content) async {
+  final lm = AppLocalizations.of(context)!;
+
+  await showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      icon: Icon(Icons.error, size: 48, color: Theme.of(context).colorScheme.error),
+      title: Text(lm.dialog_error),
+      content: Text(content),
+      actions: [
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text(lm.dialog_confirm)
+        )
+      ],
+    )
+  );
+}
+
+Future<void> showInfoDialog(BuildContext context, String content) async {
+  final lm = AppLocalizations.of(context)!;
+
+  await showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      icon: Icon(Icons.info, size: 48, color: Theme.of(context).colorScheme.primary),
+      title: Text(lm.dialog_info),
+      content: Text(content),
+      actions: [
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text(lm.dialog_confirm)
+        )
+      ],
+    )
+  );
 }

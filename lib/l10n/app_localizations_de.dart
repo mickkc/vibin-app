@@ -228,10 +228,22 @@ class AppLocalizationsDe extends AppLocalizations {
   String get playlists_create_new => 'Neue Playlist erstellen';
 
   @override
+  String get dialog_error => 'Fehler';
+
+  @override
+  String get dialog_warning => 'Warnung';
+
+  @override
+  String get dialog_info => 'Info';
+
+  @override
   String get dialog_finish => 'Fertig';
 
   @override
   String get dialog_cancel => 'Abbrechen';
+
+  @override
+  String get dialog_confirm => 'Ok';
 
   @override
   String get dialog_create => 'Erstellen';
@@ -364,6 +376,53 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get edit_track_search_metadata => 'Metadaten suchen';
+
+  @override
+  String get edit_tag_title => 'Tag bearbeiten';
+
+  @override
+  String get create_tag_title => 'Tag erstellen';
+
+  @override
+  String get edit_tag_name => 'Name';
+
+  @override
+  String get edit_tag_description => 'Beschreibung';
+
+  @override
+  String get edit_tag_color => 'Farbe (Hex)';
+
+  @override
+  String get edit_tag_name_validation_empty =>
+      'Der Tag-Name darf nicht leer sein.';
+
+  @override
+  String get edit_tag_name_validation_already_exists =>
+      'Ein Tag mit diesem Namen existiert bereits.';
+
+  @override
+  String get edit_tag_name_validation_length =>
+      'Der Tag-Name darf maximal 255 Zeichen lang sein.';
+
+  @override
+  String get edit_tag_color_not_hex =>
+      'Die Farbe muss im Hex-Format angegeben werden (#RRGGBB).';
+
+  @override
+  String get edit_tag_save_error =>
+      'Beim Speichern des Tags ist ein Fehler aufgetreten.';
+
+  @override
+  String get edit_tag_delete_error =>
+      'Beim Löschen des Tags ist ein Fehler aufgetreten.';
+
+  @override
+  String get edit_tag_delete_confirmation =>
+      'Möchtest du diesen Tag wirklich löschen?';
+
+  @override
+  String get edit_tag_delete_confirmation_warning =>
+      'Diese Aktion kann nicht rückgängig gemacht werden.';
 
   @override
   String get pick_artist_title => 'Künstler auswählen';

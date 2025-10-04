@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vibin_app/dtos/tag.dart';
+import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/extensions.dart';
 
 class TagWidget extends StatelessWidget {
@@ -12,9 +12,9 @@ class TagWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = tag.color == null ? Theme.of(context).colorScheme.primary : HexColor.fromHex(tag.color!);
 
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
-      child: Container(
+      child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainerHigh,
@@ -31,7 +31,7 @@ class TagWidget extends StatelessWidget {
             Text(tag.name, style: TextStyle(color: color))
           ]
         )
-      )
+      ),
     );
   }
 }

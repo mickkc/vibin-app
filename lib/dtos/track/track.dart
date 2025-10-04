@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/image.dart';
-import 'package:vibin_app/dtos/tag.dart';
+import 'package:vibin_app/dtos/tags/tag.dart';
 
 @JsonSerializable()
 class Track {

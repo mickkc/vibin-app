@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
-import 'package:vibin_app/widgets/paginated_overview.dart';
+import 'package:vibin_app/widgets/overview/paginated_overview.dart';
 
 import '../../main.dart';
 
