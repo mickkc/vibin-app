@@ -107,4 +107,22 @@ class AuthState extends ChangeNotifier {
     }
     return _permissions.contains(permission.name);
   }
+
+  bool hasAnyPermission(List<PermissionType> permissions) {
+    for (final permission in permissions) {
+      if (hasPermission(permission)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool hasPermissions(List<PermissionType> permissions) {
+    for (final permission in permissions) {
+      if (!hasPermission(permission)) {
+        return false;
+      }
+    }
+    return true;
+  }
 }

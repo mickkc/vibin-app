@@ -284,11 +284,35 @@ abstract class AppLocalizations {
   /// **'Top Artists This Month'**
   String get section_top_artists;
 
+  /// No description provided for @section_top_tracks.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Tracks This Month'**
+  String get section_top_tracks;
+
   /// No description provided for @section_related_tracks.
   ///
   /// In en, this message translates to:
   /// **'Related Tracks'**
   String get section_related_tracks;
+
+  /// No description provided for @section_newest_tracks.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest Tracks'**
+  String get section_newest_tracks;
+
+  /// No description provided for @section_popular_items.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular'**
+  String get section_popular_items;
+
+  /// No description provided for @section_playlists.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Playlists'**
+  String get section_playlists;
 
   /// No description provided for @section_view_all.
   ///

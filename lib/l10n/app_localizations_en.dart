@@ -103,7 +103,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get section_top_artists => 'Top Artists This Month';
 
   @override
+  String get section_top_tracks => 'Top Tracks This Month';
+
+  @override
   String get section_related_tracks => 'Related Tracks';
+
+  @override
+  String get section_newest_tracks => 'Newest Tracks';
+
+  @override
+  String get section_popular_items => 'Popular';
+
+  @override
+  String get section_playlists => 'Your Playlists';
 
   @override
   String get section_view_all => 'View all';

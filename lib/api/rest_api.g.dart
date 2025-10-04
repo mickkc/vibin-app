@@ -919,6 +919,36 @@ class _ApiService implements ApiService {
   }
 
   @override
+  Future<List<Playlist>> getRandomPlaylists(int? limit) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'limit': limit};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<Playlist>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/playlists/random',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<Playlist> _value;
+    try {
+      _value = _result.data!
+          .map((dynamic i) => Playlist.fromJson(i as Map<String, dynamic>))
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<Success> addTrackToPlaylist(int playlistId, int trackId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'trackId': trackId};
@@ -1096,9 +1126,10 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<MinimalTrack>> getMostListenedTracks(int num, int since) async {
+  Future<List<MinimalTrack>> getTopListenedTracks(int num, int? since) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'since': since};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<MinimalTrack>>(
@@ -1125,9 +1156,10 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<Artist>> getTopListenedArtists(int num, int since) async {
+  Future<List<Artist>> getTopListenedArtists(int num, int? since) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'since': since};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<Artist>>(
@@ -1154,9 +1186,10 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<User>> getTopListenedAlbums(int num, int since) async {
+  Future<List<User>> getTopListenedAlbums(int num, int? since) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'since': since};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<User>>(
@@ -1183,9 +1216,10 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<Tag>> getTopListenedTags(int num, int since) async {
+  Future<List<Tag>> getTopListenedTags(int num, int? since) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'since': since};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<Tag>>(
@@ -1214,10 +1248,11 @@ class _ApiService implements ApiService {
   @override
   Future<List<NonTrackListen>> getTopListenedNonTrackItems(
     int num,
-    int since,
+    int? since,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'since': since};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<NonTrackListen>>(
@@ -1225,6 +1260,41 @@ class _ApiService implements ApiService {
           .compose(
             _dio.options,
             '/api/stats/nontracks/top${num}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<NonTrackListen> _value;
+    try {
+      _value = _result.data!
+          .map(
+            (dynamic i) => NonTrackListen.fromJson(i as Map<String, dynamic>),
+          )
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<List<NonTrackListen>> getTopListenedGlobalNonTrackItems(
+    int num,
+    int? since,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'since': since};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<NonTrackListen>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/stats/global_nontracks/top${num}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -1610,6 +1680,35 @@ class _ApiService implements ApiService {
           .compose(
             _dio.options,
             '/api/tracks/${trackId}/related',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<MinimalTrack> _value;
+    try {
+      _value = _result.data!
+          .map((dynamic i) => MinimalTrack.fromJson(i as Map<String, dynamic>))
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<List<MinimalTrack>> getNewestTracks(int limit) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'limit': limit};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<MinimalTrack>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/tracks/newest',
             queryParameters: queryParameters,
             data: _data,
           )

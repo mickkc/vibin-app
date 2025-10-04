@@ -103,7 +103,19 @@ class AppLocalizationsDe extends AppLocalizations {
   String get section_top_artists => 'Top Künstler diesen Monat';
 
   @override
+  String get section_top_tracks => 'Top Titel diesen Monat';
+
+  @override
   String get section_related_tracks => 'Ähnliche Titel';
+
+  @override
+  String get section_newest_tracks => 'Neueste Titel';
+
+  @override
+  String get section_popular_items => 'Beliebt';
+
+  @override
+  String get section_playlists => 'Deine Playlists';
 
   @override
   String get section_view_all => 'Alle anzeigen';

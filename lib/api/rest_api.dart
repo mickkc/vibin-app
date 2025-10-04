@@ -145,6 +145,9 @@ abstract class ApiService {
   @DioResponseType(ResponseType.bytes)
   Future<HttpResponse<List<int>>> getPlaylistImage(@Path("id") int id, @Query("quality") String quality);
 
+  @GET("/api/playlists/random")
+  Future<List<Playlist>> getRandomPlaylists(@Query("limit") int? limit);
+
   // Playlist Tracks
 
   @POST("/api/playlists/{playlistId}/tracks")
@@ -168,19 +171,22 @@ abstract class ApiService {
   Future<List<NonTrackListen>> getRecentListenedNonTrackItems(@Query("limit") int limit);
 
   @GET("/api/stats/tracks/top{num}")
-  Future<List<MinimalTrack>> getMostListenedTracks(@Path("num") int num, @Query("since") int since);
+  Future<List<MinimalTrack>> getTopListenedTracks(@Path("num") int num, @Query("since") int? since);
 
   @GET("/api/stats/artists/top{num}")
-  Future<List<Artist>> getTopListenedArtists(@Path("num") int num, @Query("since") int since);
+  Future<List<Artist>> getTopListenedArtists(@Path("num") int num, @Query("since") int? since);
 
   @GET("/api/stats/albums/top{num}")
-  Future<List<User>> getTopListenedAlbums(@Path("num") int num, @Query("since") int since);
+  Future<List<User>> getTopListenedAlbums(@Path("num") int num, @Query("since") int? since);
 
   @GET("/api/stats/tags/top{num}")
-  Future<List<Tag>> getTopListenedTags(@Path("num") int num, @Query("since") int since);
+  Future<List<Tag>> getTopListenedTags(@Path("num") int num, @Query("since") int? since);
 
   @GET("/api/stats/nontracks/top{num}")
-  Future<List<NonTrackListen>> getTopListenedNonTrackItems(@Path("num") int num, @Query("since") int since);
+  Future<List<NonTrackListen>> getTopListenedNonTrackItems(@Path("num") int num, @Query("since") int? since);
+
+  @GET("/api/stats/global_nontracks/top{num}")
+  Future<List<NonTrackListen>> getTopListenedGlobalNonTrackItems(@Path("num") int num, @Query("since") int? since);
 
   @POST("/api/stats/listen/TRACK/{trackId}")
   Future<Success> reportTrackListen(@Path("trackId") int trackId);
@@ -224,6 +230,9 @@ abstract class ApiService {
 
   @GET("/api/tracks/{trackId}/related")
   Future<List<MinimalTrack>> getRelatedTracks(@Path("trackId") int trackId, @Query("limit") int limit);
+
+  @GET("/api/tracks/newest")
+  Future<List<MinimalTrack>> getNewestTracks(@Query("limit") int limit);
 
   // Users
 

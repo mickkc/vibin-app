@@ -33,14 +33,15 @@ Please note that this project, just like the server, is still in its early stage
     - [ ] Reorder queue
     - [ ] Add random / recommended tracks to queue
     - [ ] Save queue as playlist
-- [ ] Homepage
+- [x] Homepage
   - [x] Recommended items
   - [x] Recently played items
-  - [ ] Newly added items
-  - [ ] Popular items
+  - [x] Newly added items
+  - [x] Popular items
   - [x] Random tracks
-  - [ ] Top monthly tracks
+  - [x] Top monthly tracks
   - [x] Top monthly artists
+  - [x] Random playlists
 - [ ] Browse library
   - [x] Albums
   - [x] Artists
