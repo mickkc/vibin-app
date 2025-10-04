@@ -401,4 +401,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get settings_app_show_own_playlists_by_default_description =>
       'When enabled, the playlist overview will show only your own playlists by default.';
+
+  @override
+  String get settings_app_homepage_sections_title => 'Homepage Sections';
+
+  @override
+  String get settings_app_homepage_sections_description =>
+      'Select which sections to display on the homepage and in which order.';
 }

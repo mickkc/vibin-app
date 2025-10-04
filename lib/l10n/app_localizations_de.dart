@@ -404,4 +404,11 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get settings_app_show_own_playlists_by_default_description =>
       'Wenn aktiviert, werden in der Playlist-Übersicht standardmäßig nur deine eigenen Playlists angezeigt.';
+
+  @override
+  String get settings_app_homepage_sections_title => 'Startseiten-Abschnitte';
+
+  @override
+  String get settings_app_homepage_sections_description =>
+      'Wähle die Abschnitte aus, die auf der Startseite angezeigt werden sollen, und ordne sie per Drag & Drop neu an.';
 }

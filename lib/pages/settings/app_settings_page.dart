@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/settings/bool_settings_field.dart';
+import 'package:vibin_app/widgets/settings/homepage_sections_list.dart';
 import 'package:vibin_app/widgets/settings/int_settings_field.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -86,6 +87,10 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
             description: lm.settings_app_show_own_playlists_by_default_description,
             icon: Icons.playlist_play
           ),
+
+          Divider(),
+
+          HomepageSectionsList()
         ],
       ),
     );

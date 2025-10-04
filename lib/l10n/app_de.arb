@@ -151,5 +151,8 @@
   "settings_app_advanced_track_search_description": "Ermöglicht die Verwendung von erweiterten Suchoperatoren in der Track-Suche (z.B. t:, a:, y:, ...).",
 
   "settings_app_show_own_playlists_by_default": "Eigene Playlists standardmäßig anzeigen",
-  "settings_app_show_own_playlists_by_default_description": "Wenn aktiviert, werden in der Playlist-Übersicht standardmäßig nur deine eigenen Playlists angezeigt."
+  "settings_app_show_own_playlists_by_default_description": "Wenn aktiviert, werden in der Playlist-Übersicht standardmäßig nur deine eigenen Playlists angezeigt.",
+
+  "settings_app_homepage_sections_title": "Startseiten-Abschnitte",
+  "settings_app_homepage_sections_description": "Wähle die Abschnitte aus, die auf der Startseite angezeigt werden sollen, und ordne sie per Drag & Drop neu an."
 }

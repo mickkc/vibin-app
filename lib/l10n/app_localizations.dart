@@ -859,6 +859,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'When enabled, the playlist overview will show only your own playlists by default.'**
   String get settings_app_show_own_playlists_by_default_description;
+
+  /// No description provided for @settings_app_homepage_sections_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Homepage Sections'**
+  String get settings_app_homepage_sections_title;
+
+  /// No description provided for @settings_app_homepage_sections_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Select which sections to display on the homepage and in which order.'**
+  String get settings_app_homepage_sections_description;
 }
 
 class _AppLocalizationsDelegate

@@ -151,5 +151,8 @@
   "settings_app_advanced_track_search_description": "When enabled, you can use advanced search operators in the track search bar (e.g., t:, a:, y:, ...).",
 
   "settings_app_show_own_playlists_by_default": "Show Own Playlists by Default",
-  "settings_app_show_own_playlists_by_default_description": "When enabled, the playlist overview will show only your own playlists by default."
+  "settings_app_show_own_playlists_by_default_description": "When enabled, the playlist overview will show only your own playlists by default.",
+
+  "settings_app_homepage_sections_title": "Homepage Sections",
+  "settings_app_homepage_sections_description": "Select which sections to display on the homepage and in which order."
 }

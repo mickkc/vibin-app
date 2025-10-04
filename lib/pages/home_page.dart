@@ -8,6 +8,8 @@ import 'package:vibin_app/sections/most_listened_to_artists_section.dart';
 import 'package:vibin_app/sections/new_tracks_section.dart';
 import 'package:vibin_app/sections/popular_items_section.dart';
 import 'package:vibin_app/sections/recommended_start_section.dart';
+import 'package:vibin_app/settings/setting_definitions.dart';
+import 'package:vibin_app/settings/settings_manager.dart';
 
 import '../sections/playlists_section.dart';
 import '../sections/top_tracks_section.dart';
@@ -22,6 +24,28 @@ class HomePage extends StatefulWidget {
 class _HomePagState extends State<HomePage> {
 
   final AuthState authState = getIt<AuthState>();
+  final SettingsManager settingsManager = getIt<SettingsManager>();
+
+  Widget? getSection(String key) {
+    switch (key) {
+      case "RECENTLY_LISTENED" when authState.hasAnyPermission([PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists]):
+        return LastListenedToSection();
+      case "EXPLORE" when authState.hasPermission(PermissionType.viewTracks):
+        return ExploreSection();
+      case "TOP_ARTISTS" when authState.hasPermission(PermissionType.viewArtists):
+        return MostListenedToArtistsSection();
+      case "TOP_TRACKS" when authState.hasPermission(PermissionType.viewTracks):
+        return TopTracksSection();
+      case "NEW_RELEASES" when authState.hasPermission(PermissionType.viewTracks):
+        return NewTracksSection();
+      case "POPULAR" when authState.hasAnyPermission([PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists]):
+        return PopularItemsSection();
+      case "PLAYLISTS" when authState.hasPermission(PermissionType.viewPlaylists):
+        return PlaylistsSection();
+      default:
+        return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,30 +53,11 @@ class _HomePagState extends State<HomePage> {
       child: Column(
         spacing: 16,
         children: [
-
-          if (authState.hasAnyPermission([PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists]))
-            RecommendedStartSection(),
-
-          if (authState.hasAnyPermission([PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists]))
-            LastListenedToSection(),
-
-          if (authState.hasPermission(PermissionType.viewPlaylists))
-            PlaylistsSection(),
-
-          if (authState.hasAnyPermission([PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists]))
-            PopularItemsSection(),
-
-          if (authState.hasPermission(PermissionType.viewTracks))
-            ExploreSection(),
-
-          if (authState.hasPermission(PermissionType.viewTracks))
-            NewTracksSection(),
-
-          if (authState.hasPermission(PermissionType.viewTracks))
-            TopTracksSection(),
-
-          if (authState.hasPermission(PermissionType.viewArtists))
-            MostListenedToArtistsSection(),
+          RecommendedStartSection(),
+          ...settingsManager.get(Settings.homepageSections).map((section) {
+            if (section.value != true.toString()) return null;
+            return getSection(section.key);
+          }).nonNulls
         ],
       ),
     );
