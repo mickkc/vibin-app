@@ -22,7 +22,7 @@ class PlaylistsSection extends StatelessWidget {
       children: [
         SectionHeader(
             title: AppLocalizations.of(context)!.section_playlists,
-            viewAllRoute: "/tracks",
+            viewAllRoute: "/playlists",
         ),
         FutureContent(
           future: playlistFuture,
