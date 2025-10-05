@@ -63,7 +63,7 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
     try {
       final editData = AlbumEditData(
         title: titleController.text,
-        description: yearController.text,
+        description: descriptionController.text,
         year: yearController.text.isEmpty ? null : int.tryParse(yearController.text),
         coverUrl: albumCoverUrl
       );
