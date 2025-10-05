@@ -28,8 +28,8 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
   late ApiManager apiManager = getIt<ApiManager>();
   late String? albumCoverUrl;
 
-  AppLocalizations get lm => AppLocalizations.of(context)!;
-  ThemeData get theme => Theme.of(context);
+  late final lm = AppLocalizations.of(context)!;
+  late final theme = Theme.of(context);
 
   bool initialized = false;
 

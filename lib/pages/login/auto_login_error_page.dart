@@ -19,18 +19,21 @@ class _AutoLoginErrorPageState extends State<AutoLoginErrorPage> {
   final authState = getIt<AuthState>();
   late var autoLoginResult = authState.autoLoginResult;
 
+  late final router = GoRouter.of(context);
+  late final lm = AppLocalizations.of(context)!;
+
   void retry() async {
     final result = await authState.tryAutoLogin();
     setAutoLoginResult(result);
     if (!result.isError()) {
       authState.clearAutoLoginResult();
-      GoRouter.of(context).replace('/home');
+      router.replace('/home');
     }
   }
 
   void reconnect() async {
     await authState.logout();
-    GoRouter.of(context).replace('/connect');
+    router.replace('/connect');
   }
 
   void quit() {
@@ -45,7 +48,6 @@ class _AutoLoginErrorPageState extends State<AutoLoginErrorPage> {
 
   @override
   Widget build(BuildContext context) {
-    final lm = AppLocalizations.of(context)!;
     return FullScreenBox(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

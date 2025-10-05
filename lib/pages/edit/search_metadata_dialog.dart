@@ -34,6 +34,11 @@ class _SearchTrackMetadataDialogState extends State<SearchTrackMetadataDialog> {
 
   final ApiManager apiManager = getIt<ApiManager>();
 
+  late final lm = AppLocalizations.of(context)!;
+  late final theme = Theme.of(context);
+
+  double get width => MediaQuery.of(context).size.width;
+
   void search() {
     if (searchQuery.isEmpty || selectedProvider.isEmpty) {
       setState(() {
@@ -66,10 +71,6 @@ class _SearchTrackMetadataDialogState extends State<SearchTrackMetadataDialog> {
 
   @override
   Widget build(BuildContext context) {
-
-    final lm = AppLocalizations.of(context)!;
-    final width = MediaQuery.of(context).size.width;
-
     return AlertDialog(
       constraints: BoxConstraints(
         maxWidth: 600,

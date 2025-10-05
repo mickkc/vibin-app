@@ -79,6 +79,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get connect_button_connect => 'Verbinden';
 
   @override
+  String get connect_error =>
+      'Die Verbindung zur Instanz konnte nicht hergestellt werden. Bitte überprüfe die URL und deine Internetverbindung.';
+
+  @override
   String get login_title => 'Anmelden';
 
   @override
@@ -92,6 +96,15 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get login_button_login => 'Anmelden';
+
+  @override
+  String login_error(Object error) {
+    return 'Die Anmeldung ist fehlgeschlagen. Fehlermeldung: $error';
+  }
+
+  @override
+  String get login_invalid_credentials =>
+      'Ungültiger Benutzername oder Passwort.';
 
   @override
   String get section_recently_listened => 'Wieder reinhören';

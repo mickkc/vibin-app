@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/widgets/fullscreen_box.dart';
 
@@ -15,40 +16,31 @@ class ConnectPage extends StatefulWidget {
 
 class _ConnectPageState extends State<ConnectPage> {
 
-  ApiManager apiManager = getIt<ApiManager>();
-  String value = "";
+  final apiManager = getIt<ApiManager>();
+  late TextEditingController controller;
 
-
-  _ConnectPageState() {
-    value = apiManager.baseUrl;
-  }
-
-  void onChanged(String newValue) {
-    setState(() {
-      value = newValue;
-    });
-  }
+  late final lm = AppLocalizations.of(context)!;
+  late final router = GoRouter.of(context);
 
   Future<void> connect() async {
     try {
-      final apiManager = getIt<ApiManager>();
-      apiManager.setBaseUrl(value);
+      apiManager.setBaseUrl(controller.text);
       await apiManager.checkConnection();
-      GoRouter.of(context).push('/login');
+      if (mounted) router.replace("/login");
     }
     catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Connection failed: $e"))
-        );
-      }
+      if (mounted) showSnackBar(context, lm.connect_error);
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-    final lm = AppLocalizations.of(context)!;
+  void initState() {
+    controller = TextEditingController(text: apiManager.baseUrl);
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return FullScreenBox(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -72,16 +64,12 @@ class _ConnectPageState extends State<ConnectPage> {
               ),
               keyboardType: TextInputType.url,
               textInputAction: TextInputAction.done,
-              onSubmitted: (value) {
-                connect();
-              },
-              onChanged: onChanged,
+              onSubmitted: (_) => connect(),
+              controller: controller,
             ),
           ),
           ElevatedButton(
-            onPressed: () {
-              connect();
-            },
+            onPressed: connect,
             child: Text(lm.connect_button_connect),
           ),
         ],

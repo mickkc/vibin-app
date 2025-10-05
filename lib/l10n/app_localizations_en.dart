@@ -79,6 +79,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get connect_button_connect => 'Connect';
 
   @override
+  String get connect_error =>
+      'Could not connect to the instance. Please check the URL and your internet connection.';
+
+  @override
   String get login_title => 'Login';
 
   @override
@@ -92,6 +96,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get login_button_login => 'Log In';
+
+  @override
+  String login_error(Object error) {
+    return 'Login failed. Error message: $error';
+  }
+
+  @override
+  String get login_invalid_credentials => 'Invalid username or password.';
 
   @override
   String get section_recently_listened => 'Recently Listened';

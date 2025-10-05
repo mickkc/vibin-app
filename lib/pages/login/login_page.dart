@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/auth/AuthState.dart';
+import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/fullscreen_box.dart';
 
@@ -16,47 +17,35 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  ApiManager apiManager = getIt<ApiManager>();
-  AuthState authState = getIt<AuthState>();
-  String username = "";
-  String password = "";
+  final ApiManager apiManager = getIt<ApiManager>();
+  final AuthState authState = getIt<AuthState>();
 
-  void onChangedUsername(String newValue) {
-    setState(() {
-      username = newValue;
-    });
-  }
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
 
-  void onChangedPassword(String newValue) {
-    setState(() {
-      password = newValue;
-    });
-  }
+  late final lm = AppLocalizations.of(context)!;
+  late final router = GoRouter.of(context);
+  late final theme = Theme.of(context);
 
   Future<void> login() async {
     try {
-      final loginResult = await apiManager.service.login(username, password);
+      final loginResult = await apiManager.service.login(usernameController.text, passwordController.text);
       if (loginResult.success) {
         apiManager.setToken(loginResult.token);
         authState.login(apiManager.baseUrl, loginResult);
-        GoRouter.of(context).replace("/home");
+        router.replace("/home");
       }
       else {
-        throw "Invalid username or password";
+        throw lm.login_invalid_credentials;
       }
     }
     catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Login failed: $e"))
-        );
-      }
+      if (mounted) showSnackBar(context, lm.login_error(e));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final lm = AppLocalizations.of(context)!;
     return FullScreenBox(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -65,37 +54,35 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           Text(
             lm.login_title,
-            style: Theme.of(context).textTheme.headlineMedium,
+            style: theme.textTheme.headlineMedium,
           ),
           Text(
             lm.login_description,
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: theme.textTheme.bodyMedium,
           ),
           SizedBox(
             width: 300,
             child: TextField(
               decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: lm.login_placeholder_username
+                border: OutlineInputBorder(),
+                labelText: lm.login_placeholder_username
               ),
               keyboardType: TextInputType.url,
               textInputAction: TextInputAction.done,
-              onChanged: onChangedUsername,
+              controller: usernameController,
             ),
           ),
           SizedBox(
             width: 300,
             child: TextField(
               decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: lm.login_placeholder_password
+                border: OutlineInputBorder(),
+                labelText: lm.login_placeholder_password
               ),
               obscureText: true,
               textInputAction: TextInputAction.done,
-              onSubmitted: (value) {
-                login();
-              },
-              onChanged: onChangedPassword,
+              onSubmitted: (_) => login(),
+              controller: passwordController,
             ),
           ),
           ElevatedButton(

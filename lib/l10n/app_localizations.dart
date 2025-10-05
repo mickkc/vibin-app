@@ -236,6 +236,12 @@ abstract class AppLocalizations {
   /// **'Connect'**
   String get connect_button_connect;
 
+  /// No description provided for @connect_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not connect to the instance. Please check the URL and your internet connection.'**
+  String get connect_error;
+
   /// No description provided for @login_title.
   ///
   /// In en, this message translates to:
@@ -265,6 +271,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log In'**
   String get login_button_login;
+
+  /// No description provided for @login_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed. Error message: {error}'**
+  String login_error(Object error);
+
+  /// No description provided for @login_invalid_credentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid username or password.'**
+  String get login_invalid_credentials;
 
   /// No description provided for @section_recently_listened.
   ///

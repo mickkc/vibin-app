@@ -26,12 +26,15 @@
   "connect_label_instance": "Instanz-URL",
   "connect_placeholder_instance": "http://localhost:8080",
   "connect_button_connect": "Verbinden",
+  "connect_error": "Die Verbindung zur Instanz konnte nicht hergestellt werden. Bitte überprüfe die URL und deine Internetverbindung.",
 
   "login_title": "Anmelden",
   "login_description": "Melde dich bei deiner Vibin'-Instanz an.",
   "login_placeholder_username": "Benutzername",
   "login_placeholder_password": "Passwort",
   "login_button_login": "Anmelden",
+  "login_error": "Die Anmeldung ist fehlgeschlagen. Fehlermeldung: {error}",
+  "login_invalid_credentials": "Ungültiger Benutzername oder Passwort.",
 
   "section_recently_listened": "Wieder reinhören",
   "section_random_tracks": "Entdecken",
