@@ -36,6 +36,12 @@ class AlbumInfoPage extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           maxLines: 1
         ),
+        Text(
+          data.album.description,
+          style: theme.textTheme.bodyMedium,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 3
+        ),
         Wrap(
           spacing: 8,
           runSpacing: 8,
@@ -57,6 +63,8 @@ class AlbumInfoPage extends StatelessWidget {
           children: [
             IconText(icon: Icons.library_music, text: "${data.album.trackCount} ${data.album.trackCount == 1 ? lm.track : lm.tracks}"),
             IconText(icon: Icons.access_time, text: getTotalDurationString(data.tracks)),
+            if (data.album.year != null)
+              IconText(icon: Icons.date_range, text: data.album.year.toString()),
           ],
         )
       ],
