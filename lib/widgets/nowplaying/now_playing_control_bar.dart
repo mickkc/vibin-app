@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
+import 'package:vibin_app/dialogs/lyrics_dialog.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/colored_icon_button.dart';
 import 'package:vibin_app/widgets/nowplaying/now_playing_queue.dart';
@@ -24,6 +26,7 @@ class NowPlayingControlBar extends StatefulWidget {
 class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
 
   final AudioManager audioManager = getIt<AudioManager>();
+  final ApiManager apiManager = getIt<ApiManager>();
   late bool isPlaying = audioManager.audioPlayer.playing;
   late Duration position = audioManager.audioPlayer.position;
   late LoopMode repeatMode = audioManager.audioPlayer.loopMode;
@@ -129,6 +132,32 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
     NowPlayingQueue.show(context);
   }
 
+  Widget lyricsButton() {
+
+    Widget buttonBase(VoidCallback? onPressed) {
+      return ElevatedButton.icon(
+        onPressed: onPressed,
+        icon: Icon(Icons.lyrics),
+        label: Text(AppLocalizations.of(context)!.now_playing_lyrics)
+      );
+    }
+
+    final id = int.tryParse(widget.mediaItem.id);
+    if (id == null) return SizedBox.shrink();
+    final lyricsFuture = apiManager.service.checkTrackHasLyrics(id);
+    return FutureBuilder(
+      future: lyricsFuture,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData || snapshot.hasError || snapshot.data == null || !snapshot.data!.success) {
+          return buttonBase(null);
+        }
+        return buttonBase(() {
+          LyricsDialog.show(context);
+        }
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final th = Theme.of(context);
@@ -213,11 +242,7 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
                   label: Text(lm.now_plying_advanced_controls),
                   icon: Icon(Icons.settings)
                 ),
-                ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.lyrics),
-                  label: Text(lm.now_playing_lyrics)
-                ),
+                lyricsButton(),
                 ElevatedButton.icon(
                   onPressed: showQueue,
                   label: Text(lm.now_playing_queue),
@@ -240,11 +265,7 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
                   }
                 )
               ),
-              ElevatedButton.icon(
-                onPressed: () {},
-                icon: Icon(Icons.lyrics),
-                label: Text(lm.now_playing_lyrics)
-              ),
+              lyricsButton(),
               ElevatedButton.icon(
                 onPressed: showQueue,
                 label: Text(lm.now_playing_queue),

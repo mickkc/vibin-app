@@ -8,6 +8,7 @@ import 'package:vibin_app/dtos/album/album_info_metadata.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/artist/artist_metadata.dart';
 import 'package:vibin_app/dtos/login_result.dart';
+import 'package:vibin_app/dtos/lyrics.dart';
 import 'package:vibin_app/dtos/media_token_response.dart';
 import 'package:vibin_app/dtos/metadata_sources.dart';
 import 'package:vibin_app/dtos/non_track_listen.dart';
@@ -261,6 +262,12 @@ abstract class ApiService {
 
   @GET("/api/tracks/newest")
   Future<List<MinimalTrack>> getNewestTracks(@Query("limit") int limit);
+
+  @GET("/api/tracks/{id}/lyrics")
+  Future<Lyrics> getTrackLyrics(@Path("id") int id);
+
+  @GET("/api/tracks/{id}/lyrics/check")
+  Future<Success> checkTrackHasLyrics(@Path("id") int id);
 
   // Users
 

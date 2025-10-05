@@ -25,6 +25,7 @@ class Track {
   final String path;
   final String checksum;
   final List<Tag> tags;
+  final bool hasLyrics;
   final int createdAt;
   final int? updatedAt;
 
@@ -48,6 +49,7 @@ class Track {
     required this.path,
     required this.checksum,
     required this.tags,
+    required this.hasLyrics,
     required this.createdAt,
     this.updatedAt,
   });
@@ -77,6 +79,7 @@ class Track {
       tags: (json['tags'] as List<dynamic>)
           .map((tagJson) => Tag.fromJson(tagJson))
           .toList(),
+      hasLyrics: json['hasLyrics'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
     );
