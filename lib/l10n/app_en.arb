@@ -110,6 +110,8 @@
 
   "edit_playlist_title": "Edit Playlist",
   "edit_playlist_name": "Name",
+  "edit_playlist_name_validation_empty": "The playlist name cannot be empty.",
+  "edit_playlist_name_validation_length": "The playlist name cannot exceed 255 characters.",
   "edit_playlist_cover": "Cover",
   "edit_playlist_description": "Description",
   "edit_playlist_public": "Public",

@@ -296,6 +296,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get edit_playlist_name => 'Name';
 
   @override
+  String get edit_playlist_name_validation_empty =>
+      'The playlist name cannot be empty.';
+
+  @override
+  String get edit_playlist_name_validation_length =>
+      'The playlist name cannot exceed 255 characters.';
+
+  @override
   String get edit_playlist_cover => 'Cover';
 
   @override

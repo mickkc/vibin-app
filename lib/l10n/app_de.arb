@@ -110,6 +110,8 @@
 
   "edit_playlist_title": "Playlist bearbeiten",
   "edit_playlist_name": "Name",
+  "edit_playlist_name_validation_empty": "Der Playlist-Name darf nicht leer sein.",
+  "edit_playlist_name_validation_length": "Der Playlist-Name darf maximal 255 Zeichen lang sein.",
   "edit_playlist_cover": "Cover",
   "edit_playlist_description": "Beschreibung",
   "edit_playlist_public": "Öffentlich",

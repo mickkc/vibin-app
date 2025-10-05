@@ -662,6 +662,18 @@ abstract class AppLocalizations {
   /// **'Name'**
   String get edit_playlist_name;
 
+  /// No description provided for @edit_playlist_name_validation_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'The playlist name cannot be empty.'**
+  String get edit_playlist_name_validation_empty;
+
+  /// No description provided for @edit_playlist_name_validation_length.
+  ///
+  /// In en, this message translates to:
+  /// **'The playlist name cannot exceed 255 characters.'**
+  String get edit_playlist_name_validation_length;
+
   /// No description provided for @edit_playlist_cover.
   ///
   /// In en, this message translates to:

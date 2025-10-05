@@ -298,6 +298,14 @@ class AppLocalizationsDe extends AppLocalizations {
   String get edit_playlist_name => 'Name';
 
   @override
+  String get edit_playlist_name_validation_empty =>
+      'Der Playlist-Name darf nicht leer sein.';
+
+  @override
+  String get edit_playlist_name_validation_length =>
+      'Der Playlist-Name darf maximal 255 Zeichen lang sein.';
+
+  @override
   String get edit_playlist_cover => 'Cover';
 
   @override
