@@ -305,6 +305,16 @@ class AppLocalizationsDe extends AppLocalizations {
       'Beim Speichern des Albums ist ein Fehler aufgetreten.';
 
   @override
+  String get edit_album_search_metadata => 'Metadaten suchen';
+
+  @override
+  String get edit_album_metadata_no_description =>
+      'Keine Beschreibung verfügbar.';
+
+  @override
+  String get edit_album_metadata_has_description => 'Beschreibung verfügbar.';
+
+  @override
   String get edit_playlist_title => 'Playlist bearbeiten';
 
   @override

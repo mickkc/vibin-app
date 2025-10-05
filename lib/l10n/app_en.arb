@@ -110,6 +110,9 @@
   "edit_album_year": "Release Year",
   "edit_album_year_validation_not_number": "Release year must be a valid number.",
   "edit_album_save_error": "An error occurred while saving the album.",
+  "edit_album_search_metadata": "Search Metadata",
+  "edit_album_metadata_no_description": "No description available.",
+  "edit_album_metadata_has_description": "Description available.",
 
   "edit_playlist_title": "Edit Playlist",
   "edit_playlist_name": "Name",

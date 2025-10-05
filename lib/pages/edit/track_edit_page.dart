@@ -9,7 +9,7 @@ import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/track/track_edit_data.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
-import 'package:vibin_app/pages/edit/search_metadata_dialog.dart';
+import 'package:vibin_app/pages/edit/search_track_metadata_dialog.dart';
 import 'package:vibin_app/widgets/edit/image_edit_field.dart';
 import 'package:vibin_app/widgets/edit/nullable_int_input.dart';
 import 'package:vibin_app/widgets/edit/responsive_edit_view.dart';

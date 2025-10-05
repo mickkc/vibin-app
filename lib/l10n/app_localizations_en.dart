@@ -302,6 +302,15 @@ class AppLocalizationsEn extends AppLocalizations {
       'An error occurred while saving the album.';
 
   @override
+  String get edit_album_search_metadata => 'Search Metadata';
+
+  @override
+  String get edit_album_metadata_no_description => 'No description available.';
+
+  @override
+  String get edit_album_metadata_has_description => 'Description available.';
+
+  @override
   String get edit_playlist_title => 'Edit Playlist';
 
   @override

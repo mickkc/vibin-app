@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:vibin_app/dtos/album/album_edit_data.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/pages/edit/search_album_metadata_dialog.dart';
 import 'package:vibin_app/widgets/edit/image_edit_field.dart';
 import 'package:vibin_app/widgets/edit/responsive_edit_view.dart';
 
@@ -66,6 +67,22 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
     yearController.dispose();
     super.dispose();
   }
+  
+  void showMetadataDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SearchAlbumMetadataDialog(onSelect: (metadata) {
+          setState(() {
+            titleController.text = metadata.title;
+            descriptionController.text = metadata.description ?? "";
+            yearController.text = metadata.year?.toString() ?? "";
+            albumCoverUrl = metadata.coverImageUrl;
+          });
+        }, initialSearch: titleController.text);
+      }
+    );
+  }
 
   Future<void> save() async {
 
@@ -114,6 +131,15 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
               onPressed: () { Navigator.pop(context); },
               icon: const Icon(Icons.cancel),
               label: Text(lm.dialog_cancel),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: theme.colorScheme.secondaryContainer,
+                foregroundColor: theme.colorScheme.onSecondaryContainer,
+              ),
+            ),
+            ElevatedButton.icon(
+              onPressed: showMetadataDialog,
+              icon: const Icon(Icons.search),
+              label: Text(lm.edit_album_search_metadata),
               style: ElevatedButton.styleFrom(
                 backgroundColor: theme.colorScheme.secondaryContainer,
                 foregroundColor: theme.colorScheme.onSecondaryContainer,

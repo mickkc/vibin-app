@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
-import 'package:vibin_app/dtos/track/track_info_metadata.dart';
+import 'package:vibin_app/dtos/metadata_sources.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/future_content.dart';
-import 'package:vibin_app/widgets/network_image.dart';
 
 import '../../l10n/app_localizations.dart';
 
-class SearchTrackMetadataDialog extends StatefulWidget {
+class BaseMetadataDialog<T> extends StatefulWidget {
   final String? initialSearch;
-  final Function(TrackInfoMetadata) onSelect;
+  final Function(T) onSelect;
+  final Future<List<T>> Function(String, String) fetchMethod;
+  final ListTile Function(BuildContext, T, void Function() onTap) itemBuilder;
+  final List<String> Function(MetadataSources) sourceSelector;
 
-  const SearchTrackMetadataDialog({
+  const BaseMetadataDialog({
     super.key,
     this.initialSearch,
     required this.onSelect,
+    required this.fetchMethod,
+    required this.itemBuilder,
+    required this.sourceSelector,
   });
 
   @override
-  createState() => _SearchTrackMetadataDialogState();
+  createState() => _BaseMetadataDialogState<T>();
 }
 
-class _SearchTrackMetadataDialogState extends State<SearchTrackMetadataDialog> {
+class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
 
   bool initialized = false;
 
@@ -30,7 +35,7 @@ class _SearchTrackMetadataDialogState extends State<SearchTrackMetadataDialog> {
 
   List<String> providers = [];
 
-  late Future<List<TrackInfoMetadata>> searchFuture;
+  late Future<List<T>> searchFuture;
 
   final ApiManager apiManager = getIt<ApiManager>();
 
@@ -47,7 +52,7 @@ class _SearchTrackMetadataDialogState extends State<SearchTrackMetadataDialog> {
       return;
     }
 
-    final future = apiManager.service.searchTrackMetadata(searchQuery, selectedProvider);
+    final future = widget.fetchMethod(searchQuery, selectedProvider);
     setState(() {
       searchFuture = future;
     });
@@ -59,7 +64,7 @@ class _SearchTrackMetadataDialogState extends State<SearchTrackMetadataDialog> {
 
     apiManager.service.getMetadataProviders().then((providers) {
       setState(() {
-        this.providers = providers.track;
+        this.providers = widget.sourceSelector(providers);
         if (this.providers.isNotEmpty) {
           selectedProvider = this.providers.first;
         }
@@ -135,20 +140,10 @@ class _SearchTrackMetadataDialogState extends State<SearchTrackMetadataDialog> {
                     itemCount: results.length,
                     itemBuilder: (context, index) {
                       final item = results[index];
-                      return ListTile(
-                        title: Text(item.title),
-                        subtitle: Text(item.artistNames?.join(", ") ?? ""),
-                        leading: item.coverImageUrl == null ? null : NetworkImageWidget(
-                          url: item.coverImageUrl!,
-                          width: 50,
-                          height: 50,
-                          fit: BoxFit.cover,
-                        ),
-                        onTap: () {
-                          widget.onSelect(item);
-                          Navigator.of(context).pop();
-                        },
-                      );
+                      return widget.itemBuilder(context, item, () {
+                        widget.onSelect(item);
+                        Navigator.of(context).pop();
+                      });
                     },
                   );
                 }

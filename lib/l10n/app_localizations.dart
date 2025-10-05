@@ -668,6 +668,24 @@ abstract class AppLocalizations {
   /// **'An error occurred while saving the album.'**
   String get edit_album_save_error;
 
+  /// No description provided for @edit_album_search_metadata.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Metadata'**
+  String get edit_album_search_metadata;
+
+  /// No description provided for @edit_album_metadata_no_description.
+  ///
+  /// In en, this message translates to:
+  /// **'No description available.'**
+  String get edit_album_metadata_no_description;
+
+  /// No description provided for @edit_album_metadata_has_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description available.'**
+  String get edit_album_metadata_has_description;
+
   /// No description provided for @edit_playlist_title.
   ///
   /// In en, this message translates to:

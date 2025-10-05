@@ -110,6 +110,9 @@
   "edit_album_description": "Beschreibung",
   "edit_album_year_validation_not_number": "Das Erscheinungsjahr muss eine Zahl sein.",
   "edit_album_save_error": "Beim Speichern des Albums ist ein Fehler aufgetreten.",
+  "edit_album_search_metadata": "Metadaten suchen",
+  "edit_album_metadata_no_description": "Keine Beschreibung verfügbar.",
+  "edit_album_metadata_has_description": "Beschreibung verfügbar.",
 
   "edit_playlist_title": "Playlist bearbeiten",
   "edit_playlist_name": "Name",

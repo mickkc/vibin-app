@@ -1,28 +1,29 @@
 
-import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
+import 'package:retrofit/retrofit.dart';
 import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/album/album_data.dart';
 import 'package:vibin_app/dtos/album/album_edit_data.dart';
+import 'package:vibin_app/dtos/album/album_info_metadata.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/artist/artist_metadata.dart';
 import 'package:vibin_app/dtos/login_result.dart';
 import 'package:vibin_app/dtos/media_token_response.dart';
 import 'package:vibin_app/dtos/metadata_sources.dart';
 import 'package:vibin_app/dtos/non_track_listen.dart';
-import 'package:vibin_app/dtos/playlist/playlist_edit_data.dart';
-import 'package:vibin_app/dtos/server_check.dart';
-import 'package:vibin_app/dtos/tags/tag.dart';
-import 'package:vibin_app/dtos/tags/tag_edit_data.dart';
-import 'package:vibin_app/dtos/track/minimal_track.dart';
 import 'package:vibin_app/dtos/pagination/album_pagination.dart';
 import 'package:vibin_app/dtos/pagination/artist_pagination.dart';
 import 'package:vibin_app/dtos/pagination/minimal_track_pagination.dart';
 import 'package:vibin_app/dtos/pagination/playlist_pagination.dart';
 import 'package:vibin_app/dtos/permission_granted.dart';
-import 'package:vibin_app/dtos/playlist/playlist_data.dart';
 import 'package:vibin_app/dtos/playlist/playlist.dart';
+import 'package:vibin_app/dtos/playlist/playlist_data.dart';
+import 'package:vibin_app/dtos/playlist/playlist_edit_data.dart';
+import 'package:vibin_app/dtos/server_check.dart';
 import 'package:vibin_app/dtos/success.dart';
+import 'package:vibin_app/dtos/tags/tag.dart';
+import 'package:vibin_app/dtos/tags/tag_edit_data.dart';
+import 'package:vibin_app/dtos/track/minimal_track.dart';
 import 'package:vibin_app/dtos/track/track.dart';
 import 'package:vibin_app/dtos/track/track_edit_data.dart';
 import 'package:vibin_app/dtos/track/track_info_metadata.dart';
@@ -110,6 +111,9 @@ abstract class ApiService {
 
   @GET("/api/metadata/track")
   Future<List<TrackInfoMetadata>> searchTrackMetadata(@Query("q") String query, @Query("provider") String provider);
+
+  @GET("/api/metadata/album")
+  Future<List<AlbumInfoMetadata>> searchAlbumMetadata(@Query("q") String query, @Query("provider") String provider);
 
   @GET("/api/metadata/artists")
   Future<List<ArtistMetadata>> searchArtistMetadata(@Query("q") String query, @Query("provider") String provider);

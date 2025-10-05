@@ -4,17 +4,20 @@ import 'package:json_annotation/json_annotation.dart';
 class MetadataSources {
   final List<String> file;
   final List<String> track;
+  final List<String> album;
   final List<String> artist;
 
   MetadataSources({
     required this.file,
     required this.track,
+    required this.album,
     required this.artist,
   });
 
   factory MetadataSources.fromJson(Map<String, dynamic> json) {
     return MetadataSources(
       file: List<String>.from(json['file']),
+      album: List<String>.from(json['album']),
       track: List<String>.from(json['track']),
       artist: List<String>.from(json['artist']),
     );
