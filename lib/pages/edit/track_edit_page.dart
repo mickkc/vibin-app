@@ -7,6 +7,7 @@ import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dialogs/artist_picker.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/track/track_edit_data.dart';
+import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/edit/search_metadata_dialog.dart';
 import 'package:vibin_app/widgets/edit/image_edit_field.dart';
@@ -53,15 +54,16 @@ class TrackEditPage extends StatefulWidget {
 class _TrackEditPageState extends State<TrackEditPage> {
 
   bool initialized = false;
-  late String trackTitle;
   late bool isExplicit;
   late int? trackNumber;
   late int? trackCount;
   late int? discNumber;
   late int? discCount;
   late int? year;
-  late String comment;
   late String? imageUrl;
+
+  TextEditingController titleController = TextEditingController();
+  TextEditingController commentController = TextEditingController();
 
   late String? albumName;
   late List<String> artistNames;
@@ -69,19 +71,22 @@ class _TrackEditPageState extends State<TrackEditPage> {
   final ApiManager apiManager = getIt<ApiManager>();
   final AuthState authState = getIt<AuthState>();
 
-  void init() {
-    if (initialized) return;
+  late final lm = AppLocalizations.of(context)!;
+  late final theme = Theme.of(context);
 
+  final formKey = GlobalKey<FormState>();
+
+  void init() {
     if (widget.trackId == null) {
       setState(() {
-        trackTitle = widget.trackTitle ?? "";
+        titleController.text = widget.trackTitle ?? "";
         isExplicit = widget.isExplicit ?? false;
         trackNumber = widget.trackNumber;
         trackCount = widget.trackCount;
         discNumber = widget.discNumber;
         discCount = widget.discCount;
         year = widget.year;
-        comment = widget.comment ?? "";
+        titleController.text = widget.comment ?? "";
         imageUrl = widget.imageUrl;
 
         albumName = null;
@@ -94,14 +99,14 @@ class _TrackEditPageState extends State<TrackEditPage> {
 
     apiManager.service.getTrack(widget.trackId!).then((data) {
       setState(() {
-        trackTitle = data.title;
+        titleController.text = data.title;
         isExplicit = data.explicit;
         trackNumber = data.trackNumber;
         trackCount = data.trackCount;
         discNumber = data.discNumber;
         discCount = data.discCount;
         year = data.year;
-        comment = data.comment ?? "";
+        commentController.text = data.comment ?? "";
         imageUrl = null;
 
         albumName = data.album.title;
@@ -141,10 +146,10 @@ class _TrackEditPageState extends State<TrackEditPage> {
       context: context,
       builder: (context) {
         return SearchTrackMetadataDialog(
-          initialSearch: trackTitle,
+          initialSearch: titleController.text,
           onSelect: (metadata) {
             setState(() {
-              trackTitle = metadata.title;
+              titleController.text = metadata.title;
               if (metadata.explicit != null) {
                 isExplicit = metadata.explicit!;
               }
@@ -153,8 +158,10 @@ class _TrackEditPageState extends State<TrackEditPage> {
               discNumber = metadata.discNumber;
               discCount = metadata.discCount;
               year = metadata.year;
-              comment = metadata.comment ?? comment;
+              commentController.text = metadata.comment ?? "";
               imageUrl = metadata.coverImageUrl;
+              albumName = metadata.albumName ?? albumName;
+              artistNames = metadata.artistNames ?? artistNames;
             });
           },
         );
@@ -162,34 +169,41 @@ class _TrackEditPageState extends State<TrackEditPage> {
     );
   }
 
-  Future<bool> save() async {
+  Future<void> save() async {
+
+    if (!formKey.currentState!.validate()) return;
+
     try {
       final editData = TrackEditData(
-        title: trackTitle,
+        title: titleController.text,
         explicit: isExplicit,
         trackNumber: trackNumber,
         trackCount: trackCount,
         discNumber: discNumber,
         discCount: discCount,
         year: year,
-        comment: comment,
+        comment: commentController.text,
         imageUrl: imageUrl,
         albumName: albumName,
         artistNames: artistNames,
         tagNames: null,
       );
+
       if (widget.onSave != null) {
         widget.onSave!(editData);
-      } else if (widget.trackId != null) {
+      }
+      else if (widget.trackId != null) {
         await apiManager.service.updateTrack(widget.trackId!, editData);
-      } else {
+      }
+      else {
         throw "Cannot save track: no track ID and no onSave callback provided";
       }
-      return true;
+
+      if (mounted) Navigator.pop(context);
     }
     catch (e) {
       log("Error saving track: $e", error: e, level: Level.error.value);
-      return false;
+      if (mounted) showErrorDialog(context, lm.edit_track_save_error);
     }
   }
 
@@ -204,190 +218,182 @@ class _TrackEditPageState extends State<TrackEditPage> {
     final lm = AppLocalizations.of(context)!;
 
     return !initialized ? CircularProgressIndicator() : Material(
-      child: ResponsiveEditView(
-        title: lm.edit_track_title,
-        actions: [
-          if (authState.hasPermission(PermissionType.deleteTracks) && widget.trackId != null)
-            ElevatedButton.icon(
-              onPressed: () {},
-              label: Text(lm.dialog_delete),
-              icon: Icon(Icons.delete_forever),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.errorContainer,
-                foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+      child: Form(
+        key: formKey,
+        child: ResponsiveEditView(
+          title: lm.edit_track_title,
+          actions: [
+            if (authState.hasPermission(PermissionType.deleteTracks) && widget.trackId != null)
+              ElevatedButton.icon(
+                onPressed: () {},
+                label: Text(lm.dialog_delete),
+                icon: Icon(Icons.delete_forever),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.colorScheme.errorContainer,
+                  foregroundColor: theme.colorScheme.onErrorContainer,
+                ),
               ),
-            ),
 
-          ElevatedButton.icon(
-            onPressed: () async { await searchMetadata(); },
-            label: Text(lm.edit_track_search_metadata),
-            icon: Icon(Icons.search),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-              foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+            ElevatedButton.icon(
+              onPressed: searchMetadata,
+              label: Text(lm.edit_track_search_metadata),
+              icon: Icon(Icons.search),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: theme.colorScheme.secondaryContainer,
+                foregroundColor: theme.colorScheme.onSecondaryContainer,
+              ),
             ),
-          ),
-          ElevatedButton.icon(
-            onPressed: () async {
-              final success = await save();
-              if (success) {
-                if (context.mounted) {
-                  Navigator.of(context).pop();
-                }
-              }
-              else {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(lm.edit_track_save_error))
-                  );
-                }
-              }
+            ElevatedButton.icon(
+              onPressed: save,
+              icon: Icon(Icons.save),
+              label: Text(lm.dialog_save),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            )
+          ],
+          imageEditWidget: ImageEditField(
+            imageUrl: imageUrl,
+            onImageChanged: (imageUrl) {
+              setState(() {
+                this.imageUrl = imageUrl;
+              });
             },
-            icon: Icon(Icons.save),
-            label: Text(lm.dialog_save),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-              foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+            fallbackImageUrl: "/api/tracks/${widget.trackId}/cover",
+            size: 256,
+            label: lm.edit_track_cover,
+          ),
+          children: [
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: lm.edit_track_name,
+              ),
+              controller: titleController,
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return lm.edit_track_name_validation_empty;
+                }
+                if (value.length > 255) {
+                  return lm.edit_track_name_validation_length;
+                }
+                return null;
+              },
             ),
-          )
-        ],
-        imageEditWidget: ImageEditField(
-          imageUrl: imageUrl,
-          onImageChanged: (imageUrl) {
-            setState(() {
-              this.imageUrl = imageUrl;
-            });
-          },
-          fallbackImageUrl: "/api/tracks/${widget.trackId}/cover",
-          size: 256,
-          label: lm.edit_track_cover,
+            TextField(
+              readOnly: true,
+              decoration: InputDecoration(
+                labelText: lm.edit_track_artists
+              ),
+              controller: TextEditingController(text: artistNames.join(", ")),
+              onTap: showArtistPicker,
+            ),
+            TypeAheadField<String>(
+              controller: TextEditingController(text: albumName),
+              builder: (context, controller, focusNode) {
+                return TextField(
+                  controller: controller,
+                  focusNode: focusNode,
+                  decoration: InputDecoration(
+                    labelText: lm.edit_track_album,
+                  ),
+                  onChanged: (value) {
+                    albumName = value;
+                  },
+                );
+              },
+              itemBuilder: (context, suggestion) {
+                return ListTile(title: Text(suggestion));
+              },
+              onSelected: (album) {
+                setState(() {
+                  albumName = album;
+                });
+              },
+              suggestionsCallback: (pattern) {
+                if (pattern.trim().length < 2) return [];
+                return autoCompleteAlbumNames(pattern);
+              }
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                labelText: lm.edit_track_comment,
+              ),
+              controller: commentController,
+              maxLines: null,
+            ),
+            NullableIntInput(
+              value: year,
+              onChanged: (yr) {
+                year = yr;
+              },
+              label: lm.edit_track_year,
+            ),
+            Row(
+              spacing: 16,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(Icons.music_note),
+                Expanded(
+                  child: NullableIntInput(
+                    value: trackNumber,
+                    onChanged: (tn) {
+                      trackNumber = tn;
+                    },
+                    label: lm.edit_track_number,
+                  ),
+                ),
+                Text("/"),
+                Expanded(
+                  child: NullableIntInput(
+                    value: trackCount,
+                    onChanged: (tc) {
+                      trackCount = tc;
+                    },
+                    label: lm.edit_track_count,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              spacing: 16,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(Icons.album),
+                Expanded(
+                  child: NullableIntInput(
+                    value: discNumber,
+                    onChanged: (dn) {
+                      discNumber = dn;
+                    },
+                    label: lm.edit_track_disc_number,
+                  ),
+                ),
+                Text("/"),
+                Expanded(
+                  child: NullableIntInput(
+                    value: discCount,
+                    onChanged: (dc) {
+                      discCount = dc;
+                    },
+                    label: lm.edit_track_disc_count,
+                  ),
+                ),
+              ],
+            ),
+            SwitchListTile(
+              value: isExplicit,
+              onChanged: (bool value) {
+                setState(() {
+                  isExplicit = value;
+                });
+              },
+              title: Text(lm.edit_track_explicit)
+            )
+          ],
         ),
-        children: [
-          TextField(
-            decoration: InputDecoration(
-              labelText: lm.edit_track_name,
-            ),
-            controller: TextEditingController(text: trackTitle),
-            onChanged: (value) {
-              trackTitle = value;
-            },
-          ),
-          TextField(
-            readOnly: true,
-            decoration: InputDecoration(
-              labelText: lm.edit_track_artists
-            ),
-            controller: TextEditingController(text: artistNames.join(", ")),
-            onTap: showArtistPicker,
-          ),
-          TypeAheadField<String>(
-            controller: TextEditingController(text: albumName),
-            builder: (context, controller, focusNode) {
-              return TextField(
-                controller: controller,
-                focusNode: focusNode,
-                decoration: InputDecoration(
-                  labelText: lm.edit_track_album,
-                ),
-                onChanged: (value) {
-                  albumName = value;
-                },
-              );
-            },
-            itemBuilder: (context, suggestion) {
-              return ListTile(title: Text(suggestion));
-            },
-            onSelected: (album) {
-              setState(() {
-                albumName = album;
-              });
-            },
-            suggestionsCallback: (pattern) {
-              if (pattern.trim().length < 2) return [];
-              return autoCompleteAlbumNames(pattern);
-            }
-          ),
-          TextField(
-            decoration: InputDecoration(
-              labelText: lm.edit_track_comment,
-            ),
-            controller: TextEditingController(text: comment),
-            onChanged: (value) {
-              comment = value;
-            },
-            maxLines: null,
-          ),
-          NullableIntInput(
-            value: year,
-            onChanged: (yr) {
-              year = yr;
-            },
-            label: lm.edit_track_year,
-          ),
-          Row(
-            spacing: 16,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(Icons.music_note),
-              Expanded(
-                child: NullableIntInput(
-                  value: trackNumber,
-                  onChanged: (tn) {
-                    trackNumber = tn;
-                  },
-                  label: lm.edit_track_number,
-                ),
-              ),
-              Text("/"),
-              Expanded(
-                child: NullableIntInput(
-                  value: trackCount,
-                  onChanged: (tc) {
-                    trackCount = tc;
-                  },
-                  label: lm.edit_track_count,
-                ),
-              ),
-            ],
-          ),
-          Row(
-            spacing: 16,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(Icons.album),
-              Expanded(
-                child: NullableIntInput(
-                  value: discNumber,
-                  onChanged: (dn) {
-                    discNumber = dn;
-                  },
-                  label: lm.edit_track_disc_number,
-                ),
-              ),
-              Text("/"),
-              Expanded(
-                child: NullableIntInput(
-                  value: discCount,
-                  onChanged: (dc) {
-                    discCount = dc;
-                  },
-                  label: lm.edit_track_disc_count,
-                ),
-              ),
-            ],
-          ),
-          SwitchListTile(
-            value: isExplicit,
-            onChanged: (bool value) {
-              setState(() {
-                isExplicit = value;
-              });
-            },
-            title: Text(lm.edit_track_explicit)
-          )
-        ],
       ),
     );
   }

@@ -800,6 +800,18 @@ abstract class AppLocalizations {
   /// **'Title'**
   String get edit_track_name;
 
+  /// No description provided for @edit_track_name_validation_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'The track title cannot be empty.'**
+  String get edit_track_name_validation_empty;
+
+  /// No description provided for @edit_track_name_validation_length.
+  ///
+  /// In en, this message translates to:
+  /// **'The track title cannot exceed 255 characters.'**
+  String get edit_track_name_validation_length;
+
   /// No description provided for @edit_track_number.
   ///
   /// In en, this message translates to:

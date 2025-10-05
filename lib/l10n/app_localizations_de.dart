@@ -380,6 +380,14 @@ class AppLocalizationsDe extends AppLocalizations {
   String get edit_track_name => 'Name';
 
   @override
+  String get edit_track_name_validation_empty =>
+      'Der Titel-Name darf nicht leer sein.';
+
+  @override
+  String get edit_track_name_validation_length =>
+      'Der Titel-Name darf maximal 255 Zeichen lang sein.';
+
+  @override
   String get edit_track_number => 'Tracknummer';
 
   @override
