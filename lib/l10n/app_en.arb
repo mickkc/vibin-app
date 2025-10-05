@@ -101,6 +101,11 @@
   "edit_album_title": "Edit Album",
   "edit_album_name": "Album Name",
   "edit_album_cover": "Album Cover",
+  "edit_album_name_validation_empty": "The album name cannot be empty.",
+  "edit_album_name_validation_length": "The album name cannot exceed 255 characters.",
+  "edit_album_description": "Description",
+  "edit_album_year": "Release Year",
+  "edit_album_year_validation_not_number": "Release year must be a valid number.",
   "edit_album_save_error": "An error occurred while saving the album.",
 
   "edit_playlist_title": "Edit Playlist",

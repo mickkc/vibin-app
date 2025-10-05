@@ -614,6 +614,36 @@ abstract class AppLocalizations {
   /// **'Album Cover'**
   String get edit_album_cover;
 
+  /// No description provided for @edit_album_name_validation_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'The album name cannot be empty.'**
+  String get edit_album_name_validation_empty;
+
+  /// No description provided for @edit_album_name_validation_length.
+  ///
+  /// In en, this message translates to:
+  /// **'The album name cannot exceed 255 characters.'**
+  String get edit_album_name_validation_length;
+
+  /// No description provided for @edit_album_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get edit_album_description;
+
+  /// No description provided for @edit_album_year.
+  ///
+  /// In en, this message translates to:
+  /// **'Release Year'**
+  String get edit_album_year;
+
+  /// No description provided for @edit_album_year_validation_not_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Release year must be a valid number.'**
+  String get edit_album_year_validation_not_number;
+
   /// No description provided for @edit_album_save_error.
   ///
   /// In en, this message translates to:

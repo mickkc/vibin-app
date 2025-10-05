@@ -270,6 +270,24 @@ class AppLocalizationsDe extends AppLocalizations {
   String get edit_album_cover => 'Albumcover';
 
   @override
+  String get edit_album_name_validation_empty =>
+      'Der Albumname darf nicht leer sein.';
+
+  @override
+  String get edit_album_name_validation_length =>
+      'Der Albumname darf maximal 255 Zeichen lang sein.';
+
+  @override
+  String get edit_album_description => 'Beschreibung';
+
+  @override
+  String get edit_album_year => 'Erscheinungsjahr';
+
+  @override
+  String get edit_album_year_validation_not_number =>
+      'Das Erscheinungsjahr muss eine Zahl sein.';
+
+  @override
   String get edit_album_save_error =>
       'Beim Speichern des Albums ist ein Fehler aufgetreten.';
 
