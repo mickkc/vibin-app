@@ -33,8 +33,8 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
   AppLocalizations get lm => AppLocalizations.of(context)!;
   ThemeData get theme => Theme.of(context);
 
-  late String? coverUrl;
-  late bool public;
+  String? coverUrl;
+  bool public = false;
 
   final formKey = GlobalKey<FormState>();
   late TextEditingController nameController;
@@ -52,6 +52,22 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
     descriptionController = TextEditingController();
     vibedefController = TextEditingController();
     super.initState();
+
+    if (widget.playlistId != null) {
+      apiManager.service.getPlaylist(widget.playlistId!).then((value) {
+        setState(() {
+          nameController.text = value.playlist.name;
+          descriptionController.text = value.playlist.description;
+          coverUrl = null;
+          vibedefController.text = value.playlist.vibedef ?? "";
+          public = value.playlist.public;
+          initialized = true;
+        });
+      });
+    }
+    else {
+      initialized = true;
+    }
   }
 
   @override
@@ -94,8 +110,6 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
   }
 
   Future<void> delete() async {
-    final lm = AppLocalizations.of(context)!;
-    final router = GoRouter.of(context);
 
     if (!await showConfirmDialog(context, lm.delete_playlist_confirmation, lm.delete_playlist_confirmation_warning)) {
       return;
@@ -118,33 +132,7 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    if (widget.playlistId != null) {
-      apiManager.service.getPlaylist(widget.playlistId!).then((value) {
-        if (initialized) return;
-        setState(() {
-          nameController.text = value.playlist.name;
-          descriptionController.text = value.playlist.description;
-          coverUrl = null;
-          vibedefController.text = value.playlist.vibedef ?? "";
-          public = value.playlist.public;
-        });
-        initialized = true;
-        return;
-      });
-    }
-    else {
-      if (!initialized) {
-        nameController.text = "";
-        descriptionController.text = "";
-        coverUrl = null;
-        vibedefController.text = "";
-        public = false;
-        initialized = true;
-      }
-    }
-
-    return !initialized ? CircularProgressIndicator() : Form(
+    return !initialized ? Center(child: CircularProgressIndicator()) : Form(
       key: formKey,
       child: ResponsiveEditView(
         title: lm.edit_playlist_title,

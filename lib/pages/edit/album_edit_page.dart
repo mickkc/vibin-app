@@ -46,6 +46,17 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
     titleController = TextEditingController();
     descriptionController = TextEditingController();
     yearController = TextEditingController();
+
+    apiManager.service.getAlbum(widget.albumId).then((value) {
+      setState(() {
+        titleController.text = value.album.title;
+        descriptionController.text = value.album.description;
+        yearController.text = value.album.year?.toString() ?? "";
+        albumCoverUrl = null;
+        initialized = true;
+      });
+      return;
+    });
   }
 
   @override
@@ -82,20 +93,7 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    apiManager.service.getAlbum(widget.albumId).then((value) {
-      if (initialized) return;
-      setState(() {
-        titleController.text = value.album.title;
-        descriptionController.text = value.album.description;
-        yearController.text = value.album.year?.toString() ?? "";
-        albumCoverUrl = null;
-        initialized = true;
-      });
-      return;
-    });
-
-    return !initialized ? CircularProgressIndicator() : Material(
+    return !initialized ? Center(child: CircularProgressIndicator()) : Material(
       child: Form(
         key: formKey,
         child: ResponsiveEditView(
