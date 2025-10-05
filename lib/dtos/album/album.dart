@@ -6,6 +6,8 @@ import 'package:vibin_app/dtos/image.dart';
 class Album {
   final int id;
   final String title;
+  final String description;
+  final int? year;
   final List<Artist> artists;
   final Image? cover;
   final int trackCount;
@@ -20,12 +22,16 @@ class Album {
     required this.trackCount,
     required this.createdAt,
     this.updatedAt,
+    required this.description,
+    this.year,
   });
 
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(
       id: json['id'],
       title: json['title'],
+      description: json['description'],
+      year: json['year'],
       artists: (json['artists'] as List<dynamic>)
           .map((artistJson) => Artist.fromJson(artistJson))
           .toList(),
