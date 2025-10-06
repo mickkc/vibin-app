@@ -159,6 +159,12 @@
   "edit_track_explicit": "Explicit",
   "edit_track_save_error": "An error occurred while saving the track.",
   "edit_track_search_metadata": "Search Metadata",
+  "edit_track_lyrics": "Lyrics",
+  "edit_track_lyrics_hint": "Enter lyrics in .lrc format (synchronized) or plain text.",
+  "edit_track_search_lyrics": "Search Lyrics",
+  "edit_track_lyrics_synced": "Synchronized",
+  "edit_track_lyrics_unsynced": "Unsynchronized",
+  "edit_track_lyrics_open": "Open",
 
   "edit_tag_title": "Edit Tag",
   "create_tag_title": "Create Tag",

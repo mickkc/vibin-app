@@ -448,6 +448,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get edit_track_search_metadata => 'Search Metadata';
 
   @override
+  String get edit_track_lyrics => 'Lyrics';
+
+  @override
+  String get edit_track_lyrics_hint =>
+      'Enter lyrics in .lrc format (synchronized) or plain text.';
+
+  @override
+  String get edit_track_search_lyrics => 'Search Lyrics';
+
+  @override
+  String get edit_track_lyrics_synced => 'Synchronized';
+
+  @override
+  String get edit_track_lyrics_unsynced => 'Unsynchronized';
+
+  @override
+  String get edit_track_lyrics_open => 'Open';
+
+  @override
   String get edit_tag_title => 'Edit Tag';
 
   @override

@@ -938,6 +938,42 @@ abstract class AppLocalizations {
   /// **'Search Metadata'**
   String get edit_track_search_metadata;
 
+  /// No description provided for @edit_track_lyrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Lyrics'**
+  String get edit_track_lyrics;
+
+  /// No description provided for @edit_track_lyrics_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter lyrics in .lrc format (synchronized) or plain text.'**
+  String get edit_track_lyrics_hint;
+
+  /// No description provided for @edit_track_search_lyrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Lyrics'**
+  String get edit_track_search_lyrics;
+
+  /// No description provided for @edit_track_lyrics_synced.
+  ///
+  /// In en, this message translates to:
+  /// **'Synchronized'**
+  String get edit_track_lyrics_synced;
+
+  /// No description provided for @edit_track_lyrics_unsynced.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsynchronized'**
+  String get edit_track_lyrics_unsynced;
+
+  /// No description provided for @edit_track_lyrics_open.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get edit_track_lyrics_open;
+
   /// No description provided for @edit_tag_title.
   ///
   /// In en, this message translates to:

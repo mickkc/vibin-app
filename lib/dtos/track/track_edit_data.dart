@@ -14,6 +14,7 @@ class TrackEditData {
   final String? albumName;
   final List<String>? artistNames;
   final List<String>? tagNames;
+  final String? lyrics;
 
   TrackEditData({
     this.title,
@@ -28,6 +29,7 @@ class TrackEditData {
     this.albumName,
     this.artistNames,
     this.tagNames,
+    this.lyrics,
   });
 
   factory TrackEditData.fromJson(Map<String, dynamic> json) {
@@ -48,6 +50,7 @@ class TrackEditData {
       tagNames: json['tagNames'] != null
           ? List<String>.from(json['tagIds'])
           : null,
+      lyrics: json['lyrics'],
     );
   }
 
@@ -65,6 +68,7 @@ class TrackEditData {
       'albumName': albumName,
       'artistNames': artistNames,
       'tagNames': tagNames,
+      'lyrics': lyrics,
     };
   }
 }

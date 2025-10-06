@@ -108,7 +108,10 @@ Future<void> showMessageDialog(BuildContext context, String title, String conten
     builder: (context) => AlertDialog(
       icon: icon != null ? Icon(icon, size: 48) : null,
       title: Text(title),
-      content: Text(content),
+      content: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Text(content)
+      ),
       actions: [
         ElevatedButton(
           onPressed: () {

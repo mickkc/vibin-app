@@ -453,6 +453,25 @@ class AppLocalizationsDe extends AppLocalizations {
   String get edit_track_search_metadata => 'Metadaten suchen';
 
   @override
+  String get edit_track_lyrics => 'Liedtext';
+
+  @override
+  String get edit_track_lyrics_hint =>
+      'Gib den Liedtext im .lrc-Format (synchronisiert) oder als reinen Text ein.';
+
+  @override
+  String get edit_track_search_lyrics => 'Liedtext suchen';
+
+  @override
+  String get edit_track_lyrics_synced => 'Synchronisiert';
+
+  @override
+  String get edit_track_lyrics_unsynced => 'Nicht synchronisiert';
+
+  @override
+  String get edit_track_lyrics_open => 'Öffnen';
+
+  @override
   String get edit_tag_title => 'Tag bearbeiten';
 
   @override

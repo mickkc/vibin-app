@@ -9,6 +9,7 @@ import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/artist/artist_metadata.dart';
 import 'package:vibin_app/dtos/login_result.dart';
 import 'package:vibin_app/dtos/lyrics.dart';
+import 'package:vibin_app/dtos/lyrics_metadata.dart';
 import 'package:vibin_app/dtos/media_token_response.dart';
 import 'package:vibin_app/dtos/metadata_sources.dart';
 import 'package:vibin_app/dtos/non_track_listen.dart';
@@ -118,6 +119,9 @@ abstract class ApiService {
 
   @GET("/api/metadata/artists")
   Future<List<ArtistMetadata>> searchArtistMetadata(@Query("q") String query, @Query("provider") String provider);
+
+  @GET("/api/metadata/lyrics")
+  Future<List<LyricsMetadata>> searchLyricsMetadata(@Query("q") String query, @Query("provider") String provider);
 
   // Permissions
 

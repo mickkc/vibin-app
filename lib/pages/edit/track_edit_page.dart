@@ -9,6 +9,7 @@ import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/track/track_edit_data.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/pages/edit/search_lyrics_dialog.dart';
 import 'package:vibin_app/pages/edit/search_track_metadata_dialog.dart';
 import 'package:vibin_app/widgets/edit/image_edit_field.dart';
 import 'package:vibin_app/widgets/edit/nullable_int_input.dart';
@@ -62,8 +63,12 @@ class _TrackEditPageState extends State<TrackEditPage> {
   late int? year;
   late String? imageUrl;
 
+  late int? trackDuration;
+
   TextEditingController titleController = TextEditingController();
   TextEditingController commentController = TextEditingController();
+
+  TextEditingController lyricsController = TextEditingController();
 
   late String? albumName;
   late List<String> artistNames;
@@ -112,7 +117,15 @@ class _TrackEditPageState extends State<TrackEditPage> {
         albumName = data.album.title;
         artistNames = data.artists.map((a) => a.name).toList();
 
+        trackDuration = data.duration;
+
         initialized = true;
+      });
+    });
+
+    apiManager.service.getTrackLyrics(widget.trackId!).then((data) {
+      setState(() {
+        lyricsController.text = data.lyrics ?? "";
       });
     });
   }
@@ -169,6 +182,23 @@ class _TrackEditPageState extends State<TrackEditPage> {
     );
   }
 
+  Future<void> searchLyrics() async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return SearchLyricsDialog(
+          onSelect: (metadata) {
+            setState(() {
+              lyricsController.text = metadata.content;
+            });
+          },
+          initialSearch: "${artistNames.isEmpty ? "" : "${artistNames.first} - "}${titleController.text}",
+          duration: trackDuration,
+        );
+      }
+    );
+  }
+
   Future<void> save() async {
 
     if (!formKey.currentState!.validate()) return;
@@ -187,6 +217,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
         albumName: albumName,
         artistNames: artistNames,
         tagNames: null,
+        lyrics: lyricsController.text.isEmpty ? null : lyricsController.text
       );
 
       if (widget.onSave != null) {
@@ -391,6 +422,31 @@ class _TrackEditPageState extends State<TrackEditPage> {
                 });
               },
               title: Text(lm.edit_track_explicit)
+            ),
+            Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  lm.edit_track_lyrics,
+                  style: theme.textTheme.headlineMedium,
+                ),
+                IconButton(
+                  onPressed: searchLyrics,
+                  icon: Icon(Icons.search),
+                  tooltip: lm.edit_track_search_lyrics,
+                )
+              ],
+            ),
+            Text(lm.edit_track_lyrics_hint),
+            TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+              controller: lyricsController,
+              maxLines: null,
+              minLines: 6,
             )
           ],
         ),
