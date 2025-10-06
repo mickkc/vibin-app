@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/auth/AuthState.dart';
+import 'package:vibin_app/main_layout.dart';
 import 'package:vibin_app/pages/drawer.dart';
 import 'package:vibin_app/pages/edit/album_edit_page.dart';
 import 'package:vibin_app/pages/edit/playlist_edit_page.dart';
@@ -77,15 +78,15 @@ GoRouter configureRouter(AuthState authState) {
                   height: 32,
                   padding: EdgeInsets.all(8),
                   borderRadius: BorderRadius.circular(16),
-                )
+                ),
               ],
             ) : null,
             drawer: authState.loggedIn ? Drawer(
               child: DrawerComponent(),
             ) : null,
             bottomNavigationBar: loggedIn ? NowPlayingBar() : null,
-            body: SingleChildScrollView(
-              child: Listener(
+            body: !authState.loggedIn ? child : MainLayoutView(
+              mainContent: Listener(
                 onPointerDown: (PointerDownEvent event) async {
                   final router = GoRouter.of(context);
                   if (event.kind == PointerDeviceKind.mouse) {
@@ -101,12 +102,14 @@ GoRouter configureRouter(AuthState authState) {
                     }
                   }
                 },
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: child,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: child,
+                  ),
                 ),
-              ),
-            ),
+              )
+            )
           );
         },
         routes: [

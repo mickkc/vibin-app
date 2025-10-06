@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/main_layout.dart';
 import 'package:vibin_app/pages/now_playing_page.dart';
 
 class NowPlayingBar extends StatefulWidget {
@@ -16,6 +17,8 @@ class NowPlayingBar extends StatefulWidget {
 class _NowPlayingBarState extends State<NowPlayingBar> {
 
   final AudioManager audioManager = getIt<AudioManager>();
+  late final theme = Theme.of(context);
+
   late var isPlaying = audioManager.audioPlayer.playing;
   late var position = audioManager.audioPlayer.position;
   late var shuffleEnabled = audioManager.audioPlayer.shuffleModeEnabled;
@@ -94,6 +97,8 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
     }
   }
 
+  double get width => MediaQuery.sizeOf(context).width;
+
   @override
   Widget build(BuildContext context) {
     final showExtendedControls = MediaQuery.sizeOf(context).width > 600;
@@ -166,6 +171,40 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
                 ),
                 Row(
                   children: [
+                    if (width > 900) ... [
+                      ValueListenableBuilder(
+                        valueListenable: sidebarNotifier,
+                        builder: (context, value, child) {
+                          return Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  sidebarNotifier.value = value == SidebarType.queue ? SidebarType.none : SidebarType.queue;
+                                },
+                                icon: Icon(
+                                  Icons.queue_music_outlined,
+                                  color: value == SidebarType.queue
+                                    ? theme.colorScheme.primary
+                                    : theme.colorScheme.onSurface
+                                )
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  sidebarNotifier.value = value == SidebarType.lyrics ? SidebarType.none : SidebarType.lyrics;
+                                },
+                                icon: Icon(
+                                  Icons.lyrics_outlined,
+                                  color: value == SidebarType.lyrics
+                                    ? theme.colorScheme.primary
+                                    : theme.colorScheme.onSurface
+                                )
+                              ),
+                            ],
+                          );
+                        }
+                      ),
+                      const SizedBox(width: 16)
+                    ],
                     if (showExtendedControls) ... [
                       IconButton(
                           onPressed: toggleRepeat,
