@@ -170,6 +170,24 @@ class AppLocalizationsDe extends AppLocalizations {
   String get now_playing_queue => 'Warteschlange';
 
   @override
+  String get now_playing_shuffle => 'Zufallswiedergabe';
+
+  @override
+  String get now_playing_repeat => 'Wiederholen';
+
+  @override
+  String get now_playing_play => 'Abspielen';
+
+  @override
+  String get now_playing_pause => 'Pausieren';
+
+  @override
+  String get now_playing_previous => 'Vorheriger Titel';
+
+  @override
+  String get now_playing_next => 'Nächster Titel';
+
+  @override
   String get playlists_private => 'Privat';
 
   @override

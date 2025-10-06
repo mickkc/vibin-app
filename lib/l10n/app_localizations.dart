@@ -410,6 +410,42 @@ abstract class AppLocalizations {
   /// **'Queue'**
   String get now_playing_queue;
 
+  /// No description provided for @now_playing_shuffle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shuffle'**
+  String get now_playing_shuffle;
+
+  /// No description provided for @now_playing_repeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat'**
+  String get now_playing_repeat;
+
+  /// No description provided for @now_playing_play.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get now_playing_play;
+
+  /// No description provided for @now_playing_pause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get now_playing_pause;
+
+  /// No description provided for @now_playing_previous.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get now_playing_previous;
+
+  /// No description provided for @now_playing_next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get now_playing_next;
+
   /// No description provided for @playlists_private.
   ///
   /// In en, this message translates to:

@@ -7,6 +7,8 @@ import 'package:vibin_app/main.dart';
 import 'package:vibin_app/main_layout.dart';
 import 'package:vibin_app/pages/now_playing_page.dart';
 
+import '../../l10n/app_localizations.dart';
+
 class NowPlayingBar extends StatefulWidget {
   const NowPlayingBar({super.key});
 
@@ -18,6 +20,7 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
 
   final AudioManager audioManager = getIt<AudioManager>();
   late final theme = Theme.of(context);
+  late final lm = AppLocalizations.of(context)!;
 
   late var isPlaying = audioManager.audioPlayer.playing;
   late var position = audioManager.audioPlayer.position;
@@ -120,7 +123,7 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
           SliderTheme(
             data: SliderTheme.of(context).copyWith(
               trackHeight: 4,
-              activeTrackColor: Theme.of(context).colorScheme.primary,
+              activeTrackColor: theme.colorScheme.primary,
               thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 4),
               overlayShape: const RoundSliderOverlayShape(overlayRadius: 4),
               padding: EdgeInsets.all(8.0)
@@ -134,7 +137,7 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
           ),
           Container(
             height: 60,
-            color: Theme.of(context).colorScheme.surface,
+            color: theme.colorScheme.surface,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -159,13 +162,13 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
                           currentMediaItem!.title,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
-                          style: Theme.of(context).textTheme.bodyLarge
+                          style: theme.textTheme.bodyLarge
                       ),
                       Text(
                           currentMediaItem!.artist ?? "",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: theme.textTheme.bodyMedium,
                       ),
                   ]),
                 ),
@@ -186,7 +189,8 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
                                   color: value == SidebarType.queue
                                     ? theme.colorScheme.primary
                                     : theme.colorScheme.onSurface
-                                )
+                                ),
+                                tooltip: lm.now_playing_queue,
                               ),
                               IconButton(
                                 onPressed: () {
@@ -197,7 +201,8 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
                                   color: value == SidebarType.lyrics
                                     ? theme.colorScheme.primary
                                     : theme.colorScheme.onSurface
-                                )
+                                ),
+                                tooltip: lm.now_playing_lyrics,
                               ),
                             ],
                           );
@@ -207,19 +212,37 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
                     ],
                     if (showExtendedControls) ... [
                       IconButton(
-                          onPressed: toggleRepeat,
-                          icon: switch(repeatMode) {
-                            LoopMode.off => Icon(Icons.repeat, color: Theme.of(context).colorScheme.onSurface),
-                            LoopMode.all => Icon(Icons.repeat, color: Theme.of(context).colorScheme.primary),
-                            LoopMode.one => Icon(Icons.repeat_one, color: Theme.of(context).colorScheme.primary)
-                          }
+                        onPressed: toggleRepeat,
+                        icon: switch(repeatMode) {
+                          LoopMode.off => Icon(Icons.repeat, color: theme.colorScheme.onSurface),
+                          LoopMode.all => Icon(Icons.repeat, color: theme.colorScheme.primary),
+                          LoopMode.one => Icon(Icons.repeat_one, color: theme.colorScheme.primary)
+                        },
+                        tooltip: lm.now_playing_repeat,
                       ),
-                      IconButton(onPressed: toggleShuffle, icon: Icon(Icons.shuffle), color: shuffleEnabled ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface),
+                      IconButton(
+                        onPressed: toggleShuffle,
+                        icon: Icon(Icons.shuffle),
+                        color: shuffleEnabled ? theme.colorScheme.primary : theme.colorScheme.onSurface,
+                        tooltip: lm.now_playing_shuffle
+                      ),
                       SizedBox(width: 16)
                     ],
-                    IconButton(onPressed: skipPrevious, icon: const Icon(Icons.skip_previous)),
-                    IconButton(onPressed: playPause, icon: isPlaying ? Icon(Icons.pause) : Icon(Icons.play_arrow)),
-                    IconButton(onPressed: skipNext, icon: const Icon(Icons.skip_next)),
+                    IconButton(
+                      onPressed: skipPrevious,
+                      icon: const Icon(Icons.skip_previous),
+                      tooltip: lm.now_playing_previous
+                    ),
+                    IconButton(
+                      onPressed: playPause,
+                      icon: isPlaying ? Icon(Icons.pause) : Icon(Icons.play_arrow),
+                      tooltip: isPlaying ? lm.now_playing_pause : lm.now_playing_play
+                    ),
+                    IconButton(
+                      onPressed: skipNext,
+                      icon: const Icon(Icons.skip_next),
+                      tooltip: lm.now_playing_next
+                    ),
                   ],
                 )
               ],

@@ -63,6 +63,12 @@
   "now_playing_lyrics": "Liedtext",
   "now_plying_advanced_controls": "Erweiterte Steuerung",
   "now_playing_queue": "Warteschlange",
+  "now_playing_shuffle": "Zufallswiedergabe",
+  "now_playing_repeat": "Wiederholen",
+  "now_playing_play": "Abspielen",
+  "now_playing_pause": "Pausieren",
+  "now_playing_previous": "Vorheriger Titel",
+  "now_playing_next": "Nächster Titel",
 
   "track_actions_add_to_playlist": "Zu Playlist hinzufügen",
   "track_actions_add_to_queue": "Zur Warteschlange hinzufügen",

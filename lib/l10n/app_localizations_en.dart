@@ -169,6 +169,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get now_playing_queue => 'Queue';
 
   @override
+  String get now_playing_shuffle => 'Shuffle';
+
+  @override
+  String get now_playing_repeat => 'Repeat';
+
+  @override
+  String get now_playing_play => 'Play';
+
+  @override
+  String get now_playing_pause => 'Pause';
+
+  @override
+  String get now_playing_previous => 'Previous';
+
+  @override
+  String get now_playing_next => 'Next';
+
+  @override
   String get playlists_private => 'Private';
 
   @override

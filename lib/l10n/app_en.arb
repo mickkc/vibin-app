@@ -60,6 +60,12 @@
   "now_playing_lyrics": "Lyrics",
   "now_plying_advanced_controls": "Advanced Controls",
   "now_playing_queue": "Queue",
+  "now_playing_shuffle": "Shuffle",
+  "now_playing_repeat": "Repeat",
+  "now_playing_play": "Play",
+  "now_playing_pause": "Pause",
+  "now_playing_previous": "Previous",
+  "now_playing_next": "Next",
 
   "playlists_private": "Private",
   "playlists_public": "Public",
