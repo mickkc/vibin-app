@@ -130,8 +130,30 @@ class _LyricsDialogState extends State<LyricsDialog> {
             );
           }
 
-          final parsedLyrics = parseLyrics(data.lyrics!);
+          var parsedLyrics = parseLyrics(data.lyrics!);
           final lyricTimestamps = parsedLyrics.keys.toList();
+
+          if (parsedLyrics.isEmpty) {
+            final lines = data.lyrics!.split('\n');
+
+            return Container(
+              color: backgroundColor,
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16.0),
+                itemCount: lines.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Text(
+                      lines[index],
+                      style: TextStyle(color: textColor, fontSize: 16),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                }
+              ),
+            );
+          }
 
           return Container(
             color: backgroundColor,
