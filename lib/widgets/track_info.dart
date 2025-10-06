@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:vibin_app/widgets/tag_widget.dart';
 
 import '../api/api_manager.dart';
+import '../l10n/app_localizations.dart';
 import '../main.dart';
 import 'future_content.dart';
 import 'icon_text.dart';
@@ -30,6 +31,9 @@ class TrackInfoView extends StatelessWidget {
     final apiManager = getIt<ApiManager>();
     final trackFuture = apiManager.service.getTrack(trackId);
 
+    final lm = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+
     return FutureContent(
       future: trackFuture,
       builder: (context, track) {
@@ -53,7 +57,7 @@ class TrackInfoView extends StatelessWidget {
                 for (var artist in track.artists) ...[
                   InkWell(
                     onTap: () => openArtistPage(context, artist.id),
-                    child: Text(artist.name, style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+                    child: Text(artist.name, style: TextStyle(color: theme.colorScheme.primary)),
                   ),
                   if (artist != track.artists.last)
                     const Text("•")
@@ -66,7 +70,7 @@ class TrackInfoView extends StatelessWidget {
                 Icon(Icons.album),
                 InkWell(
                   onTap: () => openAlbumPage(context, track.album.id),
-                  child: Text(track.album.title, style: TextStyle(color: Theme.of(context).colorScheme.primary))
+                  child: Text(track.album.title, style: TextStyle(color: theme.colorScheme.primary))
                 ),
               ],
             ),
@@ -80,24 +84,27 @@ class TrackInfoView extends StatelessWidget {
                 runAlignment: WrapAlignment.center,
                 alignment: WrapAlignment.start,
                 children: [
-                  if (track.duration != null) ... [
-                    IconText(icon: Icons.schedule, text: "${(track.duration! / 1000 / 60).floor()}:${((track.duration! / 1000) % 60).round().toString().padLeft(2, '0')}")
-                  ],
-                  if (track.year != null) ... [
-                    IconText(icon: Icons.date_range, text: track.year!.toString())
-                  ],
-                  if (track.trackCount != null || track.trackNumber != null) ... [
+                  if (track.duration != null)
+                    IconText(icon: Icons.schedule, text: "${(track.duration! / 1000 / 60).floor()}:${((track.duration! / 1000) % 60).round().toString().padLeft(2, '0')}"),
+
+                  if (track.year != null)
+                    IconText(icon: Icons.date_range, text: track.year!.toString()),
+
+                  if (track.trackCount != null || track.trackNumber != null)
                     IconText(icon: Icons.music_note, text: "${track.trackNumber ?? "?"}/${track.trackCount ?? "?"}"),
-                  ],
-                  if (track.discCount != null || track.discNumber != null) ... [
+
+                  if (track.discCount != null || track.discNumber != null)
                     IconText(icon: Icons.album, text: "${track.discNumber ?? "?"}/${track.discCount ?? "?"}"),
-                  ],
-                  if (track.bitrate != null) ... [
-                    IconText(icon: Icons.multitrack_audio, text: "${track.bitrate!} kbps")
-                  ],
-                  if (track.explicit) ... [
-                    IconText(icon: Icons.explicit, text: "Explicit")
-                  ],
+
+                  if (track.bitrate != null)
+                    IconText(icon: Icons.multitrack_audio, text: "${track.bitrate!} kbps"),
+
+                  if (track.explicit)
+                    IconText(icon: Icons.explicit, text: lm.edit_track_explicit),
+
+                  if (track.hasLyrics)
+                    IconText(icon: Icons.lyrics, text: lm.edit_track_lyrics),
+
                   for (var tag in track.tags) ...[
                     TagWidget(tag: tag)
                   ]
