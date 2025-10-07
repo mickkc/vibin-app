@@ -584,6 +584,18 @@ abstract class AppLocalizations {
   /// **'Create New Playlist'**
   String get playlists_create_new;
 
+  /// No description provided for @albums_show_singles.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Singles'**
+  String get albums_show_singles;
+
+  /// No description provided for @albums_hide_singles.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide Singles'**
+  String get albums_hide_singles;
+
   /// No description provided for @dialog_error.
   ///
   /// In en, this message translates to:
@@ -1123,6 +1135,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'When enabled, the playlist overview will show only your own playlists by default.'**
   String get settings_app_show_own_playlists_by_default_description;
+
+  /// No description provided for @settings_app_show_singles_in_albums_by_default.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Singles in Albums by Default'**
+  String get settings_app_show_singles_in_albums_by_default;
+
+  /// No description provided for @settings_app_show_singles_in_albums_by_default_description.
+  ///
+  /// In en, this message translates to:
+  /// **'When enabled, singles will be shown in the album overview by default.'**
+  String get settings_app_show_singles_in_albums_by_default_description;
 
   /// No description provided for @settings_app_homepage_sections_title.
   ///

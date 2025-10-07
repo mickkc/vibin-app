@@ -95,6 +95,9 @@
   "playlists_show_owned": "Eigene Playlists anzeigen",
   "playlists_create_new": "Neue Playlist erstellen",
 
+  "albums_show_singles": "Singles anzeigen",
+  "albums_hide_singles": "Singles ausblenden",
+
   "dialog_error": "Fehler",
   "dialog_warning": "Warnung",
   "dialog_info": "Info",
@@ -197,6 +200,9 @@
 
   "settings_app_show_own_playlists_by_default": "Eigene Playlists standardmäßig anzeigen",
   "settings_app_show_own_playlists_by_default_description": "Wenn aktiviert, werden in der Playlist-Übersicht standardmäßig nur deine eigenen Playlists angezeigt.",
+
+  "settings_app_show_singles_in_albums_by_default": "Singles in Alben standardmäßig anzeigen",
+  "settings_app_show_singles_in_albums_by_default_description": "Wenn aktiviert, werden in der Album-Übersicht standardmäßig auch Singles angezeigt.",
 
   "settings_app_homepage_sections_title": "Startseiten-Abschnitte",
   "settings_app_homepage_sections_description": "Wähle die Abschnitte aus, die auf der Startseite angezeigt werden sollen, und ordne sie per Drag & Drop neu an."

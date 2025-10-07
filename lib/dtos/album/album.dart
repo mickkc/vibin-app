@@ -11,6 +11,7 @@ class Album {
   final List<Artist> artists;
   final Image? cover;
   final int trackCount;
+  final bool? single;
   final int createdAt;
   final int? updatedAt;
 
@@ -20,6 +21,7 @@ class Album {
     required this.artists,
     this.cover,
     required this.trackCount,
+    this.single,
     required this.createdAt,
     this.updatedAt,
     required this.description,
@@ -37,6 +39,7 @@ class Album {
           .toList(),
       cover: json['cover'] != null ? Image.fromJson(json['cover']) : null,
       trackCount: json['trackCount'],
+      single: json['single'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
     );

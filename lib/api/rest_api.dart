@@ -69,7 +69,7 @@ abstract class ApiService {
   // Albums
 
   @GET("/api/albums")
-  Future<AlbumPagination> getAlbums(@Query("page") int page, @Query("pageSize") int? pageSize, @Query("query") String? query);
+  Future<AlbumPagination> getAlbums(@Query("page") int page, @Query("pageSize") int? pageSize, @Query("query") String? query, @Query("showSingles") bool? showSingles);
 
   @GET("/api/albums/{id}")
   Future<AlbumData> getAlbum(@Path("id") int id);

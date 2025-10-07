@@ -88,6 +88,13 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
             icon: Icons.playlist_play
           ),
 
+          BoolSettingsField(
+            settingsKey: Settings.showSinglesInAlbumsByDefault,
+            title: lm.settings_app_show_singles_in_albums_by_default,
+            description: lm.settings_app_show_singles_in_albums_by_default_description,
+            icon: Icons.library_music
+          ),
+
           Divider(),
 
           HomepageSectionsList()

@@ -259,6 +259,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get playlists_create_new => 'Neue Playlist erstellen';
 
   @override
+  String get albums_show_singles => 'Singles anzeigen';
+
+  @override
+  String get albums_hide_singles => 'Singles ausblenden';
+
+  @override
   String get dialog_error => 'Fehler';
 
   @override
@@ -557,6 +563,14 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get settings_app_show_own_playlists_by_default_description =>
       'Wenn aktiviert, werden in der Playlist-Übersicht standardmäßig nur deine eigenen Playlists angezeigt.';
+
+  @override
+  String get settings_app_show_singles_in_albums_by_default =>
+      'Singles in Alben standardmäßig anzeigen';
+
+  @override
+  String get settings_app_show_singles_in_albums_by_default_description =>
+      'Wenn aktiviert, werden in der Album-Übersicht standardmäßig auch Singles angezeigt.';
 
   @override
   String get settings_app_homepage_sections_title => 'Startseiten-Abschnitte';
