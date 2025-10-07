@@ -36,12 +36,13 @@ class AlbumInfoPage extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           maxLines: 1
         ),
-        Text(
-          data.album.description,
-          style: theme.textTheme.bodyMedium,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 3
-        ),
+        if (data.album.description.isNotEmpty)
+          Text(
+            data.album.description,
+            style: theme.textTheme.bodyMedium,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 3
+          ),
         Wrap(
           spacing: 8,
           runSpacing: 8,
