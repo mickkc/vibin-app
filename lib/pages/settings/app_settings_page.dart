@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
+import 'package:vibin_app/widgets/settings/accent_color_picker.dart';
 import 'package:vibin_app/widgets/settings/bool_settings_field.dart';
 import 'package:vibin_app/widgets/settings/homepage_sections_list.dart';
 import 'package:vibin_app/widgets/settings/int_settings_field.dart';
@@ -54,7 +55,7 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
               ],
               onChanged: (value) {
                 if (value != null) {
-                  themeModeNotifier.value = value;
+                  themeNotifier.value = themeNotifier.value.setThemeMode(value);
                   settingsManager.set(Settings.themeMode, value);
                   setState(() {
                     themeMode = value;
@@ -62,6 +63,15 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
                 }
               },
             ),
+          ),
+
+          ListTile(
+            title: Text(lm.settings_app_accent_color_title),
+            subtitle: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AccentColorPicker(),
+            ),
+            leading: Icon(Icons.palette),
           ),
 
           IntSettingsInputField(

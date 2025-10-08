@@ -1118,6 +1118,12 @@ abstract class AppLocalizations {
   /// **'Dark'**
   String get settings_app_theme_dark;
 
+  /// No description provided for @settings_app_accent_color_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Accent Color'**
+  String get settings_app_accent_color_title;
+
   /// No description provided for @settings_app_page_size_title.
   ///
   /// In en, this message translates to:

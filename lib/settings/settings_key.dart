@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 abstract class SettingsKey<T> {
   final String key;
   final T defaultValue;
@@ -78,5 +80,23 @@ class OrderedMapSettingsKey extends SettingsKey<List<Entry<String, String>>> {
   @override
   String serialize(List<Entry<String, String>> value) {
     return value.map((e) => '${e.key}:${e.value}').join(',');
+  }
+}
+
+class NullableColorSettingsKey extends SettingsKey<Color?> {
+  const NullableColorSettingsKey(super.key, super.defaultValue);
+
+  @override
+  Color? parse(String value) {
+    if (value.isEmpty) return null;
+    final intValue = int.tryParse(value);
+    if (intValue == null) return null;
+    return Color(intValue);
+  }
+
+  @override
+  String serialize(Color? value) {
+    if (value == null) return '';
+    return value.toARGB32().toString();
   }
 }

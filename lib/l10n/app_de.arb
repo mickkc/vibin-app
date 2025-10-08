@@ -195,6 +195,8 @@
   "settings_app_theme_light": "Hell",
   "settings_app_theme_dark": "Dunkel",
 
+  "settings_app_accent_color_title": "Akzentfarbe",
+
   "settings_app_page_size_title": "Seitengröße",
   "settings_app_page_size_description": "Die Anzahl der Elemente, die pro Seite in Übersichten geladen werden.",
 

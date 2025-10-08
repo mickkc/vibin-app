@@ -17,7 +17,7 @@ Please note that this project, just like the server, is still in its early stage
 - [ ] Test on Windows, MacOS and iOS
 - [x] Dark/Light mode
 - [x] Dynamic color scheme
-- [ ] Manual color schemes
+- [x] Manual color schemes
 - [x] Player controls
     - [x] Play/Pause
     - [x] Next/Previous track
@@ -80,7 +80,11 @@ Please note that this project, just like the server, is still in its early stage
     - [x] Show own playlists by default
     - [x] Hide singles in albums by default
     - [x] Enable/disable/reorder homepage sections
-    - [ ] Preferred metadata provider
+    - [x] Preferred metadata provider
+    - [ ] Blocked tags
+    - [ ] Block explicit content
+    - [ ] Enable/disable dynamic color scheme
+    - [x] Manual color scheme selection
     - [ ] ...
   - [ ] Server settings
     - [ ] ...

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 
@@ -164,4 +165,25 @@ Future<void> showInfoDialog(BuildContext context, String content) async {
       ],
     )
   );
+}
+
+class MergedListenable extends ChangeNotifier {
+  final List<ValueListenable> listenables;
+  final List<VoidCallback> _listeners = [];
+
+  MergedListenable(this.listenables) {
+    for (final listenable in listenables) {
+      void listener() => notifyListeners();
+      listenable.addListener(listener);
+      _listeners.add(listener);
+    }
+  }
+
+  @override
+  void dispose() {
+    for (int i = 0; i < listenables.length; i++) {
+      listenables[i].removeListener(_listeners[i]);
+    }
+    super.dispose();
+  }
 }

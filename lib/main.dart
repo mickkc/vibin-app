@@ -10,10 +10,12 @@ import 'package:provider/provider.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/dbus/mpris_player.dart';
 import 'package:vibin_app/dependency_injection.dart';
+import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/router.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
+import 'package:vibin_app/widgets/settings/theme_settings.dart';
 
 import 'auth/AuthState.dart';
 
@@ -49,7 +51,7 @@ void main() async {
   );
 }
 
-final themeModeNotifier = ValueNotifier(ThemeMode.system);
+final themeNotifier = ValueNotifier(ThemeSettings());
 
 class MyApp extends StatelessWidget {
 
@@ -57,33 +59,38 @@ class MyApp extends StatelessWidget {
 
   const MyApp({super.key, required this.authState});
 
-
   @override
   Widget build(BuildContext context) {
 
     final SettingsManager settingsManager = getIt<SettingsManager>();
-    themeModeNotifier.value = settingsManager.get(Settings.themeMode);
+
+    themeNotifier.value.themeMode = settingsManager.get(Settings.themeMode);
+    themeNotifier.value.accentColor = settingsManager.get(Settings.accentColor);
 
     final router = configureRouter(authState);
 
     return ValueListenableBuilder(
-      valueListenable: themeModeNotifier,
-      builder: (context, themeMode, _) {
+      valueListenable: themeNotifier,
+      builder: (context, themeSettings, _) {
         return DynamicColorBuilder(
           builder: (lightColorScheme, darkColorScheme) {
             return MaterialApp.router(
               title: 'Vibin\'',
               theme: ThemeData(
-                colorScheme: lightColorScheme ?? ColorScheme.fromSeed(seedColor: Colors.green),
+                colorScheme: themeSettings.accentColor != null
+                    ? ColorScheme.fromSeed(seedColor: themeSettings.accentColor!, brightness: Brightness.light)
+                    : lightColorScheme ?? ColorScheme.fromSeed(seedColor: Colors.green),
                 fontFamily: "Roboto Flex",
                 useMaterial3: true
               ),
               darkTheme: ThemeData(
-                colorScheme: darkColorScheme ?? ColorScheme.fromSeed(seedColor: Colors.green, brightness: Brightness.dark),
+                colorScheme: themeSettings.accentColor != null
+                    ? ColorScheme.fromSeed(seedColor: themeSettings.accentColor!, brightness: Brightness.dark)
+                    : darkColorScheme ?? ColorScheme.fromSeed(seedColor: Colors.green, brightness: Brightness.dark),
                 fontFamily: "Roboto Flex",
                 useMaterial3: true
               ),
-              themeMode: themeMode,
+              themeMode: themeSettings.themeMode,
               routerConfig: router,
               debugShowCheckedModeBanner: false,
               localizationsDelegates: [

@@ -553,6 +553,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settings_app_theme_dark => 'Dunkel';
 
   @override
+  String get settings_app_accent_color_title => 'Akzentfarbe';
+
+  @override
   String get settings_app_page_size_title => 'Seitengröße';
 
   @override

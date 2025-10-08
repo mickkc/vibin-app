@@ -195,6 +195,8 @@
   "settings_app_theme_light": "Light",
   "settings_app_theme_dark": "Dark",
 
+  "settings_app_accent_color_title": "Accent Color",
+
   "settings_app_page_size_title": "Page Size",
   "settings_app_page_size_description": "Number of items to load per page in overviews.",
 

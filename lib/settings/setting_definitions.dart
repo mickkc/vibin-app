@@ -4,6 +4,8 @@ import 'package:vibin_app/widgets/settings/homepage_sections_list.dart';
 
 class Settings {
   static final themeMode = EnumSettingsKey("themeMode", ThemeMode.system, ThemeMode.values);
+  static final accentColor = NullableColorSettingsKey("accentColor", null);
+
   static final showOwnPlaylistsByDefault = BoolSettingsKey("showOwnPlaylistsByDefault", true);
   static final showSinglesInAlbumsByDefault = BoolSettingsKey("showSinglesInAlbumsByDefault", false);
   static final advancedTrackSearch = BoolSettingsKey("advancedTrackSearch", false);

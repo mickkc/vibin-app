@@ -545,6 +545,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_app_theme_dark => 'Dark';
 
   @override
+  String get settings_app_accent_color_title => 'Accent Color';
+
+  @override
   String get settings_app_page_size_title => 'Page Size';
 
   @override
