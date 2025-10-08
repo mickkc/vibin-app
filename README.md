@@ -42,34 +42,34 @@ Please note that this project, just like the server, is still in its early stage
   - [x] Top monthly tracks
   - [x] Top monthly artists
   - [x] Random playlists
-- [ ] Browse library
+- [x] Browse library
   - [x] Albums
   - [x] Artists
   - [x] Playlists
   - [x] Tracks
-  - [ ] Tags
+  - [x] Tags
 - [ ] Search
   - [x] Albums
   - [x] Artists
   - [x] Playlists
   - [x] Tracks
-  - [ ] Tags
+  - [x] Tags
   - [ ] Global search
 - [ ] Edit
   - [x] Albums
   - [ ] Artists
   - [x] Playlists
   - [ ] Tracks (missing tags)
-  - [ ] Tags
-- [ ] Create 
+  - [x] Tags
+- [x] Create 
   - [x] Playlists
-  - [ ] Tags
+  - [x] Tags
 - [ ] Delete
     - [x] Playlists
     - [ ] Tracks
     - [ ] Albums
     - [ ] Artists
-    - [ ] Tags
+    - [x] Tags
 - [ ] Upload tracks
 - [ ] Download tracks
 - [ ] Settings
@@ -78,6 +78,8 @@ Please note that this project, just like the server, is still in its early stage
     - [x] Page size
     - [x] Advanced track search
     - [x] Show own playlists by default
+    - [x] Hide singles in albums by default
+    - [x] Enable/disable/reorder homepage sections
     - [ ] Preferred metadata provider
     - [ ] ...
   - [ ] Server settings
@@ -96,7 +98,7 @@ Please note that this project, just like the server, is still in its early stage
   - [ ] Uploaded tracks (when permitted by user)
 - [ ] Sessions management
 - [ ] Permissions management
-- [ ] Lyrics
+- [x] Lyrics
 - [ ] HTML Widgets for embedding
 - [ ] Embed web version into server
 - [ ] Clean up Code

@@ -48,6 +48,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get search => 'Search';
 
   @override
+  String get lyrics_s => 'Lyric';
+
+  @override
+  String get lyrics_p => 'Lyrics';
+
+  @override
   String get autologin_failed_title => 'Auto Login Failed';
 
   @override
@@ -570,4 +576,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get settings_app_homepage_sections_description =>
       'Select which sections to display on the homepage and in which order.';
+
+  @override
+  String get settings_app_metadata_providers_title => 'Metadata Providers';
+
+  @override
+  String get settings_app_metadata_providers_description =>
+      'Select which metadata providers to use for fetching metadata from the internet.';
 }

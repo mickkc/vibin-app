@@ -176,6 +176,18 @@ abstract class AppLocalizations {
   /// **'Search'**
   String get search;
 
+  /// No description provided for @lyrics_s.
+  ///
+  /// In en, this message translates to:
+  /// **'Lyric'**
+  String get lyrics_s;
+
+  /// No description provided for @lyrics_p.
+  ///
+  /// In en, this message translates to:
+  /// **'Lyrics'**
+  String get lyrics_p;
+
   /// No description provided for @autologin_failed_title.
   ///
   /// In en, this message translates to:
@@ -1159,6 +1171,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select which sections to display on the homepage and in which order.'**
   String get settings_app_homepage_sections_description;
+
+  /// No description provided for @settings_app_metadata_providers_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Metadata Providers'**
+  String get settings_app_metadata_providers_title;
+
+  /// No description provided for @settings_app_metadata_providers_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Select which metadata providers to use for fetching metadata from the internet.'**
+  String get settings_app_metadata_providers_description;
 }
 
 class _AppLocalizationsDelegate

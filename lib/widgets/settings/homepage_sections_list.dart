@@ -3,6 +3,7 @@ import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_key.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
+import 'package:vibin_app/widgets/settings/settings_title.dart';
 
 import '../../main.dart';
 
@@ -83,23 +84,9 @@ class _HomepageSectionsListState extends State<HomepageSectionsList> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-          child: Column(
-            spacing: 8,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                lm.settings_app_homepage_sections_title,
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              Text(
-                lm.settings_app_homepage_sections_description,
-                style: Theme.of(context).textTheme.bodyMedium,
-              )
-            ],
-          )
+        SettingsTitle(
+          title: lm.settings_app_homepage_sections_title,
+          subtitle: lm.settings_app_homepage_sections_description,
         ),
         ReorderableListView(
           physics: NeverScrollableScrollPhysics(),

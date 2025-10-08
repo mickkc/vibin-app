@@ -10,4 +10,9 @@ class Settings {
   static final pageSize = IntSettingsKey("pageSize", 50);
   static final homepageSections = OrderedMapSettingsKey("homepageSections",
       HomepageSectionsList.sections.map((key) => Entry<String, String>(key, true.toString())).toList());
+
+  static final artistMetadataProvider = StringSettingsKey("artistMetadataProvider", "Deezer");
+  static final albumMetadataProvider = StringSettingsKey("albumMetadataProvider", "Deezer");
+  static final trackMetadataProvider = StringSettingsKey("trackMetadataProvider", "iTunes" );
+  static final lyricsProvider = StringSettingsKey("lyricsProvider", "LrcLib");
 }

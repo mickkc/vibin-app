@@ -14,6 +14,8 @@
   "tags": "Tags",
 
   "search": "Search",
+  "lyrics_s": "Lyric",
+  "lyrics_p": "Lyrics",
 
   "autologin_failed_title": "Auto Login Failed",
   "autologin_failed_message": "Auto login failed. Your session may have expired or the instance is unreachable.",
@@ -205,5 +207,8 @@
   "settings_app_show_singles_in_albums_by_default_description": "When enabled, singles will be shown in the album overview by default.",
 
   "settings_app_homepage_sections_title": "Homepage Sections",
-  "settings_app_homepage_sections_description": "Select which sections to display on the homepage and in which order."
+  "settings_app_homepage_sections_description": "Select which sections to display on the homepage and in which order.",
+
+  "settings_app_metadata_providers_title": "Metadata Providers",
+  "settings_app_metadata_providers_description": "Select which metadata providers to use for fetching metadata from the internet."
 }

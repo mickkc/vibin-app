@@ -14,6 +14,8 @@
   "tags": "Tags",
 
   "search": "Suchen",
+  "lyrics_s": "Liedtext",
+  "lyrics_p": "Liedtexte",
 
   "autologin_failed_title": "Automatische Anmeldung fehlgeschlagen",
   "autologin_failed_message": "Die automatische Anmeldung ist fehlgeschlagen. Möglicherweise ist deine Sitzung abgelaufen oder die Instanz ist nicht erreichbar.",
@@ -205,5 +207,8 @@
   "settings_app_show_singles_in_albums_by_default_description": "Wenn aktiviert, werden in der Album-Übersicht standardmäßig auch Singles angezeigt.",
 
   "settings_app_homepage_sections_title": "Startseiten-Abschnitte",
-  "settings_app_homepage_sections_description": "Wähle die Abschnitte aus, die auf der Startseite angezeigt werden sollen, und ordne sie per Drag & Drop neu an."
+  "settings_app_homepage_sections_description": "Wähle die Abschnitte aus, die auf der Startseite angezeigt werden sollen, und ordne sie per Drag & Drop neu an.",
+
+  "settings_app_metadata_providers_title": "Metadaten-Anbieter",
+  "settings_app_metadata_providers_description": "Wähle die Metadaten-Anbieter aus, die für die Suche nach Metadaten aus dem Internet verwendet werden sollen."
 }

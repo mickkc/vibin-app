@@ -48,6 +48,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get search => 'Suchen';
 
   @override
+  String get lyrics_s => 'Liedtext';
+
+  @override
+  String get lyrics_p => 'Liedtexte';
+
+  @override
   String get autologin_failed_title => 'Automatische Anmeldung fehlgeschlagen';
 
   @override
@@ -578,4 +584,11 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get settings_app_homepage_sections_description =>
       'Wähle die Abschnitte aus, die auf der Startseite angezeigt werden sollen, und ordne sie per Drag & Drop neu an.';
+
+  @override
+  String get settings_app_metadata_providers_title => 'Metadaten-Anbieter';
+
+  @override
+  String get settings_app_metadata_providers_description =>
+      'Wähle die Metadaten-Anbieter aus, die für die Suche nach Metadaten aus dem Internet verwendet werden sollen.';
 }

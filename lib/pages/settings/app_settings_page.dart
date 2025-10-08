@@ -4,6 +4,7 @@ import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/settings/bool_settings_field.dart';
 import 'package:vibin_app/widgets/settings/homepage_sections_list.dart';
 import 'package:vibin_app/widgets/settings/int_settings_field.dart';
+import 'package:vibin_app/widgets/settings/preferred_metadata_pickers.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
@@ -97,7 +98,11 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
 
           Divider(),
 
-          HomepageSectionsList()
+          HomepageSectionsList(),
+
+          Divider(),
+
+          PreferredMetadataPickers()
         ],
       ),
     );
