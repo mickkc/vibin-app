@@ -1501,9 +1501,10 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<Tag>> getAllTags() async {
+  Future<List<Tag>> getAllTags(String? query, int? limit) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'query': query, r'limit': limit};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<Tag>>(

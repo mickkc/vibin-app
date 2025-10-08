@@ -13,7 +13,7 @@ class TrackEditData {
   final String? imageUrl;
   final String? albumName;
   final List<String>? artistNames;
-  final List<String>? tagNames;
+  final List<int>? tagIds;
   final String? lyrics;
 
   TrackEditData({
@@ -28,7 +28,7 @@ class TrackEditData {
     this.imageUrl,
     this.albumName,
     this.artistNames,
-    this.tagNames,
+    this.tagIds,
     this.lyrics,
   });
 
@@ -45,10 +45,10 @@ class TrackEditData {
       imageUrl: json['imageUrl'],
       albumName: json['albumName'],
       artistNames: json['artistNames'] != null
-          ? List<String>.from(json['artistIds'])
+          ? List<String>.from(json['artistNames'])
           : null,
-      tagNames: json['tagNames'] != null
-          ? List<String>.from(json['tagIds'])
+      tagIds: json['tagIds'] != null
+          ? List<int>.from(json['tagIds'])
           : null,
       lyrics: json['lyrics'],
     );
@@ -67,7 +67,7 @@ class TrackEditData {
       'imageUrl': imageUrl,
       'albumName': albumName,
       'artistNames': artistNames,
-      'tagNames': tagNames,
+      'tagIds': tagIds,
       'lyrics': lyrics,
     };
   }

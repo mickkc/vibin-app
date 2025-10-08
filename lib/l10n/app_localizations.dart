@@ -998,6 +998,12 @@ abstract class AppLocalizations {
   /// **'Open'**
   String get edit_track_lyrics_open;
 
+  /// No description provided for @edit_track_no_tags.
+  ///
+  /// In en, this message translates to:
+  /// **'No tags applied. Search and click a tag to add it.'**
+  String get edit_track_no_tags;
+
   /// No description provided for @edit_tag_title.
   ///
   /// In en, this message translates to:

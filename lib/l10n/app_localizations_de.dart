@@ -484,6 +484,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get edit_track_lyrics_open => 'Öffnen';
 
   @override
+  String get edit_track_no_tags =>
+      'Es sind keine Tags angewendet. Suche nach Tags und klicke auf einen Tag, um es hinzuzufügen.';
+
+  @override
   String get edit_tag_title => 'Tag bearbeiten';
 
   @override

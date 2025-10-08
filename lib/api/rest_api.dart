@@ -213,7 +213,7 @@ abstract class ApiService {
   // Tags
 
   @GET("/api/tags")
-  Future<List<Tag>> getAllTags();
+  Future<List<Tag>> getAllTags(@Query("query") String? query, @Query("limit") int? limit);
 
   @PUT("/api/tags/{id}")
   Future<Tag> updateTag(@Path("id") int id, @Body() TagEditData data);

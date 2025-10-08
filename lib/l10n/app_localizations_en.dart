@@ -479,6 +479,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get edit_track_lyrics_open => 'Open';
 
   @override
+  String get edit_track_no_tags =>
+      'No tags applied. Search and click a tag to add it.';
+
+  @override
   String get edit_tag_title => 'Edit Tag';
 
   @override

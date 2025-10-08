@@ -20,11 +20,11 @@ class _TagOverviewPageState extends State<TagOverviewPage> {
 
   String searchQuery = "";
   final ApiManager apiManager = getIt<ApiManager>();
-  late Future<List<Tag>> tagsFuture = apiManager.service.getAllTags();
+  late Future<List<Tag>> tagsFuture = apiManager.service.getAllTags(null, null);
 
   void refreshTags() {
     setState(() {
-      tagsFuture = apiManager.service.getAllTags();
+      tagsFuture = apiManager.service.getAllTags(searchQuery, null);
     });
   }
 
@@ -57,13 +57,6 @@ class _TagOverviewPageState extends State<TagOverviewPage> {
     );
   }
 
-  List<Tag> getFilteredTags(List<Tag> tags) {
-    if (searchQuery.isEmpty) {
-      return tags;
-    }
-    return tags.where((tag) => tag.name.toLowerCase().contains(searchQuery.toLowerCase())).toList();
-  }
-
   @override
   Widget build(BuildContext context) {
     final lm = AppLocalizations.of(context)!;
@@ -78,6 +71,7 @@ class _TagOverviewPageState extends State<TagOverviewPage> {
           onSearchSubmitted: (value) {
             setState(() {
               searchQuery = value;
+              refreshTags();
             });
           }
         ),
@@ -98,13 +92,12 @@ class _TagOverviewPageState extends State<TagOverviewPage> {
           padding: EdgeInsets.all(8.0),
           child: FutureContent(
             future: tagsFuture,
-            hasData: (d) => getFilteredTags(d).isNotEmpty,
+            hasData: (d) => d.isNotEmpty,
             builder: (context, tags) {
-              final filteredTags = getFilteredTags(tags);
               return Wrap(
                 spacing: 8,
                 runSpacing: 8,
-                children: filteredTags.map((tag) => Tooltip(
+                children: tags.map((tag) => Tooltip(
                   message: tag.description,
                   child: TagWidget(
                     tag: tag,

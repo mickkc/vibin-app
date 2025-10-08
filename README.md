@@ -59,7 +59,7 @@ Please note that this project, just like the server, is still in its early stage
   - [x] Albums
   - [ ] Artists
   - [x] Playlists
-  - [ ] Tracks (missing tags)
+  - [x] Tracks
   - [x] Tags
 - [x] Create 
   - [x] Playlists

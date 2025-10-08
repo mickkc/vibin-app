@@ -14,9 +14,12 @@ import 'package:vibin_app/pages/edit/search_track_metadata_dialog.dart';
 import 'package:vibin_app/widgets/edit/image_edit_field.dart';
 import 'package:vibin_app/widgets/edit/nullable_int_input.dart';
 import 'package:vibin_app/widgets/edit/responsive_edit_view.dart';
+import 'package:vibin_app/widgets/edit/tag_search_bar.dart';
 
 import '../../auth/AuthState.dart';
+import '../../dtos/tags/tag.dart';
 import '../../l10n/app_localizations.dart';
+import '../../widgets/tag_widget.dart';
 
 class TrackEditPage extends StatefulWidget {
   final int? trackId;
@@ -65,6 +68,8 @@ class _TrackEditPageState extends State<TrackEditPage> {
 
   late int? trackDuration;
 
+  late List<Tag> tags;
+
   TextEditingController titleController = TextEditingController();
   TextEditingController commentController = TextEditingController();
 
@@ -96,6 +101,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
 
         albumName = null;
         artistNames = [];
+        tags = [];
 
         initialized = true;
       });
@@ -116,6 +122,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
 
         albumName = data.album.title;
         artistNames = data.artists.map((a) => a.name).toList();
+        tags = data.tags;
 
         trackDuration = data.duration;
 
@@ -216,7 +223,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
         imageUrl: imageUrl,
         albumName: albumName,
         artistNames: artistNames,
-        tagNames: null,
+        tagIds: tags.map((t) => t.id).toList(),
         lyrics: lyricsController.text.isEmpty ? null : lyricsController.text
       );
 
@@ -422,6 +429,34 @@ class _TrackEditPageState extends State<TrackEditPage> {
                 });
               },
               title: Text(lm.edit_track_explicit)
+            ),
+            Divider(),
+            Text(
+              lm.tags,
+              style: theme.textTheme.headlineMedium,
+            ),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: tags.isEmpty ? [Text(lm.edit_track_no_tags)] : tags.map((tag) => Tooltip(
+                message: tag.description,
+                child: TagWidget(
+                  tag: tag,
+                  onTap: () async {
+                    setState(() {
+                      tags.remove(tag);
+                    });
+                  },
+                )
+              )).toList()
+            ),
+            TagSearchBar(
+              ignoredTags: tags,
+              onTagSelected: (tag) {
+                setState(() {
+                  tags.add(tag);
+                });
+              },
             ),
             Divider(),
             Row(
