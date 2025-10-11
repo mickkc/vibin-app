@@ -479,6 +479,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get edit_track_lyrics_open => 'Open';
 
   @override
+  String get edit_track_lyrics_shift_title => 'Shift Lyrics Timing';
+
+  @override
+  String get edit_track_lyrics_shift_amount => 'Shift Amount (seconds)';
+
+  @override
+  String get edit_track_lyrics_shift_amount_validation =>
+      'The shift amount must be a number (positive or negative).';
+
+  @override
+  String get edit_track_lyrics_shift_amount_hint => 'e.g., -2.5 or +3';
+
+  @override
   String get edit_track_no_tags =>
       'No tags applied. Search and click a tag to add it.';
 

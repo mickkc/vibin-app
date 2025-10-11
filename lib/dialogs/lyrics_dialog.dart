@@ -10,6 +10,7 @@ import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 
 import '../main.dart';
+import '../utils/lrc_parser.dart';
 
 class LyricsDialog extends StatefulWidget {
 
@@ -43,7 +44,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
   StreamSubscription? currentMediaItemSubscription;
   final ItemScrollController scrollController = ItemScrollController();
 
-  int? lastLyricTime;
+  int? lastLyricIndex;
 
   void fetchLyrics() {
     final id = currentMediaItem == null ? null : int.tryParse(currentMediaItem!.id);
@@ -78,26 +79,6 @@ class _LyricsDialogState extends State<LyricsDialog> {
     super.dispose();
   }
 
-  Map<int, String> parseLyrics(String rawLyrics) {
-    final Map<int, String> lyricsMap = {};
-    final lines = rawLyrics.split('\n');
-    final timeRegExp = RegExp(r'\[(\d{2}):(\d{2})\.(\d{2,3})\]');
-
-    for (var line in lines) {
-      final match = timeRegExp.firstMatch(line);
-      if (match != null) {
-        final minutes = int.parse(match.group(1)!);
-        final seconds = int.parse(match.group(2)!);
-        final milliseconds = int.parse(match.group(3)!.padRight(3, '0'));
-        final totalMilliseconds = (minutes * 60 + seconds) * 1000 + milliseconds;
-        final lyricText = line.replaceAll(timeRegExp, '').trim();
-        lyricsMap[totalMilliseconds] = lyricText;
-      }
-    }
-
-    return lyricsMap;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -130,10 +111,9 @@ class _LyricsDialogState extends State<LyricsDialog> {
             );
           }
 
-          var parsedLyrics = parseLyrics(data.lyrics!);
-          final lyricTimestamps = parsedLyrics.keys.toList();
+          var parsedLyrics = LrcParser.parseLyrics(data.lyrics!);
 
-          if (parsedLyrics.isEmpty) {
+          if (!parsedLyrics.isSynced) {
             final lines = data.lyrics!.split('\n');
 
             return Container(
@@ -165,22 +145,21 @@ class _LyricsDialogState extends State<LyricsDialog> {
                 final positionMs = position.inMilliseconds;
 
                 // Find the closest lyric line that is less than or equal to the current position
-                int? currentLyric;
-                for (var entry in parsedLyrics.entries) {
-                  if (entry.key <= positionMs) {
-                    currentLyric = entry.key;
+                int? currentIndex;
+                for (var (index, line) in parsedLyrics.lines.indexed) {
+                  if (line.timestamp.inMilliseconds <= positionMs) {
+                    currentIndex = index;
                   } else {
                     break;
                   }
                 }
 
-                if (currentLyric != null && currentLyric != lastLyricTime) {
-                  lastLyricTime = currentLyric;
+                if (currentIndex != null && currentIndex != lastLyricIndex) {
+                  lastLyricIndex = currentIndex;
                   // Scroll to the current lyric line
-                  final index = lyricTimestamps.indexOf(currentLyric);
-                  if (index != -1 && scrollController.isAttached) {
+                  if (scrollController.isAttached) {
                     scrollController.scrollTo(
-                      index: index,
+                      index: currentIndex,
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
                       alignment: 0.5
@@ -189,16 +168,17 @@ class _LyricsDialogState extends State<LyricsDialog> {
                 }
 
                 return ScrollablePositionedList.builder(
-                  itemCount: parsedLyrics.length,
+                  physics: const ClampingScrollPhysics(),
+                  itemCount: parsedLyrics.lines.length,
                   itemScrollController: scrollController,
                   itemBuilder: (context, index) {
-                    final entry = parsedLyrics.entries.elementAt(index);
-                    final isCurrent = entry.key == currentLyric;
+                    final line = parsedLyrics.lines.elementAt(index);
+                    final isCurrent = index == currentIndex;
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: InkWell(
                         onTap: () {
-                          audioManager.audioPlayer.seek(Duration(milliseconds: entry.key));
+                          audioManager.audioPlayer.seek(line.timestamp);
                         },
                         child: AnimatedDefaultTextStyle(
                           duration: const Duration(milliseconds: 150),
@@ -208,7 +188,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
                             fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
                           ),
                           child: Text(
-                            entry.value,
+                            line.text,
                             textAlign: TextAlign.center,
                           ),
                         ),

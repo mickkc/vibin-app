@@ -998,6 +998,30 @@ abstract class AppLocalizations {
   /// **'Open'**
   String get edit_track_lyrics_open;
 
+  /// No description provided for @edit_track_lyrics_shift_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift Lyrics Timing'**
+  String get edit_track_lyrics_shift_title;
+
+  /// No description provided for @edit_track_lyrics_shift_amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift Amount (seconds)'**
+  String get edit_track_lyrics_shift_amount;
+
+  /// No description provided for @edit_track_lyrics_shift_amount_validation.
+  ///
+  /// In en, this message translates to:
+  /// **'The shift amount must be a number (positive or negative).'**
+  String get edit_track_lyrics_shift_amount_validation;
+
+  /// No description provided for @edit_track_lyrics_shift_amount_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., -2.5 or +3'**
+  String get edit_track_lyrics_shift_amount_hint;
+
   /// No description provided for @edit_track_no_tags.
   ///
   /// In en, this message translates to:

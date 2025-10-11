@@ -484,6 +484,19 @@ class AppLocalizationsDe extends AppLocalizations {
   String get edit_track_lyrics_open => 'Öffnen';
 
   @override
+  String get edit_track_lyrics_shift_title => 'Zeitverschiebung anpassen';
+
+  @override
+  String get edit_track_lyrics_shift_amount => 'Verschiebung (in Sekunden)';
+
+  @override
+  String get edit_track_lyrics_shift_amount_validation =>
+      'Die Verschiebung muss eine Zahl sein (negativ oder positiv).';
+
+  @override
+  String get edit_track_lyrics_shift_amount_hint => 'z.B. -2,5 oder +3';
+
+  @override
   String get edit_track_no_tags =>
       'Es sind keine Tags angewendet. Suche nach Tags und klicke auf einen Tag, um es hinzuzufügen.';
 

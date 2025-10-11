@@ -11,6 +11,7 @@ import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/edit/search_lyrics_dialog.dart';
 import 'package:vibin_app/pages/edit/search_track_metadata_dialog.dart';
+import 'package:vibin_app/utils/lrc_parser.dart';
 import 'package:vibin_app/widgets/edit/image_edit_field.dart';
 import 'package:vibin_app/widgets/edit/nullable_int_input.dart';
 import 'package:vibin_app/widgets/edit/responsive_edit_view.dart';
@@ -482,6 +483,29 @@ class _TrackEditPageState extends State<TrackEditPage> {
               controller: lyricsController,
               maxLines: null,
               minLines: 6,
+            ),
+            ElevatedButton.icon(
+              onPressed: () async {
+                final strAmount = await showInputDialog(
+                  context,
+                  lm.edit_track_lyrics_shift_title,
+                  lm.edit_track_lyrics_shift_amount,
+                  hintText: lm.edit_track_lyrics_shift_amount_hint
+                );
+                if (strAmount == null || strAmount.isEmpty || !context.mounted) return;
+
+                final amount = double.tryParse(strAmount.trim().replaceFirst(",", "."));
+                if (amount == null) {
+                  showErrorDialog(context, lm.edit_track_lyrics_shift_amount_validation);
+                  return;
+                }
+
+                final parsed = LrcParser.parseLyrics(lyricsController.text);
+                parsed.shiftAll(Duration(milliseconds: (amount * 1000).round()));
+                lyricsController.text = LrcParser.writeLrc(parsed);
+              },
+              label: Text(lm.edit_track_lyrics_shift_title),
+              icon: Icon(Icons.schedule),
             )
           ],
         ),
