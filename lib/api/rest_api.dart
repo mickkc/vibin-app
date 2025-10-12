@@ -277,6 +277,9 @@ abstract class ApiService {
   @GET("/api/tracks/{id}/lyrics/check")
   Future<Success> checkTrackHasLyrics(@Path("id") int id);
 
+  @GET("/api/tracks/artists/{id}")
+  Future<List<Track>> getTracksByArtist(@Path("id") int artistId);
+
   // Users
 
   @GET("/api/users")

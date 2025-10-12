@@ -10,6 +10,7 @@ import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/network_image.dart';
+import 'package:vibin_app/widgets/track_list.dart';
 
 import '../../auth/AuthState.dart';
 
@@ -26,11 +27,16 @@ class ArtistInfoPage extends StatelessWidget {
   final authState = getIt<AuthState>();
 
   late final artistFuture = apiManager.service.getArtist(artistId);
-  late final discographyFuture = apiManager.service.getArtistDiscography(artistId).then(
+  late final discographyFuture = authState.hasPermission(PermissionType.viewAlbums)
+      ? apiManager.service.getArtistDiscography(artistId).then(
           (discography) {
             discography.sort((a, b) => (b.key.year ?? 9999).compareTo(a.key.year ?? 9999));
             return discography;
-          });
+          })
+      : null;
+  late final tracksFuture = !authState.hasPermission(PermissionType.viewAlbums) && authState.hasPermission(PermissionType.viewTracks)
+      ? apiManager.service.getTracksByArtist(artistId)
+      : null;
 
   Widget albumTitle(BuildContext context, Album album) {
     return Row(
@@ -160,7 +166,6 @@ class ArtistInfoPage extends StatelessWidget {
         FutureContent(
           future: artistFuture,
           builder: (context, artist) {
-
             return Row(
               spacing: 32,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -180,35 +185,45 @@ class ArtistInfoPage extends StatelessWidget {
           }
         ),
 
-        FutureContent(
-          future: discographyFuture,
-          builder: (context, discography) {
-            return Column(
-              spacing: 16,
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                for (var entry in discography) ... [
-                  Divider(),
-                  Column(
-                    spacing: 8,
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      albumTitle(context, entry.key),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: albumTrackList(context, entry.value),
-                      )
-                    ],
-                  )
-                ]
-              ],
-            );
-          }
-        )
+        if (discographyFuture != null)
+          FutureContent(
+            future: discographyFuture!,
+            hasData: (d) => d.isNotEmpty,
+            builder: (context, discography) {
+              return Column(
+                spacing: 16,
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (var entry in discography) ... [
+                    Divider(),
+                    Column(
+                      spacing: 8,
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        albumTitle(context, entry.key),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: albumTrackList(context, entry.value),
+                        )
+                      ],
+                    )
+                  ]
+                ],
+              );
+            }
+          )
+        else if (tracksFuture != null)
+          FutureContent(
+            future: tracksFuture!,
+            hasData: (d) => d.isNotEmpty,
+            builder: (context, tracks) {
+              return TrackList(tracks: tracks);
+            }
+          )
       ],
     );
   }
