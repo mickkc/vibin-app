@@ -8,6 +8,7 @@ import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/track/minimal_track.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/track_list.dart';
@@ -156,6 +157,7 @@ class ArtistInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
+    final lm = AppLocalizations.of(context)!;
 
     return Column(
       spacing: 32,
@@ -185,7 +187,9 @@ class ArtistInfoPage extends StatelessWidget {
           }
         ),
 
-        if (discographyFuture != null)
+        if (discographyFuture != null) ... [
+          Divider(),
+          SectionHeader(title: lm.artists_discography),
           FutureContent(
             future: discographyFuture!,
             hasData: (d) => d.isNotEmpty,
@@ -197,7 +201,6 @@ class ArtistInfoPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   for (var entry in discography) ... [
-                    Divider(),
                     Column(
                       spacing: 8,
                       mainAxisSize: MainAxisSize.min,
@@ -216,7 +219,10 @@ class ArtistInfoPage extends StatelessWidget {
               );
             }
           )
-        else if (tracksFuture != null)
+        ]
+        else if (tracksFuture != null) ... [
+          Divider(),
+          SectionHeader(title: lm.tracks),
           FutureContent(
             future: tracksFuture!,
             hasData: (d) => d.isNotEmpty,
@@ -224,6 +230,7 @@ class ArtistInfoPage extends StatelessWidget {
               return TrackList(tracks: tracks);
             }
           )
+        ]
       ],
     );
   }

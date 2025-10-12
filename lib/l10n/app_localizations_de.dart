@@ -274,6 +274,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get artists_edit => 'Künstler bearbeiten';
 
   @override
+  String get artists_discography => 'Diskografie';
+
+  @override
   String get dialog_error => 'Fehler';
 
   @override

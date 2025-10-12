@@ -614,6 +614,12 @@ abstract class AppLocalizations {
   /// **'Edit Artist'**
   String get artists_edit;
 
+  /// No description provided for @artists_discography.
+  ///
+  /// In en, this message translates to:
+  /// **'Discography'**
+  String get artists_discography;
+
   /// No description provided for @dialog_error.
   ///
   /// In en, this message translates to:
