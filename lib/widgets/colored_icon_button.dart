@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ColoredIconButton extends StatelessWidget {
   final IconData icon;
   final Color backgroundColor;
-  final Color iconColor;
+  final Color? iconColor;
   final VoidCallback onPressed;
   final double? size;
   final EdgeInsetsGeometry padding;
@@ -13,7 +13,7 @@ class ColoredIconButton extends StatelessWidget {
     super.key,
     required this.icon,
     required this.backgroundColor,
-    required this.iconColor,
+    this.iconColor,
     required this.onPressed,
     this.size,
     this.padding = const EdgeInsets.all(4.0),
