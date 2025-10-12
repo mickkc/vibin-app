@@ -758,6 +758,66 @@ abstract class AppLocalizations {
   /// **'Description available.'**
   String get edit_album_metadata_has_description;
 
+  /// No description provided for @edit_artist_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Artist'**
+  String get edit_artist_title;
+
+  /// No description provided for @edit_artist_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get edit_artist_name;
+
+  /// No description provided for @edit_artist_name_validation_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'The artist name cannot be empty.'**
+  String get edit_artist_name_validation_empty;
+
+  /// No description provided for @edit_artist_name_validation_length.
+  ///
+  /// In en, this message translates to:
+  /// **'The artist name cannot exceed 255 characters.'**
+  String get edit_artist_name_validation_length;
+
+  /// No description provided for @edit_artist_image.
+  ///
+  /// In en, this message translates to:
+  /// **'Image'**
+  String get edit_artist_image;
+
+  /// No description provided for @edit_artist_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get edit_artist_description;
+
+  /// No description provided for @edit_artist_load_error.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while loading artist data.'**
+  String get edit_artist_load_error;
+
+  /// No description provided for @edit_artist_save_error.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while saving the artist.'**
+  String get edit_artist_save_error;
+
+  /// No description provided for @edit_artist_search_metadata.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Metadata'**
+  String get edit_artist_search_metadata;
+
+  /// No description provided for @edit_artist_metadata_no_description.
+  ///
+  /// In en, this message translates to:
+  /// **'No description available.'**
+  String get edit_artist_metadata_no_description;
+
   /// No description provided for @edit_playlist_title.
   ///
   /// In en, this message translates to:

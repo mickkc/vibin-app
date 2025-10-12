@@ -14,7 +14,13 @@ Please note that this project, just like the server, is still in its early stage
 - [x] Media Token for tracks & covers
 - [x] Streaming tracks
 - [ ] Verify background playback works everywhere
-- [ ] Test on Windows, MacOS and iOS
+- [ ] Test on Platforms
+  - [x] Linux
+  - [x] Android
+  - [x] iOS
+  - [x] macOS
+  - [ ] Windows
+  - [ ] Web
 - [x] Dark/Light mode
 - [x] Dynamic color scheme
 - [x] Manual color schemes
@@ -55,9 +61,9 @@ Please note that this project, just like the server, is still in its early stage
   - [x] Tracks
   - [x] Tags
   - [ ] Global search
-- [ ] Edit
+- [x] Edit
   - [x] Albums
-  - [ ] Artists
+  - [x] Artists
   - [x] Playlists
   - [x] Tracks
   - [x] Tags
@@ -83,7 +89,7 @@ Please note that this project, just like the server, is still in its early stage
     - [x] Preferred metadata provider
     - [ ] Blocked tags
     - [ ] Block explicit content
-    - [ ] Enable/disable dynamic color scheme
+    - [x] Accent color
     - [x] Manual color scheme selection
     - [ ] ...
   - [ ] Server settings

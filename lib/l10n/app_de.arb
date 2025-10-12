@@ -128,6 +128,17 @@
   "edit_album_metadata_no_description": "Keine Beschreibung verfügbar.",
   "edit_album_metadata_has_description": "Beschreibung verfügbar.",
 
+  "edit_artist_title": "Künstler bearbeiten",
+  "edit_artist_name": "Name",
+  "edit_artist_name_validation_empty": "Der Künstlername darf nicht leer sein.",
+  "edit_artist_name_validation_length": "Der Künstlername darf maximal 255 Zeichen lang sein.",
+  "edit_artist_image": "Bild",
+  "edit_artist_description": "Beschreibung",
+  "edit_artist_save_error": "Beim Speichern des Künstlers ist ein Fehler aufgetreten.",
+  "edit_artist_load_error": "Beim Laden des Künstlers ist ein Fehler aufgetreten.",
+  "edit_artist_search_metadata": "Metadaten suchen",
+  "edit_artist_metadata_no_description": "Keine Beschreibung verfügbar.",
+
   "edit_playlist_title": "Playlist bearbeiten",
   "edit_playlist_name": "Name",
   "edit_playlist_name_validation_empty": "Der Playlist-Name darf nicht leer sein.",

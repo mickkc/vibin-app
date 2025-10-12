@@ -351,6 +351,41 @@ class AppLocalizationsDe extends AppLocalizations {
   String get edit_album_metadata_has_description => 'Beschreibung verfügbar.';
 
   @override
+  String get edit_artist_title => 'Künstler bearbeiten';
+
+  @override
+  String get edit_artist_name => 'Name';
+
+  @override
+  String get edit_artist_name_validation_empty =>
+      'Der Künstlername darf nicht leer sein.';
+
+  @override
+  String get edit_artist_name_validation_length =>
+      'Der Künstlername darf maximal 255 Zeichen lang sein.';
+
+  @override
+  String get edit_artist_image => 'Bild';
+
+  @override
+  String get edit_artist_description => 'Beschreibung';
+
+  @override
+  String get edit_artist_load_error =>
+      'Beim Laden des Künstlers ist ein Fehler aufgetreten.';
+
+  @override
+  String get edit_artist_save_error =>
+      'Beim Speichern des Künstlers ist ein Fehler aufgetreten.';
+
+  @override
+  String get edit_artist_search_metadata => 'Metadaten suchen';
+
+  @override
+  String get edit_artist_metadata_no_description =>
+      'Keine Beschreibung verfügbar.';
+
+  @override
   String get edit_playlist_title => 'Playlist bearbeiten';
 
   @override

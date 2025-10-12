@@ -108,10 +108,10 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
               child: const RepeatToggle(showTooltip: false)
             ),
             ColoredIconButton(
-                icon: Icons.skip_previous,
-                backgroundColor: th.colorScheme.secondary,
-                iconColor: th.colorScheme.onSecondary,
-                onPressed: audioManager.audioPlayer.seekToPrevious
+              icon: Icons.skip_previous,
+              backgroundColor: th.colorScheme.secondary,
+              iconColor: th.colorScheme.onSecondary,
+              onPressed: audioManager.audioPlayer.seekToPrevious
             ),
             PlayPauseToggle(
               backgroundColor: th.colorScheme.primary,

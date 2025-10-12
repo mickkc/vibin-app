@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/album/album_data.dart';
 import 'package:vibin_app/dtos/shuffle_state.dart';
@@ -50,7 +51,9 @@ class AlbumInfoPage extends StatelessWidget {
             Icon(Icons.person),
             for (var artist in data.album.artists) ...[
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  GoRouter.of(context).push("/artists/${artist.id}");
+                },
                 child: Text(artist.name, style: TextStyle(color: theme.colorScheme.primary)),
               ),
               if (artist != data.album.artists.last)

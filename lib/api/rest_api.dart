@@ -96,6 +96,9 @@ abstract class ApiService {
   @POST("/api/artists")
   Future<Artist> createArtist(@Body() ArtistEditData artistData);
 
+  @PUT("/api/artists/{id}")
+  Future<Artist> updateArtist(@Path("id") int id, @Body() ArtistEditData data);
+
   @GET("/api/artists/{id}")
   Future<Artist> getArtist(@Path("id") int id);
 
@@ -121,7 +124,7 @@ abstract class ApiService {
   @GET("/api/metadata/album")
   Future<List<AlbumInfoMetadata>> searchAlbumMetadata(@Query("q") String query, @Query("provider") String provider);
 
-  @GET("/api/metadata/artists")
+  @GET("/api/metadata/artist")
   Future<List<ArtistMetadata>> searchArtistMetadata(@Query("q") String query, @Query("provider") String provider);
 
   @GET("/api/metadata/lyrics")

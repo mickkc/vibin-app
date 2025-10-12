@@ -128,6 +128,17 @@
   "edit_album_metadata_no_description": "No description available.",
   "edit_album_metadata_has_description": "Description available.",
 
+  "edit_artist_title": "Edit Artist",
+  "edit_artist_name": "Name",
+  "edit_artist_name_validation_empty": "The artist name cannot be empty.",
+  "edit_artist_name_validation_length": "The artist name cannot exceed 255 characters.",
+  "edit_artist_image": "Image",
+  "edit_artist_description": "Description",
+  "edit_artist_load_error": "An error occurred while loading artist data.",
+  "edit_artist_save_error": "An error occurred while saving the artist.",
+  "edit_artist_search_metadata": "Search Metadata",
+  "edit_artist_metadata_no_description": "No description available.",
+
   "edit_playlist_title": "Edit Playlist",
   "edit_playlist_name": "Name",
   "edit_playlist_name_validation_empty": "The playlist name cannot be empty.",

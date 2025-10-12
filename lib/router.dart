@@ -5,6 +5,7 @@ import 'package:vibin_app/auth/AuthState.dart';
 import 'package:vibin_app/main_layout.dart';
 import 'package:vibin_app/pages/drawer.dart';
 import 'package:vibin_app/pages/edit/album_edit_page.dart';
+import 'package:vibin_app/pages/edit/artist_edit_page.dart';
 import 'package:vibin_app/pages/edit/playlist_edit_page.dart';
 import 'package:vibin_app/pages/edit/track_edit_page.dart';
 import 'package:vibin_app/pages/home_page.dart';
@@ -130,6 +131,7 @@ GoRouter configureRouter(AuthState authState) {
           GoRoute(path: '/albums/:id/edit', builder: (context, state) => AlbumEditPage(albumId: int.parse(state.pathParameters['id']!))),
           GoRoute(path: '/artists', builder: (context, state) => ArtistsPage()),
           GoRoute(path: '/artists/:id', builder: (context, state) => ArtistInfoPage(artistId: int.parse(state.pathParameters['id']!))),
+          GoRoute(path: '/artists/:id/edit', builder: (context, state) => ArtistEditPage(artistId: int.parse(state.pathParameters['id']!))),
           GoRoute(path: '/settings/app', builder: (context, state) => AppSettingsPage()),
           GoRoute(path: '/tags', builder: (context, state) => TagOverviewPage()),
         ],
