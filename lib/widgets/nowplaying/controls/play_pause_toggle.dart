@@ -11,7 +11,7 @@ class PlayPauseToggle extends StatelessWidget {
   final double? size;
   final bool showTooltip;
 
-  PlayPauseToggle({
+  const PlayPauseToggle({
     super.key,
     this.backgroundColor,
     this.iconColor,
@@ -19,20 +19,11 @@ class PlayPauseToggle extends StatelessWidget {
     this.showTooltip = true,
   });
 
-  final audioManager = getIt<AudioManager>();
-
-  void playPause() {
-    if (audioManager.audioPlayer.playing) {
-      audioManager.audioPlayer.pause();
-    } else {
-      audioManager.audioPlayer.play();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
 
     final lm = AppLocalizations.of(context)!;
+    final audioManager = getIt<AudioManager>();
 
     return StreamBuilder(
       stream: audioManager.audioPlayer.playingStream,
@@ -44,7 +35,7 @@ class PlayPauseToggle extends StatelessWidget {
             iconSize: size,
             icon: Icon(playing ? Icons.pause : Icons.play_arrow),
             color: iconColor,
-            onPressed: playPause,
+            onPressed: audioManager.playPause,
             tooltip: showTooltip ? (playing ? lm.now_playing_pause : lm.now_playing_play) : null,
           );
         }
@@ -53,7 +44,7 @@ class PlayPauseToggle extends StatelessWidget {
           icon: playing ? Icons.pause : Icons.play_arrow,
           backgroundColor: backgroundColor!,
           iconColor: iconColor,
-          onPressed: playPause,
+          onPressed: audioManager.playPause,
           size: size,
           tooltip: showTooltip ? (playing ? lm.now_playing_pause : lm.now_playing_play) : null,
         );

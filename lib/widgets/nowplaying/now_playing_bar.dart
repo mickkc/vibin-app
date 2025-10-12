@@ -168,16 +168,16 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
                       const SizedBox(width: 16)
                     ],
                     if (showExtendedControls) ... [
-                      RepeatToggle(),
-                      ShuffleToggle(),
-                      SizedBox(width: 16)
+                      const RepeatToggle(),
+                      const ShuffleToggle(),
+                      const SizedBox(width: 16)
                     ],
                     IconButton(
                       onPressed: skipPrevious,
                       icon: const Icon(Icons.skip_previous),
                       tooltip: lm.now_playing_previous
                     ),
-                    PlayPauseToggle(),
+                    const PlayPauseToggle(),
                     IconButton(
                       onPressed: skipNext,
                       icon: const Icon(Icons.skip_next),

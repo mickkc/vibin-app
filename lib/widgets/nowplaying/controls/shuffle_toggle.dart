@@ -8,29 +8,23 @@ class ShuffleToggle extends StatelessWidget {
 
   final bool showTooltip;
 
-  ShuffleToggle({
+  const ShuffleToggle({
     super.key,
     this.showTooltip = true,
   });
-
-  final audioManager = getIt<AudioManager>();
-
-  void toggleShuffle() {
-    final enable = !(audioManager.audioPlayer.shuffleModeEnabled);
-    audioManager.audioPlayer.setShuffleModeEnabled(enable);
-  }
 
   @override
   Widget build(BuildContext context) {
 
     final th = Theme.of(context);
+    final audioManager = getIt<AudioManager>();
 
     return StreamBuilder(
       stream: audioManager.audioPlayer.shuffleModeEnabledStream,
       builder: (context, snapshot) {
         final enabled = snapshot.data ?? false;
         return IconButton(
-          onPressed: toggleShuffle,
+          onPressed: audioManager.toggleShuffle,
           icon: Icon(
             Icons.shuffle,
             color: enabled ? th.colorScheme.primary : th.colorScheme.onSurface

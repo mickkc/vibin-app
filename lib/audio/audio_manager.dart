@@ -30,6 +30,32 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     audioPlayer = AudioPlayer();
   }
 
+  void playPause() {
+    if (audioPlayer.playing) {
+      audioPlayer.pause();
+    } else {
+      audioPlayer.play();
+    }
+  }
+
+  void toggleShuffle() {
+    audioPlayer.setShuffleModeEnabled(!audioPlayer.shuffleModeEnabled);
+  }
+
+  void toggleRepeat() {
+    switch (audioPlayer.loopMode) {
+      case LoopMode.off:
+        audioPlayer.setLoopMode(LoopMode.all);
+        break;
+      case LoopMode.all:
+        audioPlayer.setLoopMode(LoopMode.one);
+        break;
+      case LoopMode.one:
+        audioPlayer.setLoopMode(LoopMode.off);
+        break;
+    }
+  }
+
   Future<void> playPlaylist(Playlist playlist, bool shuffle) async {
     await audioPlayer.stop();
     final playlistData = await apiManager.service.getPlaylist(playlist.id);

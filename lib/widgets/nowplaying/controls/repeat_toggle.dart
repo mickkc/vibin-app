@@ -9,30 +9,15 @@ class RepeatToggle extends StatelessWidget {
 
   final bool showTooltip;
 
-  RepeatToggle({
+  const RepeatToggle({
     super.key,
     this.showTooltip = true,
   });
 
-  final audioManager = getIt<AudioManager>();
-
-  void toggleRepeat() {
-    switch (audioManager.audioPlayer.loopMode) {
-      case LoopMode.off:
-        audioManager.audioPlayer.setLoopMode(LoopMode.all);
-        break;
-      case LoopMode.all:
-        audioManager.audioPlayer.setLoopMode(LoopMode.one);
-        break;
-      case LoopMode.one:
-        audioManager.audioPlayer.setLoopMode(LoopMode.off);
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
 
+    final audioManager = getIt<AudioManager>();
     final th = Theme.of(context);
 
     return StreamBuilder(
@@ -40,7 +25,7 @@ class RepeatToggle extends StatelessWidget {
       builder: (context, snapshot) {
         final mode = snapshot.data ?? LoopMode.off;
         return IconButton(
-          onPressed: toggleRepeat,
+          onPressed: audioManager.toggleRepeat,
           icon: switch (mode) {
             LoopMode.off => Icon(Icons.repeat, color: th.colorScheme.onSurface),
             LoopMode.all => Icon(Icons.repeat, color: th.colorScheme.primary),

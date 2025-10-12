@@ -53,8 +53,8 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              VolumeSlider(),
-              SpeedSlider()
+              const VolumeSlider(),
+              const SpeedSlider()
             ],
           ),
         );
@@ -105,7 +105,7 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
           spacing: 8,
           children: [
             Expanded(
-              child: RepeatToggle(showTooltip: false)
+              child: const RepeatToggle(showTooltip: false)
             ),
             ColoredIconButton(
                 icon: Icons.skip_previous,
@@ -126,11 +126,11 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
               onPressed: audioManager.audioPlayer.seekToNext
             ),
             Expanded(
-              child: ShuffleToggle(showTooltip: false)
+              child: const ShuffleToggle(showTooltip: false)
             )
           ],
         ),
-        AudioProgressSlider(),
+        const AudioProgressSlider(),
 
         if (isMobile) ... [
           SingleChildScrollView(
@@ -159,7 +159,7 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: VolumeSlider()
+                child: const VolumeSlider()
               ),
               lyricsButton(),
               ElevatedButton.icon(
@@ -168,7 +168,7 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
                 icon: Icon(Icons.queue_music)
               ),
               Expanded(
-                child: SpeedSlider()
+                child: const SpeedSlider()
               )
             ],
           )
