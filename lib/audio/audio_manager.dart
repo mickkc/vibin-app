@@ -97,6 +97,19 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     audioPlayer.play();
   }
 
+  Future<void> playMinimalTrackWithQueue(MinimalTrack track, List<MinimalTrack> queue) async {
+    final mediaToken = await clientData.getMediaToken();
+    final sources = queue.map((t) => fromMinimalTrack(t, mediaToken)).toList();
+    final initialIndex = queue.indexWhere((t) => t.id == track.id);
+    await audioPlayer.stop();
+
+    setAudioType(AudioType.tracks, null);
+
+    await audioPlayer.clearAudioSources();
+    await audioPlayer.setAudioSources(sources, initialIndex: initialIndex);
+    audioPlayer.play();
+  }
+
   Future<void> addTrackToQueue(int trackId) async {
     final track = await apiManager.service.getTrack(trackId);
     final mediaToken = await clientData.getMediaToken();

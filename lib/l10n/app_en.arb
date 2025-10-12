@@ -100,6 +100,8 @@
   "albums_show_singles": "Show Singles",
   "albums_hide_singles": "Hide Singles",
 
+  "artists_edit": "Edit Artist",
+
   "dialog_error": "Error",
   "dialog_warning": "Warning",
   "dialog_info": "Info",

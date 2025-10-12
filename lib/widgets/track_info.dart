@@ -19,7 +19,7 @@ class TrackInfoView extends StatelessWidget {
   });
 
   void openArtistPage(BuildContext context, int artistId) {
-    // TODO: Implement navigation to artist page
+    GoRouter.of(context).push("/artists/$artistId");
   }
 
   void openAlbumPage(BuildContext context, int albumId) {

@@ -7,6 +7,7 @@ import 'package:vibin_app/dtos/album/album_edit_data.dart';
 import 'package:vibin_app/dtos/album/album_info_metadata.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/artist/artist_metadata.dart';
+import 'package:vibin_app/dtos/artist_dicography.dart';
 import 'package:vibin_app/dtos/login_result.dart';
 import 'package:vibin_app/dtos/lyrics.dart';
 import 'package:vibin_app/dtos/lyrics_metadata.dart';
@@ -83,6 +84,9 @@ abstract class ApiService {
 
   @GET("/api/albums/autocomplete")
   Future<List<String>> autocompleteAlbums(@Query("query") String query, @Query("limit") int? limit);
+
+  @GET("/api/albums/artists/{id}")
+  Future<List<ArtistDiscography>> getArtistDiscography(@Path("id") int artistId);
 
   // Artists
 

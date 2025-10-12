@@ -608,6 +608,12 @@ abstract class AppLocalizations {
   /// **'Hide Singles'**
   String get albums_hide_singles;
 
+  /// No description provided for @artists_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Artist'**
+  String get artists_edit;
+
   /// No description provided for @dialog_error.
   ///
   /// In en, this message translates to:

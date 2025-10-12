@@ -271,6 +271,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get albums_hide_singles => 'Singles ausblenden';
 
   @override
+  String get artists_edit => 'Künstler bearbeiten';
+
+  @override
   String get dialog_error => 'Fehler';
 
   @override
