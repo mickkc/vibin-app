@@ -25,9 +25,6 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
   final SettingsManager settingsManager = getIt<SettingsManager>();
   late final lm = AppLocalizations.of(context)!;
 
-  late ThemeMode themeMode = settingsManager.get(Settings.themeMode);
-  late bool showOwnPlaylistsByDefault = settingsManager.get(Settings.showOwnPlaylistsByDefault);
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -35,36 +32,20 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         children: [
-          ListTile(
-            title: Text(lm.settings_app_theme_title),
-            leading: Icon(Icons.color_lens),
-            trailing: DropdownButton<ThemeMode>(
-              value: themeMode,
-              padding: EdgeInsets.all(4.0),
-              items: [
-                DropdownMenuItem(
-                  value: ThemeMode.system,
-                  child: Text(lm.settings_app_theme_system),
-                ),
-                DropdownMenuItem(
-                  value: ThemeMode.light,
-                  child: Text(lm.settings_app_theme_light),
-                ),
-                DropdownMenuItem(
-                  value: ThemeMode.dark,
-                  child: Text(lm.settings_app_theme_dark),
-                ),
-              ],
-              onChanged: (value) {
-                if (value != null) {
-                  themeNotifier.value = themeNotifier.value.setThemeMode(value);
-                  settingsManager.set(Settings.themeMode, value);
-                  setState(() {
-                    themeMode = value;
-                  });
-                }
-              },
-            ),
+          EnumSettingsField(
+            settingKey: Settings.themeMode,
+            title: lm.settings_app_theme_title,
+            icon: Icons.color_lens,
+            optionLabel: (option) {
+              return switch (option) {
+                ThemeMode.system => lm.settings_app_theme_system,
+                ThemeMode.light => lm.settings_app_theme_light,
+                ThemeMode.dark => lm.settings_app_theme_dark,
+              };
+            },
+            onChanged: (mode) {
+              themeNotifier.value = themeNotifier.value.setThemeMode(mode);
+            }
           ),
 
           ListTile(
