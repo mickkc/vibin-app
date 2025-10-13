@@ -21,8 +21,8 @@ class TopTracksSection extends StatelessWidget {
       spacing: 8,
       children: [
         SectionHeader(
-            title: AppLocalizations.of(context)!.section_top_tracks,
-            viewAllRoute: "/tracks",
+          title: AppLocalizations.of(context)!.section_top_tracks,
+          viewAllRoute: "/tracks",
         ),
         FutureContent(
           future: tracks,
@@ -35,7 +35,10 @@ class TopTracksSection extends StatelessWidget {
                 final track = tracks[index];
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: EntityCard(entity: track),
+                  child: EntityCard(
+                    entity: track,
+                    type: EntityCardType.track,
+                  ),
                 );
               },
               primary: false,

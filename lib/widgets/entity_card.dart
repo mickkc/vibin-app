@@ -11,82 +11,68 @@ import '../api/api_manager.dart';
 import '../main.dart';
 
 class EntityCard extends StatelessWidget {
-  final String type;
+  final EntityCardType type;
   final dynamic entity;
   final double coverSize;
 
   const EntityCard({
     super.key,
-    this.type = "TRACK",
+    required this.type,
     required this.entity,
     this.coverSize = 128,
   });
 
   String getTitle() {
     switch (type) {
-      case "TRACK":
-      case "FTRACK":
-      case "ALBUM":
+      case EntityCardType.track:
+      case EntityCardType.album:
         return entity.title;
-      case "ARTIST":
-      case "PLAYLIST":
+      case EntityCardType.artist:
+      case EntityCardType.playlist:
         return entity.name;
-      case "USER":
+      case EntityCardType.user:
         return entity.displayName;
-      default:
-        return "INVALID TYPE";
     }
   }
 
   String getDescription(BuildContext context) {
     switch (type) {
-      case "TRACK":
-        return (entity as MinimalTrack).artists.map((a) => a.name).join(", ");
-      case "FTRACK":
-        return (entity as Track).artists.map((a) => a.name).join(", ");
-      case "ALBUM":
-        return (entity as Album).artists.map((a) => a.name).join(", ");
-      case "ARTIST":
+      case EntityCardType.track:
+      case EntityCardType.album:
+        return entity.artists.map((a) => a.name).join(", ");
+      case EntityCardType.artist:
         return AppLocalizations.of(context)!.artist;
-      case "PLAYLIST":
-        return (entity as Playlist).description ?? AppLocalizations.of(context)!.playlist;
-      case "USER":
+      case EntityCardType.playlist:
+        return entity.description.isEmpty ? AppLocalizations.of(context)!.playlist : entity.description;
+      case EntityCardType.user:
         return entity.username;
-      default:
-        return "INVALID TYPE";
     }
   }
 
   String getCoverUrl(ApiManager apiManager) {
     switch (type) {
-      case "TRACK":
-      case "FTRACK":
+      case EntityCardType.track:
         return "/api/tracks/${entity.id}/cover?quality=large";
-      case "ALBUM":
+      case EntityCardType.album:
         return "/api/albums/${entity.id}/cover?quality=large";
-      case "ARTIST":
+      case EntityCardType.artist:
         return "/api/artists/${entity.id}/image?quality=large";
-      case "PLAYLIST":
+      case EntityCardType.playlist:
         return "/api/playlists/${entity.id}/image?quality=large";
-      case "USER":
+      case EntityCardType.user:
         return "/api/users/${entity.id}/pfp?quality=large";
-      default:
-        throw Exception("INVALID TYPE");
     }
   }
 
   void onTap(BuildContext context) {
     final route = switch (type) {
-      "TRACK" || "FTRACK" => "/tracks/${entity.id}",
-      "ALBUM" => "/albums/${entity.id}",
-      "ARTIST" => "/artists/${entity.id}",
-      "PLAYLIST" => "/playlists/${entity.id}",
-      "USER" => "/users/${entity.id}",
-      _ => null
+      EntityCardType.track => "/tracks/${entity.id}",
+      EntityCardType.album => "/albums/${entity.id}",
+      EntityCardType.artist => "/artists/${entity.id}",
+      EntityCardType.playlist => "/playlists/${entity.id}",
+      EntityCardType.user => "/users/${entity.id}"
     };
-    if (route != null) {
-      GoRouter.of(context).push(route);
-    }
+    GoRouter.of(context).push(route);
   }
 
   @override
@@ -148,4 +134,12 @@ class EntityCard extends StatelessWidget {
       ),
     );
   }
+}
+
+enum EntityCardType {
+  track,
+  album,
+  artist,
+  playlist,
+  user
 }

@@ -4,6 +4,7 @@ import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/overview/paginated_overview.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../widgets/entity_card.dart';
 
 class UsersPage extends StatelessWidget {
 
@@ -20,7 +21,7 @@ class UsersPage extends StatelessWidget {
       fetchFunction: (page, pageSize, query) {
         return apiManager.service.getUsers(page, pageSize, query);
       },
-      type: "USER",
+      type: EntityCardType.user,
       title: lm.users,
       icon: Icons.group,
     );

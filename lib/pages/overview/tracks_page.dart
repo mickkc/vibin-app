@@ -6,6 +6,7 @@ import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/overview/paginated_overview.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../widgets/entity_card.dart';
 
 class TrackPage extends StatelessWidget {
 
@@ -20,7 +21,7 @@ class TrackPage extends StatelessWidget {
       fetchFunction: (page, pageSize, query) {
         return apiManager.service.searchTracks(query, settingsManager.get(Settings.advancedTrackSearch), page, pageSize);
       },
-      type: "TRACK",
+      type: EntityCardType.track,
       title: AppLocalizations.of(context)!.tracks,
       icon: Icons.library_music
     );

@@ -35,7 +35,10 @@ class PlaylistsSection extends StatelessWidget {
                 final track = playlists[index];
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: EntityCard(entity: track, type: "PLAYLIST"),
+                  child: EntityCard(
+                    entity: track,
+                    type: EntityCardType.playlist,
+                  ),
                 );
               },
               primary: false,

@@ -23,42 +23,49 @@ class PopularItemsSection extends StatelessWidget {
     final future = apiManager.service.getTopListenedGlobalNonTrackItems(20, null);
 
     return Column(
-        spacing: 8,
-        children: [
-          SectionHeader(
-            title: AppLocalizations.of(context)!.section_popular_items,
-          ),
-          FutureContent(
-              height: 205,
-              future: future,
-              hasData: (d) => d.isNotEmpty,
-              builder: (context, items) {
-                return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    final entity = items[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: EntityCard(
-                        entity: switch (entity.key) {
-                          "ARTIST" => Artist.fromJson(entity.value),
-                          "TRACK" => MinimalTrack.fromJson(entity.value),
-                          "FTRACK" => Track.fromJson(entity.value),
-                          "PLAYLIST" => Playlist.fromJson(entity.value),
-                          "ALBUM" => Album.fromJson(entity.value),
-                          _ => throw Exception("Unknown entity type: ${entity.key}")
-                        },
-                        type: entity.key,
-                        coverSize: 128,
-                      ),
-                    );
-                  },
-                  primary: false,
+      spacing: 8,
+      children: [
+        SectionHeader(
+          title: AppLocalizations.of(context)!.section_popular_items,
+        ),
+        FutureContent(
+          height: 205,
+          future: future,
+          hasData: (d) => d.isNotEmpty,
+          builder: (context, items) {
+            return ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final entity = items[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: EntityCard(
+                    entity: switch (entity.key) {
+                      "ARTIST" => Artist.fromJson(entity.value),
+                      "TRACK" => MinimalTrack.fromJson(entity.value),
+                      "FTRACK" => Track.fromJson(entity.value),
+                      "PLAYLIST" => Playlist.fromJson(entity.value),
+                      "ALBUM" => Album.fromJson(entity.value),
+                      _ => throw Exception("Unknown entity type: ${entity.key}")
+                    },
+                    type: switch (entity.key) {
+                      "ARTIST" => EntityCardType.artist,
+                      "TRACK" => EntityCardType.track,
+                      "FTRACK" => EntityCardType.track,
+                      "PLAYLIST" => EntityCardType.playlist,
+                      "ALBUM" => EntityCardType.album,
+                      _ => throw Exception("Unknown entity type: ${entity.key}")
+                    },
+                    coverSize: 128,
+                  ),
                 );
-              }
-          )
-        ]
+              },
+              primary: false,
+            );
+          }
+        )
+      ]
     );
   }
 }

@@ -47,7 +47,14 @@ class LastListenedToSection extends StatelessWidget {
                       "ALBUM" => Album.fromJson(entity.value),
                       _ => throw Exception("Unknown entity type: ${entity.key}")
                     },
-                    type: entity.key,
+                    type: switch (entity.key) {
+                      "ARTIST" => EntityCardType.artist,
+                      "TRACK" => EntityCardType.track,
+                      "FTRACK" => EntityCardType.track,
+                      "PLAYLIST" => EntityCardType.playlist,
+                      "ALBUM" => EntityCardType.album,
+                      _ => throw Exception("Unknown entity type: ${entity.key}")
+                    },
                     coverSize: 128,
                   ),
                 );

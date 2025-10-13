@@ -6,6 +6,7 @@ import 'package:vibin_app/widgets/overview/paginated_overview.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
+import '../../widgets/entity_card.dart';
 
 class AlbumPage extends StatefulWidget {
   const AlbumPage({super.key});
@@ -30,7 +31,7 @@ class _AlbumPageState extends State<AlbumPage> {
       fetchFunction: (page, pageSize, query) {
         return apiManager.service.getAlbums(page, pageSize, query, showSingles);
       },
-      type: "ALBUM",
+      type: EntityCardType.album,
       title: AppLocalizations.of(context)!.albums,
       icon: Icons.album,
       actions: [

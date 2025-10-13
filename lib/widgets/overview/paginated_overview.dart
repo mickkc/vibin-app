@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
+import 'package:vibin_app/widgets/entity_card.dart';
 import 'package:vibin_app/widgets/entity_card_grid.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/overview/overview_header.dart';
@@ -9,7 +10,7 @@ import 'package:vibin_app/widgets/pagination_footer.dart';
 
 class PaginatedOverview extends StatefulWidget {
   final Function(int page, int pageSize, String searchQuery) fetchFunction;
-  final String type;
+  final EntityCardType type;
   final String title;
   final IconData icon;
   final List<Widget>? actions;

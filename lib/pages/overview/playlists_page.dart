@@ -4,6 +4,7 @@ import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
+import 'package:vibin_app/widgets/entity_card.dart';
 import 'package:vibin_app/widgets/overview/paginated_overview.dart';
 
 import '../../main.dart';
@@ -30,7 +31,7 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
         fetchFunction: (page, pageSize, query) {
           return apiManager.service.getPlaylists(page, pageSize, query, showOnlyOwn);
         },
-        type: "PLAYLIST",
+        type: EntityCardType.playlist,
         title: AppLocalizations.of(context)!.playlists,
         icon: Icons.playlist_play,
         actions: [

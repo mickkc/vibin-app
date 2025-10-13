@@ -35,7 +35,10 @@ class NewTracksSection extends StatelessWidget {
                 final track = tracks[index];
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: EntityCard(entity: track),
+                  child: EntityCard(
+                    entity: track,
+                    type: EntityCardType.track,
+                  ),
                 );
               },
               primary: false,
