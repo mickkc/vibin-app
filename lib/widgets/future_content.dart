@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/l10n/app_localizations.dart';
 
 class FutureContent<T> extends StatelessWidget {
   final Future<T> future;
@@ -22,6 +23,10 @@ class FutureContent<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final theme = Theme.of(context);
+    final lm = AppLocalizations.of(context)!;
+
     return SizedBox(
       height: height,
       child: FutureBuilder<T>(
@@ -34,28 +39,25 @@ class FutureContent<T> extends StatelessWidget {
 
           if (snapshot.hasError) {
             return errorWidget ??
-                Center(
-                  child: Text(
-                    'Fehler: ${snapshot.error}',
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                );
+              Center(
+                child: Text(
+                  '${lm.dialog_error}: ${snapshot.error}',
+                  style: TextStyle(color: theme.colorScheme.error),
+                ),
+              );
           }
 
           if (snapshot.hasData) {
             final data = snapshot.data as T;
 
             if (hasData != null && !hasData!(data)) {
-              return emptyWidget ??
-                  const Center(child: Text("Keine Daten vorhanden"));
+              return emptyWidget ?? Center(child: Text(lm.section_no_data));
             }
 
             return builder(context, data);
           }
 
-          // Falls Future null zurückgibt oder sonstiger Edge-Case
-          return emptyWidget ??
-              const Center(child: Text("Keine Daten vorhanden"));
+          return emptyWidget ?? Center(child: Text(lm.section_no_data));
         },
       ),
     );
