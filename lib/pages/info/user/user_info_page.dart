@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/auth/AuthState.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
+import 'package:vibin_app/pages/info/user/tabs/user_activity_tab.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_info_tab.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_playlists_tab.dart';
 import 'package:vibin_app/widgets/future_content.dart';
@@ -28,10 +29,9 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
   final AuthState authState = getIt<AuthState>();
 
   late final showPlaylists = authState.hasPermission(PermissionType.viewPlaylists);
-  late final showActivity = authState.hasAnyPermission([
-    PermissionType.viewAlbums,
+  late final showActivity = authState.hasPermissions([
+    PermissionType.viewTracks,
     PermissionType.viewArtists,
-    PermissionType.viewPlaylists
   ]);
   late final showUploads = authState.hasPermission(PermissionType.viewTracks);
   late final showEdit = authState.hasPermission(PermissionType.manageUsers);
@@ -158,7 +158,7 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
                   UserPlaylistsTab(userId: widget.userId),
 
                 if (showActivity)
-                Center(child: Text("Activity")),
+                  UserActivityTab(userId: widget.userId),
 
                 if (showUploads)
                   Center(child: Text("Uploads")),

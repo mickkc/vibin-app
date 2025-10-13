@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vibin_app/dtos/album/album.dart';
-import 'package:vibin_app/dtos/playlist/playlist.dart';
-import 'package:vibin_app/dtos/track/minimal_track.dart';
-import 'package:vibin_app/dtos/track/track.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
@@ -96,7 +92,7 @@ class EntityCard extends StatelessWidget {
                 AspectRatio(
                   aspectRatio: 1,
                   child: ClipRRect(
-                    borderRadius: type == "ARTIST" || type == "USER"
+                    borderRadius: type == EntityCardType.artist || type == EntityCardType.user
                         ? BorderRadius.circular(coverSize / 2)
                         : BorderRadius.circular(8),
                     child: NetworkImageWidget(

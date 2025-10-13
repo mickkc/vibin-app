@@ -33,6 +33,7 @@ import 'package:vibin_app/dtos/track/track_edit_data.dart';
 import 'package:vibin_app/dtos/track/track_info_metadata.dart';
 import 'package:vibin_app/dtos/user/user.dart';
 import 'package:vibin_app/dtos/user/user_edit_data.dart';
+import 'package:vibin_app/dtos/user_activity.dart';
 
 import '../dtos/artist/artist_edit_data.dart';
 
@@ -220,6 +221,9 @@ abstract class ApiService {
 
   @POST("/api/stats/listen/PLAYLIST/{playlistId}")
   Future<Success> reportPlaylistListen(@Path("playlistId") int playlistId);
+
+  @GET("/api/stats/users/{id}/activity")
+  Future<UserActivity> getUserActivity(@Path("id") int userId, @Query("since") int? since, @Query("limit") int? limit);
 
   // Tags
 

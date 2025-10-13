@@ -110,6 +110,10 @@
   "user_info_admin": "Admin",
   "user_info_active": "Aktiv",
 
+  "user_activity_last_tracks": "Zuletzt abgespielte Titel",
+  "user_activity_top_tracks": "Top Titel",
+  "user_activity_top_artists": "Top Künstler",
+
   "add_track_to_playlist_title": "Zu Playlist hinzufügen",
 
   "playlists_show_all": "Alle Playlists anzeigen",
