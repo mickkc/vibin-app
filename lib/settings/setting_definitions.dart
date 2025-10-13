@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/dialogs/lyrics_dialog.dart';
 import 'package:vibin_app/settings/settings_key.dart';
 import 'package:vibin_app/widgets/settings/homepage_sections_list.dart';
 
 class Settings {
   static final themeMode = EnumSettingsKey("themeMode", ThemeMode.system, ThemeMode.values);
   static final accentColor = NullableColorSettingsKey("accentColor", null);
+  static final lyricsDesign = EnumSettingsKey("lyricsDesign", LyricsDesign.dynamic, LyricsDesign.values);
 
   static final showOwnPlaylistsByDefault = BoolSettingsKey("showOwnPlaylistsByDefault", true);
   static final showSinglesInAlbumsByDefault = BoolSettingsKey("showSinglesInAlbumsByDefault", false);

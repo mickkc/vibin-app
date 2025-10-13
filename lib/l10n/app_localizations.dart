@@ -1214,6 +1214,42 @@ abstract class AppLocalizations {
   /// **'Dark'**
   String get settings_app_theme_dark;
 
+  /// No description provided for @settings_app_lyrics_design_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Lyrics Design'**
+  String get settings_app_lyrics_design_title;
+
+  /// No description provided for @settings_app_lyrics_design_system.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get settings_app_lyrics_design_system;
+
+  /// No description provided for @settings_app_lyrics_design_primary.
+  ///
+  /// In en, this message translates to:
+  /// **'Primary Color'**
+  String get settings_app_lyrics_design_primary;
+
+  /// No description provided for @settings_app_lyrics_design_dynamic.
+  ///
+  /// In en, this message translates to:
+  /// **'Dynamic (Album Art)'**
+  String get settings_app_lyrics_design_dynamic;
+
+  /// No description provided for @settings_app_lyrics_design_dynamic_dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dynamic (Dark)'**
+  String get settings_app_lyrics_design_dynamic_dark;
+
+  /// No description provided for @settings_app_lyrics_design_dynamic_light.
+  ///
+  /// In en, this message translates to:
+  /// **'Dynamic (Light)'**
+  String get settings_app_lyrics_design_dynamic_light;
+
   /// No description provided for @settings_app_accent_color_title.
   ///
   /// In en, this message translates to:

@@ -90,7 +90,7 @@ Please note that this project, just like the server, is still in its early stage
     - [ ] Blocked tags
     - [ ] Block explicit content
     - [x] Accent color
-    - [x] Manual color scheme selection
+    - [x] Lyric design
     - [ ] ...
   - [ ] Server settings
     - [ ] ...

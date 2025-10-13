@@ -3,10 +3,12 @@ import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/settings/accent_color_picker.dart';
 import 'package:vibin_app/widgets/settings/bool_settings_field.dart';
+import 'package:vibin_app/widgets/settings/enum_settings_field.dart';
 import 'package:vibin_app/widgets/settings/homepage_sections_list.dart';
 import 'package:vibin_app/widgets/settings/int_settings_field.dart';
 import 'package:vibin_app/widgets/settings/preferred_metadata_pickers.dart';
 
+import '../../dialogs/lyrics_dialog.dart';
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 
@@ -72,6 +74,24 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
               child: AccentColorPicker(),
             ),
             leading: Icon(Icons.palette),
+          ),
+
+          EnumSettingsField(
+            settingKey: Settings.lyricsDesign,
+            title: lm.settings_app_lyrics_design_title,
+            optionLabel: (option) {
+              return switch (option) {
+                LyricsDesign.system => lm.settings_app_lyrics_design_system,
+                LyricsDesign.primary => lm.settings_app_lyrics_design_primary,
+                LyricsDesign.dynamic => lm.settings_app_lyrics_design_dynamic,
+                LyricsDesign.dynamicDark => lm.settings_app_lyrics_design_dynamic_dark,
+                LyricsDesign.dynamicLight => lm.settings_app_lyrics_design_dynamic_light,
+              };
+            },
+            icon: Icons.lyrics,
+            onChanged: (design) {
+              LyricsDialog.lyricsDesignNotifier.value = design;
+            },
           ),
 
           IntSettingsInputField(

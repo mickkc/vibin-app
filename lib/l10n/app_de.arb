@@ -213,6 +213,13 @@
   "settings_app_theme_light": "Hell",
   "settings_app_theme_dark": "Dunkel",
 
+  "settings_app_lyrics_design_title": "Liedtext-Design",
+  "settings_app_lyrics_design_system": "System",
+  "settings_app_lyrics_design_primary": "Primär-Farbe",
+  "settings_app_lyrics_design_dynamic": "Dynamisch (Album-Cover)",
+  "settings_app_lyrics_design_dynamic_dark": "Dynamisch (Dunkel)",
+  "settings_app_lyrics_design_dynamic_light": "Dynamisch (Hell)",
+
   "settings_app_accent_color_title": "Akzentfarbe",
 
   "settings_app_page_size_title": "Seitengröße",

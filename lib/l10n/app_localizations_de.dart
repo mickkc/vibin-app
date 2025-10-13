@@ -607,6 +607,24 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settings_app_theme_dark => 'Dunkel';
 
   @override
+  String get settings_app_lyrics_design_title => 'Liedtext-Design';
+
+  @override
+  String get settings_app_lyrics_design_system => 'System';
+
+  @override
+  String get settings_app_lyrics_design_primary => 'Primär-Farbe';
+
+  @override
+  String get settings_app_lyrics_design_dynamic => 'Dynamisch (Album-Cover)';
+
+  @override
+  String get settings_app_lyrics_design_dynamic_dark => 'Dynamisch (Dunkel)';
+
+  @override
+  String get settings_app_lyrics_design_dynamic_light => 'Dynamisch (Hell)';
+
+  @override
   String get settings_app_accent_color_title => 'Akzentfarbe';
 
   @override
