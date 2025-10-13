@@ -31,6 +31,8 @@ class EntityCard extends StatelessWidget {
       case "ARTIST":
       case "PLAYLIST":
         return entity.name;
+      case "USER":
+        return entity.displayName;
       default:
         return "INVALID TYPE";
     }
@@ -48,6 +50,8 @@ class EntityCard extends StatelessWidget {
         return AppLocalizations.of(context)!.artist;
       case "PLAYLIST":
         return (entity as Playlist).description ?? AppLocalizations.of(context)!.playlist;
+      case "USER":
+        return entity.username;
       default:
         return "INVALID TYPE";
     }
@@ -64,6 +68,8 @@ class EntityCard extends StatelessWidget {
         return "/api/artists/${entity.id}/image?quality=large";
       case "PLAYLIST":
         return "/api/playlists/${entity.id}/image?quality=large";
+      case "USER":
+        return "/api/users/${entity.id}/pfp?quality=large";
       default:
         throw Exception("INVALID TYPE");
     }
@@ -75,6 +81,7 @@ class EntityCard extends StatelessWidget {
       "ALBUM" => "/albums/${entity.id}",
       "ARTIST" => "/artists/${entity.id}",
       "PLAYLIST" => "/playlists/${entity.id}",
+      "USER" => "/users/${entity.id}",
       _ => null
     };
     if (route != null) {
@@ -103,7 +110,7 @@ class EntityCard extends StatelessWidget {
                 AspectRatio(
                   aspectRatio: 1,
                   child: ClipRRect(
-                    borderRadius: type == "ARTIST"
+                    borderRadius: type == "ARTIST" || type == "USER"
                         ? BorderRadius.circular(coverSize / 2)
                         : BorderRadius.circular(8),
                     child: NetworkImageWidget(

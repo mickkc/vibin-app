@@ -45,6 +45,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tags => 'Tags';
 
   @override
+  String get user => 'User';
+
+  @override
+  String get users => 'Users';
+
+  @override
   String get search => 'Search';
 
   @override

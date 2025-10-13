@@ -2143,12 +2143,21 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<User>> getUsers() async {
+  Future<UserPagination> getUsers(
+    int page,
+    int? pageSize,
+    String? query,
+  ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'pageSize': pageSize,
+      r'query': query,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<User>>(
+    final _options = _setStreamType<UserPagination>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -2158,12 +2167,10 @@ class _ApiService implements ApiService {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<User> _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late UserPagination _value;
     try {
-      _value = _result.data!
-          .map((dynamic i) => User.fromJson(i as Map<String, dynamic>))
-          .toList();
+      _value = UserPagination.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

@@ -96,7 +96,7 @@ Please note that this project, just like the server, is still in its early stage
     - [ ] ...
 - [ ] Playlist collaboration
 - [ ] User management
-  - [ ] View users
+  - [x] View users
   - [ ] Edit users
   - [ ] Create users
   - [ ] Delete users

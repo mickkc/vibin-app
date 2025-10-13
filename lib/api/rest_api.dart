@@ -18,6 +18,7 @@ import 'package:vibin_app/dtos/pagination/album_pagination.dart';
 import 'package:vibin_app/dtos/pagination/artist_pagination.dart';
 import 'package:vibin_app/dtos/pagination/minimal_track_pagination.dart';
 import 'package:vibin_app/dtos/pagination/playlist_pagination.dart';
+import 'package:vibin_app/dtos/pagination/user_pagination.dart';
 import 'package:vibin_app/dtos/permission_granted.dart';
 import 'package:vibin_app/dtos/playlist/playlist.dart';
 import 'package:vibin_app/dtos/playlist/playlist_data.dart';
@@ -286,7 +287,7 @@ abstract class ApiService {
   // Users
 
   @GET("/api/users")
-  Future<List<User>> getUsers();
+  Future<UserPagination> getUsers(@Query("page") int page, @Query("pageSize") int? pageSize, @Query("query") String? query);
 
   @GET("/api/users/me")
   Future<User> getCurrentUser();

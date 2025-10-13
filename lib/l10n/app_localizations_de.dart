@@ -45,6 +45,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get tags => 'Tags';
 
   @override
+  String get user => 'Benutzer';
+
+  @override
+  String get users => 'Benutzer';
+
+  @override
   String get search => 'Suchen';
 
   @override

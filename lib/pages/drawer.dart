@@ -99,6 +99,15 @@ class DrawerComponent extends StatelessWidget {
               GoRouter.of(context).push('/tags');
             },
           ),
+        if (authState.hasPermission(PermissionType.viewUsers))
+          ListTile(
+            leading: Icon(Icons.group),
+            title: Text(lm.users),
+            onTap: () {
+              Navigator.pop(context);
+              GoRouter.of(context).push('/users');
+            },
+          ),
         Divider(),
         ListTile(
           leading: Icon(Icons.person),
