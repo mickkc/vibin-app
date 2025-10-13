@@ -19,6 +19,10 @@
   "lyrics_s": "Lyric",
   "lyrics_p": "Lyrics",
 
+  "datetime_format_full": "yyyy-MM-dd HH:mm",
+  "datetime_format_date": "yyyy-MM-dd",
+  "datetime_format_time": "HH:mm",
+
   "autologin_failed_title": "Auto Login Failed",
   "autologin_failed_message": "Auto login failed. Your session may have expired or the instance is unreachable.",
   "autologin_retry": "Retry",
@@ -92,6 +96,19 @@
   "playlist_actions_enable_shuffling": "Enable Shuffling",
   "playlist_actions_disable_shuffling": "Disable Shuffling",
   "playlist_actions_add_collaborators": "Add Collaborators",
+
+  "users_info": "Info",
+  "users_playlists": "Playlists",
+  "users_activity": "Activity",
+  "users_uploads": "Uploads",
+  "users_permissions": "Permissions",
+  "users_edit": "Edit User",
+
+  "user_info_username": "Username",
+  "user_info_display_name": "Display Name",
+  "user_info_joined": "Joined",
+  "user_info_admin": "Admin",
+  "user_info_active": "Active",
 
   "add_track_to_playlist_title": "Add to Playlist",
 

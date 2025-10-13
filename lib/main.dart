@@ -10,12 +10,13 @@ import 'package:provider/provider.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/dbus/mpris_player.dart';
 import 'package:vibin_app/dependency_injection.dart';
-import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/router.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/settings/theme_settings.dart';
+
+import 'package:timezone/data/latest.dart' as tz;
 
 import 'auth/AuthState.dart';
 
@@ -37,6 +38,8 @@ void main() async {
     session.registerObject(mpris);
     await session.requestName("org.mpris.MediaPlayer2.vibin");
   }
+
+  tz.initializeTimeZones();
 
   final authState = getIt<AuthState>();
 

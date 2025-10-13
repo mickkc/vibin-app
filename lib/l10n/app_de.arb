@@ -19,6 +19,10 @@
   "lyrics_s": "Liedtext",
   "lyrics_p": "Liedtexte",
 
+  "datetime_format_full": "dd.MM.yyyy HH:mm",
+  "datetime_format_date": "dd.MM.yyyy",
+  "datetime_format_time": "HH:mm",
+
   "autologin_failed_title": "Automatische Anmeldung fehlgeschlagen",
   "autologin_failed_message": "Die automatische Anmeldung ist fehlgeschlagen. Möglicherweise ist deine Sitzung abgelaufen oder die Instanz ist nicht erreichbar.",
   "autologin_retry": "Erneut versuchen",
@@ -92,6 +96,19 @@
   "playlist_actions_enable_shuffling": "Zufallswiedergabe aktivieren",
   "playlist_actions_disable_shuffling": "Zufallswiedergabe deaktivieren",
   "playlist_actions_add_collaborators": "Mitwirkende hinzufügen",
+
+  "users_info": "Info",
+  "users_playlists": "Playlists",
+  "users_activity": "Aktivität",
+  "users_uploads": "Uploads",
+  "users_permissions": "Berechtigungen",
+  "users_edit": "Nutzer bearbeiten",
+
+  "user_info_username": "Benutzername",
+  "user_info_display_name": "Anzeigename",
+  "user_info_joined": "Beigetreten",
+  "user_info_admin": "Admin",
+  "user_info_active": "Aktiv",
 
   "add_track_to_playlist_title": "Zu Playlist hinzufügen",
 

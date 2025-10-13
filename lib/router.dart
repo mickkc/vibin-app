@@ -13,6 +13,7 @@ import 'package:vibin_app/pages/info/album_info_page.dart';
 import 'package:vibin_app/pages/info/artist_info_page.dart';
 import 'package:vibin_app/pages/info/playlist_info_page.dart';
 import 'package:vibin_app/pages/info/track_info_page.dart';
+import 'package:vibin_app/pages/info/user/user_info_page.dart';
 import 'package:vibin_app/pages/login/auto_login_error_page.dart';
 import 'package:vibin_app/pages/login/connect_page.dart';
 import 'package:vibin_app/pages/login/login_page.dart';
@@ -105,11 +106,9 @@ GoRouter configureRouter(AuthState authState) {
                     }
                   }
                 },
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: child,
-                  ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: child,
                 ),
               )
             )
@@ -135,7 +134,8 @@ GoRouter configureRouter(AuthState authState) {
           GoRoute(path: '/artists/:id/edit', builder: (context, state) => ArtistEditPage(artistId: int.parse(state.pathParameters['id']!))),
           GoRoute(path: '/settings/app', builder: (context, state) => AppSettingsPage()),
           GoRoute(path: '/tags', builder: (context, state) => TagOverviewPage()),
-          GoRoute(path: '/users', builder: (context, state) => UsersPage())
+          GoRoute(path: '/users', builder: (context, state) => UsersPage()),
+          GoRoute(path: '/users/:id', builder: (context, state) => UserInfoPage(userId: int.parse(state.pathParameters['id']!))),
         ],
       )
     ],
