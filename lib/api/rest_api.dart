@@ -166,6 +166,9 @@ abstract class ApiService {
   @GET("/api/playlists/random")
   Future<List<Playlist>> getRandomPlaylists(@Query("limit") int? limit);
 
+  @GET("/api/playlists/users/{id}")
+  Future<List<Playlist>> getPlaylistsForUser(@Path("id") int userId);
+
   // Playlist Tracks
 
   @POST("/api/playlists/{playlistId}/tracks")

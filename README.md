@@ -104,7 +104,7 @@ Please note that this project, just like the server, is still in its early stage
   - [ ] Top tracks (when permitted by user)
   - [ ] Top artists (when permitted by user)
   - [ ] Recent activity (when permitted by user)
-  - [ ] Playlists (when permitted by user)
+  - [x] Playlists (only publicly shared)
   - [ ] Uploaded tracks (when permitted by user)
 - [ ] Sessions management
 - [ ] Permissions management

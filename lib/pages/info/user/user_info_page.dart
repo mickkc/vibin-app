@@ -3,6 +3,7 @@ import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/auth/AuthState.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_info_tab.dart';
+import 'package:vibin_app/pages/info/user/tabs/user_playlists_tab.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
@@ -74,102 +75,104 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
 
     final lm = AppLocalizations.of(context)!;
 
-    return Column(
-      spacing: 16,
-      children: [
-        FutureContent(
-          future: userFuture,
-          builder: (context, user) {
-            return Row(
-              spacing: 16,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                NetworkImageWidget(
-                  url: "/api/users/${user.id}/pfp",
-                  width: 100,
-                  height: 100,
-                  borderRadius: BorderRadius.circular(50)
-                ),
-                Expanded(
-                  child: Column(
-                    spacing: 8,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(user.displayName, style: Theme.of(context).textTheme.headlineMedium),
-                      Text(user.username),
-                    ],
+    return Material(
+      child: Column(
+        spacing: 16,
+        children: [
+          FutureContent(
+            future: userFuture,
+            builder: (context, user) {
+              return Row(
+                spacing: 16,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  NetworkImageWidget(
+                    url: "/api/users/${user.id}/pfp",
+                    width: 100,
+                    height: 100,
+                    borderRadius: BorderRadius.circular(50)
                   ),
-                )
-              ],
-            );
-          }
-        ),
-
-        LayoutBuilder(
-          builder: (context, constraints) {
-
-            Tab getTab(String text, IconData icon) {
-              if (constraints.maxWidth < 600) {
-                return Tab(icon: Icon(icon));
-              } else {
-                return Tab(text: text);
-              }
+                  Expanded(
+                    child: Column(
+                      spacing: 8,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(user.displayName, style: Theme.of(context).textTheme.headlineMedium),
+                        Text(user.username),
+                      ],
+                    ),
+                  )
+                ],
+              );
             }
+          ),
 
-            return TabBar(
+          LayoutBuilder(
+            builder: (context, constraints) {
+
+              Tab getTab(String text, IconData icon) {
+                if (constraints.maxWidth < 600) {
+                  return Tab(icon: Icon(icon));
+                } else {
+                  return Tab(text: text);
+                }
+              }
+
+              return TabBar(
+                controller: tabController,
+                tabs: [
+                  getTab(lm.users_info, Icons.info),
+
+                  if (showPlaylists)
+                    getTab(lm.users_playlists, Icons.playlist_play),
+
+                  if (showActivity)
+                    getTab(lm.users_activity, Icons.timeline),
+
+                  if (showUploads)
+                    getTab(lm.users_uploads, Icons.upload),
+
+                  if (showEdit)
+                    getTab(lm.users_edit, Icons.edit),
+
+                  if (showPermissions)
+                    getTab(lm.users_permissions, Icons.lock),
+                ],
+              );
+            }
+          ),
+
+          Expanded(
+            child: TabBarView(
               controller: tabController,
-              tabs: [
-                getTab(lm.users_info, Icons.info),
+              children: [
+                FutureContent(
+                  future: userFuture,
+                  builder: (context, user) {
+                    return UserInfoTab(user: user);
+                  }
+                ),
 
                 if (showPlaylists)
-                  getTab(lm.users_playlists, Icons.playlist_play),
+                  UserPlaylistsTab(userId: widget.userId),
 
                 if (showActivity)
-                  getTab(lm.users_activity, Icons.timeline),
+                Center(child: Text("Activity")),
 
                 if (showUploads)
-                  getTab(lm.users_uploads, Icons.upload),
+                  Center(child: Text("Uploads")),
 
                 if (showEdit)
-                  getTab(lm.users_edit, Icons.edit),
+                  Center(child: Text("Edit")),
 
                 if (showPermissions)
-                  getTab(lm.users_permissions, Icons.lock),
+                  Center(child: Text("Permissions")),
               ],
-            );
-          }
-        ),
-
-        Expanded(
-          child: TabBarView(
-            controller: tabController,
-            children: [
-              FutureContent(
-                future: userFuture,
-                builder: (context, user) {
-                  return UserInfoTab(user: user);
-                }
-              ),
-
-              if (showPlaylists)
-                Center(child: Text("Playlists")),
-
-              if (showActivity)
-              Center(child: Text("Activity")),
-
-              if (showUploads)
-                Center(child: Text("Uploads")),
-
-              if (showEdit)
-                Center(child: Text("Edit")),
-
-              if (showPermissions)
-                Center(child: Text("Permissions")),
-            ],
-          ),
-        )
-      ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
