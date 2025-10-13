@@ -208,6 +208,8 @@
   "pick_artist_title": "Künstler auswählen",
 
 
+  "settings_app_appearance_title": "Erscheinungsbild",
+
   "settings_app_theme_title": "App-Design",
   "settings_app_theme_system": "Systemstandard",
   "settings_app_theme_light": "Hell",
@@ -221,6 +223,8 @@
   "settings_app_lyrics_design_dynamic_light": "Dynamisch (Hell)",
 
   "settings_app_accent_color_title": "Akzentfarbe",
+
+  "settings_app_behavior_title": "Verhalten",
 
   "settings_app_page_size_title": "Seitengröße",
   "settings_app_page_size_description": "Die Anzahl der Elemente, die pro Seite in Übersichten geladen werden.",

@@ -208,6 +208,8 @@
   "pick_artists_title": "Select Artists",
 
 
+  "settings_app_appearance_title": "Appearance",
+
   "settings_app_theme_title": "App Theme",
   "settings_app_theme_system": "System Default",
   "settings_app_theme_light": "Light",
@@ -221,6 +223,8 @@
   "settings_app_lyrics_design_dynamic_light": "Dynamic (Light)",
 
   "settings_app_accent_color_title": "Accent Color",
+
+  "settings_app_behavior_title": "Behavior",
 
   "settings_app_page_size_title": "Page Size",
   "settings_app_page_size_description": "Number of items to load per page in overviews.",

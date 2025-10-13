@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 
 class SettingsTitle extends StatelessWidget {
   final String title;
-  final String subtitle;
+  final String? subtitle;
 
-  const SettingsTitle({super.key, required this.title, required this.subtitle});
+  const SettingsTitle({
+    super.key,
+    required this.title,
+    this.subtitle
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +24,11 @@ class SettingsTitle extends StatelessWidget {
             title,
             style: theme.textTheme.headlineMedium,
           ),
-          Text(
-            subtitle,
-            style: theme.textTheme.bodyMedium,
-          )
+          if (subtitle != null)
+            Text(
+              subtitle!,
+              style: theme.textTheme.bodyMedium,
+            )
         ],
       )
     );

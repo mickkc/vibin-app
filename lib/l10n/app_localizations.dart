@@ -1190,6 +1190,12 @@ abstract class AppLocalizations {
   /// **'Select Artists'**
   String get pick_artists_title;
 
+  /// No description provided for @settings_app_appearance_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get settings_app_appearance_title;
+
   /// No description provided for @settings_app_theme_title.
   ///
   /// In en, this message translates to:
@@ -1255,6 +1261,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Accent Color'**
   String get settings_app_accent_color_title;
+
+  /// No description provided for @settings_app_behavior_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Behavior'**
+  String get settings_app_behavior_title;
 
   /// No description provided for @settings_app_page_size_title.
   ///

@@ -586,6 +586,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pick_artists_title => 'Select Artists';
 
   @override
+  String get settings_app_appearance_title => 'Appearance';
+
+  @override
   String get settings_app_theme_title => 'App Theme';
 
   @override
@@ -617,6 +620,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_app_accent_color_title => 'Accent Color';
+
+  @override
+  String get settings_app_behavior_title => 'Behavior';
 
   @override
   String get settings_app_page_size_title => 'Page Size';

@@ -7,6 +7,7 @@ import 'package:vibin_app/widgets/settings/enum_settings_field.dart';
 import 'package:vibin_app/widgets/settings/homepage_sections_list.dart';
 import 'package:vibin_app/widgets/settings/int_settings_field.dart';
 import 'package:vibin_app/widgets/settings/preferred_metadata_pickers.dart';
+import 'package:vibin_app/widgets/settings/settings_title.dart';
 
 import '../../dialogs/lyrics_dialog.dart';
 import '../../l10n/app_localizations.dart';
@@ -32,6 +33,11 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         children: [
+
+          SettingsTitle(
+            title: lm.settings_app_appearance_title,
+          ),
+
           EnumSettingsField(
             settingKey: Settings.themeMode,
             title: lm.settings_app_theme_title,
@@ -75,6 +81,12 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
             },
           ),
 
+          Divider(),
+
+          SettingsTitle(
+            title: lm.settings_app_behavior_title,
+          ),
+
           IntSettingsInputField(
             settingsKey: Settings.pageSize,
             label: lm.settings_app_page_size_title,
@@ -90,8 +102,6 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
             description: lm.settings_app_advanced_track_search_description,
             icon: Icons.manage_search
           ),
-
-          Divider(),
 
           BoolSettingsField(
             settingsKey: Settings.showOwnPlaylistsByDefault,
