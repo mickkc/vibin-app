@@ -12,7 +12,6 @@ class AccentColorPicker extends StatefulWidget {
 
 class _AccentColorPickerState extends State<AccentColorPicker> {
 
-  late final theme = Theme.of(context);
   final SettingsManager settingsManager = getIt<SettingsManager>();
 
   late Color? selectedColor = settingsManager.get(Settings.accentColor);
@@ -39,6 +38,9 @@ class _AccentColorPickerState extends State<AccentColorPicker> {
 
   @override
   Widget build(BuildContext context) {
+
+    final theme = Theme.of(context);
+
     return Wrap(
       spacing: 8.0,
       runSpacing: 8.0,

@@ -22,7 +22,6 @@ class NowPlayingBar extends StatefulWidget {
 class _NowPlayingBarState extends State<NowPlayingBar> {
 
   final AudioManager audioManager = getIt<AudioManager>();
-  late final theme = Theme.of(context);
   late final lm = AppLocalizations.of(context)!;
 
   late var currentMediaItem = audioManager.getCurrentMediaItem();
@@ -65,6 +64,9 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
 
   @override
   Widget build(BuildContext context) {
+
+    final theme = Theme.of(context);
+
     final showExtendedControls = MediaQuery.sizeOf(context).width > 600;
     return currentMediaItem == null ? const SizedBox.shrink() : GestureDetector(
       onHorizontalDragEnd: (details) {
