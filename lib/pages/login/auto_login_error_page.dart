@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:vibin_app/auth/AuthState.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
-import 'package:vibin_app/widgets/fullscreen_box.dart';
 
 import '../../auth/auto_login_result.dart';
 
@@ -48,7 +47,7 @@ class _AutoLoginErrorPageState extends State<AutoLoginErrorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FullScreenBox(
+    return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

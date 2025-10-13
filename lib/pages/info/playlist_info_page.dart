@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vibin_app/dtos/playlist/playlist_data.dart';
 import 'package:vibin_app/dtos/shuffle_state.dart';
 import 'package:vibin_app/extensions.dart';
+import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
 import 'package:vibin_app/widgets/network_image.dart';
@@ -75,8 +76,7 @@ class PlaylistInfoPage extends StatelessWidget {
     final width = MediaQuery.sizeOf(context).width;
     final shuffleState = ShuffleState(isShuffling: false);
 
-    return Column(
-      spacing: 16,
+    return ColumnPage(
       children: [
         RowSmallColumn(
           spacing: 32,

@@ -30,8 +30,6 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
         children: [
 
           SettingsTitle(

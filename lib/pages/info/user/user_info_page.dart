@@ -75,7 +75,7 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
     final lm = AppLocalizations.of(context)!;
 
     return Column(
-      spacing: 32,
+      spacing: 16,
       children: [
         FutureContent(
           future: userFuture,

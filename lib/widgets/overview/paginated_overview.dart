@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
@@ -62,8 +63,7 @@ class _PaginatedOverviewState extends State<PaginatedOverview> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      spacing: 8,
+    return ColumnPage(
       children: [
         OverviewHeader(
           title: widget.title,

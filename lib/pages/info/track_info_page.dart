@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/sections/related_section.dart';
 import 'package:vibin_app/widgets/bars/track_action_bar.dart';
 import 'package:vibin_app/widgets/network_image.dart';
@@ -19,38 +20,35 @@ class TrackInfoPage extends StatelessWidget {
 
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return Material(
-      child: Column(
-        spacing: 16,
-        children: [
-          RowSmallColumn(
-            spacing: 32,
-            mainAxisAlignment: MainAxisAlignment.start,
-            rowChildren: [
-              NetworkImageWidget(
-                url: "/api/tracks/$trackId/cover?quality=original",
-                width: 200,
-                height: 200,
-              ),
-              Expanded(child: TrackInfoView(trackId: trackId))
-            ],
-            columnChildren: [
-              NetworkImageWidget(
-                url: "/api/tracks/$trackId/cover?quality=original",
-                width: screenWidth * 0.75,
-                height: screenWidth * 0.75,
-              ),
-              TrackInfoView(trackId: trackId)
-            ],
-          ),
-          TrackActionBar(trackId: trackId),
-          Column(
-            children: [
-              RelatedSection(trackId: trackId)
-            ],
-          )
-        ],
-      ),
+    return ColumnPage(
+      children: [
+        RowSmallColumn(
+          spacing: 32,
+          mainAxisAlignment: MainAxisAlignment.start,
+          rowChildren: [
+            NetworkImageWidget(
+              url: "/api/tracks/$trackId/cover?quality=original",
+              width: 200,
+              height: 200,
+            ),
+            Expanded(child: TrackInfoView(trackId: trackId))
+          ],
+          columnChildren: [
+            NetworkImageWidget(
+              url: "/api/tracks/$trackId/cover?quality=original",
+              width: screenWidth * 0.75,
+              height: screenWidth * 0.75,
+            ),
+            TrackInfoView(trackId: trackId)
+          ],
+        ),
+        TrackActionBar(trackId: trackId),
+        Column(
+          children: [
+            RelatedSection(trackId: trackId)
+          ],
+        )
+      ],
     );
   }
 }

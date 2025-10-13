@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vibin_app/dialogs/tag_edit_dialog.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/overview/overview_header.dart';
 import 'package:vibin_app/widgets/tag_widget.dart';
@@ -60,9 +61,8 @@ class _TagOverviewPageState extends State<TagOverviewPage> {
   @override
   Widget build(BuildContext context) {
     final lm = AppLocalizations.of(context)!;
-    return Column(
-      spacing: 16,
-      mainAxisSize: MainAxisSize.min,
+    return ColumnPage(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         OverviewHeader(
           title: lm.tags,
@@ -97,6 +97,7 @@ class _TagOverviewPageState extends State<TagOverviewPage> {
               return Wrap(
                 spacing: 8,
                 runSpacing: 8,
+                alignment: WrapAlignment.center,
                 children: tags.map((tag) => Tooltip(
                   message: tag.description,
                   child: TagWidget(

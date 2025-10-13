@@ -4,7 +4,6 @@ import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/auth/AuthState.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
-import 'package:vibin_app/widgets/fullscreen_box.dart';
 
 import '../../l10n/app_localizations.dart';
 
@@ -46,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FullScreenBox(
+    return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

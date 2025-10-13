@@ -8,6 +8,7 @@ import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/track/minimal_track.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/network_image.dart';
@@ -159,12 +160,8 @@ class ArtistInfoPage extends StatelessWidget {
     final width = MediaQuery.sizeOf(context).width;
     final lm = AppLocalizations.of(context)!;
 
-    return Column(
-      spacing: 32,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
+    return ColumnPage(
       children: [
-
         FutureContent(
           future: artistFuture,
           builder: (context, artist) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/widgets/row_small_column.dart';
 
 class ResponsiveEditView extends StatelessWidget {
@@ -32,8 +33,7 @@ class ResponsiveEditView extends StatelessWidget {
     final theme = Theme.of(context);
     final width = MediaQuery.of(context).size.width;
 
-    return Column(
-      spacing: 16,
+    return ColumnPage(
       children: [
         Text(
           title,

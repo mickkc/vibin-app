@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vibin_app/auth/AuthState.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/sections/explore_section.dart';
 import 'package:vibin_app/sections/last_listened_to_tracks_section.dart';
 import 'package:vibin_app/sections/most_listened_to_artists_section.dart';
@@ -49,17 +50,14 @@ class _HomePagState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Column(
-        spacing: 16,
-        children: [
-          RecommendedStartSection(),
-          ...settingsManager.get(Settings.homepageSections).map((section) {
-            if (section.value != true.toString()) return null;
-            return getSection(section.key);
-          }).nonNulls
-        ],
-      ),
+    return ColumnPage(
+      children: [
+        RecommendedStartSection(),
+        ...settingsManager.get(Settings.homepageSections).map((section) {
+          if (section.value != true.toString()) return null;
+          return getSection(section.key);
+        }).nonNulls
+      ],
     );
   }
 }
