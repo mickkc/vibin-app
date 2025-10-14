@@ -22,6 +22,10 @@ class EntityCardGrid extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
 
+        if (items.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
         final width = constraints.maxWidth;
         final cols = max((width / 150).floor(), 2);
         final widthPerCol = (width - ((cols - 1) * 8)) / cols;
