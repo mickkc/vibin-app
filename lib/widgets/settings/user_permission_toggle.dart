@@ -40,6 +40,29 @@ class _UserPermissionToggleState extends State<UserPermissionToggle> {
     hasPermission = widget.initialValue;
   }
 
+  Future<void> setPermission(bool value) async {
+
+    if (value == hasPermission) return;
+
+    try {
+      final result = await apiManager.service.updateUserPermissions(widget.userId, widget.permissionType.value);
+      if (result.granted == hasPermission) {
+        return;
+      }
+
+      if (widget.onChanged != null) {
+        widget.onChanged!(result.granted);
+      }
+      setState(() {
+        hasPermission = result.granted;
+      });
+    }
+    catch (e) {
+      log("An error occurred while changing permissions: $e", error: e, level: Level.error.value);
+      if (context.mounted) showErrorDialog(context, lm.permissions_change_error);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -47,21 +70,12 @@ class _UserPermissionToggleState extends State<UserPermissionToggle> {
       trailing: Switch(
         value: hasPermission,
         onChanged: (value) async {
-          try {
-            final result = await apiManager.service.updateUserPermissions(widget.userId, widget.permissionType.value);
-            if (widget.onChanged != null) {
-              widget.onChanged!(result.granted);
-            }
-            setState(() {
-              hasPermission = result.granted;
-            });
-          }
-          catch (e) {
-            log("An error occurred while changing permissions: $e", error: e, level: Level.error.value);
-            if (context.mounted) showErrorDialog(context, lm.permissions_change_error);
-          }
+          await setPermission(value);
         },
       ),
+      onTap: () async {
+        await setPermission(!hasPermission);
+      },
     );
   }
 }
