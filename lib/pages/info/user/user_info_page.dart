@@ -4,6 +4,7 @@ import 'package:vibin_app/auth/AuthState.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_activity_tab.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_info_tab.dart';
+import 'package:vibin_app/pages/info/user/tabs/user_permissions_tab.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_playlists_tab.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/network_image.dart';
@@ -167,7 +168,7 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
                   Center(child: Text("Edit")),
 
                 if (showPermissions)
-                  Center(child: Text("Permissions")),
+                  UserPermissionsTab(userId: widget.userId),
               ],
             ),
           )

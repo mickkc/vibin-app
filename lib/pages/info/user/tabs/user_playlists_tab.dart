@@ -18,6 +18,7 @@ class UserPlaylistsTab extends StatelessWidget {
 
     return FutureContent(
       future: playlistsFuture,
+      hasData: (d) => d.isNotEmpty,
       builder: (context, playlists) {
         return EntityCardGrid(
           items: playlists,

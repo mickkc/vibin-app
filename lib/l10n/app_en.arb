@@ -265,5 +265,49 @@
   "settings_app_homepage_sections_description": "Select which sections to display on the homepage and in which order.",
 
   "settings_app_metadata_providers_title": "Metadata Providers",
-  "settings_app_metadata_providers_description": "Select which metadata providers to use for fetching metadata from the internet."
+  "settings_app_metadata_providers_description": "Select which metadata providers to use for fetching metadata from the internet.",
+
+
+  "permissions_change_server_settings": "Change Server Settings",
+  "permissions_change_own_settings": "Change Own Settings",
+
+  "permissions_manage_permissions": "Manage Permissions",
+
+  "permissions_view_tracks": "View Tracks",
+  "permissions_stream_tracks": "Stream Tracks",
+  "permissions_manage_tracks": "Manage Tracks",
+  "permissions_upload_tracks": "Upload Tracks",
+  "permissions_download_tracks": "Download Tracks",
+  "permissions_delete_tracks": "Delete Tracks",
+
+  "permissions_view_albums": "View Albums",
+  "permissions_manage_albums": "Manage Albums",
+  "permissions_delete_albums": "Delete Albums",
+
+  "permissions_view_artists": "View Artists",
+  "permissions_manage_artists": "Manage Artists",
+  "permissions_delete_artists": "Delete Artists",
+
+  "permissions_view_playlists": "View Playlists",
+  "permissions_manage_playlists": "Manage own Playlists",
+  "permissions_create_private_playlists": "Create Private Playlists",
+  "permissions_create_public_playlists": "Create Public Playlists",
+  "permissions_delete_own_playlists": "Delete own Playlists",
+  "permissions_edit_collaborative_playlists": "Edit Collaborative Playlists",
+  "permissions_delete_collaborative_playlists": "Delete Collaborative Playlists",
+  "permissions_allow_collaboration": "Allow Collaboration",
+
+  "permissions_view_users": "View Users",
+  "permissions_manage_users": "Manage Users",
+  "permissions_manage_own_user": "Manage own User",
+  "permissions_delete_users": "Delete Users",
+  "permissions_delete_own_user": "Delete own User",
+  "permissions_create_users": "Create Users",
+
+  "permissions_view_tags": "View Tags",
+  "permissions_manage_tags": "Manage Tags",
+  "permissions_delete_tags": "Delete Tags",
+  "permissions_create_tags": "Create Tags",
+
+  "permissions_change_error": "An error occurred while changing permissions."
 }

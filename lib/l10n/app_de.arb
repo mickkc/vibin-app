@@ -265,5 +265,49 @@
   "settings_app_homepage_sections_description": "Wähle die Abschnitte aus, die auf der Startseite angezeigt werden sollen, und ordne sie per Drag & Drop neu an.",
 
   "settings_app_metadata_providers_title": "Metadaten-Anbieter",
-  "settings_app_metadata_providers_description": "Wähle die Metadaten-Anbieter aus, die für die Suche nach Metadaten aus dem Internet verwendet werden sollen."
+  "settings_app_metadata_providers_description": "Wähle die Metadaten-Anbieter aus, die für die Suche nach Metadaten aus dem Internet verwendet werden sollen.",
+
+
+  "permissions_change_server_settings": "Server-Einstellungen ändern",
+  "permissions_change_own_settings": "Eigene Einstellungen ändern",
+
+  "permissions_manage_permissions": "Berechtigungen verwalten",
+
+  "permissions_view_tracks": "Titel ansehen",
+  "permissions_stream_tracks": "Titel streamen",
+  "permissions_manage_tracks": "Titel bearbeiten",
+  "permissions_upload_tracks": "Titel hochladen",
+  "permissions_download_tracks": "Titel herunterladen",
+  "permissions_delete_tracks": "Titel löschen",
+
+  "permissions_view_albums": "Alben ansehen",
+  "permissions_manage_albums": "Alben bearbeiten",
+  "permissions_delete_albums": "Alben löschen",
+
+  "permissions_view_artists": "Künstler ansehen",
+  "permissions_manage_artists": "Künstler bearbeiten",
+  "permissions_delete_artists": "Künstler löschen",
+
+  "permissions_view_playlists": "Playlists ansehen",
+  "permissions_manage_playlists": "Eigene Playlists bearbeiten",
+  "permissions_create_private_playlists": "Private Playlists erstellen",
+  "permissions_create_public_playlists": "Öffentliche Playlists erstellen",
+  "permissions_delete_own_playlists": "Eigene Playlists löschen",
+  "permissions_edit_collaborative_playlists": "Kollaborative Playlists bearbeiten",
+  "permissions_delete_collaborative_playlists": "Kollaborative Playlists löschen",
+  "permissions_allow_collaboration": "Kollaboration erlauben",
+
+  "permissions_view_users": "Benutzer ansehen",
+  "permissions_manage_users": "Benutzer verwalten",
+  "permissions_manage_own_user": "Eigenen Benutzer verwalten",
+  "permissions_delete_users": "Benutzer löschen",
+  "permissions_delete_own_user": "Eigenen Benutzer löschen",
+  "permissions_create_users": "Benutzer erstellen",
+
+  "permissions_view_tags": "Tags ansehen",
+  "permissions_manage_tags": "Tags verwalten",
+  "permissions_delete_tags": "Tags löschen",
+  "permissions_create_tags": "Tags erstellen",
+
+  "permissions_change_error": "Beim Ändern der Berechtigungen ist ein Fehler aufgetreten."
 }
