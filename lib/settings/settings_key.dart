@@ -83,20 +83,19 @@ class OrderedMapSettingsKey extends SettingsKey<List<Entry<String, String>>> {
   }
 }
 
-class NullableColorSettingsKey extends SettingsKey<Color?> {
-  const NullableColorSettingsKey(super.key, super.defaultValue);
+class ColorSettingsKey extends SettingsKey<Color> {
+  const ColorSettingsKey(super.key, super.defaultValue);
 
   @override
-  Color? parse(String value) {
-    if (value.isEmpty) return null;
+  Color parse(String value) {
+    if (value.isEmpty) return defaultValue;
     final intValue = int.tryParse(value);
-    if (intValue == null) return null;
+    if (intValue == null) return defaultValue;
     return Color(intValue);
   }
 
   @override
-  String serialize(Color? value) {
-    if (value == null) return '';
+  String serialize(Color value) {
     return value.toARGB32().toString();
   }
 }

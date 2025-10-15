@@ -233,10 +233,15 @@
 
   "settings_app_appearance_title": "Appearance",
 
-  "settings_app_theme_title": "App Theme",
-  "settings_app_theme_system": "System Default",
-  "settings_app_theme_light": "Light",
-  "settings_app_theme_dark": "Dark",
+  "settings_app_brightness_title": "App Design",
+  "settings_app_brightness_system": "System Default",
+  "settings_app_brightness_light": "Light",
+  "settings_app_brightness_dark": "Dark",
+
+  "settings_app_theme_title": "Theme",
+
+  "settings_app_theme_gruvbox_title": "Gruvbox",
+  "settings_app_theme_material3_title": "Material 3",
 
   "settings_app_lyrics_design_title": "Lyrics Design",
   "settings_app_lyrics_design_system": "System",

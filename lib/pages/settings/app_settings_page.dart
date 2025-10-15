@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/color_schemes/color_scheme_list.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/settings/accent_color_picker.dart';
@@ -38,17 +39,34 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
 
           EnumSettingsField(
             settingKey: Settings.themeMode,
-            title: lm.settings_app_theme_title,
+            title: lm.settings_app_brightness_title,
             icon: Icons.color_lens,
             optionLabel: (option) {
               return switch (option) {
-                ThemeMode.system => lm.settings_app_theme_system,
-                ThemeMode.light => lm.settings_app_theme_light,
-                ThemeMode.dark => lm.settings_app_theme_dark,
+                ThemeMode.system => lm.settings_app_brightness_system,
+                ThemeMode.light => lm.settings_app_brightness_light,
+                ThemeMode.dark => lm.settings_app_brightness_dark,
               };
             },
             onChanged: (mode) {
               themeNotifier.value = themeNotifier.value.setThemeMode(mode);
+            }
+          ),
+
+          EnumSettingsField(
+            settingKey: Settings.colorScheme,
+            title: lm.settings_app_theme_title,
+            optionLabel: (key) {
+              return switch(key) {
+                ColorSchemeKey.material3 => lm.settings_app_theme_material3_title,
+                ColorSchemeKey.gruvbox => lm.settings_app_theme_gruvbox_title,
+              };
+            },
+            icon: Icons.format_paint,
+            onChanged: (key) {
+              final firstAccentColor = ColorSchemeList.themes[key]!.getAccentColors(Theme.brightnessOf(context)).first;
+              settingsManager.set(Settings.accentColor, firstAccentColor);
+              themeNotifier.value = themeNotifier.value.setColorSchemeKey(key).setAccentColor(firstAccentColor);
             }
           ),
 
