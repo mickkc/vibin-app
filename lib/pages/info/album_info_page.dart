@@ -19,7 +19,7 @@ import '../../l10n/app_localizations.dart';
 class AlbumInfoPage extends StatelessWidget {
   final int albumId;
 
-  const AlbumInfoPage({
+  AlbumInfoPage({
     super.key,
     required this.albumId
   });
@@ -76,40 +76,48 @@ class AlbumInfoPage extends StatelessWidget {
     );
   }
 
+  final apiManager = getIt<ApiManager>();
+  final audioManager = getIt<AudioManager>();
+  late final albumFuture = apiManager.service.getAlbum(albumId);
+  final shuffleState = ShuffleState(isShuffling: false);
+
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final apiManager = getIt<ApiManager>();
-    final audioManager = getIt<AudioManager>();
-    final albumFuture = apiManager.service.getAlbum(albumId);
-    final shuffleState = ShuffleState(isShuffling: false);
 
     return ColumnPage(
       children: [
         FutureContent(
           future: albumFuture,
           builder: (context, data) {
-            return RowSmallColumn(
-              spacing: 32,
-              rowChildren: [
-                NetworkImageWidget(
-                  url: "/api/albums/$albumId/cover?quality=original",
-                  width: 200,
-                  height: 200
-                ),
-                Expanded(child: albumInfo(context, data))
-              ],
-              columnChildren: [
-                NetworkImageWidget(
-                  url: "/api/albums/$albumId/cover?quality=original",
-                  width: width * 0.75,
-                  height: width * 0.75
-                ),
-                SizedBox(
-                  width: width,
-                  child: albumInfo(context, data)
-                )
-              ]
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                return RowSmallColumnBuilder(
+                  spacing: 32,
+                  rowBuilder: (context, constraints) {
+                    return [
+                      NetworkImageWidget(
+                        url: "/api/albums/$albumId/cover?quality=original",
+                        width: 200,
+                        height: 200
+                      ),
+                      Expanded(child: albumInfo(context, data))
+                    ];
+                  },
+                  columnBuilder: (context, constraints) {
+                    return [
+                      NetworkImageWidget(
+                          url: "/api/albums/$albumId/cover?quality=original",
+                          width: constraints.maxWidth * 0.75,
+                          height: constraints.maxWidth * 0.75
+                      ),
+                      SizedBox(
+                          width: constraints.maxWidth,
+                          child: albumInfo(context, data)
+                      )
+                    ];
+                  },
+                );
+              }
             );
           },
         ),

@@ -19,7 +19,7 @@ class PlaylistInfoPage extends StatelessWidget {
 
   final int playlistId;
 
-  const PlaylistInfoPage({
+  PlaylistInfoPage({
     super.key,
     required this.playlistId
   });
@@ -68,40 +68,44 @@ class PlaylistInfoPage extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
     final ApiManager apiManager = getIt<ApiManager>();
     final AudioManager audioManager = getIt<AudioManager>();
-    final playlistDataFuture = apiManager.service.getPlaylist(playlistId);
-    final width = MediaQuery.sizeOf(context).width;
+    late final playlistDataFuture = apiManager.service.getPlaylist(playlistId);
     final shuffleState = ShuffleState(isShuffling: false);
+
+  @override
+  Widget build(BuildContext context) {
 
     return ColumnPage(
       children: [
-        RowSmallColumn(
+        RowSmallColumnBuilder(
           spacing: 32,
           mainAxisAlignment: MainAxisAlignment.start,
-          columnChildren: [
-            NetworkImageWidget(
-              url: "/api/playlists/$playlistId/image?quality=original",
-              width: width * 0.75,
-              height: width * 0.75
-            ),
-            SizedBox(
-                width: width,
-                child: playlistInfo(context, playlistDataFuture)
-            )
-          ],
-          rowChildren: [
-            NetworkImageWidget(
-              url: "/api/playlists/$playlistId/image?quality=original",
-              width: 200,
-              height: 200
-            ),
-            Expanded(
-              child: playlistInfo(context, playlistDataFuture)
-            )
-          ],
+          columnBuilder: (context, constraints) {
+            return [
+              NetworkImageWidget(
+                url: "/api/playlists/$playlistId/image?quality=original",
+                width: constraints.maxWidth * 0.75,
+                height: constraints.maxWidth * 0.75
+              ),
+              SizedBox(
+                  width: constraints.maxWidth,
+                  child: playlistInfo(context, playlistDataFuture)
+              )
+            ];
+          },
+          rowBuilder: (context, constraints) {
+            return [
+              NetworkImageWidget(
+                  url: "/api/playlists/$playlistId/image?quality=original",
+                  width: 200,
+                  height: 200
+              ),
+              Expanded(
+                  child: playlistInfo(context, playlistDataFuture)
+              )
+            ];
+          },
         ),
         FutureContent(
           future: playlistDataFuture,
