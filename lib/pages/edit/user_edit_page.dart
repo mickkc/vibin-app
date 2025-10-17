@@ -38,6 +38,7 @@ class _UserEditPageState extends State<UserEditPage> {
   bool isAdmin = false;
   bool isActive = true;
   String? profileImageUrl;
+  String? initialUsername;
 
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
@@ -60,6 +61,7 @@ class _UserEditPageState extends State<UserEditPage> {
           emailController.text = user.email ?? "";
           isAdmin = user.isAdmin;
           isActive = user.isActive;
+          initialUsername = user.username;
         });
       }).catchError((emailController) {
         if (!mounted) return;
@@ -73,18 +75,31 @@ class _UserEditPageState extends State<UserEditPage> {
       return;
     }
 
-    final editData = UserEditData(
-      username: usernameController.text,
-      displayName: displayNameController.text.isEmpty ? null : displayNameController.text,
-      email: emailController.text.isEmpty ? null : emailController.text,
-      isAdmin: isAdmin,
-      isActive: isActive,
-      password: passwordController.text.isEmpty ? null : passwordController.text,
-      oldPassword: currentPasswordController.text.isEmpty ? null : currentPasswordController.text,
-      profilePictureUrl: profileImageUrl,
-    );
-
     try {
+
+      if (initialUsername != null && initialUsername != usernameController.text) {
+        final doesUserNameExist = await apiManager.service.checkUsernameExists(
+          usernameController.text
+        );
+
+        if (doesUserNameExist.success) {
+          if (!mounted) return;
+          showErrorDialog(context, lm.edit_user_username_validation_already_exists);
+          return;
+        }
+      }
+
+      final editData = UserEditData(
+        username: usernameController.text,
+        displayName: displayNameController.text.isEmpty ? null : displayNameController.text,
+        email: emailController.text.isEmpty ? null : emailController.text,
+        isAdmin: isAdmin,
+        isActive: isActive,
+        password: passwordController.text.isEmpty ? null : passwordController.text,
+        oldPassword: currentPasswordController.text.isEmpty ? null : currentPasswordController.text,
+        profilePictureUrl: profileImageUrl,
+      );
+
       final savedUser = widget.userId == null
         ? await apiManager.service.createUser(editData)
         : await apiManager.service.updateUser(widget.userId!, editData);

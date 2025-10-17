@@ -314,4 +314,7 @@ abstract class ApiService {
   @GET("/api/users/{userId}/pfp")
   @DioResponseType(ResponseType.bytes)
   Future<HttpResponse<List<int>>> getUserProfilePicture(@Path("userId") int id);
+
+  @GET("/api/users/username/{username}/exists")
+  Future<Success> checkUsernameExists(@Path("username") String username);
 }
