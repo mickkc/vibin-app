@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
+import 'package:vibin_app/pages/edit/user_edit_page.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_activity_tab.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_info_tab.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_permissions_tab.dart';
@@ -165,7 +166,7 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
                   Center(child: Text("Uploads")),
 
                 if (showEdit)
-                  Center(child: Text("Edit")),
+                  Expanded(child: UserEditPage(userId: widget.userId, popOnSave: false)),
 
                 if (showPermissions)
                   UserPermissionsTab(userId: widget.userId),
