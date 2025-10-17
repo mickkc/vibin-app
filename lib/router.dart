@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:vibin_app/auth/AuthState.dart';
+import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/main_layout.dart';
 import 'package:vibin_app/pages/drawer.dart';
 import 'package:vibin_app/pages/edit/album_edit_page.dart';

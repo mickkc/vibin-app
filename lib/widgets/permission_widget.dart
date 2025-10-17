@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vibin_app/auth/AuthState.dart';
+import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/main.dart';
 

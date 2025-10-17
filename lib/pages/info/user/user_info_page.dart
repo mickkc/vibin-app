@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
-import 'package:vibin_app/auth/AuthState.dart';
+import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_activity_tab.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_info_tab.dart';

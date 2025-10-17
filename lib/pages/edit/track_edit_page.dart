@@ -17,7 +17,7 @@ import 'package:vibin_app/widgets/edit/nullable_int_input.dart';
 import 'package:vibin_app/widgets/edit/responsive_edit_view.dart';
 import 'package:vibin_app/widgets/edit/tag_search_bar.dart';
 
-import '../../auth/AuthState.dart';
+import '../../auth/auth_state.dart';
 import '../../dtos/tags/tag.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/tag_widget.dart';

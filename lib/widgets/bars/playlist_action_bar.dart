@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
-import 'package:vibin_app/auth/AuthState.dart';
+import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/playlist/playlist_data.dart';
 import 'package:vibin_app/dtos/shuffle_state.dart';

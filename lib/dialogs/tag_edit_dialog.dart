@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:vibin_app/api/api_manager.dart';
-import 'package:vibin_app/auth/AuthState.dart';
+import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/dtos/tags/tag_edit_data.dart';
 import 'package:vibin_app/extensions.dart';

@@ -9,7 +9,7 @@ import 'package:vibin_app/dtos/shuffle_state.dart';
 import 'package:vibin_app/widgets/play_button.dart';
 
 import '../../audio/audio_type.dart';
-import '../../auth/AuthState.dart';
+import '../../auth/auth_state.dart';
 import '../../main.dart';
 
 class AlbumActionBar extends StatefulWidget {

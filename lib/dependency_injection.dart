@@ -3,7 +3,7 @@ import 'package:vibin_app/api/client_data.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 
-import 'auth/AuthState.dart';
+import 'auth/auth_state.dart';
 import 'main.dart';
 
 Future<void> setupDependencyInjection() async {

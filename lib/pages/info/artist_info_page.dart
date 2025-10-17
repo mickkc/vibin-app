@@ -14,7 +14,7 @@ import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/track_list.dart';
 
-import '../../auth/AuthState.dart';
+import '../../auth/auth_state.dart';
 
 class ArtistInfoPage extends StatelessWidget {
   final int artistId;

@@ -17,7 +17,7 @@ import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/settings/theme_settings.dart';
 
-import 'auth/AuthState.dart';
+import 'auth/auth_state.dart';
 
 final getIt = GetIt.instance;
 

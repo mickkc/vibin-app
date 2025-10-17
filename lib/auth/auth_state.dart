@@ -105,7 +105,7 @@ class AuthState extends ChangeNotifier {
     if (user != null && user!.isAdmin) {
       return true;
     }
-    return _permissions.contains(permission.name);
+    return _permissions.contains(permission.value);
   }
 
   bool hasAnyPermission(List<PermissionType> permissions) {
