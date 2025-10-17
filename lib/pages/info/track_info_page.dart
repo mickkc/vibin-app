@@ -18,8 +18,6 @@ class TrackInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return ColumnPage(
       children: [
         RowSmallColumn(
@@ -34,10 +32,14 @@ class TrackInfoPage extends StatelessWidget {
             Expanded(child: TrackInfoView(trackId: trackId))
           ],
           columnChildren: [
-            NetworkImageWidget(
-              url: "/api/tracks/$trackId/cover?quality=original",
-              width: screenWidth * 0.75,
-              height: screenWidth * 0.75,
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return NetworkImageWidget(
+                  url: "/api/tracks/$trackId/cover?quality=original",
+                  width: constraints.maxWidth * 0.75,
+                  height: constraints.maxWidth * 0.75,
+                );
+              }
             ),
             TrackInfoView(trackId: trackId)
           ],

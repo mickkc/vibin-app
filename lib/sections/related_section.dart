@@ -12,17 +12,16 @@ class RelatedSection extends StatelessWidget {
 
   final int trackId;
 
-  const RelatedSection({
+  RelatedSection({
     super.key,
     required this.trackId
   });
 
+  final apiManager = getIt<ApiManager>();
+  late final tracks = apiManager.service.getRelatedTracks(trackId, 20);
+
   @override
   Widget build(BuildContext context) {
-
-    final apiManager = getIt<ApiManager>();
-    final tracks = apiManager.service.getRelatedTracks(trackId, 20);
-
     return Column(
       spacing: 8,
       children: [

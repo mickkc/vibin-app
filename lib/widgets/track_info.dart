@@ -12,7 +12,7 @@ class TrackInfoView extends StatelessWidget {
   final int trackId;
   final bool showMetadata;
 
-  const TrackInfoView({
+  TrackInfoView({
     super.key,
     required this.trackId,
     this.showMetadata = true
@@ -26,10 +26,11 @@ class TrackInfoView extends StatelessWidget {
     GoRouter.of(context).push('/albums/$albumId');
   }
 
+  final apiManager = getIt<ApiManager>();
+  late final trackFuture = apiManager.service.getTrack(trackId);
+
   @override
   Widget build(BuildContext context) {
-    final apiManager = getIt<ApiManager>();
-    final trackFuture = apiManager.service.getTrack(trackId);
 
     final lm = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
