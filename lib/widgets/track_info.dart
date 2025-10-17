@@ -106,11 +106,20 @@ class TrackInfoView extends StatelessWidget {
                   if (track.hasLyrics)
                     IconText(icon: Icons.lyrics, text: lm.edit_track_lyrics),
 
-                  for (var tag in track.tags) ...[
-                    TagWidget(tag: tag)
-                  ]
                 ],
-              )
+              ),
+
+              if (track.tags.isNotEmpty)
+                Wrap(
+                  spacing: 16,
+                  runSpacing: 16,
+                  runAlignment: WrapAlignment.center,
+                  alignment: WrapAlignment.start,
+                  children: [
+                    for (var tag in track.tags)
+                      TagWidget(tag: tag)
+                  ],
+                )
             ]
           ],
         );
