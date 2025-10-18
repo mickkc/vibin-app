@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
+import 'package:vibin_app/dtos/user/user.dart';
 import 'package:vibin_app/pages/edit/user_edit_page.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_activity_tab.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_info_tab.dart';
@@ -39,7 +40,7 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
   late final showEdit = authState.hasPermission(PermissionType.manageUsers);
   late final showPermissions = authState.hasPermission(PermissionType.managePermissions);
 
-  late final userFuture = apiManager.service.getUserById(widget.userId);
+  late Future<User> userFuture = apiManager.service.getUserById(widget.userId);
   late final TabController tabController;
 
   @override
@@ -166,7 +167,16 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
                   Center(child: Text("Uploads")),
 
                 if (showEdit)
-                  Expanded(child: UserEditPage(userId: widget.userId, popOnSave: false)),
+                  Expanded(
+                    child: UserEditPage(
+                      userId: widget.userId,
+                      onSave: (user) {
+                        setState(() {
+                          userFuture = Future.value(user);
+                        });
+                      },
+                    )
+                  ),
 
                 if (showPermissions)
                   UserPermissionsTab(userId: widget.userId),

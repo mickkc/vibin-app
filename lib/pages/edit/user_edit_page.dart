@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:vibin_app/auth/auth_state.dart';
+import 'package:vibin_app/dtos/user/user.dart';
 import 'package:vibin_app/dtos/user/user_edit_data.dart';
 import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/edit/image_edit_field.dart';
@@ -16,12 +16,12 @@ import '../../main.dart';
 
 class UserEditPage extends StatefulWidget {
   final int? userId;
-  final bool popOnSave;
+  final void Function(User) onSave;
 
   const UserEditPage({
     super.key,
     required this.userId,
-    this.popOnSave = true,
+    required this.onSave,
   });
 
   @override
@@ -109,12 +109,7 @@ class _UserEditPageState extends State<UserEditPage> {
         imageCache.clearLiveImages();
       }
 
-      if (!mounted) return;
-      if (widget.popOnSave) {
-        context.pop(savedUser);
-      } else {
-        showInfoDialog(context, lm.edit_user_save_success);
-      }
+      widget.onSave(savedUser);
     }
     catch (e) {
       log("Failed to save user: $e", error: e, level: Level.error.value);
