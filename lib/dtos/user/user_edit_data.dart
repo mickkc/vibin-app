@@ -4,6 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 class UserEditData {
   final String? username;
   final String? displayName;
+  final String? description;
   final String? email;
   final bool? isAdmin;
   final bool? isActive;
@@ -14,6 +15,7 @@ class UserEditData {
   UserEditData({
     this.username,
     this.displayName,
+    this.description,
     this.email,
     this.isAdmin,
     this.isActive,
@@ -26,6 +28,7 @@ class UserEditData {
     return UserEditData(
       username: json['username'],
       displayName: json['displayName'],
+      description: json['description'],
       email: json['email'],
       isAdmin: json['isAdmin'],
       isActive: json['isActive'],
@@ -39,6 +42,7 @@ class UserEditData {
     return {
       'username': username,
       'displayName': displayName,
+      'description': description,
       'email': email,
       'isAdmin': isAdmin,
       'isActive': isActive,

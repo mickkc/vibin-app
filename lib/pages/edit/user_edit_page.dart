@@ -34,6 +34,7 @@ class _UserEditPageState extends State<UserEditPage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController displayNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
   bool isAdmin = false;
   bool isActive = true;
@@ -57,7 +58,8 @@ class _UserEditPageState extends State<UserEditPage> {
       apiManager.service.getUserById(widget.userId!).then((user) {
         setState(() {
           usernameController.text = user.username;
-          displayNameController.text = user.displayName;
+          displayNameController.text = user.displayName ?? "";
+          descriptionController.text = user.description;
           emailController.text = user.email ?? "";
           isAdmin = user.isAdmin;
           isActive = user.isActive;
@@ -92,6 +94,7 @@ class _UserEditPageState extends State<UserEditPage> {
       final editData = UserEditData(
         username: usernameController.text,
         displayName: displayNameController.text.isEmpty ? null : displayNameController.text,
+        description: descriptionController.text.isEmpty ? null : descriptionController.text,
         email: emailController.text.isEmpty ? null : emailController.text,
         isAdmin: isAdmin,
         isActive: isActive,
@@ -188,6 +191,14 @@ class _UserEditPageState extends State<UserEditPage> {
               }
               return null;
             },
+          ),
+          TextFormField(
+            controller: descriptionController,
+            decoration: InputDecoration(
+              labelText: lm.edit_user_description,
+            ),
+            maxLines: null,
+            minLines: 2,
           ),
           TextFormField(
             controller: emailController,

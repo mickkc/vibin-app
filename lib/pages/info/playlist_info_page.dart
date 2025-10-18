@@ -46,9 +46,9 @@ class PlaylistInfoPage extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
               )
             ],
-            IconText(icon: Icons.person, text: data.playlist.owner.displayName),
+            IconText(icon: Icons.person, text: data.playlist.owner.displayName ?? data.playlist.owner.username),
             if (data.playlist.collaborators.isNotEmpty) ... [
-              IconText(icon: Icons.group, text: data.playlist.collaborators.map((e) => e.displayName).join(", ")),
+              IconText(icon: Icons.group, text: data.playlist.collaborators.map((e) => e.displayName ?? e.username).join(", ")),
             ],
             Wrap(
               spacing: 16,

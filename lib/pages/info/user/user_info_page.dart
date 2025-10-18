@@ -101,7 +101,7 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
                       spacing: 8,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(user.displayName, style: Theme.of(context).textTheme.headlineMedium),
+                        Text(user.displayName ?? user.username, style: Theme.of(context).textTheme.headlineMedium),
                         Text(user.username),
                       ],
                     ),

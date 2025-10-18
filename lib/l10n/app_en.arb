@@ -106,6 +106,9 @@
 
   "user_info_username": "Username",
   "user_info_display_name": "Display Name",
+  "user_info_bio": "Bio",
+  "user_info_email": "Email",
+  "user_info_not_set": "Not set",
   "user_info_joined": "Joined",
   "user_info_admin": "Admin",
   "user_info_active": "Active",
@@ -235,6 +238,7 @@
   "edit_user_username_validation_already_exists": "A user with this username already exists.",
   "edit_user_display_name": "Display Name",
   "edit_user_display_name_validation_length": "Display name cannot exceed 255 characters.",
+  "edit_user_description": "Bio",
   "edit_user_change_password": "Change Password",
   "edit_user_password": "Password",
   "edit_user_password_validation_length": "Password must be at least 8 characters long.",

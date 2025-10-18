@@ -97,7 +97,7 @@ Please note that this project, just like the server, is still in its early stage
 - [ ] Playlist collaboration
 - [ ] User management
   - [x] View users
-  - [ ] Edit users
+  - [x] Edit users
   - [ ] Create users
   - [ ] Delete users
 - [ ] User view
@@ -107,7 +107,7 @@ Please note that this project, just like the server, is still in its early stage
   - [x] Playlists (only publicly shared)
   - [ ] Uploaded tracks (when permitted by user)
 - [ ] Sessions management
-- [ ] Permissions management
+- [x] Permissions management
 - [x] Lyrics
 - [ ] HTML Widgets for embedding
 - [ ] Embed web version into server

@@ -5,7 +5,8 @@ import 'package:vibin_app/dtos/image.dart';
 class User {
   final int id;
   final String username;
-  final String displayName;
+  final String? displayName;
+  final String description;
   final String? email;
   final bool isActive;
   final bool isAdmin;
@@ -18,6 +19,7 @@ class User {
     this.id,
     this.username,
     this.displayName,
+    this.description,
     this.email,
     this.isActive,
     this.isAdmin,
@@ -32,6 +34,7 @@ class User {
       json['id'],
       json['username'],
       json['displayName'],
+      json['description'],
       json['email'],
       json['isActive'],
       json['isAdmin'],

@@ -33,7 +33,7 @@ class DrawerComponent extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               fit: BoxFit.cover,
             ),
-            title: Text(authState.user?.displayName ?? ""),
+            title: Text(authState.user?.displayName ?? authState.user?.username ?? ""),
             subtitle: Text(authState.user?.email ?? authState.user?.username ?? ""),
           )
         ],
