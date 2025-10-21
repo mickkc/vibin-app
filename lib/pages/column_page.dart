@@ -16,18 +16,16 @@ class ColumnPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Material(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            spacing: spacing ?? 16,
-            mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
-            crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
-            children: children,
-          ),
+    return Material(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          spacing: spacing ?? 16,
+          mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
+          crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
+          children: children,
         ),
-      )
+      ),
     );
   }
 }
