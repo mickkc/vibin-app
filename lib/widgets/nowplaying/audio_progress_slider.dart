@@ -33,7 +33,7 @@ class AudioProgressSlider extends StatelessWidget {
                   max: duration.inMilliseconds.toDouble(),
                   value: position.inMilliseconds.clamp(0, duration.inMilliseconds).toDouble(),
                   onChanged: (value) {
-                    audioManager.audioPlayer.seek(Duration(milliseconds: value.toInt()));
+                    audioManager.seek(Duration(milliseconds: value.toInt()));
                   },
                 ),
               ),

@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/api/client_data.dart';
 import 'package:vibin_app/audio/audio_type.dart';
@@ -11,6 +12,9 @@ import 'package:vibin_app/dtos/playlist/playlist_data.dart';
 import 'package:vibin_app/dtos/track/minimal_track.dart';
 import 'package:vibin_app/dtos/track/track.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/settings/setting_definitions.dart';
+
+import '../settings/settings_manager.dart';
 
 class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
@@ -27,14 +31,103 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   AudioManager() {
     apiManager = getIt<ApiManager>();
     clientData = getIt<ClientData>();
-    audioPlayer = AudioPlayer();
+    audioPlayer = AudioPlayer(
+      audioLoadConfiguration: AudioLoadConfiguration(
+        androidLoadControl: AndroidLoadControl(
+          minBufferDuration: const Duration(seconds: 20),
+          maxBufferDuration: const Duration(seconds: 60),
+          bufferForPlaybackDuration: const Duration(milliseconds: 1500),
+          bufferForPlaybackAfterRebufferDuration: const Duration(seconds: 3),
+          prioritizeTimeOverSizeThresholds: true
+        )
+      )
+    );
+
+    audioPlayer.playbackEventStream.listen((event) {
+      playbackState.add(playbackState.value.copyWith(
+        controls: [
+          MediaControl.skipToPrevious,
+          audioPlayer.playing ? MediaControl.pause : MediaControl.play,
+          MediaControl.skipToNext,
+        ],
+        systemActions: const {
+          MediaAction.seek,
+          MediaAction.seekForward,
+          MediaAction.seekBackward,
+        },
+        androidCompactActionIndices: const [0, 1, 3],
+        processingState: {
+          ProcessingState.idle: AudioProcessingState.idle,
+          ProcessingState.loading: AudioProcessingState.loading,
+          ProcessingState.buffering: AudioProcessingState.buffering,
+          ProcessingState.ready: AudioProcessingState.ready,
+          ProcessingState.completed: AudioProcessingState.completed,
+        }[audioPlayer.processingState]!,
+        playing: audioPlayer.playing,
+        updatePosition: audioPlayer.position,
+        bufferedPosition: audioPlayer.bufferedPosition,
+        speed: audioPlayer.speed,
+        queueIndex: audioPlayer.currentIndex,
+      ));
+    });
+
+    audioPlayer.sequenceStateStream.listen((index) {
+      final currentMediaItem = getCurrentMediaItem();
+
+      mediaItem.add(currentMediaItem);
+
+      if (currentMediaItem != null) {
+        currentMediaItemStreamController.add(currentMediaItem);
+      }
+    });
+
+
   }
 
-  void playPause() {
+  final currentMediaItemStreamController = StreamController<MediaItem>.broadcast();
+  Stream<MediaItem> get currentMediaItemStream => currentMediaItemStreamController.stream;
+
+  @override Future<void> play() => audioPlayer.play();
+  @override Future<void> pause() => audioPlayer.pause();
+  @override Future<void> stop() async {
+    await audioPlayer.stop();
+    return super.stop();
+  }
+  @override Future<void> skipToNext() => audioPlayer.seekToNext();
+  @override Future<void> skipToPrevious() => audioPlayer.seekToPrevious();
+  @override Future<void> skipToQueueItem(int index) => audioPlayer.seek(Duration.zero, index: index);
+  @override Future<void> seek(Duration position) => audioPlayer.seek(position);
+
+  Future<void> setAudioSources(List<AudioSource> sources, {int? initialIndex}) async {
+    await audioPlayer.setAudioSources(sources, initialIndex: initialIndex);
+  }
+
+  List<IndexedAudioSource> get sequence => audioPlayer.sequence;
+
+  bool get isPlaying => audioPlayer.playing;
+
+  LoopMode get loopMode => audioPlayer.loopMode;
+  set loopMode(LoopMode mode) => audioPlayer.setLoopMode(mode);
+
+  bool get isShuffling => audioPlayer.shuffleModeEnabled;
+  set isShuffling(bool value) => audioPlayer.setShuffleModeEnabled(value);
+
+  double get volume => audioPlayer.volume;
+  set volume(double value) => audioPlayer.setVolume(value);
+
+  double get speed => audioPlayer.speed;
+  set speed(double value) => audioPlayer.setSpeed(value);
+
+  Duration get position => audioPlayer.position;
+
+  bool get hasNext => audioPlayer.hasNext;
+  bool get hasPrevious => audioPlayer.hasPrevious;
+
+  Future<void> playPause() async {
     if (audioPlayer.playing) {
-      audioPlayer.pause();
+      await audioPlayer.pause();
     } else {
-      audioPlayer.play();
+      await audioPlayer.play();
     }
   }
 
@@ -74,7 +167,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final sources = data.tracks.map((track) => fromTrack(track.track, mediaToken)).toList();
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSources(sources, initialIndex: initialIndex);
-    await audioPlayer.play();
+    await play();
     await apiManager.service.reportPlaylistListen(data.playlist.id);
   }
 
@@ -95,7 +188,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final sources = data.tracks.map((track) => fromTrack(track, mediaToken)).toList();
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSources(sources, initialIndex: initialIndex);
-    await audioPlayer.play();
+    await play();
     await apiManager.service.reportAlbumListen(data.album.id);
   }
 
@@ -108,7 +201,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSource(source);
-    audioPlayer.play();
+    await play();
   }
 
   Future<void> playTrack(Track track) async {
@@ -120,7 +213,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSource(source);
-    audioPlayer.play();
+    await play();
   }
 
   Future<void> playMinimalTrackWithQueue(MinimalTrack track, List<MinimalTrack> queue) async {
@@ -133,7 +226,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSources(sources, initialIndex: initialIndex);
-    audioPlayer.play();
+    await play();
   }
 
   Future<void> addTrackToQueue(int trackId) async {
@@ -145,7 +238,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     setAudioType(AudioType.tracks, null);
 
     if (audioPlayer.sequence.length == 1) {
-      await audioPlayer.play();
+      await play();
     }
   }
 
@@ -205,11 +298,19 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     );
   }
 
-  static Future<void> initBackgroundTask() async {
-    await JustAudioBackground.init(
-      androidNotificationChannelId: 'wtf.ndu.vibin.channel.audio',
-      androidNotificationChannelName: 'Vibin Audio Playback',
-      androidNotificationOngoing: true,
+  static Future<AudioManager> initBackgroundTask() async {
+
+    final settingsManager = getIt<SettingsManager>();
+
+    return await AudioService.init(
+        builder: () => AudioManager(),
+        config: AudioServiceConfig(
+        androidNotificationChannelId: 'wtf.ndu.vibin.channel.audio',
+        androidNotificationChannelName: 'Vibin Audio Playback',
+        androidStopForegroundOnPause: false,
+        androidNotificationIcon: "mipmap/ic_launcher_monochrome",
+        notificationColor: settingsManager.get(Settings.accentColor),
+      )
     );
   }
 }

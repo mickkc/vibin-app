@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/nowplaying/now_playing_control_bar.dart';
@@ -37,9 +37,9 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
 
   AudioManager audioManager = getIt<AudioManager>();
   late MediaItem? currentMediaItem = audioManager.getCurrentMediaItem();
-  late bool isPlaying = audioManager.audioPlayer.playing;
-  late LoopMode repeatMode = audioManager.audioPlayer.loopMode;
-  late bool shuffleEnabled = audioManager.audioPlayer.shuffleModeEnabled;
+  late bool isPlaying = audioManager.isPlaying;
+  late LoopMode repeatMode = audioManager.loopMode;
+  late bool shuffleEnabled = audioManager.isShuffling;
 
   List<StreamSubscription> subscriptions = [];
 

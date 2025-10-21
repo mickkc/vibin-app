@@ -1,5 +1,5 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/dialogs/lyrics_dialog.dart';
@@ -30,18 +30,6 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
 
   final AudioManager audioManager = getIt<AudioManager>();
   final ApiManager apiManager = getIt<ApiManager>();
-
-  void toggleShuffle() {
-    audioManager.audioPlayer.setShuffleModeEnabled(!audioManager.audioPlayer.shuffleModeEnabled);
-  }
-
-  void playPause() {
-    if (audioManager.audioPlayer.playing) {
-      audioManager.audioPlayer.pause();
-    } else {
-      audioManager.audioPlayer.play();
-    }
-  }
 
   void showMobileDialog() {
     showModalBottomSheet(
@@ -111,7 +99,7 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
               icon: Icons.skip_previous,
               backgroundColor: th.colorScheme.secondary,
               iconColor: th.colorScheme.onSecondary,
-              onPressed: audioManager.audioPlayer.seekToPrevious
+              onPressed: audioManager.skipToPrevious
             ),
             PlayPauseToggle(
               backgroundColor: th.colorScheme.primary,
@@ -123,7 +111,7 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
               icon: Icons.skip_next,
               backgroundColor: th.colorScheme.secondary,
               iconColor: th.colorScheme.onSecondary,
-              onPressed: audioManager.audioPlayer.seekToNext
+              onPressed: audioManager.skipToNext
             ),
             Expanded(
               child: const ShuffleToggle(showTooltip: false)

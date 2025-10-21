@@ -63,7 +63,7 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
 
   void updatePlayingState() {
     setState(() {
-      isPlaying = audioManager.audioPlayer.playing;
+      isPlaying = audioManager.isPlaying;
       final currentType = audioManager.currentAudioType;
       isCurrent = currentType != null && currentType.audioType == AudioType.playlist && currentType.id == widget.playlistData.playlist.id;
     });
@@ -71,7 +71,7 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
 
   void toggleShuffle() {
     if (isCurrent) {
-      audioManager.audioPlayer.setShuffleModeEnabled(!isShuffleEnabled);
+      audioManager.toggleShuffle();
     }
     setState(() {
       isShuffleEnabled = !isShuffleEnabled;
@@ -83,11 +83,7 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
     if (!isCurrent) {
       audioManager.playPlaylistData(widget.playlistData, null, isShuffleEnabled);
     } else {
-      if (isPlaying) {
-        audioManager.audioPlayer.pause();
-      } else {
-        audioManager.audioPlayer.play();
-      }
+      audioManager.playPause();
     }
   }
 
@@ -119,7 +115,7 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
           ),
           IconButton(
             onPressed: toggleShuffle,
-            tooltip: isShuffleEnabled ? lm.playlist_actions_disable_shuffling : lm!.playlist_actions_enable_shuffling,
+            tooltip: isShuffleEnabled ? lm.playlist_actions_disable_shuffling : lm.playlist_actions_enable_shuffling,
             icon: Icon(
               Icons.shuffle,
               color: isShuffleEnabled ? theme.colorScheme.primary : theme.colorScheme.onSurface,

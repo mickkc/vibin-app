@@ -7,6 +7,10 @@ import 'auth/auth_state.dart';
 import 'main.dart';
 
 Future<void> setupDependencyInjection() async {
+  final settingsManager = SettingsManager();
+  await settingsManager.ensureInitialized();
+  getIt.registerSingleton<SettingsManager>(settingsManager);
+
   final apiManager = ApiManager();
   getIt.registerSingleton<ApiManager>(apiManager);
 
@@ -16,10 +20,6 @@ Future<void> setupDependencyInjection() async {
   final clientData = await ClientData.loadOrRandom();
   getIt.registerSingleton<ClientData>(clientData);
 
-  final audioManager = AudioManager();
+  final audioManager = await AudioManager.initBackgroundTask();
   getIt.registerSingleton<AudioManager>(audioManager);
-
-  final settingsManager = SettingsManager();
-  await settingsManager.ensureInitialized();
-  getIt.registerSingleton<SettingsManager>(settingsManager);
 }

@@ -17,7 +17,7 @@ class SpeedSlider extends StatelessWidget {
 
     return StreamBuilder(
       stream: audioManager.audioPlayer.speedStream,
-      initialData: audioManager.audioPlayer.speed,
+      initialData: audioManager.speed,
       builder: (context, snapshot) {
         final speed = snapshot.data ?? 1.0;
         return Row(
@@ -32,7 +32,7 @@ class SpeedSlider extends StatelessWidget {
                 divisions: 7,
                 label: "${speed.toStringAsFixed(2)}x",
                 onChanged: (value) {
-                  audioManager.audioPlayer.setSpeed(value);
+                  audioManager.speed = value;
                 },
                 activeColor: th.colorScheme.secondary
               ),

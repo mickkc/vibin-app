@@ -8,7 +8,6 @@ import 'package:get_it/get_it.dart';
 import 'package:just_audio_media_kit/just_audio_media_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/dbus/mpris_player.dart';
 import 'package:vibin_app/dependency_injection.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
@@ -28,8 +27,6 @@ void main() async {
   await setupDependencyInjection();
 
   JustAudioMediaKit.ensureInitialized();
-
-  await AudioManager.initBackgroundTask();
 
   if (!kIsWeb && Platform.isLinux) {
     final session = DBusClient.session();

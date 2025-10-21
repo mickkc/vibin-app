@@ -39,10 +39,14 @@ class _TrackActionBarState extends State<TrackActionBar> {
 
   _TrackActionBarState() {
     playingSubscription = audioManager.audioPlayer.playingStream.listen((event) {
-      updatePlayState();
+      setState(() {
+        isPlaying = event;
+      });
     });
-    sequenceSubscription = audioManager.audioPlayer.sequenceStateStream.listen((event) {
-      updatePlayState();
+    sequenceSubscription = audioManager.currentMediaItemStream.listen((event) {
+      setState(() {
+        isCurrentTrack = event.id == widget.trackId.toString();
+      });
     });
   }
 
@@ -51,15 +55,6 @@ class _TrackActionBarState extends State<TrackActionBar> {
     playingSubscription?.cancel();
     sequenceSubscription?.cancel();
     super.dispose();
-  }
-
-  void updatePlayState() {
-    final currentMediaItem = audioManager.getCurrentMediaItem();
-    if (!mounted) return;
-    setState(() {
-      isCurrentTrack = currentMediaItem?.id == widget.trackId.toString();
-      isPlaying = audioManager.audioPlayer.playing && isCurrentTrack;
-    });
   }
 
   void playTrack(Track track) {
@@ -86,11 +81,7 @@ class _TrackActionBarState extends State<TrackActionBar> {
             isPlaying: isCurrentTrack && isPlaying,
             onTap: () async {
               if (isCurrentTrack) {
-                if (isPlaying) {
-                  await audioManager.audioPlayer.pause();
-                } else {
-                  await audioManager.audioPlayer.play();
-                }
+                audioManager.playPause();
               } else {
                 final track = await apiManager.service.getTrack(widget.trackId);
                 playTrack(track);

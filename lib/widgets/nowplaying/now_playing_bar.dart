@@ -30,9 +30,8 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
 
   @override
   void initState() {
-    currentMediaItemSubscription = audioManager.audioPlayer.sequenceStateStream.listen((mediaItem) {
-      final mediaItem = audioManager.getCurrentMediaItem();
-      if (mediaItem?.id == currentMediaItem?.id) {
+    currentMediaItemSubscription = audioManager.currentMediaItemStream.listen((mediaItem) {
+      if (mediaItem.id == currentMediaItem?.id) {
         return;
       }
       setState(() {
@@ -49,15 +48,15 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
   }
 
   void skipNext() {
-    audioManager.audioPlayer.seekToNext();
+    audioManager.skipToNext();
   }
 
   void skipPrevious() {
-    audioManager.audioPlayer.seekToPrevious();
+    audioManager.skipToPrevious();
   }
 
   void seek(double milliseconds) {
-    audioManager.audioPlayer.seek(Duration(milliseconds: milliseconds.toInt()));
+    audioManager.seek(Duration(milliseconds: milliseconds.toInt()));
   }
 
   double get width => MediaQuery.sizeOf(context).width;

@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
@@ -32,7 +32,7 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
   late final AudioManager audioManager = getIt<AudioManager>();
 
   late int? currentIndex = audioManager.audioPlayer.currentIndex;
-  late bool isPlaying = audioManager.audioPlayer.playing;
+  late bool isPlaying = audioManager.isPlaying;
 
   late StreamSubscription sequenceSubscription;
   late StreamSubscription playingSubscription;
@@ -72,13 +72,13 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
       builder: (context, scrollController) {
         return Container(
           padding: const EdgeInsets.all(16),
-          child: audioManager.audioPlayer.sequence.isEmpty
+          child: audioManager.sequence.isEmpty
             ? Text(AppLocalizations.of(context)!.now_playing_nothing)
             : ListView.builder(
                 controller: scrollController,
-                itemCount: audioManager.audioPlayer.sequence.length,
+                itemCount: audioManager.sequence.length,
                 itemBuilder: (context, index) {
-                  final source = audioManager.audioPlayer.sequence[index];
+                  final source = audioManager.sequence[index];
                   final tag = source.tag;
                   if (tag is! MediaItem) {
                     return const SizedBox.shrink();
@@ -98,7 +98,7 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
                       isPlaying: isPlaying,
                     ) : null,
                     onTap: () {
-                      audioManager.audioPlayer.seek(Duration.zero, index: index);
+                      audioManager.skipToQueueItem(index);
                       Navigator.pop(context);
                     },
                   );

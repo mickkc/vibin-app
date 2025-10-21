@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart' hide ColorScheme;
-import 'package:just_audio_background/just_audio_background.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
@@ -111,9 +111,8 @@ class _LyricsDialogState extends State<LyricsDialog> {
   @override
   void initState() {
     super.initState();
-    currentMediaItemSubscription = audioManager.audioPlayer.sequenceStateStream.listen((mediaItem) {
-      final mediaItem = audioManager.getCurrentMediaItem();
-      if (mediaItem?.id == currentMediaItem?.id) {
+    currentMediaItemSubscription = audioManager.currentMediaItemStream.listen((mediaItem) {
+      if (mediaItem.id == currentMediaItem?.id) {
         return;
       }
       setState(() {
@@ -231,7 +230,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: InkWell(
                             onTap: () {
-                              audioManager.audioPlayer.seek(line.timestamp);
+                              audioManager.seek(line.timestamp);
                             },
                             child: AnimatedDefaultTextStyle(
                               duration: const Duration(milliseconds: 150),

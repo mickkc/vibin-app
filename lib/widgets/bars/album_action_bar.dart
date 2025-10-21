@@ -31,7 +31,7 @@ class _AlbumActionBarState extends State<AlbumActionBar> {
   late final audioManager = getIt<AudioManager>();
   late final apiManager = getIt<ApiManager>();
   late final authState = getIt<AuthState>();
-  late bool isPlaying = audioManager.audioPlayer.playing;
+  late bool isPlaying = audioManager.isPlaying;
   late bool isCurrent = false;
   late bool isShuffleEnabled = false;
 
@@ -55,7 +55,7 @@ class _AlbumActionBarState extends State<AlbumActionBar> {
   void updatePlayingState() {
     final currentAudioType = audioManager.currentAudioType;
     setState(() {
-      isPlaying = audioManager.audioPlayer.playing;
+      isPlaying = audioManager.isPlaying;
       isCurrent = currentAudioType != null && currentAudioType.audioType == AudioType.album && currentAudioType.id == widget.albumId;
     });
   }
@@ -65,17 +65,13 @@ class _AlbumActionBarState extends State<AlbumActionBar> {
       final album = await apiManager.service.getAlbum(widget.albumId);
       audioManager.playAlbumData(album, null, isShuffleEnabled);
     } else {
-      if (isPlaying) {
-        audioManager.audioPlayer.pause();
-      } else {
-        audioManager.audioPlayer.play();
-      }
+      await audioManager.playPause();
     }
   }
 
   void toggleShuffle() {
     if (isCurrent) {
-      audioManager.audioPlayer.setShuffleModeEnabled(!isShuffleEnabled);
+      audioManager.toggleShuffle();
     }
     setState(() {
       isShuffleEnabled = !isShuffleEnabled;
