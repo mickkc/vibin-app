@@ -75,8 +75,8 @@ class MyApp extends StatelessWidget {
       builder: (context, themeSettings, _) {
         return MaterialApp.router(
           title: 'Vibin\'',
-          theme: ColorSchemeList.themes[themeSettings.colorSchemeKey]!.generateThemeData(accentColor: themeSettings.accentColor, brightness: Brightness.light),
-          darkTheme: ColorSchemeList.themes[themeSettings.colorSchemeKey]!.generateThemeData(accentColor: themeSettings.accentColor, brightness: Brightness.dark),
+          theme: ColorSchemeList.get(themeSettings.colorSchemeKey).generateThemeData(accentColor: themeSettings.accentColor, brightness: Brightness.light),
+          darkTheme: ColorSchemeList.get(themeSettings.colorSchemeKey).generateThemeData(accentColor: themeSettings.accentColor, brightness: Brightness.dark),
           themeMode: themeSettings.themeMode,
           routerConfig: router,
           debugShowCheckedModeBanner: false,

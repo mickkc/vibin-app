@@ -284,6 +284,7 @@
   "settings_app_lyrics_design_dynamic_light": "Dynamic (Light)",
 
   "settings_app_accent_color_title": "Accent Color",
+  "settings_app_accent_color_not_supported": "The selected theme does not support accent colors.",
 
   "settings_app_behavior_title": "Behavior",
 

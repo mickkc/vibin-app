@@ -284,6 +284,7 @@
   "settings_app_lyrics_design_dynamic_light": "Dynamisch (Hell)",
 
   "settings_app_accent_color_title": "Akzentfarbe",
+  "settings_app_accent_color_not_supported": "Das gewählte Farbschema unterstützt keine Akzentfarben.",
 
   "settings_app_behavior_title": "Verhalten",
 

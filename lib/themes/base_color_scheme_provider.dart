@@ -7,7 +7,7 @@ abstract class BaseColorSchemeProvider {
   String getName(AppLocalizations lm);
 
   bool get supportsBrightness => true;
-  bool get supportAccentColor => true;
+  bool get supportsAccentColor => true;
 
   List<Color> getAccentColors(Brightness brightness);
 

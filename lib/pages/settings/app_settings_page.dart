@@ -37,50 +37,61 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
             title: _lm.settings_app_appearance_title,
           ),
 
-          EnumSettingsField(
-            settingKey: Settings.themeMode,
-            title: _lm.settings_app_brightness_title,
-            icon: Icons.color_lens,
-            optionLabel: (option) {
-              return switch (option) {
-                ThemeMode.system => _lm.settings_app_brightness_system,
-                ThemeMode.light => _lm.settings_app_brightness_light,
-                ThemeMode.dark => _lm.settings_app_brightness_dark,
-              };
-            },
-            onChanged: (mode) {
-              themeNotifier.value = themeNotifier.value.setThemeMode(mode);
+          ValueListenableBuilder(
+            valueListenable: themeNotifier,
+            builder: (context, value, child) {
+
+              if (!ColorSchemeList.get(value.colorSchemeKey).supportsBrightness) {
+                return SizedBox.shrink();
+              }
+
+              return EnumSettingsField(
+                settingKey: Settings.themeMode,
+                title: _lm.settings_app_brightness_title,
+                icon: Icons.color_lens,
+                optionLabel: (option) {
+                  return switch (option) {
+                    ThemeMode.system => _lm.settings_app_brightness_system,
+                    ThemeMode.light => _lm.settings_app_brightness_light,
+                    ThemeMode.dark => _lm.settings_app_brightness_dark,
+                  };
+                },
+                onChanged: (mode) {
+                  themeNotifier.value = themeNotifier.value.setThemeMode(mode);
+                }
+              );
             }
           ),
 
           EnumSettingsField(
             settingKey: Settings.colorScheme,
             title: _lm.settings_app_theme_title,
-            optionLabel: (key) {
-              return switch(key) {
-                ColorSchemeKey.material3 => _lm.settings_app_theme_material3_title,
-                ColorSchemeKey.gruvbox => _lm.settings_app_theme_gruvbox_title,
-                ColorSchemeKey.catppuccinLatte => _lm.settings_app_theme_catppuccin_latte_title,
-                ColorSchemeKey.catppuccinFrappe => _lm.settings_app_theme_catppuccin_frappe_title,
-                ColorSchemeKey.catppuccinMacchiato => _lm.settings_app_theme_catppuccin_macchiato_title,
-                ColorSchemeKey.catppuccinMocha => _lm.settings_app_theme_catppuccin_mocha_title
-              };
-            },
+            optionLabel: (key) => ColorSchemeList.get(key).getName(_lm),
             icon: Icons.format_paint,
             onChanged: (key) {
-              final firstAccentColor = ColorSchemeList.themes[key]!.getAccentColors(Theme.brightnessOf(context)).first;
+              final firstAccentColor = ColorSchemeList.get(key).getAccentColors(Theme.brightnessOf(context)).first;
               _settingsManager.set(Settings.accentColor, firstAccentColor);
               themeNotifier.value = themeNotifier.value.setColorSchemeKey(key).setAccentColor(firstAccentColor);
             }
           ),
 
-          ListTile(
-            title: Text(_lm.settings_app_accent_color_title),
-            subtitle: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AccentColorPicker(),
-            ),
-            leading: Icon(Icons.palette),
+          ValueListenableBuilder(
+            valueListenable: themeNotifier,
+            builder: (context, value, child) {
+
+              if (!ColorSchemeList.get(value.colorSchemeKey).supportsAccentColor) {
+                return SizedBox.shrink();
+              }
+
+              return ListTile(
+                title: Text(_lm.settings_app_accent_color_title),
+                subtitle: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: AccentColorPicker(),
+                ),
+                leading: Icon(Icons.palette),
+              );
+            }
           ),
 
           EnumSettingsField(

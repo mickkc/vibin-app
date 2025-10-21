@@ -27,7 +27,8 @@ class _AccentColorPickerState extends State<AccentColorPicker> {
       valueListenable: themeNotifier,
       builder: (context, value, child) {
 
-        final availableColors = ColorSchemeList.themes[value.colorSchemeKey]!.getAccentColors(Theme.brightnessOf(context));
+        final availableColors = ColorSchemeList.get(value.colorSchemeKey)
+            .getAccentColors(Theme.brightnessOf(context));
 
         return Wrap(
           spacing: 8.0,
