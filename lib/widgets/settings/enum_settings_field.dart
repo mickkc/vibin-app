@@ -28,8 +28,8 @@ class EnumSettingsField<T> extends StatefulWidget {
 
 class _EnumSettingsFieldState<T> extends State<EnumSettingsField<T>> {
 
-  final SettingsManager settingsManager = getIt<SettingsManager>();
-  late T value = settingsManager.get(widget.settingKey);
+  final _settingsManager = getIt<SettingsManager>();
+  late T _value = _settingsManager.get(widget.settingKey);
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +37,12 @@ class _EnumSettingsFieldState<T> extends State<EnumSettingsField<T>> {
       title: Text(widget.title),
       subtitle: widget.description != null ? Text(widget.description!) : null,
       trailing: DropdownButton<T>(
-        value: value,
+        value: _value,
         onChanged: (T? newValue) {
           if (newValue != null) {
-            settingsManager.set(widget.settingKey, newValue);
+            _settingsManager.set(widget.settingKey, newValue);
             setState(() {
-              value = newValue;
+              _value = newValue;
             });
             if (widget.onChanged != null) {
               widget.onChanged!(newValue);

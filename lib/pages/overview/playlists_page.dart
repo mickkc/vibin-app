@@ -18,28 +18,28 @@ class PlaylistsPage extends StatefulWidget {
 
 class _PlaylistsPageState extends State<PlaylistsPage> {
 
-  final SettingsManager settingsManager = getIt<SettingsManager>();
-  final ApiManager apiManager = getIt<ApiManager>();
-  late final AppLocalizations lm = AppLocalizations.of(context)!;
-  late bool showOnlyOwn = settingsManager.get(Settings.showOwnPlaylistsByDefault);
+  final _settingsManager = getIt<SettingsManager>();
+  final _apiManager = getIt<ApiManager>();
+  late final _lm = AppLocalizations.of(context)!;
+  late bool _showOnlyOwn = _settingsManager.get(Settings.showOwnPlaylistsByDefault);
 
   @override
   Widget build(BuildContext context) {
     return PaginatedOverview(
-      key: Key("playlists_overview_$showOnlyOwn"), // Forces rebuild when toggling showOnlyOwn
+      key: Key("playlists_overview_$_showOnlyOwn"), // Forces rebuild when toggling showOnlyOwn
       fetchFunction: (page, pageSize, query) {
-        return apiManager.service.getPlaylists(page, pageSize, query, showOnlyOwn);
+        return _apiManager.service.getPlaylists(page, pageSize, query, _showOnlyOwn);
       },
       type: EntityCardType.playlist,
       title: AppLocalizations.of(context)!.playlists,
       icon: Icons.playlist_play,
       actions: [
         ElevatedButton.icon(
-          icon: Icon(showOnlyOwn ? Icons.public : Icons.person),
-          label: Text(showOnlyOwn ? lm.playlists_show_all : lm.playlists_show_owned),
+          icon: Icon(_showOnlyOwn ? Icons.public : Icons.person),
+          label: Text(_showOnlyOwn ? _lm.playlists_show_all : _lm.playlists_show_owned),
           onPressed: () {
             setState(() {
-              showOnlyOwn = !showOnlyOwn;
+              _showOnlyOwn = !_showOnlyOwn;
             });
           },
         ),
@@ -47,7 +47,7 @@ class _PlaylistsPageState extends State<PlaylistsPage> {
           onPressed: () {
             GoRouter.of(context).push('/playlists/create');
           },
-          label: Text(lm.playlists_create_new),
+          label: Text(_lm.playlists_create_new),
           icon: const Icon(Icons.add),
         )
       ],

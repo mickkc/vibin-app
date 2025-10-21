@@ -19,13 +19,13 @@ class TagOverviewPage extends StatefulWidget {
 
 class _TagOverviewPageState extends State<TagOverviewPage> {
 
-  String searchQuery = "";
-  final ApiManager apiManager = getIt<ApiManager>();
-  late Future<List<Tag>> tagsFuture = apiManager.service.getAllTags(null, null);
+  String _searchQuery = "";
+  final _apiManager = getIt<ApiManager>();
+  late Future<List<Tag>> _tagsFuture = _apiManager.service.getAllTags(null, null);
 
   void refreshTags() {
     setState(() {
-      tagsFuture = apiManager.service.getAllTags(searchQuery, null);
+      _tagsFuture = _apiManager.service.getAllTags(_searchQuery, null);
     });
   }
 
@@ -67,10 +67,10 @@ class _TagOverviewPageState extends State<TagOverviewPage> {
         OverviewHeader(
           title: lm.tags,
           icon: Icons.sell,
-          searchQuery: searchQuery,
+          searchQuery: _searchQuery,
           onSearchSubmitted: (value) {
             setState(() {
-              searchQuery = value;
+              _searchQuery = value;
               refreshTags();
             });
           }
@@ -91,7 +91,7 @@ class _TagOverviewPageState extends State<TagOverviewPage> {
         Padding(
           padding: EdgeInsets.all(8.0),
           child: FutureContent(
-            future: tagsFuture,
+            future: _tagsFuture,
             hasData: (d) => d.isNotEmpty,
             builder: (context, tags) {
               return Wrap(

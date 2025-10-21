@@ -18,7 +18,7 @@ class SearchTrackMetadataDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ApiManager apiManager = getIt<ApiManager>();
+    final apiManager = getIt<ApiManager>();
     return BaseMetadataDialog(
       onSelect: onSelect,
       initialSearch: initialSearch,

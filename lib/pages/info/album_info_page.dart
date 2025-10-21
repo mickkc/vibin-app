@@ -76,10 +76,10 @@ class AlbumInfoPage extends StatelessWidget {
     );
   }
 
-  final apiManager = getIt<ApiManager>();
-  final audioManager = getIt<AudioManager>();
-  late final albumFuture = apiManager.service.getAlbum(albumId);
-  final shuffleState = ShuffleState(isShuffling: false);
+  final _apiManager = getIt<ApiManager>();
+  final _audioManager = getIt<AudioManager>();
+  late final _albumFuture = _apiManager.service.getAlbum(albumId);
+  final _shuffleState = ShuffleState(isShuffling: false);
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +87,7 @@ class AlbumInfoPage extends StatelessWidget {
     return ColumnPage(
       children: [
         FutureContent(
-          future: albumFuture,
+          future: _albumFuture,
           builder: (context, data) {
             return LayoutBuilder(
               builder: (context, constraints) {
@@ -123,16 +123,16 @@ class AlbumInfoPage extends StatelessWidget {
         ),
         AlbumActionBar(
           albumId: albumId,
-          shuffleState: shuffleState
+          shuffleState: _shuffleState
         ),
         FutureContent(
-          future: albumFuture,
+          future: _albumFuture,
           builder: (context, data) {
             return TrackList(
               tracks: data.tracks,
               albumId: data.album.id,
               onTrackTapped: (track) {
-                audioManager.playAlbumData(data, track.id, shuffleState.isShuffling);
+                _audioManager.playAlbumData(data, track.id, _shuffleState.isShuffling);
               }
             );
           }

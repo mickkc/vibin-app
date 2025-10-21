@@ -28,55 +28,49 @@ class AlbumActionBar extends StatefulWidget {
 
 class _AlbumActionBarState extends State<AlbumActionBar> {
 
-  late final audioManager = getIt<AudioManager>();
-  late final apiManager = getIt<ApiManager>();
-  late final authState = getIt<AuthState>();
-  late bool isPlaying = audioManager.isPlaying;
-  late bool isCurrent = false;
-  late bool isShuffleEnabled = false;
+  late final _audioManager = getIt<AudioManager>();
+  late final _apiManager = getIt<ApiManager>();
+  late final _authState = getIt<AuthState>();
+  late bool _isPlaying = _audioManager.isPlaying;
+  late bool _isCurrent = false;
+  late bool _isShuffleEnabled = false;
 
-  final List<StreamSubscription> subscriptions = [];
+  final List<StreamSubscription> _subscriptions = [];
 
   _AlbumActionBarState() {
-    subscriptions.add(audioManager.audioPlayer.sequenceStateStream.listen((event) {
+    _subscriptions.add(_audioManager.currentMediaItemStream.listen((mediaItem) {
       if (!mounted) return;
       setState(() {
-        updatePlayingState();
+        _isCurrent = _audioManager.currentAudioType != null &&
+            _audioManager.currentAudioType!.audioType == AudioType.album &&
+            _audioManager.currentAudioType!.id == widget.albumId;
       });
     }));
-    subscriptions.add(audioManager.audioPlayer.playingStream.listen((event) {
+    _subscriptions.add(_audioManager.audioPlayer.playingStream.listen((playing) {
       if (!mounted) return;
       setState(() {
-        updatePlayingState();
+        _isPlaying = playing;
       });
     }));
-  }
-
-  void updatePlayingState() {
-    final currentAudioType = audioManager.currentAudioType;
-    setState(() {
-      isPlaying = audioManager.isPlaying;
-      isCurrent = currentAudioType != null && currentAudioType.audioType == AudioType.album && currentAudioType.id == widget.albumId;
-    });
   }
 
   void playPause() async {
-    if (!isCurrent) {
-      final album = await apiManager.service.getAlbum(widget.albumId);
-      audioManager.playAlbumData(album, null, isShuffleEnabled);
+    if (!_isCurrent) {
+      final album = await _apiManager.service.getAlbum(widget.albumId);
+      _audioManager.playAlbumData(album, null, _isShuffleEnabled);
     } else {
-      await audioManager.playPause();
+      await _audioManager.playPause();
     }
   }
 
   void toggleShuffle() {
-    if (isCurrent) {
-      audioManager.toggleShuffle();
+    if (_isCurrent) {
+      _audioManager.toggleShuffle();
     }
     setState(() {
-      isShuffleEnabled = !isShuffleEnabled;
+      _isShuffleEnabled = !_isShuffleEnabled;
     });
-    widget.shuffleState?.isShuffling = isShuffleEnabled;
+    widget.shuffleState?.isShuffling = _isShuffleEnabled;
   }
 
   @override
@@ -86,21 +80,21 @@ class _AlbumActionBarState extends State<AlbumActionBar> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        if (authState.hasPermission(PermissionType.streamTracks)) ... [
+        if (_authState.hasPermission(PermissionType.streamTracks)) ... [
           PlayButton(
-            isPlaying: isCurrent && isPlaying,
+            isPlaying: _isCurrent && _isPlaying,
             onTap: playPause
           ),
           IconButton(
             onPressed: toggleShuffle,
             icon: Icon(
               Icons.shuffle,
-              color: isShuffleEnabled ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+              color: _isShuffleEnabled ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
               size: 32
             ),
           )
         ],
-        if (authState.hasPermission(PermissionType.manageAlbums))
+        if (_authState.hasPermission(PermissionType.manageAlbums))
           IconButton(
             onPressed: () {
               GoRouter.of(context).push("/albums/${widget.albumId}/edit");

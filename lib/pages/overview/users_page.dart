@@ -10,19 +10,16 @@ class UsersPage extends StatelessWidget {
 
   UsersPage({super.key});
 
-  final ApiManager apiManager = getIt<ApiManager>();
+  final _apiManager = getIt<ApiManager>();
 
   @override
   Widget build(BuildContext context) {
-
-    final lm = AppLocalizations.of(context)!;
-
     return PaginatedOverview(
       fetchFunction: (page, pageSize, query) {
-        return apiManager.service.getUsers(page, pageSize, query);
+        return _apiManager.service.getUsers(page, pageSize, query);
       },
       type: EntityCardType.user,
-      title: lm.users,
+      title: AppLocalizations.of(context)!.users,
       icon: Icons.group,
     );
   }

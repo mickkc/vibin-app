@@ -29,24 +29,19 @@ class UserPermissionToggle extends StatefulWidget {
 }
 
 class _UserPermissionToggleState extends State<UserPermissionToggle> {
-  late bool hasPermission;
+  
+  late bool _hasPermission = widget.initialValue;
 
-  final apiManager = getIt<ApiManager>();
-  late final lm = AppLocalizations.of(context)!;
-
-  @override
-  void initState() {
-    super.initState();
-    hasPermission = widget.initialValue;
-  }
+  final _apiManager = getIt<ApiManager>();
+  late final _lm = AppLocalizations.of(context)!;
 
   Future<void> setPermission(bool value) async {
 
-    if (value == hasPermission) return;
+    if (value == _hasPermission) return;
 
     try {
-      final result = await apiManager.service.updateUserPermissions(widget.userId, widget.permissionType.value);
-      if (result.granted == hasPermission) {
+      final result = await _apiManager.service.updateUserPermissions(widget.userId, widget.permissionType.value);
+      if (result.granted == _hasPermission) {
         return;
       }
 
@@ -54,27 +49,27 @@ class _UserPermissionToggleState extends State<UserPermissionToggle> {
         widget.onChanged!(result.granted);
       }
       setState(() {
-        hasPermission = result.granted;
+        _hasPermission = result.granted;
       });
     }
     catch (e) {
       log("An error occurred while changing permissions: $e", error: e, level: Level.error.value);
-      if (context.mounted) showErrorDialog(context, lm.permissions_change_error);
+      if (context.mounted) showErrorDialog(context, _lm.permissions_change_error);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(lm.translatePermission(widget.permissionType)),
+      title: Text(_lm.translatePermission(widget.permissionType)),
       trailing: Switch(
-        value: hasPermission,
+        value: _hasPermission,
         onChanged: (value) async {
           await setPermission(value);
         },
       ),
       onTap: () async {
-        await setPermission(!hasPermission);
+        await setPermission(!_hasPermission);
       },
     );
   }

@@ -26,10 +26,11 @@ class IntSettingsInputField extends StatefulWidget {
 }
 
 class _IntSettingsInputFieldState extends State<IntSettingsInputField> {
-  final SettingsManager settingsManager = getIt<SettingsManager>();
 
-  late int value = settingsManager.get(widget.settingsKey);
-  late TextEditingController controller = TextEditingController(text: value.toString());
+  final _settingsManager = getIt<SettingsManager>();
+
+  late int _value = _settingsManager.get(widget.settingsKey);
+  late final _controller = TextEditingController(text: _value.toString());
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class _IntSettingsInputFieldState extends State<IntSettingsInputField> {
       trailing: SizedBox(
         width: 100,
         child: TextField(
-          controller: controller,
+          controller: _controller,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
@@ -51,13 +52,13 @@ class _IntSettingsInputFieldState extends State<IntSettingsInputField> {
           onSubmitted: (text) {
             final intValue = int.tryParse(text);
             if (intValue != null && (widget.min == null || intValue >= widget.min!) && (widget.max == null || intValue <= widget.max!)) {
-              settingsManager.set(widget.settingsKey, intValue);
+              _settingsManager.set(widget.settingsKey, intValue);
               setState(() {
-                value = intValue;
-                controller.text = value.toString();
+                _value = intValue;
+                _controller.text = _value.toString();
               });
             } else {
-              controller.text = value.toString();
+              _controller.text = _value.toString();
             }
           },
         ),

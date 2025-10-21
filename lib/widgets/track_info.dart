@@ -26,8 +26,8 @@ class TrackInfoView extends StatelessWidget {
     GoRouter.of(context).push('/albums/$albumId');
   }
 
-  final apiManager = getIt<ApiManager>();
-  late final trackFuture = apiManager.service.getTrack(trackId);
+  final _apiManager = getIt<ApiManager>();
+  late final _trackFuture = _apiManager.service.getTrack(trackId);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class TrackInfoView extends StatelessWidget {
     final theme = Theme.of(context);
 
     return FutureContent(
-      future: trackFuture,
+      future: _trackFuture,
       builder: (context, track) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

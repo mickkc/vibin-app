@@ -28,8 +28,8 @@ class NowPlayingControlBar extends StatefulWidget {
 
 class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
 
-  final AudioManager audioManager = getIt<AudioManager>();
-  final ApiManager apiManager = getIt<ApiManager>();
+  final _audioManager = getIt<AudioManager>();
+  final _apiManager = getIt<ApiManager>();
 
   void showMobileDialog() {
     showModalBottomSheet(
@@ -66,7 +66,7 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
 
     final id = int.tryParse(widget.mediaItem.id);
     if (id == null) return SizedBox.shrink();
-    final lyricsFuture = apiManager.service.checkTrackHasLyrics(id);
+    final lyricsFuture = _apiManager.service.checkTrackHasLyrics(id);
     return FutureBuilder(
       future: lyricsFuture,
       builder: (context, snapshot) {
@@ -99,7 +99,7 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
               icon: Icons.skip_previous,
               backgroundColor: th.colorScheme.secondary,
               iconColor: th.colorScheme.onSecondary,
-              onPressed: audioManager.skipToPrevious
+              onPressed: _audioManager.skipToPrevious
             ),
             PlayPauseToggle(
               backgroundColor: th.colorScheme.primary,
@@ -111,7 +111,7 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
               icon: Icons.skip_next,
               backgroundColor: th.colorScheme.secondary,
               iconColor: th.colorScheme.onSecondary,
-              onPressed: audioManager.skipToNext
+              onPressed: _audioManager.skipToNext
             ),
             Expanded(
               child: const ShuffleToggle(showTooltip: false)

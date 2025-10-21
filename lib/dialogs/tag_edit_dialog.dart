@@ -35,37 +35,37 @@ class TagEditDialog extends StatefulWidget {
 }
 
 class _TagEditDialogState extends State<TagEditDialog> {
-  final formKey = GlobalKey<FormState>();
-  late TextEditingController nameController;
-  late TextEditingController descriptionController;
-  late TextEditingController colorController;
+  final _formKey = GlobalKey<FormState>();
+  late TextEditingController _nameController;
+  late TextEditingController _descriptionController;
+  late TextEditingController _colorController;
 
-  final ApiManager apiManager = getIt<ApiManager>();
-  final AuthState authState = getIt<AuthState>();
+  final _apiManager = getIt<ApiManager>();
+  final _authState = getIt<AuthState>();
 
-  late AppLocalizations lm = AppLocalizations.of(context)!;
+  late final _lm = AppLocalizations.of(context)!;
 
-  final RegExp hexColorRegExp = RegExp(r'^#?[0-9a-fA-F]{6}$');
+  final _hexColorRegExp = RegExp(r'^#?[0-9a-fA-F]{6}$');
 
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController(text: widget.initialName ?? '');
-    descriptionController = TextEditingController(text: widget.initialDescription ?? '');
-    colorController = TextEditingController(text: widget.initialColor ?? '');
+    _nameController = TextEditingController(text: widget.initialName ?? '');
+    _descriptionController = TextEditingController(text: widget.initialDescription ?? '');
+    _colorController = TextEditingController(text: widget.initialColor ?? '');
   }
 
   @override
   void dispose() {
-    nameController.dispose();
-    descriptionController.dispose();
-    colorController.dispose();
+    _nameController.dispose();
+    _descriptionController.dispose();
+    _colorController.dispose();
     super.dispose();
   }
 
   Future<bool> checkIfTagExists(String name) async {
     try {
-      await apiManager.service.getTagByName(name);
+      await _apiManager.service.getTagByName(name);
       return true;
     }
     catch (e) {
@@ -75,45 +75,45 @@ class _TagEditDialogState extends State<TagEditDialog> {
 
   Future<void> save() async {
 
-    if (nameController.text != widget.initialName) {
-      final exists = await checkIfTagExists(nameController.text);
+    if (_nameController.text != widget.initialName) {
+      final exists = await checkIfTagExists(_nameController.text);
       if (exists) {
         // Tag with this name already exists
         if (mounted) {
-          showInfoDialog(context, lm.edit_tag_name_validation_already_exists);
+          showInfoDialog(context, _lm.edit_tag_name_validation_already_exists);
         }
         return;
       }
     }
 
-    if (!formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) return;
 
     final editData = TagEditData(
-      name: nameController.text,
-      description: descriptionController.text,
-      color: colorController.text.isNotEmpty ? colorController.text : null
+      name: _nameController.text,
+      description: _descriptionController.text,
+      color: _colorController.text.isNotEmpty ? _colorController.text : null
     );
     try {
       final tag = widget.tagId == null
-        ? await apiManager.service.createTag(editData)
-        : await apiManager.service.updateTag(widget.tagId!, editData);
+        ? await _apiManager.service.createTag(editData)
+        : await _apiManager.service.updateTag(widget.tagId!, editData);
       widget.onSave(tag);
       if (mounted) Navigator.pop(context);
     }
     catch (e) {
       log("An error occurred while saving the tag: $e", error: e, level: Level.error.value);
-      if (mounted) showErrorDialog(context, lm.edit_tag_save_error);
+      if (mounted) showErrorDialog(context, _lm.edit_tag_save_error);
     }
   }
 
   Future<void> delete() async {
-    if (!await showConfirmDialog(context, lm.edit_tag_delete_confirmation, lm.edit_tag_delete_confirmation_warning)) {
+    if (!await showConfirmDialog(context, _lm.edit_tag_delete_confirmation, _lm.edit_tag_delete_confirmation_warning)) {
       return;
     }
     if (widget.tagId != null) {
       late bool success;
       try {
-        final response = await apiManager.service.deleteTag(widget.tagId!);
+        final response = await _apiManager.service.deleteTag(widget.tagId!);
         if (response.success && widget.onDelete != null) {
           widget.onDelete!();
         }
@@ -127,7 +127,7 @@ class _TagEditDialogState extends State<TagEditDialog> {
       if (success) {
         if (mounted && context.mounted) Navigator.pop(context);
       } else {
-        if (mounted && context.mounted) showErrorDialog(context, lm.edit_tag_delete_error);
+        if (mounted && context.mounted) showErrorDialog(context, _lm.edit_tag_delete_error);
       }
     }
   }
@@ -135,39 +135,39 @@ class _TagEditDialogState extends State<TagEditDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(widget.tagId == null ? lm.create_tag_title : lm.edit_tag_title),
+      title: Text(widget.tagId == null ? _lm.create_tag_title : _lm.edit_tag_title),
       content: Form(
-        key: formKey,
+        key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           spacing: 8,
           children: [
             TextFormField(
-              controller: nameController,
-              decoration: InputDecoration(labelText: lm.edit_tag_name),
+              controller: _nameController,
+              decoration: InputDecoration(labelText: _lm.edit_tag_name),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return lm.edit_tag_name_validation_empty;
+                  return _lm.edit_tag_name_validation_empty;
                 }
                 if (value.length > 255) {
-                  return lm.edit_tag_name_validation_length;
+                  return _lm.edit_tag_name_validation_length;
                 }
                 return null;
               },
             ),
             TextFormField(
-              controller: descriptionController,
-              decoration: InputDecoration(labelText: lm.edit_tag_description),
+              controller: _descriptionController,
+              decoration: InputDecoration(labelText: _lm.edit_tag_description),
             ),
             TextFormField(
-              controller: colorController,
-              decoration: InputDecoration(labelText: lm.edit_tag_color),
+              controller: _colorController,
+              decoration: InputDecoration(labelText: _lm.edit_tag_color),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return null;
                 }
-                if (!hexColorRegExp.hasMatch(value)) {
-                  return lm.edit_tag_color_not_hex;
+                if (!_hexColorRegExp.hasMatch(value)) {
+                  return _lm.edit_tag_color_not_hex;
                 }
                 return null;
               },
@@ -176,14 +176,14 @@ class _TagEditDialogState extends State<TagEditDialog> {
         ),
       ),
       actions: [
-        if (widget.tagId != null && authState.hasPermission(PermissionType.deleteTags))
+        if (widget.tagId != null && _authState.hasPermission(PermissionType.deleteTags))
           TextButton(
             onPressed: delete,
-            child: Text(lm.dialog_delete),
+            child: Text(_lm.dialog_delete),
           ),
         ElevatedButton(
           onPressed: save,
-          child: Text(lm.dialog_save),
+          child: Text(_lm.dialog_save),
         ),
       ],
     );

@@ -29,36 +29,36 @@ class NowPlayingQueue extends StatefulWidget {
 
 class _NowPlayingQueueState extends State<NowPlayingQueue> {
 
-  late final AudioManager audioManager = getIt<AudioManager>();
+  late final _audioManager = getIt<AudioManager>();
 
-  late int? currentIndex = audioManager.audioPlayer.currentIndex;
-  late bool isPlaying = audioManager.isPlaying;
+  late int? _currentIndex = _audioManager.audioPlayer.currentIndex;
+  late bool _isPlaying = _audioManager.isPlaying;
 
-  late StreamSubscription sequenceSubscription;
-  late StreamSubscription playingSubscription;
+  late final StreamSubscription _sequenceSubscription;
+  late final StreamSubscription _playingSubscription;
 
   _NowPlayingQueueState() {
-    sequenceSubscription = audioManager.audioPlayer.sequenceStateStream.listen((event) {
+    _sequenceSubscription = _audioManager.audioPlayer.sequenceStateStream.listen((event) {
       if (!mounted) return;
-      if (event.currentIndex == currentIndex) return;
+      if (event.currentIndex == _currentIndex) return;
       setState(() {
-        currentIndex = audioManager.audioPlayer.currentIndex;
+        _currentIndex = _audioManager.audioPlayer.currentIndex;
       });
     });
 
-    playingSubscription = audioManager.audioPlayer.playingStream.listen((event) {
+    _playingSubscription = _audioManager.audioPlayer.playingStream.listen((event) {
       if (!mounted) return;
-      if (event == isPlaying) return;
+      if (event == _isPlaying) return;
       setState(() {
-        isPlaying = event;
+        _isPlaying = event;
       });
     });
   }
 
   @override
   void dispose() {
-    sequenceSubscription.cancel();
-    playingSubscription.cancel();
+    _sequenceSubscription.cancel();
+    _playingSubscription.cancel();
     super.dispose();
   }
 
@@ -72,18 +72,18 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
       builder: (context, scrollController) {
         return Container(
           padding: const EdgeInsets.all(16),
-          child: audioManager.sequence.isEmpty
+          child: _audioManager.sequence.isEmpty
             ? Text(AppLocalizations.of(context)!.now_playing_nothing)
             : ListView.builder(
                 controller: scrollController,
-                itemCount: audioManager.sequence.length,
+                itemCount: _audioManager.sequence.length,
                 itemBuilder: (context, index) {
-                  final source = audioManager.sequence[index];
+                  final source = _audioManager.sequence[index];
                   final tag = source.tag;
                   if (tag is! MediaItem) {
                     return const SizedBox.shrink();
                   }
-                  final isCurrent = currentIndex == index;
+                  final isCurrent = _currentIndex == index;
                   return ListTile(
                     leading: NetworkImageWidget(
                       url: tag.artUri.toString(),
@@ -95,10 +95,10 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
                     trailing: isCurrent ? AnimatedSpectogramIcon(
                       size: 24,
                       color: Theme.of(context).colorScheme.primary,
-                      isPlaying: isPlaying,
+                      isPlaying: _isPlaying,
                     ) : null,
                     onTap: () {
-                      audioManager.skipToQueueItem(index);
+                      _audioManager.skipToQueueItem(index);
                       Navigator.pop(context);
                     },
                   );

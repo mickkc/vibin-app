@@ -14,9 +14,9 @@ class AccentColorPicker extends StatefulWidget {
 
 class _AccentColorPickerState extends State<AccentColorPicker> {
 
-  final SettingsManager settingsManager = getIt<SettingsManager>();
+  final _settingsManager = getIt<SettingsManager>();
 
-  late Color? selectedColor = settingsManager.get(Settings.accentColor);
+  late Color _selectedColor = _settingsManager.get(Settings.accentColor);
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +35,10 @@ class _AccentColorPickerState extends State<AccentColorPicker> {
           children: availableColors.map((color) {
             return GestureDetector(
               onTap: () {
-                settingsManager.set(Settings.accentColor, color);
+                _settingsManager.set(Settings.accentColor, color);
                 themeNotifier.value = themeNotifier.value.setAccentColor(color);
                 setState(() {
-                  selectedColor = color;
+                  _selectedColor = color;
                 });
               },
               child: Container(
@@ -48,7 +48,7 @@ class _AccentColorPickerState extends State<AccentColorPicker> {
                   color: color,
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: selectedColor?.toARGB32() == color.toARGB32() ? theme.colorScheme.primary : Colors.transparent,
+                    color: _selectedColor.toARGB32() == color.toARGB32() ? theme.colorScheme.primary : Colors.transparent,
                     width: 3.0,
                   ),
                 ),

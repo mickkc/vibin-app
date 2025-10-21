@@ -8,26 +8,28 @@ class ApiManager {
   late String _accessToken;
   String get accessToken => _accessToken;
 
-  late Dio dio;
-  late ApiService service;
+  late Dio _dio;
+
+  late ApiService _service;
+  ApiService get service => _service;
 
   factory ApiManager() => _instance;
 
   ApiManager._internal() {
-    dio = Dio();
+    _dio = Dio();
   }
 
-  String get baseUrl => dio.options.baseUrl;
+  String get baseUrl => _dio.options.baseUrl;
 
   void setBaseUrl(String baseUrl) {
-    dio.options.baseUrl = baseUrl;
-    service = ApiService(dio, baseUrl: baseUrl);
+    _dio.options.baseUrl = baseUrl;
+    _service = ApiService(_dio, baseUrl: baseUrl);
   }
 
   void setToken(String token) {
     _accessToken = token;
-    dio.interceptors.clear();
-    dio.interceptors.add(
+    _dio.interceptors.clear();
+    _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
           options.headers['Authorization'] = 'Bearer $token';

@@ -17,30 +17,29 @@ class AlbumPage extends StatefulWidget {
 
 class _AlbumPageState extends State<AlbumPage> {
 
-  final ApiManager apiManager = getIt<ApiManager>();
-  final SettingsManager settingsManager = getIt<SettingsManager>();
-  late final lm = AppLocalizations.of(context)!;
+  final _apiManager = getIt<ApiManager>();
+  final SettingsManager _settingsManager = getIt<SettingsManager>();
+  late final _lm = AppLocalizations.of(context)!;
 
-  late bool showSingles = settingsManager.get(Settings.showSinglesInAlbumsByDefault);
+  late bool _showSingles = _settingsManager.get(Settings.showSinglesInAlbumsByDefault);
 
   @override
   Widget build(BuildContext context) {
-    final ApiManager apiManager = getIt<ApiManager>();
     return PaginatedOverview(
-      key: Key("albums_overview_$showSingles"), // Forces rebuild when toggling showSingles
+      key: Key("albums_overview_$_showSingles"), // Forces rebuild when toggling showSingles
       fetchFunction: (page, pageSize, query) {
-        return apiManager.service.getAlbums(page, pageSize, query, showSingles);
+        return _apiManager.service.getAlbums(page, pageSize, query, _showSingles);
       },
       type: EntityCardType.album,
       title: AppLocalizations.of(context)!.albums,
       icon: Icons.album,
       actions: [
         ElevatedButton.icon(
-          icon: Icon(showSingles ? Icons.album : Icons.library_music),
-          label: Text(showSingles ? AppLocalizations.of(context)!.albums_hide_singles : AppLocalizations.of(context)!.albums_show_singles),
+          icon: Icon(_showSingles ? Icons.album : Icons.library_music),
+          label: Text(_showSingles ? _lm.albums_hide_singles : _lm.albums_show_singles),
           onPressed: () {
             setState(() {
-              showSingles = !showSingles;
+              _showSingles = !_showSingles;
             });
           },
         ),

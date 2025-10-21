@@ -25,7 +25,7 @@ class ImageEditField extends StatelessWidget {
     required this.onImageChanged
   });
 
-  static final urlRegex = RegExp(
+  static final _urlRegex = RegExp(
     r'^(https?:\/\/)?' // protocol
     r'((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|' // domain name
     r'((\d{1,3}\.){3}\d{1,3}))' // OR ip (v4) address
@@ -103,7 +103,7 @@ class ImageEditField extends StatelessWidget {
   }
 
   bool setUrl(String url) {
-    if (url.isNotEmpty && urlRegex.hasMatch(url)) {
+    if (url.isNotEmpty && _urlRegex.hasMatch(url)) {
       onImageChanged(url);
       return true;
     }

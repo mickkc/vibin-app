@@ -11,14 +11,14 @@ class UserPermissionsTab extends StatelessWidget {
 
   UserPermissionsTab({super.key, required this.userId});
 
-  final apiManager = getIt<ApiManager>();
-  late final Future<List<String>> currentPermissionsFuture = apiManager.service.getPermissionsForUser(userId);
+  final _apiManager = getIt<ApiManager>();
+  late final Future<List<String>> _currentPermissionsFuture = _apiManager.service.getPermissionsForUser(userId);
 
   @override
   Widget build(BuildContext context) {
 
     return FutureContent(
-      future: currentPermissionsFuture,
+      future: _currentPermissionsFuture,
       builder: (context, grantedPermissions) {
         return ListView.builder(
           itemCount: PermissionType.values.length,

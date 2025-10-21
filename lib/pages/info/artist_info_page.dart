@@ -24,20 +24,20 @@ class ArtistInfoPage extends StatelessWidget {
     required this.artistId
   });
 
-  final apiManager = getIt<ApiManager>();
-  final audioManager = getIt<AudioManager>();
-  final authState = getIt<AuthState>();
+  final _apiManager = getIt<ApiManager>();
+  final _audioManager = getIt<AudioManager>();
+  final _authState = getIt<AuthState>();
 
-  late final artistFuture = apiManager.service.getArtist(artistId);
-  late final discographyFuture = authState.hasPermission(PermissionType.viewAlbums)
-      ? apiManager.service.getArtistDiscography(artistId).then(
+  late final _artistFuture = _apiManager.service.getArtist(artistId);
+  late final _discographyFuture = _authState.hasPermission(PermissionType.viewAlbums)
+      ? _apiManager.service.getArtistDiscography(artistId).then(
           (discography) {
             discography.sort((a, b) => (b.key.year ?? 9999).compareTo(a.key.year ?? 9999));
             return discography;
           })
       : null;
-  late final tracksFuture = !authState.hasPermission(PermissionType.viewAlbums) && authState.hasPermission(PermissionType.viewTracks)
-      ? apiManager.service.getTracksByArtist(artistId)
+  late final _tracksFuture = !_authState.hasPermission(PermissionType.viewAlbums) && _authState.hasPermission(PermissionType.viewTracks)
+      ? _apiManager.service.getTracksByArtist(artistId)
       : null;
 
   Widget albumTitle(BuildContext context, Album album) {
@@ -115,8 +115,8 @@ class ArtistInfoPage extends StatelessWidget {
               icon: Icon(Icons.open_in_new)
             ),
             onTap: () {
-              audioManager.playMinimalTrackWithQueue(track, tracks);
-              apiManager.service.reportArtistListen(artistId);
+              _audioManager.playMinimalTrackWithQueue(track, tracks);
+              _apiManager.service.reportArtistListen(artistId);
             },
           )
       ],
@@ -143,7 +143,7 @@ class ArtistInfoPage extends StatelessWidget {
           spacing: 8,
           runSpacing: 8,
           children: [
-            if (authState.hasPermission(PermissionType.manageArtists))
+            if (_authState.hasPermission(PermissionType.manageArtists))
               ElevatedButton.icon(
                 onPressed: () => GoRouter.of(context).push("/artists/${artist.id}/edit"),
                 label: Text(AppLocalizations.of(context)!.artists_edit),
@@ -163,7 +163,7 @@ class ArtistInfoPage extends StatelessWidget {
     return ColumnPage(
       children: [
         FutureContent(
-          future: artistFuture,
+          future: _artistFuture,
           builder: (context, artist) {
             return Row(
               spacing: 32,
@@ -184,11 +184,11 @@ class ArtistInfoPage extends StatelessWidget {
           }
         ),
 
-        if (discographyFuture != null) ... [
+        if (_discographyFuture != null) ... [
           Divider(),
           SectionHeader(title: lm.artists_discography),
           FutureContent(
-            future: discographyFuture!,
+            future: _discographyFuture,
             hasData: (d) => d.isNotEmpty,
             builder: (context, discography) {
               return Column(
@@ -217,11 +217,11 @@ class ArtistInfoPage extends StatelessWidget {
             }
           )
         ]
-        else if (tracksFuture != null) ... [
+        else if (_tracksFuture != null) ... [
           Divider(),
           SectionHeader(title: lm.tracks),
           FutureContent(
-            future: tracksFuture!,
+            future: _tracksFuture,
             hasData: (d) => d.isNotEmpty,
             builder: (context, tracks) {
               return TrackList(tracks: tracks);

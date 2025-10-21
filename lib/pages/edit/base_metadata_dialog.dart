@@ -28,33 +28,31 @@ class BaseMetadataDialog<T> extends StatefulWidget {
 
 class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
 
-  bool initialized = false;
+  bool _initialized = false;
 
-  late String searchQuery = widget.initialSearch ?? "";
-  String selectedProvider = "";
+  late String _searchQuery = widget.initialSearch ?? "";
+  String _selectedProvider = "";
 
-  List<String> providers = [];
+  List<String> _providers = [];
 
-  late Future<List<T>> searchFuture;
+  late Future<List<T>> _searchFuture;
 
-  final ApiManager apiManager = getIt<ApiManager>();
-
-  late final lm = AppLocalizations.of(context)!;
-  late final theme = Theme.of(context);
+  final _apiManager = getIt<ApiManager>();
+  late final _lm = AppLocalizations.of(context)!;
 
   double get width => MediaQuery.of(context).size.width;
 
   void search() {
-    if (searchQuery.isEmpty || selectedProvider.isEmpty) {
+    if (_searchQuery.isEmpty || _selectedProvider.isEmpty) {
       setState(() {
-        searchFuture = Future.value([]);
+        _searchFuture = Future.value([]);
       });
       return;
     }
 
-    final future = widget.fetchMethod(searchQuery, selectedProvider);
+    final future = widget.fetchMethod(_searchQuery, _selectedProvider);
     setState(() {
-      searchFuture = future;
+      _searchFuture = future;
     });
   }
 
@@ -62,13 +60,13 @@ class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
   void initState() {
     super.initState();
 
-    apiManager.service.getMetadataProviders().then((providers) {
+    _apiManager.service.getMetadataProviders().then((providers) {
       setState(() {
-        this.providers = widget.sourceSelector(providers);
-        if (this.providers.isNotEmpty) {
-          selectedProvider = this.providers.first;
+        _providers = widget.sourceSelector(providers);
+        if (_providers.isNotEmpty) {
+          _selectedProvider = _providers.first;
         }
-        initialized = true;
+        _initialized = true;
       });
       search();
     });
@@ -81,9 +79,9 @@ class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
         maxWidth: 600,
         maxHeight: 800,
       ),
-      title: Text(lm.edit_track_search_metadata),
+      title: Text(_lm.edit_track_search_metadata),
       insetPadding: EdgeInsets.all(8),
-      content: !initialized ? Center(child: CircularProgressIndicator()) : Column(
+      content: !_initialized ? Center(child: CircularProgressIndicator()) : Column(
         spacing: 8,
         children: [
           Row(
@@ -93,16 +91,16 @@ class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
               Expanded(
                 child: TextField(
                   decoration: InputDecoration(
-                    labelText: lm.search,
+                    labelText: _lm.search,
                     prefixIcon: Icon(Icons.search)
                   ),
                   onChanged: (value) {
-                    searchQuery = value;
+                    _searchQuery = value;
                   },
-                  controller: TextEditingController(text: searchQuery),
+                  controller: TextEditingController(text: _searchQuery),
                   textInputAction: TextInputAction.search,
                   onSubmitted: (value) {
-                    searchQuery = value;
+                    _searchQuery = value;
                     search();
                   },
                 ),
@@ -110,8 +108,8 @@ class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
               SizedBox(
                 width: 200,
                 child: DropdownButton<String>(
-                  value: selectedProvider,
-                  items: providers.map((provider) {
+                  value: _selectedProvider,
+                  items: _providers.map((provider) {
                     return DropdownMenuItem<String>(
                       value: provider,
                       child: Text(provider),
@@ -120,7 +118,7 @@ class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
                   onChanged: (value) {
                     if (value == null) return;
                     setState(() {
-                      selectedProvider = value;
+                      _selectedProvider = value;
                     });
                     search();
                   },
@@ -132,7 +130,7 @@ class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
             child: SizedBox(
               width: width > 600 ? 600 : width - 32,
               child: FutureContent(
-                future: searchFuture,
+                future: _searchFuture,
                 hasData: (data) => data.isNotEmpty,
                 builder: (context, results) {
                   return ListView.builder(

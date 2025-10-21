@@ -24,32 +24,32 @@ class ArtistEditPage extends StatefulWidget {
 
 class _ArtistEditPageState extends State<ArtistEditPage> {
 
-  late final lm = AppLocalizations.of(context)!;
-  late final theme = Theme.of(context);
-  final ApiManager apiManager = getIt<ApiManager>();
+  late final _lm = AppLocalizations.of(context)!;
+  late final _theme = Theme.of(context);
+  final _apiManager = getIt<ApiManager>();
 
-  String? imageUrl;
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
+  String? _imageUrl;
+  final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
 
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
 
     if (widget.artistId != null) {
-      apiManager.service.getArtist(widget.artistId!).then((artist) {
+      _apiManager.service.getArtist(widget.artistId!).then((artist) {
         setState(() {
-          nameController.text = artist.name;
-          descriptionController.text = artist.description;
-          imageUrl = null;
+          _nameController.text = artist.name;
+          _descriptionController.text = artist.description;
+          _imageUrl = null;
         });
       })
       .catchError((error) {
         if (!mounted) return;
         log("An error occurred while loading artist: $error", error: error, level: Level.error.value);
-        showErrorDialog(context, lm.edit_artist_load_error);
+        showErrorDialog(context, _lm.edit_artist_load_error);
       });
     }
   }
@@ -61,36 +61,36 @@ class _ArtistEditPageState extends State<ArtistEditPage> {
         return SearchArtistMetadataDialog(
           onSelect: (artistMetadata) {
             setState(() {
-              nameController.text = artistMetadata.name;
-              descriptionController.text = artistMetadata.biography ?? "";
-              imageUrl = artistMetadata.pictureUrl;
+              _nameController.text = artistMetadata.name;
+              _descriptionController.text = artistMetadata.biography ?? "";
+              _imageUrl = artistMetadata.pictureUrl;
             });
           },
-          initialSearch: nameController.text,
+          initialSearch: _nameController.text,
         );
       }
     );
   }
 
   Future<void> save() async {
-    if (!formKey.currentState!.validate()) {
+    if (!_formKey.currentState!.validate()) {
       return;
     }
     try {
       final editData = ArtistEditData(
-        name: nameController.text,
-        description: descriptionController.text,
-        imageUrl: imageUrl,
+        name: _nameController.text,
+        description: _descriptionController.text,
+        imageUrl: _imageUrl,
       );
 
       if (widget.artistId == null) {
-        await apiManager.service.createArtist(editData);
+        await _apiManager.service.createArtist(editData);
       }
       else {
-        await apiManager.service.updateArtist(widget.artistId!, editData);
+        await _apiManager.service.updateArtist(widget.artistId!, editData);
       }
 
-      if (imageUrl != null) {
+      if (_imageUrl != null) {
         imageCache.clear();
         imageCache.clearLiveImages();
       }
@@ -108,76 +108,76 @@ class _ArtistEditPageState extends State<ArtistEditPage> {
     catch (error) {
       if (!mounted) return;
       log("An error occurred while saving artist: $error", error: error, level: Level.error.value);
-      showErrorDialog(context, lm.edit_artist_save_error);
+      showErrorDialog(context, _lm.edit_artist_save_error);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: formKey,
+      key: _formKey,
       child: ResponsiveEditView(
-        title: lm.edit_artist_title,
+        title: _lm.edit_artist_title,
         actions: [
           ElevatedButton.icon(
             onPressed: () {},
-            label: Text(lm.dialog_delete),
+            label: Text(_lm.dialog_delete),
             icon: Icon(Icons.delete_forever),
             style: ElevatedButton.styleFrom(
-              backgroundColor: theme.colorScheme.errorContainer,
-              foregroundColor: theme.colorScheme.onErrorContainer,
+              backgroundColor: _theme.colorScheme.errorContainer,
+              foregroundColor: _theme.colorScheme.onErrorContainer,
             ),
           ),
           ElevatedButton.icon(
             onPressed: () => openMetadataDialog(context),
-            label: Text(lm.edit_artist_search_metadata),
+            label: Text(_lm.edit_artist_search_metadata),
             icon: Icon(Icons.search),
             style: ElevatedButton.styleFrom(
-              backgroundColor: theme.colorScheme.secondaryContainer,
-              foregroundColor: theme.colorScheme.onSecondaryContainer,
+              backgroundColor: _theme.colorScheme.secondaryContainer,
+              foregroundColor: _theme.colorScheme.onSecondaryContainer,
             ),
           ),
           ElevatedButton.icon(
             onPressed: save,
-            label: Text(lm.dialog_save),
+            label: Text(_lm.dialog_save),
             icon: Icon(Icons.save),
             style: ElevatedButton.styleFrom(
-              backgroundColor: theme.colorScheme.primaryContainer,
-              foregroundColor: theme.colorScheme.onPrimaryContainer,
+              backgroundColor: _theme.colorScheme.primaryContainer,
+              foregroundColor: _theme.colorScheme.onPrimaryContainer,
             ),
           ),
         ],
         imageEditWidget: ImageEditField(
           onImageChanged: (url) {
             setState(() {
-              imageUrl = url;
+              _imageUrl = url;
             });
           },
           fallbackImageUrl: "/api/artists/${widget.artistId}/image?quality=original",
-          imageUrl: imageUrl,
-          label: lm.edit_artist_image,
+          imageUrl: _imageUrl,
+          label: _lm.edit_artist_image,
           size: 256,
         ),
         children: [
           TextFormField(
-            controller: nameController,
+            controller: _nameController,
             decoration: InputDecoration(
-              labelText: lm.edit_artist_name,
+              labelText: _lm.edit_artist_name,
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return lm.edit_artist_name_validation_empty;
+                return _lm.edit_artist_name_validation_empty;
               }
               else if (value.length > 255) {
-                return lm.edit_artist_name_validation_length;
+                return _lm.edit_artist_name_validation_length;
               }
               return null;
             },
           ),
           TextFormField(
-            controller: descriptionController,
+            controller: _descriptionController,
             decoration: InputDecoration(
-              labelText: lm.edit_artist_description,
+              labelText: _lm.edit_artist_description,
             ),
             keyboardType: TextInputType.multiline,
             minLines: 3,

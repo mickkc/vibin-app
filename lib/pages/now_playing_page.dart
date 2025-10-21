@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/nowplaying/now_playing_control_bar.dart';
@@ -35,32 +34,24 @@ class NowPlayingPage extends StatefulWidget {
 
 class _NowPlayingPageState extends State<NowPlayingPage> {
 
-  AudioManager audioManager = getIt<AudioManager>();
-  late MediaItem? currentMediaItem = audioManager.getCurrentMediaItem();
-  late bool isPlaying = audioManager.isPlaying;
-  late LoopMode repeatMode = audioManager.loopMode;
-  late bool shuffleEnabled = audioManager.isShuffling;
+  final _audioManager = getIt<AudioManager>();
+  late MediaItem? _currentMediaItem = _audioManager.getCurrentMediaItem();
 
-  List<StreamSubscription> subscriptions = [];
+  late final StreamSubscription _currentMediaItemSubscription;
 
   _NowPlayingPageState() {
-    subscriptions.add(audioManager.audioPlayer.sequenceStateStream.listen((event) {
-      final tag = event.currentSource?.tag;
-      if (tag is MediaItem) {
-        if (tag.id != currentMediaItem?.id) {
-          setState(() {
-            currentMediaItem = audioManager.getCurrentMediaItem();
-          });
-        }
+    _currentMediaItemSubscription = _audioManager.currentMediaItemStream.listen((mediaItem) {
+      if (mediaItem.id != _currentMediaItem?.id) {
+        setState(() {
+          _currentMediaItem = _audioManager.getCurrentMediaItem();
+        });
       }
-    }));
+    });
   }
 
   @override
   void dispose() {
-    for (var sub in subscriptions) {
-      sub.cancel();
-    }
+    _currentMediaItemSubscription.cancel();
     super.dispose();
   }
 
@@ -72,37 +63,37 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
         padding: const EdgeInsets.all(32.0),
         child: Wrap(
           runSpacing: 32,
-          children: currentMediaItem == null ? [
+          children: _currentMediaItem == null ? [
             const Text("No track is currently playing")
           ] : [
             RowSmallColumn(
               spacing: 32,
               rowChildren: [
                 NetworkImageWidget(
-                  url: "/api/tracks/${currentMediaItem!.id}/cover?quality=original",
+                  url: "/api/tracks/${_currentMediaItem!.id}/cover?quality=original",
                   width: 200,
                   height: 200,
                 ),
                 Expanded(
                   child: TrackInfoView(
-                    trackId: int.parse(currentMediaItem!.id),
+                    trackId: int.parse(_currentMediaItem!.id),
                     showMetadata: true
                   ),
                 ),
               ],
               columnChildren: [
                 NetworkImageWidget(
-                  url: "/api/tracks/${currentMediaItem!.id}/cover?quality=original",
+                  url: "/api/tracks/${_currentMediaItem!.id}/cover?quality=original",
                   width: width * 0.75,
                   height: width * 0.75,
                 ),
                 TrackInfoView(
-                  trackId: int.parse(currentMediaItem!.id),
+                  trackId: int.parse(_currentMediaItem!.id),
                   showMetadata: false,
                 ),
               ]
             ),
-            NowPlayingControlBar(mediaItem: currentMediaItem!)
+            NowPlayingControlBar(mediaItem: _currentMediaItem!)
           ]
         ),
       )

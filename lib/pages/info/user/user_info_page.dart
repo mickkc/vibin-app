@@ -28,20 +28,20 @@ class UserInfoPage extends StatefulWidget {
 
 class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderStateMixin {
 
-  final ApiManager apiManager = getIt<ApiManager>();
-  final AuthState authState = getIt<AuthState>();
+  final _apiManager = getIt<ApiManager>();
+  final _authState = getIt<AuthState>();
 
-  late final showPlaylists = authState.hasPermission(PermissionType.viewPlaylists);
-  late final showActivity = authState.hasPermissions([
+  late final _showPlaylists = _authState.hasPermission(PermissionType.viewPlaylists);
+  late final _showActivity = _authState.hasPermissions([
     PermissionType.viewTracks,
     PermissionType.viewArtists,
   ]);
-  late final showUploads = authState.hasPermission(PermissionType.viewTracks);
-  late final showEdit = authState.hasPermission(PermissionType.manageUsers);
-  late final showPermissions = authState.hasPermission(PermissionType.managePermissions);
+  late final _showUploads = _authState.hasPermission(PermissionType.viewTracks);
+  late final _showEdit = _authState.hasPermission(PermissionType.manageUsers);
+  late final _showPermissions = _authState.hasPermission(PermissionType.managePermissions);
 
-  late Future<User> userFuture = apiManager.service.getUserById(widget.userId);
-  late final TabController tabController;
+  late Future<User> _userFuture = _apiManager.service.getUserById(widget.userId);
+  late final TabController _tabController;
 
   @override
   void initState() {
@@ -50,26 +50,26 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
     var tabs = 1;
 
     // Playlists
-    if (showPlaylists) tabs++;
+    if (_showPlaylists) tabs++;
 
     // Activity
-    if (showActivity) tabs++;
+    if (_showActivity) tabs++;
 
     // Uploads
-    if (showUploads) tabs++;
+    if (_showUploads) tabs++;
 
     // Edit
-    if (showEdit) tabs++;
+    if (_showEdit) tabs++;
 
     // Permissions
-    if (showPermissions) tabs++;
+    if (_showPermissions) tabs++;
 
-    tabController = TabController(length: tabs, vsync: this);
+    _tabController = TabController(length: tabs, vsync: this);
   }
 
   @override
   void dispose() {
-    tabController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -83,7 +83,7 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
         spacing: 16,
         children: [
           FutureContent(
-            future: userFuture,
+            future: _userFuture,
             builder: (context, user) {
               return Row(
                 spacing: 16,
@@ -123,23 +123,23 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
               }
 
               return TabBar(
-                controller: tabController,
+                controller: _tabController,
                 tabs: [
                   getTab(lm.users_info, Icons.info),
 
-                  if (showPlaylists)
+                  if (_showPlaylists)
                     getTab(lm.users_playlists, Icons.playlist_play),
 
-                  if (showActivity)
+                  if (_showActivity)
                     getTab(lm.users_activity, Icons.timeline),
 
-                  if (showUploads)
+                  if (_showUploads)
                     getTab(lm.users_uploads, Icons.upload),
 
-                  if (showEdit)
+                  if (_showEdit)
                     getTab(lm.users_edit, Icons.edit),
 
-                  if (showPermissions)
+                  if (_showPermissions)
                     getTab(lm.users_permissions, Icons.lock),
                 ],
               );
@@ -148,37 +148,37 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
 
           Expanded(
             child: TabBarView(
-              controller: tabController,
+              controller: _tabController,
               children: [
                 FutureContent(
-                  future: userFuture,
+                  future: _userFuture,
                   builder: (context, user) {
                     return UserInfoTab(user: user);
                   }
                 ),
 
-                if (showPlaylists)
+                if (_showPlaylists)
                   UserPlaylistsTab(userId: widget.userId),
 
-                if (showActivity)
+                if (_showActivity)
                   UserActivityTab(userId: widget.userId),
 
-                if (showUploads)
+                if (_showUploads)
                   Center(child: Text("Uploads")),
 
-                if (showEdit)
+                if (_showEdit)
                   Expanded(
                     child: UserEditPage(
                       userId: widget.userId,
                       onSave: (user) {
                         setState(() {
-                          userFuture = Future.value(user);
+                          _userFuture = Future.value(user);
                         });
                       },
                     )
                   ),
 
-                if (showPermissions)
+                if (_showPermissions)
                   UserPermissionsTab(userId: widget.userId),
               ],
             ),

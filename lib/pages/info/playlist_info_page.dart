@@ -68,10 +68,10 @@ class PlaylistInfoPage extends StatelessWidget {
     );
   }
 
-    final ApiManager apiManager = getIt<ApiManager>();
-    final AudioManager audioManager = getIt<AudioManager>();
-    late final playlistDataFuture = apiManager.service.getPlaylist(playlistId);
-    final shuffleState = ShuffleState(isShuffling: false);
+  final _apiManager = getIt<ApiManager>();
+  final _audioManager = getIt<AudioManager>();
+  late final _playlistDataFuture = _apiManager.service.getPlaylist(playlistId);
+  final _shuffleState = ShuffleState(isShuffling: false);
 
   @override
   Widget build(BuildContext context) {
@@ -89,38 +89,38 @@ class PlaylistInfoPage extends StatelessWidget {
                 height: constraints.maxWidth * 0.75
               ),
               SizedBox(
-                  width: constraints.maxWidth,
-                  child: playlistInfo(context, playlistDataFuture)
+                width: constraints.maxWidth,
+                child: playlistInfo(context, _playlistDataFuture)
               )
             ];
           },
           rowBuilder: (context, constraints) {
             return [
               NetworkImageWidget(
-                  url: "/api/playlists/$playlistId/image?quality=original",
-                  width: 200,
-                  height: 200
+                url: "/api/playlists/$playlistId/image?quality=original",
+                width: 200,
+                height: 200
               ),
               Expanded(
-                  child: playlistInfo(context, playlistDataFuture)
+                child: playlistInfo(context, _playlistDataFuture)
               )
             ];
           },
         ),
         FutureContent(
-          future: playlistDataFuture,
+          future: _playlistDataFuture,
           builder: (context, data) {
-            return PlaylistActionBar(playlistData: data, shuffleState: shuffleState);
+            return PlaylistActionBar(playlistData: data, shuffleState: _shuffleState);
           }
         ),
         FutureContent(
-          future: playlistDataFuture,
+          future: _playlistDataFuture,
           builder: (context, data) {
             return TrackList(
               tracks: data.tracks.map((e) => e.track).toList(),
               playlistId: playlistId,
               onTrackTapped: (track) {
-                audioManager.playPlaylistData(data, track.id, shuffleState.isShuffling);
+                _audioManager.playPlaylistData(data, track.id, _shuffleState.isShuffling);
               }
             );
           }

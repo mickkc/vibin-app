@@ -18,19 +18,20 @@ import '../settings/settings_manager.dart';
 
 class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
-  late final ApiManager apiManager;
+  late final ApiManager _apiManager;
   late final AudioPlayer audioPlayer;
-  late final ClientData clientData;
+  late final ClientData _clientData;
 
-  CurrentAudioType? currentAudioType;
+  CurrentAudioType? _currentAudioType;
+  CurrentAudioType? get currentAudioType => _currentAudioType;
 
   void setAudioType(AudioType type, int? id) {
-    currentAudioType = CurrentAudioType(audioType: type, id: id);
+    _currentAudioType = CurrentAudioType(audioType: type, id: id);
   }
 
   AudioManager() {
-    apiManager = getIt<ApiManager>();
-    clientData = getIt<ClientData>();
+    _apiManager = getIt<ApiManager>();
+    _clientData = getIt<ClientData>();
     audioPlayer = AudioPlayer(
       audioLoadConfiguration: AudioLoadConfiguration(
         androidLoadControl: AndroidLoadControl(
@@ -151,7 +152,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   Future<void> playPlaylist(Playlist playlist, bool shuffle) async {
     await audioPlayer.stop();
-    final playlistData = await apiManager.service.getPlaylist(playlist.id);
+    final playlistData = await _apiManager.service.getPlaylist(playlist.id);
     await playPlaylistData(playlistData, null, shuffle);
   }
 
@@ -163,17 +164,17 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     audioPlayer.setShuffleModeEnabled(shuffle);
     setAudioType(AudioType.playlist, data.playlist.id);
 
-    final mediaToken = await clientData.getMediaToken();
+    final mediaToken = await _clientData.getMediaToken();
     final sources = data.tracks.map((track) => fromTrack(track.track, mediaToken)).toList();
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSources(sources, initialIndex: initialIndex);
     await play();
-    await apiManager.service.reportPlaylistListen(data.playlist.id);
+    await _apiManager.service.reportPlaylistListen(data.playlist.id);
   }
 
   Future<void> playAlbum(Album album, bool shuffle) async {
     await audioPlayer.stop();
-    final albumData = await apiManager.service.getAlbum(album.id);
+    final albumData = await _apiManager.service.getAlbum(album.id);
     await playAlbumData(albumData, null, shuffle);
   }
 
@@ -184,16 +185,16 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     audioPlayer.setShuffleModeEnabled(shuffle);
     setAudioType(AudioType.album, data.album.id);
 
-    final mediaToken = await clientData.getMediaToken();
+    final mediaToken = await _clientData.getMediaToken();
     final sources = data.tracks.map((track) => fromTrack(track, mediaToken)).toList();
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSources(sources, initialIndex: initialIndex);
     await play();
-    await apiManager.service.reportAlbumListen(data.album.id);
+    await _apiManager.service.reportAlbumListen(data.album.id);
   }
 
   Future<void> playMinimalTrack(MinimalTrack track) async {
-    final mediaToken = await clientData.getMediaToken();
+    final mediaToken = await _clientData.getMediaToken();
     final source = fromMinimalTrack(track, mediaToken);
     await audioPlayer.stop();
 
@@ -205,7 +206,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   }
 
   Future<void> playTrack(Track track) async {
-    final mediaToken = await clientData.getMediaToken();
+    final mediaToken = await _clientData.getMediaToken();
     final source = fromTrack(track, mediaToken);
     await audioPlayer.stop();
 
@@ -217,7 +218,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   }
 
   Future<void> playMinimalTrackWithQueue(MinimalTrack track, List<MinimalTrack> queue) async {
-    final mediaToken = await clientData.getMediaToken();
+    final mediaToken = await _clientData.getMediaToken();
     final sources = queue.map((t) => fromMinimalTrack(t, mediaToken)).toList();
     final initialIndex = queue.indexWhere((t) => t.id == track.id);
     await audioPlayer.stop();
@@ -230,8 +231,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   }
 
   Future<void> addTrackToQueue(int trackId) async {
-    final track = await apiManager.service.getTrack(trackId);
-    final mediaToken = await clientData.getMediaToken();
+    final track = await _apiManager.service.getTrack(trackId);
+    final mediaToken = await _clientData.getMediaToken();
     final source = fromTrack(track, mediaToken);
     await audioPlayer.addAudioSource(source);
 
@@ -253,8 +254,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   }
 
   AudioSource fromMinimalTrack(MinimalTrack track, String mediaToken) {
-    final url = "${apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/stream?mediaToken=$mediaToken";
-    final artUrl = "${apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/cover?mediaToken=$mediaToken";
+    final url = "${_apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/stream?mediaToken=$mediaToken";
+    final artUrl = "${_apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/cover?mediaToken=$mediaToken";
     final mi = MediaItem(
       id: track.id.toString(),
       title: track.title,
@@ -263,21 +264,21 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       duration: track.duration == null ? null : Duration(milliseconds: track.duration!),
       artUri: Uri.parse(artUrl),
       artHeaders: {
-        'Authorization': 'Bearer ${apiManager.accessToken}',
+        'Authorization': 'Bearer ${_apiManager.accessToken}',
       }
     );
     return AudioSource.uri(
         Uri.parse(url),
         tag: mi,
         headers: {
-          'Authorization': 'Bearer ${apiManager.accessToken}',
+          'Authorization': 'Bearer ${_apiManager.accessToken}',
         }
     );
   }
 
   AudioSource fromTrack(Track track, String mediaToken) {
-    final url = "${apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/stream?mediaToken=$mediaToken";
-    final artUrl = "${apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/cover?mediaToken=$mediaToken";
+    final url = "${_apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/stream?mediaToken=$mediaToken";
+    final artUrl = "${_apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/cover?mediaToken=$mediaToken";
     final mi = MediaItem(
       id: track.id.toString(),
       title: track.title,
@@ -286,14 +287,14 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       duration: track.duration == null ? null : Duration(milliseconds: track.duration!),
       artUri: Uri.parse(artUrl),
       artHeaders: {
-        'Authorization': 'Bearer ${apiManager.accessToken}',
+        'Authorization': 'Bearer ${_apiManager.accessToken}',
       }
     );
     return AudioSource.uri(
       Uri.parse(url),
       tag: mi,
       headers: {
-        'Authorization': 'Bearer ${apiManager.accessToken}',
+        'Authorization': 'Bearer ${_apiManager.accessToken}',
       }
     );
   }

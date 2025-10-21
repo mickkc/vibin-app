@@ -24,8 +24,8 @@ class AppSettingsPage extends StatefulWidget {
 
 class _AppSettingsPageState extends State<AppSettingsPage> {
 
-  final SettingsManager settingsManager = getIt<SettingsManager>();
-  late final lm = AppLocalizations.of(context)!;
+  final _settingsManager = getIt<SettingsManager>();
+  late final _lm = AppLocalizations.of(context)!;
 
   @override
   Widget build(BuildContext context) {
@@ -34,18 +34,18 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
         children: [
 
           SettingsTitle(
-            title: lm.settings_app_appearance_title,
+            title: _lm.settings_app_appearance_title,
           ),
 
           EnumSettingsField(
             settingKey: Settings.themeMode,
-            title: lm.settings_app_brightness_title,
+            title: _lm.settings_app_brightness_title,
             icon: Icons.color_lens,
             optionLabel: (option) {
               return switch (option) {
-                ThemeMode.system => lm.settings_app_brightness_system,
-                ThemeMode.light => lm.settings_app_brightness_light,
-                ThemeMode.dark => lm.settings_app_brightness_dark,
+                ThemeMode.system => _lm.settings_app_brightness_system,
+                ThemeMode.light => _lm.settings_app_brightness_light,
+                ThemeMode.dark => _lm.settings_app_brightness_dark,
               };
             },
             onChanged: (mode) {
@@ -55,23 +55,23 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
 
           EnumSettingsField(
             settingKey: Settings.colorScheme,
-            title: lm.settings_app_theme_title,
+            title: _lm.settings_app_theme_title,
             optionLabel: (key) {
               return switch(key) {
-                ColorSchemeKey.material3 => lm.settings_app_theme_material3_title,
-                ColorSchemeKey.gruvbox => lm.settings_app_theme_gruvbox_title,
+                ColorSchemeKey.material3 => _lm.settings_app_theme_material3_title,
+                ColorSchemeKey.gruvbox => _lm.settings_app_theme_gruvbox_title,
               };
             },
             icon: Icons.format_paint,
             onChanged: (key) {
               final firstAccentColor = ColorSchemeList.themes[key]!.getAccentColors(Theme.brightnessOf(context)).first;
-              settingsManager.set(Settings.accentColor, firstAccentColor);
+              _settingsManager.set(Settings.accentColor, firstAccentColor);
               themeNotifier.value = themeNotifier.value.setColorSchemeKey(key).setAccentColor(firstAccentColor);
             }
           ),
 
           ListTile(
-            title: Text(lm.settings_app_accent_color_title),
+            title: Text(_lm.settings_app_accent_color_title),
             subtitle: Padding(
               padding: const EdgeInsets.all(8.0),
               child: AccentColorPicker(),
@@ -81,14 +81,14 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
 
           EnumSettingsField(
             settingKey: Settings.lyricsDesign,
-            title: lm.settings_app_lyrics_design_title,
+            title: _lm.settings_app_lyrics_design_title,
             optionLabel: (option) {
               return switch (option) {
-                LyricsDesign.system => lm.settings_app_lyrics_design_system,
-                LyricsDesign.primary => lm.settings_app_lyrics_design_primary,
-                LyricsDesign.dynamic => lm.settings_app_lyrics_design_dynamic,
-                LyricsDesign.dynamicDark => lm.settings_app_lyrics_design_dynamic_dark,
-                LyricsDesign.dynamicLight => lm.settings_app_lyrics_design_dynamic_light,
+                LyricsDesign.system => _lm.settings_app_lyrics_design_system,
+                LyricsDesign.primary => _lm.settings_app_lyrics_design_primary,
+                LyricsDesign.dynamic => _lm.settings_app_lyrics_design_dynamic,
+                LyricsDesign.dynamicDark => _lm.settings_app_lyrics_design_dynamic_dark,
+                LyricsDesign.dynamicLight => _lm.settings_app_lyrics_design_dynamic_light,
               };
             },
             icon: Icons.lyrics,
@@ -100,13 +100,13 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
           Divider(),
 
           SettingsTitle(
-            title: lm.settings_app_behavior_title,
+            title: _lm.settings_app_behavior_title,
           ),
 
           IntSettingsInputField(
             settingsKey: Settings.pageSize,
-            label: lm.settings_app_page_size_title,
-            description: lm.settings_app_page_size_description,
+            label: _lm.settings_app_page_size_title,
+            description: _lm.settings_app_page_size_description,
             icon: Icons.format_list_numbered,
             min: 10,
             max: 100,
@@ -114,22 +114,22 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
 
           BoolSettingsField(
             settingsKey: Settings.advancedTrackSearch,
-            title: lm.settings_app_advanced_track_search_title,
-            description: lm.settings_app_advanced_track_search_description,
+            title: _lm.settings_app_advanced_track_search_title,
+            description: _lm.settings_app_advanced_track_search_description,
             icon: Icons.manage_search
           ),
 
           BoolSettingsField(
             settingsKey: Settings.showOwnPlaylistsByDefault,
-            title: lm.settings_app_show_own_playlists_by_default,
-            description: lm.settings_app_show_own_playlists_by_default_description,
+            title: _lm.settings_app_show_own_playlists_by_default,
+            description: _lm.settings_app_show_own_playlists_by_default_description,
             icon: Icons.playlist_play
           ),
 
           BoolSettingsField(
             settingsKey: Settings.showSinglesInAlbumsByDefault,
-            title: lm.settings_app_show_singles_in_albums_by_default,
-            description: lm.settings_app_show_singles_in_albums_by_default_description,
+            title: _lm.settings_app_show_singles_in_albums_by_default,
+            description: _lm.settings_app_show_singles_in_albums_by_default_description,
             icon: Icons.library_music
           ),
 

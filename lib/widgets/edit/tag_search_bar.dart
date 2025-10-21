@@ -21,17 +21,18 @@ class TagSearchBar extends StatefulWidget {
 }
 
 class _TagSearchBarState extends State<TagSearchBar> {
-  final TextEditingController searchController = TextEditingController();
+  
+  final _searchController = TextEditingController();
 
-  final ApiManager apiManager = getIt<ApiManager>();
-  late final lm = AppLocalizations.of(context)!;
+  final _apiManager = getIt<ApiManager>();
+  late final _lm = AppLocalizations.of(context)!;
 
-  Timer? searchDebounce;
+  Timer? _searchDebounce;
 
-  late Future<List<Tag>> tagsFuture;
+  late Future<List<Tag>> _tagsFuture;
 
   void refreshTags() {
-    tagsFuture = apiManager.service.getAllTags(searchController.text, null);
+    _tagsFuture = _apiManager.service.getAllTags(_searchController.text, null);
   }
 
   @override
@@ -42,8 +43,8 @@ class _TagSearchBarState extends State<TagSearchBar> {
 
   @override
   void dispose() {
-    searchDebounce?.cancel();
-    searchController.dispose();
+    _searchDebounce?.cancel();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -55,17 +56,17 @@ class _TagSearchBarState extends State<TagSearchBar> {
       spacing: 8,
       children: [
         TextField(
-          controller: searchController,
+          controller: _searchController,
           decoration: InputDecoration(
-            labelText: lm.search,
+            labelText: _lm.search,
             prefixIcon: Icon(Icons.search),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(8.0)),
             )
           ),
           onChanged: (value) {
-            if (searchDebounce?.isActive ?? false) searchDebounce!.cancel();
-            searchDebounce = Timer(const Duration(milliseconds: 300), () {
+            if (_searchDebounce?.isActive ?? false) _searchDebounce!.cancel();
+            _searchDebounce = Timer(const Duration(milliseconds: 300), () {
               setState(() {
                 refreshTags();
               });
@@ -73,7 +74,7 @@ class _TagSearchBarState extends State<TagSearchBar> {
           },
         ),
         FutureContent(
-          future: tagsFuture,
+          future: _tagsFuture,
           builder: (context, tags) {
             final filteredTags = tags.where((tag) => !widget.ignoredTags.any((ignored) => ignored.id == tag.id)).toList();
             return SingleChildScrollView(

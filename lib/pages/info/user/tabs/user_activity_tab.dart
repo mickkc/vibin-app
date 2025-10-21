@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vibin_app/dtos/user_activity.dart';
 import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
 import 'package:vibin_app/widgets/future_content.dart';
@@ -13,8 +12,8 @@ class UserActivityTab extends StatelessWidget {
 
   UserActivityTab({super.key, required this.userId});
 
-  final ApiManager apiManager = getIt<ApiManager>();
-  late final Future<UserActivity> activityFuture = apiManager.service.getUserActivity(userId, null, null);
+  final _apiManager = getIt<ApiManager>();
+  late final _activityFuture = _apiManager.service.getUserActivity(userId, null, null);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,7 @@ class UserActivityTab extends StatelessWidget {
         children: [
           SectionHeader(title: lm.user_activity_last_tracks),
           FutureContent(
-            future: activityFuture,
+            future: _activityFuture,
             hasData: (a) => a.recentTracks.isNotEmpty,
             height: 210,
             builder: (context, activity) {
@@ -52,7 +51,7 @@ class UserActivityTab extends StatelessWidget {
 
           SectionHeader(title: lm.user_activity_top_tracks),
           FutureContent(
-            future: activityFuture,
+            future: _activityFuture,
             hasData: (a) => a.topTracks.isNotEmpty,
             height: 210,
             builder: (context, activity) {
@@ -75,7 +74,7 @@ class UserActivityTab extends StatelessWidget {
 
           SectionHeader(title: lm.user_activity_top_artists),
           FutureContent(
-            future: activityFuture,
+            future: _activityFuture,
             hasData: (a) => a.topArtists.isNotEmpty,
             height: 210,
             builder: (context, activity) {

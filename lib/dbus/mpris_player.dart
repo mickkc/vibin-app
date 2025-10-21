@@ -6,10 +6,10 @@ import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/main.dart';
 
 class MprisPlayer extends DBusObject {
-  late AudioManager audioManager;
+  late AudioManager _audioManager;
 
   MprisPlayer() : super(DBusObjectPath("/org/mpris/MediaPlayer2")) {
-    audioManager = getIt<AudioManager>();
+    _audioManager = getIt<AudioManager>();
     subscribeToAudioPlayer();
   }
 
@@ -18,17 +18,17 @@ class MprisPlayer extends DBusObject {
     log("DBus: GetAllProperties called for interface: $interface");
     if (interface == "org.mpris.MediaPlayer2.Player") {
       return DBusGetAllPropertiesResponse({
-        "PlaybackStatus": DBusString(audioManager.isPlaying ? "Playing" : "Paused"),
-        "LoopStatus": DBusString(fromLoopMode(audioManager.loopMode)),
-        "Rate": DBusDouble(audioManager.speed),
-        "Shuffle": DBusBoolean(audioManager.isShuffling),
+        "PlaybackStatus": DBusString(_audioManager.isPlaying ? "Playing" : "Paused"),
+        "LoopStatus": DBusString(fromLoopMode(_audioManager.loopMode)),
+        "Rate": DBusDouble(_audioManager.speed),
+        "Shuffle": DBusBoolean(_audioManager.isShuffling),
         "Metadata": getCurrentTrackMetadata(),
-        "Volume": DBusDouble(audioManager.volume),
-        "Position": DBusInt64(audioManager.position.inMicroseconds),
+        "Volume": DBusDouble(_audioManager.volume),
+        "Position": DBusInt64(_audioManager.position.inMicroseconds),
         "MinimumRate": DBusDouble(0.25),
         "MaximumRate": DBusDouble(2.0),
-        "CanGoNext": DBusBoolean(audioManager.hasNext),
-        "CanGoPrevious": DBusBoolean(audioManager.hasPrevious),
+        "CanGoNext": DBusBoolean(_audioManager.hasNext),
+        "CanGoPrevious": DBusBoolean(_audioManager.hasPrevious),
         "CanPlay": DBusBoolean(true),
         "CanPause": DBusBoolean(true),
         "CanSeek": DBusBoolean(true),
@@ -57,45 +57,45 @@ class MprisPlayer extends DBusObject {
         case "Raise":
           return DBusMethodSuccessResponse();
         case "Quit":
-          audioManager.stop();
+          _audioManager.stop();
           return DBusMethodSuccessResponse();
       }
     }
     else if (methodCall.interface == "org.mpris.MediaPlayer2.Player") {
       switch (methodCall.name) {
         case "Next":
-          await audioManager.skipToNext();
+          await _audioManager.skipToNext();
           return DBusMethodSuccessResponse();
         case "Previous":
-          await audioManager.skipToPrevious();
+          await _audioManager.skipToPrevious();
           return DBusMethodSuccessResponse();
         case "Pause":
-          await audioManager.pause();
+          await _audioManager.pause();
           return DBusMethodSuccessResponse();
         case "PlayPause":
-          await audioManager.playPause();
+          await _audioManager.playPause();
           return DBusMethodSuccessResponse();
         case "Stop":
-          await audioManager.stop();
+          await _audioManager.stop();
           return DBusMethodSuccessResponse();
         case "Play":
-          await audioManager.play();
+          await _audioManager.play();
           return DBusMethodSuccessResponse();
         case "Seek":
         {
           final int offset = methodCall.values[0].asInt64();
-          final currentPosition = audioManager.position;
+          final currentPosition = _audioManager.position;
           final newPosition = currentPosition + Duration(microseconds: offset);
-          await audioManager.seek(newPosition);
+          await _audioManager.seek(newPosition);
           return DBusMethodSuccessResponse();
         }
         case "SetPosition":
         {
           final DBusObjectPath trackIdPath = methodCall.values[0].asObjectPath();
           final int position = methodCall.values[1].asInt64();
-          final currentMediaItem = audioManager.getCurrentMediaItem();
+          final currentMediaItem = _audioManager.getCurrentMediaItem();
           if (currentMediaItem != null && currentMediaItem.id == (trackIdPath.value.split("/").last)) {
-            await audioManager.seek(Duration(microseconds: position));
+            await _audioManager.seek(Duration(microseconds: position));
             return DBusMethodSuccessResponse();
           } else {
             return DBusMethodErrorResponse("Track ID does not match current track.");
@@ -132,27 +132,27 @@ class MprisPlayer extends DBusObject {
     else if (interface == "org.mpris.MediaPlayer2.Player") {
       switch (name) {
         case "PlaybackStatus":
-          return DBusGetPropertyResponse(DBusString(audioManager.isPlaying ? "Playing" : "Paused"));
+          return DBusGetPropertyResponse(DBusString(_audioManager.isPlaying ? "Playing" : "Paused"));
         case "LoopStatus":
-          return DBusGetPropertyResponse(DBusString(fromLoopMode(audioManager.loopMode)));
+          return DBusGetPropertyResponse(DBusString(fromLoopMode(_audioManager.loopMode)));
         case "Rate":
-          return DBusGetPropertyResponse(DBusDouble(audioManager.speed));
+          return DBusGetPropertyResponse(DBusDouble(_audioManager.speed));
         case "Shuffle":
-          return DBusGetPropertyResponse(DBusBoolean(audioManager.isShuffling));
+          return DBusGetPropertyResponse(DBusBoolean(_audioManager.isShuffling));
         case "Metadata":
           return DBusGetPropertyResponse(getCurrentTrackMetadata());
         case "Volume":
-          return DBusGetPropertyResponse(DBusDouble(audioManager.volume));
+          return DBusGetPropertyResponse(DBusDouble(_audioManager.volume));
         case "Position":
-          return DBusGetPropertyResponse(DBusInt64(audioManager.position.inMicroseconds));
+          return DBusGetPropertyResponse(DBusInt64(_audioManager.position.inMicroseconds));
         case "MinimumRate":
           return DBusGetPropertyResponse(DBusDouble(0.25));
         case "MaximumRate":
           return DBusGetPropertyResponse(DBusDouble(2.0));
         case "CanGoNext":
-          return DBusGetPropertyResponse(DBusBoolean(audioManager.hasNext));
+          return DBusGetPropertyResponse(DBusBoolean(_audioManager.hasNext));
         case "CanGoPrevious":
-          return DBusGetPropertyResponse(DBusBoolean(audioManager.hasPrevious));
+          return DBusGetPropertyResponse(DBusBoolean(_audioManager.hasPrevious));
         case "CanPlay":
         case "CanPause":
         case "CanSeek":
@@ -173,28 +173,28 @@ class MprisPlayer extends DBusObject {
           final loopStatus = value.asString();
           switch (loopStatus) {
             case "None":
-              audioManager.loopMode = LoopMode.off;
+              _audioManager.loopMode = LoopMode.off;
               return DBusMethodSuccessResponse();
             case "Track":
-              audioManager.loopMode = LoopMode.one;
+              _audioManager.loopMode = LoopMode.one;
               return DBusMethodSuccessResponse();
             case "Playlist":
-              audioManager.loopMode = LoopMode.all;
+              _audioManager.loopMode = LoopMode.all;
               return DBusMethodSuccessResponse();
             default:
               return DBusMethodErrorResponse("Invalid LoopStatus value.");
           }
         case "Rate":
           final rate = value.asDouble();
-          audioManager.speed = rate;
+          _audioManager.speed = rate;
           return DBusMethodSuccessResponse();
         case "Shuffle":
           final shuffle = value.asBoolean();
-          audioManager.isShuffling = shuffle;
+          _audioManager.isShuffling = shuffle;
           return DBusMethodSuccessResponse();
         case "Volume":
           final volume = value.asDouble();
-          audioManager.volume = volume;
+          _audioManager.volume = volume;
           return DBusMethodSuccessResponse();
       }
     }
@@ -202,11 +202,11 @@ class MprisPlayer extends DBusObject {
   }
 
   DBusDict getCurrentTrackMetadata() {
-    final currentMediaItem = audioManager.getCurrentMediaItem();
+    final currentMediaItem = _audioManager.getCurrentMediaItem();
     if (currentMediaItem != null) {
       return DBusDict.stringVariant({
         "mpris:trackid": DBusObjectPath("/org/mpris/MediaPlayer2/Track/${currentMediaItem.id}"),
-        "mpris:length": DBusInt64(audioManager.audioPlayer.duration?.inMicroseconds ?? 0),
+        "mpris:length": DBusInt64(_audioManager.audioPlayer.duration?.inMicroseconds ?? 0),
         "mpris:artUrl": DBusString(currentMediaItem.artUri.toString()),
         "mpris:album": DBusString(currentMediaItem.album ?? ""),
         "mpris:artist": DBusArray.string(currentMediaItem.artist?.split(", ") ?? []),
@@ -228,38 +228,38 @@ class MprisPlayer extends DBusObject {
   }
 
   void subscribeToAudioPlayer() {
-    audioManager.audioPlayer.currentIndexStream.listen((_) {
+    _audioManager.audioPlayer.currentIndexStream.listen((_) {
       emitPropertiesChanged("org.mpris.MediaPlayer2.Player", changedProperties: {
         "Metadata": getCurrentTrackMetadata(),
-        "Position": DBusInt64(audioManager.position.inMicroseconds),
+        "Position": DBusInt64(_audioManager.position.inMicroseconds),
       });
     });
-    audioManager.audioPlayer.playingStream.listen((playing) {
+    _audioManager.audioPlayer.playingStream.listen((playing) {
       emitPropertiesChanged("org.mpris.MediaPlayer2.Player", changedProperties: {
         "PlaybackStatus": DBusString(playing ? "Playing" : "Paused"),
       });
     });
-    audioManager.audioPlayer.shuffleModeEnabledStream.listen((shuffle) {
+    _audioManager.audioPlayer.shuffleModeEnabledStream.listen((shuffle) {
       emitPropertiesChanged("org.mpris.MediaPlayer2.Player", changedProperties: {
         "Shuffle": DBusBoolean(shuffle),
       });
     });
-    audioManager.audioPlayer.loopModeStream.listen((loopMode) {
+    _audioManager.audioPlayer.loopModeStream.listen((loopMode) {
       emitPropertiesChanged("org.mpris.MediaPlayer2.Player", changedProperties: {
         "LoopStatus": DBusString(fromLoopMode(loopMode)),
       });
     });
-    audioManager.audioPlayer.positionStream.listen((position) {
+    _audioManager.audioPlayer.positionStream.listen((position) {
       emitPropertiesChanged("org.mpris.MediaPlayer2.Player", changedProperties: {
         "Position": DBusInt64(position.inMicroseconds),
       });
     });
-    audioManager.audioPlayer.speedStream.listen((rate) {
+    _audioManager.audioPlayer.speedStream.listen((rate) {
       emitPropertiesChanged("org.mpris.MediaPlayer2.Player", changedProperties: {
         "Rate": DBusDouble(rate),
       });
     });
-    audioManager.audioPlayer.volumeStream.listen((volume) {
+    _audioManager.audioPlayer.volumeStream.listen((volume) {
       emitPropertiesChanged("org.mpris.MediaPlayer2.Player", changedProperties: {
         "Volume": DBusDouble(volume),
       });

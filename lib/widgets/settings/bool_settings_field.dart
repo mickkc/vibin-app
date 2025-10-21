@@ -23,9 +23,9 @@ class BoolSettingsField extends StatefulWidget {
 }
 
 class _BoolSettingsFieldState extends State<BoolSettingsField> {
-  final SettingsManager settingsManager = getIt<SettingsManager>();
 
-  late bool value = settingsManager.get(widget.settingsKey);
+  final _settingsManager = getIt<SettingsManager>();
+  late bool value = _settingsManager.get(widget.settingsKey);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class _BoolSettingsFieldState extends State<BoolSettingsField> {
       subtitle: widget.description != null ? Text(widget.description!) : null,
       secondary: widget.icon != null ? Icon(widget.icon) : null,
       onChanged: (bool newValue) {
-        settingsManager.set(widget.settingsKey, newValue);
+        _settingsManager.set(widget.settingsKey, newValue);
         setState(() {
           value = newValue;
         });

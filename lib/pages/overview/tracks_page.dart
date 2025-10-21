@@ -12,14 +12,14 @@ class TrackPage extends StatelessWidget {
 
   TrackPage({super.key});
 
-  final SettingsManager settingsManager = getIt<SettingsManager>();
+  final _settingsManager = getIt<SettingsManager>();
+  final _apiManager = getIt<ApiManager>();
 
   @override
   Widget build(BuildContext context) {
-    final ApiManager apiManager = getIt<ApiManager>();
     return PaginatedOverview(
       fetchFunction: (page, pageSize, query) {
-        return apiManager.service.searchTracks(query, settingsManager.get(Settings.advancedTrackSearch), page, pageSize);
+        return _apiManager.service.searchTracks(query, _settingsManager.get(Settings.advancedTrackSearch), page, pageSize);
       },
       type: EntityCardType.track,
       title: AppLocalizations.of(context)!.tracks,

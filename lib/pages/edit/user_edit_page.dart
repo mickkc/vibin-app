@@ -30,84 +30,84 @@ class UserEditPage extends StatefulWidget {
 
 class _UserEditPageState extends State<UserEditPage> {
 
-  final formKey = GlobalKey<FormState>();
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController displayNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _usernameController = TextEditingController();
+  final _displayNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _descriptionController = TextEditingController();
 
-  bool isAdmin = false;
-  bool isActive = true;
-  String? profileImageUrl;
-  String? initialUsername;
+  bool _isAdmin = false;
+  bool _isActive = true;
+  String? _profileImageUrl;
+  String? _initialUsername;
 
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
-  TextEditingController currentPasswordController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  final _currentPasswordController = TextEditingController();
 
-  final emailRegexp = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
+  final _emailRegexp = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
 
-  final ApiManager apiManager = getIt<ApiManager>();
-  final AuthState authState = getIt<AuthState>();
-  late final lm = AppLocalizations.of(context)!;
+  final _apiManager = getIt<ApiManager>();
+  final _authState = getIt<AuthState>();
+  late final _lm = AppLocalizations.of(context)!;
 
   @override
   void initState() {
     super.initState();
     if (widget.userId != null) {
-      apiManager.service.getUserById(widget.userId!).then((user) {
+      _apiManager.service.getUserById(widget.userId!).then((user) {
         setState(() {
-          usernameController.text = user.username;
-          displayNameController.text = user.displayName ?? "";
-          descriptionController.text = user.description;
-          emailController.text = user.email ?? "";
-          isAdmin = user.isAdmin;
-          isActive = user.isActive;
-          initialUsername = user.username;
+          _usernameController.text = user.username;
+          _displayNameController.text = user.displayName ?? "";
+          _descriptionController.text = user.description;
+          _emailController.text = user.email ?? "";
+          _isAdmin = user.isAdmin;
+          _isActive = user.isActive;
+          _initialUsername = user.username;
         });
       }).catchError((emailController) {
         if (!mounted) return;
-        showErrorDialog(context, lm.edit_user_load_error);
+        showErrorDialog(context, _lm.edit_user_load_error);
       });
     }
   }
 
   Future<void> save() async {
-    if (!formKey.currentState!.validate()) {
+    if (!_formKey.currentState!.validate()) {
       return;
     }
 
     try {
 
-      if (initialUsername != null && initialUsername != usernameController.text) {
-        final doesUserNameExist = await apiManager.service.checkUsernameExists(
-          usernameController.text
+      if (_initialUsername != null && _initialUsername != _usernameController.text) {
+        final doesUserNameExist = await _apiManager.service.checkUsernameExists(
+          _usernameController.text
         );
 
         if (doesUserNameExist.success) {
           if (!mounted) return;
-          showErrorDialog(context, lm.edit_user_username_validation_already_exists);
+          showErrorDialog(context, _lm.edit_user_username_validation_already_exists);
           return;
         }
       }
 
       final editData = UserEditData(
-        username: usernameController.text,
-        displayName: displayNameController.text.isEmpty ? null : displayNameController.text,
-        description: descriptionController.text.isEmpty ? null : descriptionController.text,
-        email: emailController.text.isEmpty ? null : emailController.text,
-        isAdmin: isAdmin,
-        isActive: isActive,
-        password: passwordController.text.isEmpty ? null : passwordController.text,
-        oldPassword: currentPasswordController.text.isEmpty ? null : currentPasswordController.text,
-        profilePictureUrl: profileImageUrl,
+        username: _usernameController.text,
+        displayName: _displayNameController.text.isEmpty ? null : _displayNameController.text,
+        description: _descriptionController.text.isEmpty ? null : _descriptionController.text,
+        email: _emailController.text.isEmpty ? null : _emailController.text,
+        isAdmin: _isAdmin,
+        isActive: _isActive,
+        password: _passwordController.text.isEmpty ? null : _passwordController.text,
+        oldPassword: _currentPasswordController.text.isEmpty ? null : _currentPasswordController.text,
+        profilePictureUrl: _profileImageUrl,
       );
 
       final savedUser = widget.userId == null
-        ? await apiManager.service.createUser(editData)
-        : await apiManager.service.updateUser(widget.userId!, editData);
+        ? await _apiManager.service.createUser(editData)
+        : await _apiManager.service.updateUser(widget.userId!, editData);
 
-      if (profileImageUrl != null) {
+      if (_profileImageUrl != null) {
         imageCache.clear();
         imageCache.clearLiveImages();
       }
@@ -117,7 +117,7 @@ class _UserEditPageState extends State<UserEditPage> {
     catch (e) {
       log("Failed to save user: $e", error: e, level: Level.error.value);
       if (!mounted) return;
-      showErrorDialog(context, lm.edit_user_save_error);
+      showErrorDialog(context, _lm.edit_user_save_error);
     }
   }
 
@@ -127,17 +127,17 @@ class _UserEditPageState extends State<UserEditPage> {
     final theme = Theme.of(context);
 
     return Form(
-      key: formKey,
+      key: _formKey,
       child: ResponsiveEditView(
-        title: lm.users_edit,
+        title: _lm.users_edit,
         imageEditWidget: ImageEditField(
           fallbackImageUrl: "/api/users/${widget.userId}/pfp",
-          imageUrl: profileImageUrl,
-          label: lm.edit_user_profile_image,
+          imageUrl: _profileImageUrl,
+          label: _lm.edit_user_profile_image,
           size: 256,
           onImageChanged: (image) {
             setState(() {
-              profileImageUrl = image;
+              _profileImageUrl = image;
             });
           },
         ),
@@ -145,7 +145,7 @@ class _UserEditPageState extends State<UserEditPage> {
           ElevatedButton.icon(
             onPressed: (){},
             icon: Icon(Icons.delete_forever),
-            label: Text(lm.dialog_delete),
+            label: Text(_lm.dialog_delete),
             style: ElevatedButton.styleFrom(
               backgroundColor: theme.colorScheme.errorContainer,
               foregroundColor: theme.colorScheme.onErrorContainer,
@@ -154,7 +154,7 @@ class _UserEditPageState extends State<UserEditPage> {
           ElevatedButton.icon(
             onPressed: save,
             icon: Icon(Icons.save),
-            label: Text(lm.dialog_save),
+            label: Text(_lm.dialog_save),
             style: ElevatedButton.styleFrom(
               backgroundColor: theme.colorScheme.primaryContainer,
               foregroundColor: theme.colorScheme.onPrimaryContainer,
@@ -163,88 +163,88 @@ class _UserEditPageState extends State<UserEditPage> {
         ],
         children: [
           TextFormField(
-            controller: usernameController,
+            controller: _usernameController,
             decoration: InputDecoration(
-              labelText: lm.edit_user_username,
+              labelText: _lm.edit_user_username,
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return lm.edit_user_username_validation_empty;
+                return _lm.edit_user_username_validation_empty;
               }
               if (value.length > 255) {
-                return lm.edit_user_username_validation_length;
+                return _lm.edit_user_username_validation_length;
               }
               return null;
             },
           ),
           TextFormField(
-            controller: displayNameController,
+            controller: _displayNameController,
             decoration: InputDecoration(
-              labelText: lm.edit_user_display_name,
+              labelText: _lm.edit_user_display_name,
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return null;
               }
               if (value.length > 255) {
-                return lm.edit_user_display_name_validation_length;
+                return _lm.edit_user_display_name_validation_length;
               }
               return null;
             },
           ),
           TextFormField(
-            controller: descriptionController,
+            controller: _descriptionController,
             decoration: InputDecoration(
-              labelText: lm.edit_user_description,
+              labelText: _lm.edit_user_description,
             ),
             maxLines: null,
             minLines: 2,
           ),
           TextFormField(
-            controller: emailController,
+            controller: _emailController,
             decoration: InputDecoration(
-              labelText: lm.edit_user_email,
+              labelText: _lm.edit_user_email,
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return null;
               }
               if (value.length > 255) {
-                return lm.edit_user_email_validation_length;
+                return _lm.edit_user_email_validation_length;
               }
-              if (!emailRegexp.hasMatch(value)) {
-                return lm.edit_user_email_validation_invalid;
+              if (!_emailRegexp.hasMatch(value)) {
+                return _lm.edit_user_email_validation_invalid;
               }
               return null;
             },
           ),
-          if (authState.user?.isAdmin ?? false) ... [
+          if (_authState.user?.isAdmin ?? false) ... [
             SwitchListTile(
-              title: Text(lm.edit_user_admin),
-              value: isAdmin,
+              title: Text(_lm.edit_user_admin),
+              value: _isAdmin,
               onChanged: (value) {
                 setState(() {
-                  isAdmin = value;
+                  _isAdmin = value;
                 });
               },
             ),
             SwitchListTile(
-              title: Text(lm.edit_user_active),
-              value: isActive,
+              title: Text(_lm.edit_user_active),
+              value: _isActive,
               onChanged: (value) {
                 setState(() {
-                  isActive = value;
+                  _isActive = value;
                 });
               },
             ),
           ],
 
-          SectionHeader(title: lm.edit_user_change_password),
+          SectionHeader(title: _lm.edit_user_change_password),
 
           TextFormField(
-            controller: passwordController,
+            controller: _passwordController,
             decoration: InputDecoration(
-              labelText: lm.edit_user_password,
+              labelText: _lm.edit_user_password,
             ),
             obscureText: true,
             validator: (value) {
@@ -252,18 +252,18 @@ class _UserEditPageState extends State<UserEditPage> {
                 return null;
               }
               if (value.length < 8) {
-                return lm.edit_user_password_validation_length;
+                return _lm.edit_user_password_validation_length;
               }
-              if (value != confirmPasswordController.text) {
-                return lm.edit_user_password_validation_mismatch;
+              if (value != _confirmPasswordController.text) {
+                return _lm.edit_user_password_validation_mismatch;
               }
               return null;
             },
           ),
           TextFormField(
-            controller: confirmPasswordController,
+            controller: _confirmPasswordController,
             decoration: InputDecoration(
-              labelText: lm.edit_user_password_confirm,
+              labelText: _lm.edit_user_password_confirm,
             ),
             obscureText: true,
             validator: (value) {
@@ -271,20 +271,20 @@ class _UserEditPageState extends State<UserEditPage> {
                 return null;
               }
               if (value.length < 8) {
-                return lm.edit_user_password_validation_length;
+                return _lm.edit_user_password_validation_length;
               }
-              if (value != passwordController.text) {
-                return lm.edit_user_password_validation_mismatch;
+              if (value != _passwordController.text) {
+                return _lm.edit_user_password_validation_mismatch;
               }
               return null;
             },
           ),
 
-          if (!(authState.user?.isAdmin ?? false))
+          if (!(_authState.user?.isAdmin ?? false))
             TextFormField(
-              controller: currentPasswordController,
+              controller: _currentPasswordController,
               decoration: InputDecoration(
-                labelText: lm.edit_user_password_old,
+                labelText: _lm.edit_user_password_old,
               ),
               obscureText: true,
               validator: (value) {
@@ -292,7 +292,7 @@ class _UserEditPageState extends State<UserEditPage> {
                   return null;
                 }
                 if (value.length < 8) {
-                  return lm.edit_user_password_validation_length;
+                  return _lm.edit_user_password_validation_length;
                 }
                 return null;
               },

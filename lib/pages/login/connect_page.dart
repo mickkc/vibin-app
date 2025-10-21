@@ -15,27 +15,27 @@ class ConnectPage extends StatefulWidget {
 
 class _ConnectPageState extends State<ConnectPage> {
 
-  final apiManager = getIt<ApiManager>();
-  late TextEditingController controller;
+  final _apiManager = getIt<ApiManager>();
+  late final _controller = TextEditingController(text: _apiManager.baseUrl);
 
-  late final lm = AppLocalizations.of(context)!;
-  late final router = GoRouter.of(context);
+  late final _lm = AppLocalizations.of(context)!;
+  late final _router = GoRouter.of(context);
 
   Future<void> connect() async {
     try {
-      apiManager.setBaseUrl(controller.text);
-      await apiManager.checkConnection();
-      if (mounted) router.replace("/login");
+      _apiManager.setBaseUrl(_controller.text);
+      await _apiManager.checkConnection();
+      if (mounted) _router.replace("/login");
     }
     catch (e) {
-      if (mounted) showSnackBar(context, lm.connect_error);
+      if (mounted) showSnackBar(context, _lm.connect_error);
     }
   }
 
   @override
-  void initState() {
-    controller = TextEditingController(text: apiManager.baseUrl);
-    super.initState();
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -47,29 +47,29 @@ class _ConnectPageState extends State<ConnectPage> {
         spacing: 8,
         children: [
           Text(
-            lm.connect_title,
+            _lm.connect_title,
             style: Theme.of(context).textTheme.headlineMedium,
           ),
           Text(
-            lm.connect_description
+            _lm.connect_description
           ),
           SizedBox(
             width: 300,
             child: TextField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: lm.connect_placeholder_instance,
-                labelText: lm.connect_label_instance
+                hintText: _lm.connect_placeholder_instance,
+                labelText: _lm.connect_label_instance
               ),
               keyboardType: TextInputType.url,
               textInputAction: TextInputAction.done,
               onSubmitted: (_) => connect(),
-              controller: controller,
+              controller: _controller,
             ),
           ),
           ElevatedButton(
             onPressed: connect,
-            child: Text(lm.connect_button_connect),
+            child: Text(_lm.connect_button_connect),
           ),
         ],
       ),

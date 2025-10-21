@@ -26,28 +26,28 @@ class HomepageSectionsList extends StatefulWidget {
 
 class _HomepageSectionsListState extends State<HomepageSectionsList> {
 
-  final SettingsManager settingsManager = getIt<SettingsManager>();
+  final _settingsManager = getIt<SettingsManager>();
   
-  late List<Entry<String, String>> selectedSections;
-  late final lm = AppLocalizations.of(context)!;
+  late List<Entry<String, String>> _selectedSections;
+  late final _lm = AppLocalizations.of(context)!;
 
   String getSectionName(String key) {
 
     switch (key) {
       case "RECENTLY_LISTENED":
-        return lm.section_recently_listened;
+        return _lm.section_recently_listened;
       case "EXPLORE":
-        return lm.section_random_tracks;
+        return _lm.section_random_tracks;
       case "TOP_ARTISTS":
-        return lm.section_top_artists;
+        return _lm.section_top_artists;
       case "TOP_TRACKS":
-        return lm.section_top_tracks;
+        return _lm.section_top_tracks;
       case "NEW_RELEASES":
-        return lm.section_newest_tracks;
+        return _lm.section_newest_tracks;
       case "POPULAR":
-        return lm.section_popular_items;
+        return _lm.section_popular_items;
       case "PLAYLISTS":
-        return lm.section_playlists;
+        return _lm.section_playlists;
       default:
         return key;
     }
@@ -55,26 +55,26 @@ class _HomepageSectionsListState extends State<HomepageSectionsList> {
 
   @override
   void initState() {
-    selectedSections = settingsManager.get(Settings.homepageSections);
+    _selectedSections = _settingsManager.get(Settings.homepageSections);
     for (final entry in HomepageSectionsList.sections) {
-      if (!selectedSections.any((s) => s.key == entry)) {
-        selectedSections.add(Entry<String, String>(entry, true.toString()));
+      if (!_selectedSections.any((s) => s.key == entry)) {
+        _selectedSections.add(Entry<String, String>(entry, true.toString()));
       }
     }
-    settingsManager.set(Settings.homepageSections, selectedSections);
+    _settingsManager.set(Settings.homepageSections, _selectedSections);
     super.initState();
   }
 
   void toggleSection(String sectionKey) {
     setState(() {
-      final section = selectedSections.firstWhere((s) => s.key == sectionKey);
+      final section = _selectedSections.firstWhere((s) => s.key == sectionKey);
       section.value = (section.value == false.toString()).toString();
     });
     save();
   }
 
   void save() {
-    settingsManager.set(Settings.homepageSections, selectedSections);
+    _settingsManager.set(Settings.homepageSections, _selectedSections);
   }
 
   @override
@@ -85,21 +85,21 @@ class _HomepageSectionsListState extends State<HomepageSectionsList> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SettingsTitle(
-          title: lm.settings_app_homepage_sections_title,
-          subtitle: lm.settings_app_homepage_sections_description,
+          title: _lm.settings_app_homepage_sections_title,
+          subtitle: _lm.settings_app_homepage_sections_description,
         ),
         ReorderableListView(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           children: [
-            for (int index = 0; index < selectedSections.length; index++)
+            for (int index = 0; index < _selectedSections.length; index++)
               ListTile(
                 key: Key('$index'),
-                title: Text(getSectionName(selectedSections[index].key)),
+                title: Text(getSectionName(_selectedSections[index].key)),
                 leading: Checkbox(
-                  value: selectedSections[index].value == true.toString(),
+                  value: _selectedSections[index].value == true.toString(),
                   onChanged: (value) {
-                    toggleSection(selectedSections[index].key);
+                    toggleSection(_selectedSections[index].key);
                   },
                 ),
               ),
@@ -109,10 +109,10 @@ class _HomepageSectionsListState extends State<HomepageSectionsList> {
               if (newIndex > oldIndex) {
                 newIndex -= 1;
               }
-              final key = selectedSections.elementAt(oldIndex);
-              final section = selectedSections.firstWhere((s) => s.key == key.key);
-              selectedSections.remove(section);
-              selectedSections.insert(newIndex, section);
+              final key = _selectedSections.elementAt(oldIndex);
+              final section = _selectedSections.firstWhere((s) => s.key == key.key);
+              _selectedSections.remove(section);
+              _selectedSections.insert(newIndex, section);
               save();
             });
           },

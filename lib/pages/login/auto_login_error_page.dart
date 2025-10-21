@@ -15,24 +15,24 @@ class AutoLoginErrorPage extends StatefulWidget {
 }
 
 class _AutoLoginErrorPageState extends State<AutoLoginErrorPage> {
-  final authState = getIt<AuthState>();
-  late var autoLoginResult = authState.autoLoginResult;
+  final _authState = getIt<AuthState>();
+  late var _autoLoginResult = _authState.autoLoginResult;
 
-  late final router = GoRouter.of(context);
-  late final lm = AppLocalizations.of(context)!;
+  late final _router = GoRouter.of(context);
+  late final _lm = AppLocalizations.of(context)!;
 
   void retry() async {
-    final result = await authState.tryAutoLogin();
+    final result = await _authState.tryAutoLogin();
     setAutoLoginResult(result);
     if (!result.isError()) {
-      authState.clearAutoLoginResult();
-      router.replace('/home');
+      _authState.clearAutoLoginResult();
+      _router.replace('/home');
     }
   }
 
   void reconnect() async {
-    await authState.logout();
-    router.replace('/connect');
+    await _authState.logout();
+    _router.replace('/connect');
   }
 
   void quit() {
@@ -41,7 +41,7 @@ class _AutoLoginErrorPageState extends State<AutoLoginErrorPage> {
 
   void setAutoLoginResult(AutoLoginResult? result) {
     setState(() {
-      autoLoginResult = result;
+      _autoLoginResult = result;
     });
   }
 
@@ -54,27 +54,27 @@ class _AutoLoginErrorPageState extends State<AutoLoginErrorPage> {
         spacing: 16,
         children: [
           Text(
-            lm.autologin_failed_title,
+            _lm.autologin_failed_title,
             style: Theme.of(context).textTheme.headlineMedium,
             textAlign: TextAlign.center,
           ),
           Text(
-            lm.autologin_failed_message,
+            _lm.autologin_failed_message,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
-          if (autoLoginResult != null && autoLoginResult!.isError()) ...[
+          if (_autoLoginResult != null && _autoLoginResult!.isError()) ...[
             Text(
-              autoLoginResult!.message,
+              _autoLoginResult!.message,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).colorScheme.error,
               ),
             ),
           ],
-          ElevatedButton(onPressed: retry, child: Text(lm.autologin_retry)),
-          ElevatedButton(onPressed: reconnect, child: Text(lm.autologin_reconnect)),
-          ElevatedButton(onPressed: quit, child: Text(lm.autologin_quit)),
+          ElevatedButton(onPressed: retry, child: Text(_lm.autologin_retry)),
+          ElevatedButton(onPressed: reconnect, child: Text(_lm.autologin_reconnect)),
+          ElevatedButton(onPressed: quit, child: Text(_lm.autologin_quit)),
         ],
       ),
     );

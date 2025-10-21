@@ -40,17 +40,17 @@ class LyricsDialog extends StatefulWidget {
 
 class _LyricsDialogState extends State<LyricsDialog> {
 
-  final AudioManager audioManager = getIt<AudioManager>();
-  final ApiManager apiManager = getIt<ApiManager>();
-  final SettingsManager settingsManager = getIt<SettingsManager>();
+  final _audioManager = getIt<AudioManager>();
+  final _apiManager = getIt<ApiManager>();
+  final _settingsManager = getIt<SettingsManager>();
 
-  late MediaItem? currentMediaItem = audioManager.getCurrentMediaItem();
-  late Future<Lyrics?> lyricsFuture;
+  late MediaItem? _currentMediaItem = _audioManager.getCurrentMediaItem();
+  late Future<Lyrics?> _lyricsFuture;
 
-  StreamSubscription? currentMediaItemSubscription;
-  final ItemScrollController scrollController = ItemScrollController();
+  StreamSubscription? _currentMediaItemSubscription;
+  final _scrollController = ItemScrollController();
 
-  int? lastLyricIndex;
+  int? _lastLyricIndex;
 
   Color getBackgroundColor(LyricsDesign lyricsDesign, ColorScheme? cs, ThemeData theme) {
 
@@ -98,30 +98,30 @@ class _LyricsDialogState extends State<LyricsDialog> {
   }
 
   void fetchLyrics() {
-    final id = currentMediaItem == null ? null : int.tryParse(currentMediaItem!.id);
+    final id = _currentMediaItem == null ? null : int.tryParse(_currentMediaItem!.id);
     setState(() {
       if (id == null) {
-        lyricsFuture = Future.value(null);
+        _lyricsFuture = Future.value(null);
         return;
       }
-      lyricsFuture = apiManager.service.getTrackLyrics(id);
+      _lyricsFuture = _apiManager.service.getTrackLyrics(id);
     });
   }
 
   @override
   void initState() {
     super.initState();
-    currentMediaItemSubscription = audioManager.currentMediaItemStream.listen((mediaItem) {
-      if (mediaItem.id == currentMediaItem?.id) {
+    _currentMediaItemSubscription = _audioManager.currentMediaItemStream.listen((mediaItem) {
+      if (mediaItem.id == _currentMediaItem?.id) {
         return;
       }
       setState(() {
-        currentMediaItem = mediaItem;
+        _currentMediaItem = mediaItem;
       });
       fetchLyrics();
     });
 
-    final savedDesign = settingsManager.get(Settings.lyricsDesign);
+    final savedDesign = _settingsManager.get(Settings.lyricsDesign);
     if (LyricsDialog.lyricsDesignNotifier.value != savedDesign) {
       LyricsDialog.lyricsDesignNotifier.value = savedDesign;
     }
@@ -131,7 +131,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
 
   @override
   void dispose() {
-    currentMediaItemSubscription?.cancel();
+    _currentMediaItemSubscription?.cancel();
     super.dispose();
   }
 
@@ -143,7 +143,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
         valueListenable: LyricsDialog.lyricsDesignNotifier,
         builder: (context, value, child) {
           return FutureContent(
-            future: lyricsFuture,
+            future: _lyricsFuture,
             builder: (context, data) {
               final theme = Theme.of(context);
 
@@ -191,7 +191,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
                 color: backgroundColor,
                 padding: const EdgeInsets.all(8.0),
                 child: StreamBuilder(
-                  stream: audioManager.audioPlayer.positionStream,
+                  stream: _audioManager.audioPlayer.positionStream,
                   builder: (context, snapshot) {
                     final position = snapshot.data ?? Duration.zero;
                     final positionMs = position.inMilliseconds;
@@ -206,11 +206,11 @@ class _LyricsDialogState extends State<LyricsDialog> {
                       }
                     }
 
-                    if (currentIndex != null && currentIndex != lastLyricIndex) {
-                      lastLyricIndex = currentIndex;
+                    if (currentIndex != null && currentIndex != _lastLyricIndex) {
+                      _lastLyricIndex = currentIndex;
                       // Scroll to the current lyric line
-                      if (scrollController.isAttached) {
-                        scrollController.scrollTo(
+                      if (_scrollController.isAttached) {
+                        _scrollController.scrollTo(
                           index: currentIndex,
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.easeInOut,
@@ -222,7 +222,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
                     return ScrollablePositionedList.builder(
                       physics: const ClampingScrollPhysics(),
                       itemCount: parsedLyrics.lines.length,
-                      itemScrollController: scrollController,
+                      itemScrollController: _scrollController,
                       itemBuilder: (context, index) {
                         final line = parsedLyrics.lines.elementAt(index);
                         final isCurrent = index == currentIndex;
@@ -230,7 +230,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: InkWell(
                             onTap: () {
-                              audioManager.seek(line.timestamp);
+                              _audioManager.seek(line.timestamp);
                             },
                             child: AnimatedDefaultTextStyle(
                               duration: const Duration(milliseconds: 150),

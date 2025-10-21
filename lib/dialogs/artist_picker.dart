@@ -28,11 +28,11 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
   
   late List<String> selectedArtists;
 
-  String search = "";
-  String currentSearch = "";
+  String _search = "";
+  String _currentSearch = "";
 
-  final ApiManager apiManager = getIt<ApiManager>();
-  final SettingsManager settingsManager = getIt<SettingsManager>();
+  final apiManager = getIt<ApiManager>();
+  final settingsManager = getIt<SettingsManager>();
 
   Future<List<String>> fetchArtistNameSuggestions(String query) async {
     final suggestions = await apiManager.service.autocompleteArtists(query, null);
@@ -59,8 +59,8 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
       } else {
         selectedArtists = [artistName];
       }
-      search = "";
-      currentSearch = "";
+      _search = "";
+      _currentSearch = "";
     });
   }
 
@@ -97,7 +97,7 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
             children: [
               Expanded(
                 child: TypeAheadField<String>(
-                  controller: TextEditingController(text: search),
+                  controller: TextEditingController(text: _search),
                   itemBuilder: (context, suggestion) {
                     return ListTile(title: Text(suggestion));
                   },
@@ -110,7 +110,7 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
                         prefixIcon: Icon(Icons.search),
                       ),
                       onChanged: (value) {
-                        currentSearch = value;
+                        _currentSearch = value;
                       },
                       onSubmitted: (value) {
                         if (value.trim().isEmpty) return;
@@ -131,8 +131,8 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
               IconButton(
                 icon: Icon(Icons.add),
                 onPressed: () {
-                  if (currentSearch.isEmpty) return;
-                  addArtist(currentSearch.trim());
+                  if (_currentSearch.isEmpty) return;
+                  addArtist(_currentSearch.trim());
                 },
               )
             ],

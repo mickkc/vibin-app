@@ -21,7 +21,7 @@ class SearchLyricsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ApiManager apiManager = getIt<ApiManager>();
+    final apiManager = getIt<ApiManager>();
     final lm = AppLocalizations.of(context)!;
 
     return BaseMetadataDialog(

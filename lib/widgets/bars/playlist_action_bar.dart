@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -30,71 +29,64 @@ class PlaylistActionBar extends StatefulWidget {
 
 class _PlaylistActionBarState extends State<PlaylistActionBar> {
 
-  bool isCurrent = false;
-  bool isPlaying = false;
-  bool isShuffleEnabled = false;
-  late final AudioManager audioManager = getIt<AudioManager>();
-  late final AuthState authState = getIt<AuthState>();
-  final List<StreamSubscription> subscriptions = [];
+  bool _isCurrent = false;
+  bool _isPlaying = false;
+  bool _isShuffleEnabled = false;
+  late final _audioManager = getIt<AudioManager>();
+  late final _authState = getIt<AuthState>();
+  final List<StreamSubscription> _subscriptions = [];
 
   _PlaylistActionBarState() {
-    subscriptions.add(audioManager.audioPlayer.sequenceStateStream.listen((event) {
+    _subscriptions.add(_audioManager.currentMediaItemStream.listen((event) {
       if (!mounted) return;
       setState(() {
-        updatePlayingState();
+        _isCurrent = _audioManager.currentAudioType != null &&
+            _audioManager.currentAudioType!.audioType == AudioType.playlist &&
+            _audioManager.currentAudioType!.id == widget.playlistData.playlist.id;
       });
     }));
-    subscriptions.add(audioManager.audioPlayer.playingStream.listen((event) {
+    _subscriptions.add(_audioManager.audioPlayer.playingStream.listen((playing) {
       if (!mounted) return;
       setState(() {
-        updatePlayingState();
+        _isPlaying = playing;
       });
     }));
   }
 
   @override
   void dispose() {
-    for (var sub in subscriptions) {
+    for (var sub in _subscriptions) {
       sub.cancel();
     }
-    log("Disposed");
     super.dispose();
   }
 
-  void updatePlayingState() {
-    setState(() {
-      isPlaying = audioManager.isPlaying;
-      final currentType = audioManager.currentAudioType;
-      isCurrent = currentType != null && currentType.audioType == AudioType.playlist && currentType.id == widget.playlistData.playlist.id;
-    });
-  }
-
   void toggleShuffle() {
-    if (isCurrent) {
-      audioManager.toggleShuffle();
+    if (_isCurrent) {
+      _audioManager.toggleShuffle();
     }
     setState(() {
-      isShuffleEnabled = !isShuffleEnabled;
+      _isShuffleEnabled = !_isShuffleEnabled;
     });
-    widget.shuffleState?.isShuffling = isShuffleEnabled;
+    widget.shuffleState?.isShuffling = _isShuffleEnabled;
   }
 
   void playPause() {
-    if (!isCurrent) {
-      audioManager.playPlaylistData(widget.playlistData, null, isShuffleEnabled);
+    if (!_isCurrent) {
+      _audioManager.playPlaylistData(widget.playlistData, null, _isShuffleEnabled);
     } else {
-      audioManager.playPause();
+      _audioManager.playPause();
     }
   }
 
   bool allowEdit() {
-    if (!authState.hasPermission(PermissionType.managePlaylists)) {
+    if (!_authState.hasPermission(PermissionType.managePlaylists)) {
       return false;
     }
 
-    final isOwner = widget.playlistData.playlist.owner.id == authState.user?.id;
-    final isCollaborator = widget.playlistData.playlist.collaborators.any((u) => u.id == authState.user?.id);
-    final canEditCollaborative = authState.hasPermission(PermissionType.editCollaborativePlaylists);
+    final isOwner = widget.playlistData.playlist.owner.id == _authState.user?.id;
+    final isCollaborator = widget.playlistData.playlist.collaborators.any((u) => u.id == _authState.user?.id);
+    final canEditCollaborative = _authState.hasPermission(PermissionType.editCollaborativePlaylists);
 
     return isOwner || (isCollaborator && canEditCollaborative);
   }
@@ -108,22 +100,22 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        if (authState.hasPermission(PermissionType.streamTracks)) ... [
+        if (_authState.hasPermission(PermissionType.streamTracks)) ... [
           PlayButton(
-            isPlaying: isCurrent && isPlaying,
+            isPlaying: _isCurrent && _isPlaying,
             onTap: playPause
           ),
           IconButton(
             onPressed: toggleShuffle,
-            tooltip: isShuffleEnabled ? lm.playlist_actions_disable_shuffling : lm.playlist_actions_enable_shuffling,
+            tooltip: _isShuffleEnabled ? lm.playlist_actions_disable_shuffling : lm.playlist_actions_enable_shuffling,
             icon: Icon(
               Icons.shuffle,
-              color: isShuffleEnabled ? theme.colorScheme.primary : theme.colorScheme.onSurface,
+              color: _isShuffleEnabled ? theme.colorScheme.primary : theme.colorScheme.onSurface,
               size: 32,
             )
           )
         ],
-        if (authState.hasPermission(PermissionType.managePlaylists) && widget.playlistData.playlist.owner.id == authState.user?.id) ... [
+        if (_authState.hasPermission(PermissionType.managePlaylists) && widget.playlistData.playlist.owner.id == _authState.user?.id) ... [
           IconButton(
             tooltip: lm.playlist_actions_add_collaborators,
             onPressed: () {},

@@ -7,7 +7,7 @@ class PermissionWidget extends StatelessWidget {
   final List<PermissionType> requiredPermissions;
   final Widget child;
 
-  final authState = getIt<AuthState>();
+  final _authState = getIt<AuthState>();
 
   PermissionWidget({
     super.key,
@@ -17,7 +17,7 @@ class PermissionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasPermissions = authState.user != null && (authState.user!.isAdmin || requiredPermissions.every((perm) => authState.permissions.contains(perm.value)));
+    final hasPermissions = _authState.user != null && (_authState.user!.isAdmin || requiredPermissions.every((perm) => _authState.permissions.contains(perm.value)));
     if (hasPermissions) {
       return child;
     } else {

@@ -24,24 +24,24 @@ class HomePage extends StatefulWidget {
 
 class _HomePagState extends State<HomePage> {
 
-  final AuthState authState = getIt<AuthState>();
-  final SettingsManager settingsManager = getIt<SettingsManager>();
+  final _authState = getIt<AuthState>();
+  final _settingsManager = getIt<SettingsManager>();
 
   Widget? getSection(String key) {
     switch (key) {
-      case "RECENTLY_LISTENED" when authState.hasAnyPermission([PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists]):
+      case "RECENTLY_LISTENED" when _authState.hasAnyPermission([PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists]):
         return LastListenedToSection();
-      case "EXPLORE" when authState.hasPermission(PermissionType.viewTracks):
+      case "EXPLORE" when _authState.hasPermission(PermissionType.viewTracks):
         return ExploreSection();
-      case "TOP_ARTISTS" when authState.hasPermission(PermissionType.viewArtists):
+      case "TOP_ARTISTS" when _authState.hasPermission(PermissionType.viewArtists):
         return MostListenedToArtistsSection();
-      case "TOP_TRACKS" when authState.hasPermission(PermissionType.viewTracks):
+      case "TOP_TRACKS" when _authState.hasPermission(PermissionType.viewTracks):
         return TopTracksSection();
-      case "NEW_RELEASES" when authState.hasPermission(PermissionType.viewTracks):
+      case "NEW_RELEASES" when _authState.hasPermission(PermissionType.viewTracks):
         return NewTracksSection();
-      case "POPULAR" when authState.hasAnyPermission([PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists]):
+      case "POPULAR" when _authState.hasAnyPermission([PermissionType.viewPlaylists, PermissionType.viewAlbums, PermissionType.viewArtists]):
         return PopularItemsSection();
-      case "PLAYLISTS" when authState.hasPermission(PermissionType.viewPlaylists):
+      case "PLAYLISTS" when _authState.hasPermission(PermissionType.viewPlaylists):
         return PlaylistsSection();
       default:
         return null;
@@ -53,7 +53,7 @@ class _HomePagState extends State<HomePage> {
     return ColumnPage(
       children: [
         RecommendedStartSection(),
-        ...settingsManager.get(Settings.homepageSections).map((section) {
+        ..._settingsManager.get(Settings.homepageSections).map((section) {
           if (section.value != true.toString()) return null;
           return getSection(section.key);
         }).nonNulls

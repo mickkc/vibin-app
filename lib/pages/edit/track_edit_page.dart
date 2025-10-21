@@ -59,81 +59,81 @@ class TrackEditPage extends StatefulWidget {
 class _TrackEditPageState extends State<TrackEditPage> {
 
   bool initialized = false;
-  late bool isExplicit;
-  late int? trackNumber;
-  late int? trackCount;
-  late int? discNumber;
-  late int? discCount;
-  late int? year;
-  late String? imageUrl;
+  late bool _isExplicit;
+  late int? _trackNumber;
+  late int? _trackCount;
+  late int? _discNumber;
+  late int? _discCount;
+  late int? _year;
+  late String? _imageUrl;
 
-  late int? trackDuration;
+  late int? _trackDuration;
 
-  late List<Tag> tags;
+  late List<Tag> _tags;
 
-  TextEditingController titleController = TextEditingController();
-  TextEditingController commentController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _commentController = TextEditingController();
 
-  TextEditingController lyricsController = TextEditingController();
+  final _lyricsController = TextEditingController();
 
-  late String? albumName;
-  late List<String> artistNames;
+  late String? _albumName;
+  late List<String> _artistNames;
 
-  final ApiManager apiManager = getIt<ApiManager>();
-  final AuthState authState = getIt<AuthState>();
+  final _apiManager = getIt<ApiManager>();
+  final _authState = getIt<AuthState>();
 
-  late final lm = AppLocalizations.of(context)!;
-  late final theme = Theme.of(context);
+  late final _lm = AppLocalizations.of(context)!;
+  late final _theme = Theme.of(context);
 
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   void init() {
     if (widget.trackId == null) {
       setState(() {
-        titleController.text = widget.trackTitle ?? "";
-        isExplicit = widget.isExplicit ?? false;
-        trackNumber = widget.trackNumber;
-        trackCount = widget.trackCount;
-        discNumber = widget.discNumber;
-        discCount = widget.discCount;
-        year = widget.year;
-        titleController.text = widget.comment ?? "";
-        imageUrl = widget.imageUrl;
+        _titleController.text = widget.trackTitle ?? "";
+        _isExplicit = widget.isExplicit ?? false;
+        _trackNumber = widget.trackNumber;
+        _trackCount = widget.trackCount;
+        _discNumber = widget.discNumber;
+        _discCount = widget.discCount;
+        _year = widget.year;
+        _titleController.text = widget.comment ?? "";
+        _imageUrl = widget.imageUrl;
 
-        albumName = null;
-        artistNames = [];
-        tags = [];
+        _albumName = null;
+        _artistNames = [];
+        _tags = [];
 
         initialized = true;
       });
       return;
     }
 
-    apiManager.service.getTrack(widget.trackId!).then((data) {
+    _apiManager.service.getTrack(widget.trackId!).then((data) {
       setState(() {
-        titleController.text = data.title;
-        isExplicit = data.explicit;
-        trackNumber = data.trackNumber;
-        trackCount = data.trackCount;
-        discNumber = data.discNumber;
-        discCount = data.discCount;
-        year = data.year;
-        commentController.text = data.comment ?? "";
-        imageUrl = null;
+        _titleController.text = data.title;
+        _isExplicit = data.explicit;
+        _trackNumber = data.trackNumber;
+        _trackCount = data.trackCount;
+        _discNumber = data.discNumber;
+        _discCount = data.discCount;
+        _year = data.year;
+        _commentController.text = data.comment ?? "";
+        _imageUrl = null;
 
-        albumName = data.album.title;
-        artistNames = data.artists.map((a) => a.name).toList();
-        tags = data.tags;
+        _albumName = data.album.title;
+        _artistNames = data.artists.map((a) => a.name).toList();
+        _tags = data.tags;
 
-        trackDuration = data.duration;
+        _trackDuration = data.duration;
 
         initialized = true;
       });
     });
 
-    apiManager.service.getTrackLyrics(widget.trackId!).then((data) {
+    _apiManager.service.getTrackLyrics(widget.trackId!).then((data) {
       setState(() {
-        lyricsController.text = data.lyrics ?? "";
+        _lyricsController.text = data.lyrics ?? "";
       });
     });
   }
@@ -149,10 +149,10 @@ class _TrackEditPageState extends State<TrackEditPage> {
       context: context,
       builder: (context) {
         return ArtistPickerDialog(
-          selected: artistNames,
+          selected: _artistNames,
           onChanged: (artists) {
             setState(() {
-              artistNames = artists;
+              _artistNames = artists;
             });
           },
           allowEmpty: false,
@@ -167,22 +167,22 @@ class _TrackEditPageState extends State<TrackEditPage> {
       context: context,
       builder: (context) {
         return SearchTrackMetadataDialog(
-          initialSearch: titleController.text,
+          initialSearch: _titleController.text,
           onSelect: (metadata) {
             setState(() {
-              titleController.text = metadata.title;
+              _titleController.text = metadata.title;
               if (metadata.explicit != null) {
-                isExplicit = metadata.explicit!;
+                _isExplicit = metadata.explicit!;
               }
-              trackNumber = metadata.trackNumber;
-              trackCount = metadata.trackCount;
-              discNumber = metadata.discNumber;
-              discCount = metadata.discCount;
-              year = metadata.year;
-              commentController.text = metadata.comment ?? "";
-              imageUrl = metadata.coverImageUrl;
-              albumName = metadata.albumName ?? albumName;
-              artistNames = metadata.artistNames ?? artistNames;
+              _trackNumber = metadata.trackNumber;
+              _trackCount = metadata.trackCount;
+              _discNumber = metadata.discNumber;
+              _discCount = metadata.discCount;
+              _year = metadata.year;
+              _commentController.text = metadata.comment ?? "";
+              _imageUrl = metadata.coverImageUrl;
+              _albumName = metadata.albumName ?? _albumName;
+              _artistNames = metadata.artistNames ?? _artistNames;
             });
           },
         );
@@ -197,11 +197,11 @@ class _TrackEditPageState extends State<TrackEditPage> {
         return SearchLyricsDialog(
           onSelect: (metadata) {
             setState(() {
-              lyricsController.text = metadata.content;
+              _lyricsController.text = metadata.content;
             });
           },
-          initialSearch: "${artistNames.isEmpty ? "" : "${artistNames.first} - "}${titleController.text}",
-          duration: trackDuration,
+          initialSearch: "${_artistNames.isEmpty ? "" : "${_artistNames.first} - "}${_titleController.text}",
+          duration: _trackDuration,
         );
       }
     );
@@ -209,30 +209,30 @@ class _TrackEditPageState extends State<TrackEditPage> {
 
   Future<void> save() async {
 
-    if (!formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) return;
 
     try {
       final editData = TrackEditData(
-        title: titleController.text,
-        explicit: isExplicit,
-        trackNumber: trackNumber,
-        trackCount: trackCount,
-        discNumber: discNumber,
-        discCount: discCount,
-        year: year,
-        comment: commentController.text,
-        imageUrl: imageUrl,
-        albumName: albumName,
-        artistNames: artistNames,
-        tagIds: tags.map((t) => t.id).toList(),
-        lyrics: lyricsController.text.isEmpty ? null : lyricsController.text
+        title: _titleController.text,
+        explicit: _isExplicit,
+        trackNumber: _trackNumber,
+        trackCount: _trackCount,
+        discNumber: _discNumber,
+        discCount: _discCount,
+        year: _year,
+        comment: _commentController.text,
+        imageUrl: _imageUrl,
+        albumName: _albumName,
+        artistNames: _artistNames,
+        tagIds: _tags.map((t) => t.id).toList(),
+        lyrics: _lyricsController.text.isEmpty ? null : _lyricsController.text
       );
 
       if (widget.onSave != null) {
         widget.onSave!(editData);
       }
       else if (widget.trackId != null) {
-        await apiManager.service.updateTrack(widget.trackId!, editData);
+        await _apiManager.service.updateTrack(widget.trackId!, editData);
       }
       else {
         throw "Cannot save track: no track ID and no onSave callback provided";
@@ -242,12 +242,12 @@ class _TrackEditPageState extends State<TrackEditPage> {
     }
     catch (e) {
       log("Error saving track: $e", error: e, level: Level.error.value);
-      if (mounted) showErrorDialog(context, lm.edit_track_save_error);
+      if (mounted) showErrorDialog(context, _lm.edit_track_save_error);
     }
   }
 
   Future<List<String>> autoCompleteAlbumNames(String query) async {
-    final suggestions = await apiManager.service.autocompleteAlbums(query, null);
+    final suggestions = await _apiManager.service.autocompleteAlbums(query, null);
     return suggestions;
   }
 
@@ -258,18 +258,18 @@ class _TrackEditPageState extends State<TrackEditPage> {
 
     return !initialized ? CircularProgressIndicator() : Material(
       child: Form(
-        key: formKey,
+        key: _formKey,
         child: ResponsiveEditView(
           title: lm.edit_track_title,
           actions: [
-            if (authState.hasPermission(PermissionType.deleteTracks) && widget.trackId != null)
+            if (_authState.hasPermission(PermissionType.deleteTracks) && widget.trackId != null)
               ElevatedButton.icon(
                 onPressed: () {},
                 label: Text(lm.dialog_delete),
                 icon: Icon(Icons.delete_forever),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.colorScheme.errorContainer,
-                  foregroundColor: theme.colorScheme.onErrorContainer,
+                  backgroundColor: _theme.colorScheme.errorContainer,
+                  foregroundColor: _theme.colorScheme.onErrorContainer,
                 ),
               ),
 
@@ -278,8 +278,8 @@ class _TrackEditPageState extends State<TrackEditPage> {
               label: Text(lm.edit_track_search_metadata),
               icon: Icon(Icons.search),
               style: ElevatedButton.styleFrom(
-                backgroundColor: theme.colorScheme.secondaryContainer,
-                foregroundColor: theme.colorScheme.onSecondaryContainer,
+                backgroundColor: _theme.colorScheme.secondaryContainer,
+                foregroundColor: _theme.colorScheme.onSecondaryContainer,
               ),
             ),
             ElevatedButton.icon(
@@ -293,10 +293,10 @@ class _TrackEditPageState extends State<TrackEditPage> {
             )
           ],
           imageEditWidget: ImageEditField(
-            imageUrl: imageUrl,
+            imageUrl: _imageUrl,
             onImageChanged: (imageUrl) {
               setState(() {
-                this.imageUrl = imageUrl;
+                this._imageUrl = imageUrl;
               });
             },
             fallbackImageUrl: "/api/tracks/${widget.trackId}/cover",
@@ -308,7 +308,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
               decoration: InputDecoration(
                 labelText: lm.edit_track_name,
               ),
-              controller: titleController,
+              controller: _titleController,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
                   return lm.edit_track_name_validation_empty;
@@ -324,11 +324,11 @@ class _TrackEditPageState extends State<TrackEditPage> {
               decoration: InputDecoration(
                 labelText: lm.edit_track_artists
               ),
-              controller: TextEditingController(text: artistNames.join(", ")),
+              controller: TextEditingController(text: _artistNames.join(", ")),
               onTap: showArtistPicker,
             ),
             TypeAheadField<String>(
-              controller: TextEditingController(text: albumName),
+              controller: TextEditingController(text: _albumName),
               builder: (context, controller, focusNode) {
                 return TextField(
                   controller: controller,
@@ -337,7 +337,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
                     labelText: lm.edit_track_album,
                   ),
                   onChanged: (value) {
-                    albumName = value;
+                    _albumName = value;
                   },
                 );
               },
@@ -346,7 +346,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
               },
               onSelected: (album) {
                 setState(() {
-                  albumName = album;
+                  _albumName = album;
                 });
               },
               suggestionsCallback: (pattern) {
@@ -358,13 +358,13 @@ class _TrackEditPageState extends State<TrackEditPage> {
               decoration: InputDecoration(
                 labelText: lm.edit_track_comment,
               ),
-              controller: commentController,
+              controller: _commentController,
               maxLines: null,
             ),
             NullableIntInput(
-              value: year,
+              value: _year,
               onChanged: (yr) {
-                year = yr;
+                _year = yr;
               },
               label: lm.edit_track_year,
             ),
@@ -376,9 +376,9 @@ class _TrackEditPageState extends State<TrackEditPage> {
                 Icon(Icons.music_note),
                 Expanded(
                   child: NullableIntInput(
-                    value: trackNumber,
+                    value: _trackNumber,
                     onChanged: (tn) {
-                      trackNumber = tn;
+                      _trackNumber = tn;
                     },
                     label: lm.edit_track_number,
                   ),
@@ -386,9 +386,9 @@ class _TrackEditPageState extends State<TrackEditPage> {
                 Text("/"),
                 Expanded(
                   child: NullableIntInput(
-                    value: trackCount,
+                    value: _trackCount,
                     onChanged: (tc) {
-                      trackCount = tc;
+                      _trackCount = tc;
                     },
                     label: lm.edit_track_count,
                   ),
@@ -403,9 +403,9 @@ class _TrackEditPageState extends State<TrackEditPage> {
                 Icon(Icons.album),
                 Expanded(
                   child: NullableIntInput(
-                    value: discNumber,
+                    value: _discNumber,
                     onChanged: (dn) {
-                      discNumber = dn;
+                      _discNumber = dn;
                     },
                     label: lm.edit_track_disc_number,
                   ),
@@ -413,9 +413,9 @@ class _TrackEditPageState extends State<TrackEditPage> {
                 Text("/"),
                 Expanded(
                   child: NullableIntInput(
-                    value: discCount,
+                    value: _discCount,
                     onChanged: (dc) {
-                      discCount = dc;
+                      _discCount = dc;
                     },
                     label: lm.edit_track_disc_count,
                   ),
@@ -423,10 +423,10 @@ class _TrackEditPageState extends State<TrackEditPage> {
               ],
             ),
             SwitchListTile(
-              value: isExplicit,
+              value: _isExplicit,
               onChanged: (bool value) {
                 setState(() {
-                  isExplicit = value;
+                  _isExplicit = value;
                 });
               },
               title: Text(lm.edit_track_explicit)
@@ -434,28 +434,28 @@ class _TrackEditPageState extends State<TrackEditPage> {
             Divider(),
             Text(
               lm.tags,
-              style: theme.textTheme.headlineMedium,
+              style: _theme.textTheme.headlineMedium,
             ),
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: tags.isEmpty ? [Text(lm.edit_track_no_tags)] : tags.map((tag) => Tooltip(
+              children: _tags.isEmpty ? [Text(lm.edit_track_no_tags)] : _tags.map((tag) => Tooltip(
                 message: tag.description,
                 child: TagWidget(
                   tag: tag,
                   onTap: () async {
                     setState(() {
-                      tags.remove(tag);
+                      _tags.remove(tag);
                     });
                   },
                 )
               )).toList()
             ),
             TagSearchBar(
-              ignoredTags: tags,
+              ignoredTags: _tags,
               onTagSelected: (tag) {
                 setState(() {
-                  tags.add(tag);
+                  _tags.add(tag);
                 });
               },
             ),
@@ -466,7 +466,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
               children: [
                 Text(
                   lm.edit_track_lyrics,
-                  style: theme.textTheme.headlineMedium,
+                  style: _theme.textTheme.headlineMedium,
                 ),
                 IconButton(
                   onPressed: searchLyrics,
@@ -480,7 +480,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
               ),
-              controller: lyricsController,
+              controller: _lyricsController,
               maxLines: null,
               minLines: 6,
             ),
@@ -500,9 +500,9 @@ class _TrackEditPageState extends State<TrackEditPage> {
                   return;
                 }
 
-                final parsed = LrcParser.parseLyrics(lyricsController.text);
+                final parsed = LrcParser.parseLyrics(_lyricsController.text);
                 parsed.shiftAll(Duration(milliseconds: (amount * 1000).round()));
-                lyricsController.text = LrcParser.writeLrc(parsed);
+                _lyricsController.text = LrcParser.writeLrc(parsed);
               },
               label: Text(lm.edit_track_lyrics_shift_title),
               icon: Icon(Icons.schedule),

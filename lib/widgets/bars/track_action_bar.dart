@@ -27,43 +27,42 @@ class TrackActionBar extends StatefulWidget {
 
 class _TrackActionBarState extends State<TrackActionBar> {
 
-  final AuthState authState = getIt<AuthState>();
-  final ApiManager apiManager = getIt<ApiManager>();
-  final AudioManager audioManager = getIt<AudioManager>();
+  final _authState = getIt<AuthState>();
+  final _apiManager = getIt<ApiManager>();
+  final _audioManager = getIt<AudioManager>();
 
-  bool isCurrentTrack = false;
-  bool isPlaying = false;
+  bool _isCurrentTrack = false;
+  bool _isPlaying = false;
 
-  StreamSubscription? playingSubscription;
-  StreamSubscription? sequenceSubscription;
+  late final StreamSubscription? _playingSubscription;
+  late final StreamSubscription? _sequenceSubscription;
 
   _TrackActionBarState() {
-    playingSubscription = audioManager.audioPlayer.playingStream.listen((event) {
+    _playingSubscription = _audioManager.audioPlayer.playingStream.listen((event) {
       setState(() {
-        isPlaying = event;
+        _isPlaying = event;
       });
     });
-    sequenceSubscription = audioManager.currentMediaItemStream.listen((event) {
+    _sequenceSubscription = _audioManager.currentMediaItemStream.listen((event) {
       setState(() {
-        isCurrentTrack = event.id == widget.trackId.toString();
+        _isCurrentTrack = event.id == widget.trackId.toString();
       });
     });
   }
 
   @override
   void dispose() {
-    playingSubscription?.cancel();
-    sequenceSubscription?.cancel();
+    _playingSubscription?.cancel();
+    _sequenceSubscription?.cancel();
     super.dispose();
   }
 
   void playTrack(Track track) {
-    final audioManager = getIt<AudioManager>();
-    audioManager.playTrack(track);
+    _audioManager.playTrack(track);
   }
 
   Future<void> addToQueue(BuildContext context, int trackId) async {
-    await audioManager.addTrackToQueue(trackId);
+    await _audioManager.addTrackToQueue(trackId);
     if (!mounted || !context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(AppLocalizations.of(context)!.track_actions_added_to_queue))
@@ -76,14 +75,14 @@ class _TrackActionBarState extends State<TrackActionBar> {
     return Row(
       spacing: 16,
       children: [
-        if (authState.hasPermission(PermissionType.streamTracks)) ... [
+        if (_authState.hasPermission(PermissionType.streamTracks)) ... [
           PlayButton(
-            isPlaying: isCurrentTrack && isPlaying,
+            isPlaying: _isCurrentTrack && _isPlaying,
             onTap: () async {
-              if (isCurrentTrack) {
-                audioManager.playPause();
+              if (_isCurrentTrack) {
+                _audioManager.playPause();
               } else {
-                final track = await apiManager.service.getTrack(widget.trackId);
+                final track = await _apiManager.service.getTrack(widget.trackId);
                 playTrack(track);
               }
             }
@@ -96,21 +95,21 @@ class _TrackActionBarState extends State<TrackActionBar> {
             tooltip: lm.track_actions_add_to_queue,
           )
         ],
-        if (authState.hasPermission(PermissionType.managePlaylists)) ... [
+        if (_authState.hasPermission(PermissionType.managePlaylists)) ... [
           IconButton(
             onPressed: () { AddTrackToPlaylistDialog.show(widget.trackId, context); },
             icon: const Icon(Icons.playlist_add, size: 32),
             tooltip: lm.track_actions_add_to_playlist,
           )
         ],
-        if (authState.hasPermission(PermissionType.downloadTracks)) ... [
+        if (_authState.hasPermission(PermissionType.downloadTracks)) ... [
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.download, size: 32),
             tooltip: lm.track_actions_download,
           )
         ],
-        if (authState.hasPermission(PermissionType.manageTracks)) ... [
+        if (_authState.hasPermission(PermissionType.manageTracks)) ... [
           IconButton(
             onPressed: () {
               GoRouter.of(context).push("/tracks/${widget.trackId}/edit");

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
-import 'package:vibin_app/dtos/metadata_sources.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
@@ -18,18 +17,18 @@ class PreferredMetadataPickers extends StatefulWidget {
 
 class _PreferredMetadataPickersState extends State<PreferredMetadataPickers> {
 
-  final SettingsManager settingsManager = getIt<SettingsManager>();
-  final ApiManager apiManager = getIt<ApiManager>();
+  final _settingsManager = getIt<SettingsManager>();
+  final _apiManager = getIt<ApiManager>();
 
-  late String artistProvider = settingsManager.get(Settings.artistMetadataProvider);
-  late String albumProvider = settingsManager.get(Settings.albumMetadataProvider);
-  late String trackProvider = settingsManager.get(Settings.trackMetadataProvider);
+  late String _artistProvider = _settingsManager.get(Settings.artistMetadataProvider);
+  late String _albumProvider = _settingsManager.get(Settings.albumMetadataProvider);
+  late String _trackProvider = _settingsManager.get(Settings.trackMetadataProvider);
 
-  late String lyricsProvider = settingsManager.get(Settings.lyricsProvider);
+  late String _lyricsProvider = _settingsManager.get(Settings.lyricsProvider);
 
-  late final lm = AppLocalizations.of(context)!;
+  late final _lm = AppLocalizations.of(context)!;
 
-  late final Future<MetadataSources> providersFuture = apiManager.service.getMetadataProviders();
+  late final _providersFuture = _apiManager.service.getMetadataProviders();
 
   Widget buildPicker(String title, String currentValue, List<String> options, Function(String) onChanged) {
     final actualSelected = options.contains(currentValue) ? currentValue : options.first;
@@ -55,7 +54,7 @@ class _PreferredMetadataPickersState extends State<PreferredMetadataPickers> {
   @override
   Widget build(BuildContext context) {
     return FutureContent(
-      future: providersFuture,
+      future: _providersFuture,
       builder: (context, providers) {
         return Column(
           spacing: 8,
@@ -63,54 +62,54 @@ class _PreferredMetadataPickersState extends State<PreferredMetadataPickers> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SettingsTitle(
-              title: lm.settings_app_metadata_providers_title,
-              subtitle: lm.settings_app_metadata_providers_description
+              title: _lm.settings_app_metadata_providers_title,
+              subtitle: _lm.settings_app_metadata_providers_description
             ),
 
             buildPicker(
-              lm.artists,
-              artistProvider,
+              _lm.artists,
+              _artistProvider,
               providers.artist,
               (value) {
-                settingsManager.set(Settings.artistMetadataProvider, value);
+                _settingsManager.set(Settings.artistMetadataProvider, value);
                 setState(() {
-                  artistProvider = value;
+                  _artistProvider = value;
                 });
               }
             ),
 
             buildPicker(
-              lm.albums,
-              albumProvider,
+              _lm.albums,
+              _albumProvider,
               providers.album,
               (value) {
-                settingsManager.set(Settings.albumMetadataProvider, value);
+                _settingsManager.set(Settings.albumMetadataProvider, value);
                 setState(() {
-                  albumProvider = value;
+                  _albumProvider = value;
                 });
               }
             ),
 
             buildPicker(
-              lm.tracks,
-              trackProvider,
+              _lm.tracks,
+              _trackProvider,
               providers.track,
               (value) {
-                settingsManager.set(Settings.trackMetadataProvider, value);
+                _settingsManager.set(Settings.trackMetadataProvider, value);
                 setState(() {
-                  trackProvider = value;
+                  _trackProvider = value;
                 });
               }
             ),
 
             buildPicker(
-              lm.lyrics_p,
-              lyricsProvider,
+              _lm.lyrics_p,
+              _lyricsProvider,
               providers.lyrics,
               (value) {
-                settingsManager.set(Settings.lyricsProvider, value);
+                _settingsManager.set(Settings.lyricsProvider, value);
                 setState(() {
-                  lyricsProvider = value;
+                  _lyricsProvider = value;
                 });
               }
             ),

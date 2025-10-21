@@ -21,21 +21,21 @@ class NowPlayingBar extends StatefulWidget {
 
 class _NowPlayingBarState extends State<NowPlayingBar> {
 
-  final AudioManager audioManager = getIt<AudioManager>();
-  late final lm = AppLocalizations.of(context)!;
+  final _audioManager = getIt<AudioManager>();
+  late final _lm = AppLocalizations.of(context)!;
 
-  late var currentMediaItem = audioManager.getCurrentMediaItem();
+  late var _currentMediaItem = _audioManager.getCurrentMediaItem();
 
-  late StreamSubscription currentMediaItemSubscription;
+  late final StreamSubscription _currentMediaItemSubscription;
 
   @override
   void initState() {
-    currentMediaItemSubscription = audioManager.currentMediaItemStream.listen((mediaItem) {
-      if (mediaItem.id == currentMediaItem?.id) {
+    _currentMediaItemSubscription = _audioManager.currentMediaItemStream.listen((mediaItem) {
+      if (mediaItem.id == _currentMediaItem?.id) {
         return;
       }
       setState(() {
-        currentMediaItem = mediaItem;
+        _currentMediaItem = mediaItem;
       });
     });
     super.initState();
@@ -43,23 +43,23 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
 
   @override
   void dispose() {
-    currentMediaItemSubscription.cancel();
+    _currentMediaItemSubscription.cancel();
     super.dispose();
   }
 
   void skipNext() {
-    audioManager.skipToNext();
+    _audioManager.skipToNext();
   }
 
   void skipPrevious() {
-    audioManager.skipToPrevious();
+    _audioManager.skipToPrevious();
   }
 
   void seek(double milliseconds) {
-    audioManager.seek(Duration(milliseconds: milliseconds.toInt()));
+    _audioManager.seek(Duration(milliseconds: milliseconds.toInt()));
   }
 
-  double get width => MediaQuery.sizeOf(context).width;
+  double get _width => MediaQuery.sizeOf(context).width;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
     final theme = Theme.of(context);
 
     final showExtendedControls = MediaQuery.sizeOf(context).width > 600;
-    return currentMediaItem == null ? const SizedBox.shrink() : GestureDetector(
+    return _currentMediaItem == null ? const SizedBox.shrink() : GestureDetector(
       onHorizontalDragEnd: (details) {
         if (details.primaryVelocity == null) return;
         if (details.primaryVelocity! < 0) {
@@ -100,12 +100,12 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
 
-                if (currentMediaItem?.artUri != null) ...[
+                if (_currentMediaItem?.artUri != null) ...[
                   Padding(
                     padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
                     child: Image.network(
-                      currentMediaItem!.artUri.toString(),
-                      headers: currentMediaItem?.artHeaders ?? {},
+                      _currentMediaItem!.artUri.toString(),
+                      headers: _currentMediaItem?.artHeaders ?? {},
                       width: 44,
                       height: 44
                     ),
@@ -117,13 +117,13 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                          currentMediaItem!.title,
+                          _currentMediaItem!.title,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: theme.textTheme.bodyLarge
                       ),
                       Text(
-                          currentMediaItem!.artist ?? "",
+                          _currentMediaItem!.artist ?? "",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: theme.textTheme.bodyMedium,
@@ -132,7 +132,7 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
                 ),
                 Row(
                   children: [
-                    if (width > 900) ... [
+                    if (_width > 900) ... [
                       ValueListenableBuilder(
                         valueListenable: sidebarNotifier,
                         builder: (context, value, child) {
@@ -148,7 +148,7 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
                                     ? theme.colorScheme.primary
                                     : theme.colorScheme.onSurface
                                 ),
-                                tooltip: lm.now_playing_queue,
+                                tooltip: _lm.now_playing_queue,
                               ),
                               IconButton(
                                 onPressed: () {
@@ -160,7 +160,7 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
                                     ? theme.colorScheme.primary
                                     : theme.colorScheme.onSurface
                                 ),
-                                tooltip: lm.now_playing_lyrics,
+                                tooltip: _lm.now_playing_lyrics,
                               ),
                             ],
                           );
@@ -176,13 +176,13 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
                     IconButton(
                       onPressed: skipPrevious,
                       icon: const Icon(Icons.skip_previous),
-                      tooltip: lm.now_playing_previous
+                      tooltip: _lm.now_playing_previous
                     ),
                     const PlayPauseToggle(),
                     IconButton(
                       onPressed: skipNext,
                       icon: const Icon(Icons.skip_next),
-                      tooltip: lm.now_playing_next
+                      tooltip: _lm.now_playing_next
                     ),
                   ],
                 )

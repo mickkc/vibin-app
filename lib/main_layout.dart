@@ -24,8 +24,8 @@ ValueNotifier<SidebarType> sidebarNotifier = ValueNotifier(SidebarType.none);
 
 class _MainLayoutViewState extends State<MainLayoutView> {
 
-  double get width => MediaQuery.of(context).size.width;
-  late double sideBarWidth = 300;
+  double get _width => MediaQuery.of(context).size.width;
+  late double _sideBarWidth = 300;
 
   @override
   void initState() {
@@ -43,11 +43,11 @@ class _MainLayoutViewState extends State<MainLayoutView> {
           child: widget.mainContent,
         ),
 
-        if (width > 900)
+        if (_width > 900)
           ValueListenableBuilder(
             valueListenable: sidebarNotifier,
             builder: (context, value, child) {
-              if (value == SidebarType.none || width <= 900) return SizedBox.shrink();
+              if (value == SidebarType.none || _width <= 900) return SizedBox.shrink();
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -55,8 +55,8 @@ class _MainLayoutViewState extends State<MainLayoutView> {
                     behavior: HitTestBehavior.translucent,
                     onHorizontalDragUpdate: (details) {
                       setState(() {
-                        sideBarWidth -= details.delta.dx;
-                        sideBarWidth = sideBarWidth.clamp(300, width / 3);
+                        _sideBarWidth -= details.delta.dx;
+                        _sideBarWidth = _sideBarWidth.clamp(300, _width / 3);
                       });
                     },
                     child: MouseRegion(
@@ -68,7 +68,7 @@ class _MainLayoutViewState extends State<MainLayoutView> {
                     ),
                   ),
                   SizedBox(
-                    width: sideBarWidth,
+                    width: _sideBarWidth,
                     child: switch (value) {
                       SidebarType.queue => NowPlayingQueue(),
                       SidebarType.lyrics => LyricsDialog(),

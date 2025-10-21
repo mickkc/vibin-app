@@ -26,35 +26,31 @@ class AlbumEditPage extends StatefulWidget {
 
 class _AlbumEditPageState extends State<AlbumEditPage> {
 
-  late ApiManager apiManager = getIt<ApiManager>();
-  late String? albumCoverUrl;
+  final _apiManager = getIt<ApiManager>();
+  late String? _albumCoverUrl;
 
-  late final lm = AppLocalizations.of(context)!;
-  late final theme = Theme.of(context);
+  late final _lm = AppLocalizations.of(context)!;
+  late final _theme = Theme.of(context);
 
-  bool initialized = false;
+  bool _initialized = false;
 
-  final formKey = GlobalKey<FormState>();
-  late TextEditingController titleController;
-  late TextEditingController descriptionController;
-  late TextEditingController yearController;
+  final _formKey = GlobalKey<FormState>();
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _yearController = TextEditingController();
 
-  final yearRegexp = RegExp(r'^\d{4}$');
+  final _yearRegexp = RegExp(r'^\d{4}$');
 
   @override
   void initState() {
     super.initState();
-    titleController = TextEditingController();
-    descriptionController = TextEditingController();
-    yearController = TextEditingController();
-
-    apiManager.service.getAlbum(widget.albumId).then((value) {
+    _apiManager.service.getAlbum(widget.albumId).then((value) {
       setState(() {
-        titleController.text = value.album.title;
-        descriptionController.text = value.album.description;
-        yearController.text = value.album.year?.toString() ?? "";
-        albumCoverUrl = null;
-        initialized = true;
+        _titleController.text = value.album.title;
+        _descriptionController.text = value.album.description;
+        _yearController.text = value.album.year?.toString() ?? "";
+        _albumCoverUrl = null;
+        _initialized = true;
       });
       return;
     });
@@ -62,9 +58,9 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
 
   @override
   void dispose() {
-    titleController.dispose();
-    descriptionController.dispose();
-    yearController.dispose();
+    _titleController.dispose();
+    _descriptionController.dispose();
+    _yearController.dispose();
     super.dispose();
   }
   
@@ -74,28 +70,28 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
       builder: (context) {
         return SearchAlbumMetadataDialog(onSelect: (metadata) {
           setState(() {
-            titleController.text = metadata.title;
-            descriptionController.text = metadata.description ?? "";
-            yearController.text = metadata.year?.toString() ?? "";
-            albumCoverUrl = metadata.coverImageUrl;
+            _titleController.text = metadata.title;
+            _descriptionController.text = metadata.description ?? "";
+            _yearController.text = metadata.year?.toString() ?? "";
+            _albumCoverUrl = metadata.coverImageUrl;
           });
-        }, initialSearch: titleController.text);
+        }, initialSearch: _titleController.text);
       }
     );
   }
 
   Future<void> save() async {
 
-    if (!formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) return;
 
     try {
       final editData = AlbumEditData(
-        title: titleController.text,
-        description: descriptionController.text,
-        year: yearController.text.isEmpty ? null : int.tryParse(yearController.text),
-        coverUrl: albumCoverUrl
+        title: _titleController.text,
+        description: _descriptionController.text,
+        year: _yearController.text.isEmpty ? null : int.tryParse(_yearController.text),
+        coverUrl: _albumCoverUrl
       );
-      await apiManager.service.updateAlbum(widget.albumId, editData);
+      await _apiManager.service.updateAlbum(widget.albumId, editData);
       imageCache.clear();
       imageCache.clearLiveImages();
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -104,91 +100,91 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
     }
     catch (e) {
       log("Failed to save album: $e", error: e, level: Level.error.value);
-      if (mounted) showErrorDialog(context, lm.edit_album_save_error);
+      if (mounted) showErrorDialog(context, _lm.edit_album_save_error);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return !initialized ? Center(child: CircularProgressIndicator()) : Material(
+    return !_initialized ? Center(child: CircularProgressIndicator()) : Material(
       child: Form(
-        key: formKey,
+        key: _formKey,
         child: ResponsiveEditView(
-          title: lm.edit_album_title,
+          title: _lm.edit_album_title,
           imageEditWidget: ImageEditField(
             onImageChanged: (albumCoverUrl) {
               setState(() {
-                this.albumCoverUrl = albumCoverUrl;
+                this._albumCoverUrl = albumCoverUrl;
               });
             },
             fallbackImageUrl: "/api/albums/${widget.albumId}/cover",
-            imageUrl: albumCoverUrl,
+            imageUrl: _albumCoverUrl,
             size: 256,
-            label: lm.edit_album_cover,
+            label: _lm.edit_album_cover,
           ),
           actions: [
             ElevatedButton.icon(
               onPressed: () { Navigator.pop(context); },
               icon: const Icon(Icons.cancel),
-              label: Text(lm.dialog_cancel),
+              label: Text(_lm.dialog_cancel),
               style: ElevatedButton.styleFrom(
-                backgroundColor: theme.colorScheme.secondaryContainer,
-                foregroundColor: theme.colorScheme.onSecondaryContainer,
+                backgroundColor: _theme.colorScheme.secondaryContainer,
+                foregroundColor: _theme.colorScheme.onSecondaryContainer,
               ),
             ),
             ElevatedButton.icon(
               onPressed: showMetadataDialog,
               icon: const Icon(Icons.search),
-              label: Text(lm.edit_album_search_metadata),
+              label: Text(_lm.edit_album_search_metadata),
               style: ElevatedButton.styleFrom(
-                backgroundColor: theme.colorScheme.secondaryContainer,
-                foregroundColor: theme.colorScheme.onSecondaryContainer,
+                backgroundColor: _theme.colorScheme.secondaryContainer,
+                foregroundColor: _theme.colorScheme.onSecondaryContainer,
               ),
             ),
             ElevatedButton.icon(
               onPressed: save,
               icon: const Icon(Icons.save),
-              label: Text(lm.dialog_save),
+              label: Text(_lm.dialog_save),
               style: ElevatedButton.styleFrom(
-                backgroundColor: theme.colorScheme.primaryContainer,
-                foregroundColor: theme.colorScheme.onPrimaryContainer,
+                backgroundColor: _theme.colorScheme.primaryContainer,
+                foregroundColor: _theme.colorScheme.onPrimaryContainer,
               ),
             )
           ],
           children: [
             TextFormField(
               decoration: InputDecoration(
-                labelText: lm.edit_album_name,
+                labelText: _lm.edit_album_name,
               ),
-              controller: titleController,
+              controller: _titleController,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return lm.edit_album_name_validation_empty;
+                  return _lm.edit_album_name_validation_empty;
                 }
                 if (value.length > 255) {
-                  return lm.edit_album_name_validation_length;
+                  return _lm.edit_album_name_validation_length;
                 }
                 return null;
               },
             ),
             TextFormField(
               decoration: InputDecoration(
-                labelText: lm.edit_album_description,
+                labelText: _lm.edit_album_description,
               ),
-              controller: descriptionController,
+              controller: _descriptionController,
               maxLines: null,
             ),
             TextFormField(
               decoration: InputDecoration(
-                labelText: lm.edit_album_year,
+                labelText: _lm.edit_album_year,
               ),
-              controller: yearController,
+              controller: _yearController,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return null;
                 }
-                if (!yearRegexp.hasMatch(value)) {
-                  return lm.edit_album_year_validation_not_number;
+                if (!_yearRegexp.hasMatch(value)) {
+                  return _lm.edit_album_year_validation_not_number;
                 }
                 return null;
               }

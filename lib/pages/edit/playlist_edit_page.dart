@@ -29,38 +29,38 @@ class PlaylistEditPage extends StatefulWidget {
 
 class _PlaylistEditPageState extends State<PlaylistEditPage> {
 
-  GoRouter get router => GoRouter.of(context);
-  AppLocalizations get lm => AppLocalizations.of(context)!;
-  ThemeData get theme => Theme.of(context);
+  late final router = GoRouter.of(context);
+  late final lm = AppLocalizations.of(context)!;
+  late final theme = Theme.of(context);
 
-  String? coverUrl;
-  bool public = false;
+  String? _coverUrl;
+  bool _public = false;
 
-  final formKey = GlobalKey<FormState>();
-  late TextEditingController nameController;
-  late TextEditingController descriptionController;
-  late TextEditingController vibedefController;
+  final _formKey = GlobalKey<FormState>();
+  late TextEditingController _nameController;
+  late TextEditingController _descriptionController;
+  late TextEditingController _vibedefController;
 
-  late ApiManager apiManager = getIt<ApiManager>();
-  late AuthState authState = getIt<AuthState>();
+  final _apiManager = getIt<ApiManager>();
+  final _authState = getIt<AuthState>();
 
   bool initialized = false;
 
   @override
   void initState() {
-    nameController = TextEditingController();
-    descriptionController = TextEditingController();
-    vibedefController = TextEditingController();
+    _nameController = TextEditingController();
+    _descriptionController = TextEditingController();
+    _vibedefController = TextEditingController();
     super.initState();
 
     if (widget.playlistId != null) {
-      apiManager.service.getPlaylist(widget.playlistId!).then((value) {
+      _apiManager.service.getPlaylist(widget.playlistId!).then((value) {
         setState(() {
-          nameController.text = value.playlist.name;
-          descriptionController.text = value.playlist.description;
-          coverUrl = null;
-          vibedefController.text = value.playlist.vibedef ?? "";
-          public = value.playlist.public;
+          _nameController.text = value.playlist.name;
+          _descriptionController.text = value.playlist.description;
+          _coverUrl = null;
+          _vibedefController.text = value.playlist.vibedef ?? "";
+          _public = value.playlist.public;
           initialized = true;
         });
       });
@@ -72,28 +72,28 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
 
   @override
   void dispose() {
-    nameController.dispose();
-    descriptionController.dispose();
-    vibedefController.dispose();
+    _nameController.dispose();
+    _descriptionController.dispose();
+    _vibedefController.dispose();
     super.dispose();
   }
 
   Future<void> save() async {
 
-    if (!formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) return;
 
     try {
       final editData = PlaylistEditData(
-        name: nameController.text,
-        description: descriptionController.text,
-        vibedef: vibedefController.text.isEmpty ? null : vibedefController.text,
-        isPublic: public,
-        coverImageUrl: coverUrl
+        name: _nameController.text,
+        description: _descriptionController.text,
+        vibedef: _vibedefController.text.isEmpty ? null : _vibedefController.text,
+        isPublic: _public,
+        coverImageUrl: _coverUrl
       );
 
       final playlist = widget.playlistId == null
-          ? await apiManager.service.createPlaylist(editData)
-          : await apiManager.service.updatePlaylist(widget.playlistId!, editData);
+          ? await _apiManager.service.createPlaylist(editData)
+          : await _apiManager.service.updatePlaylist(widget.playlistId!, editData);
 
       if (widget.playlistId == null) {
         router.replace("/playlists/${playlist.id}");
@@ -116,7 +116,7 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
     }
 
     try {
-      await apiManager.service.deletePlaylist(widget.playlistId!);
+      await _apiManager.service.deletePlaylist(widget.playlistId!);
       if (mounted) router.go("/");
     }
     catch (e) {
@@ -125,15 +125,15 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
   }
 
   bool allowVisibilityChange() {
-    if (public && !authState.hasPermission(PermissionType.createPrivatePlaylists)) return false;
-    if (!public && !authState.hasPermission(PermissionType.createPublicPlaylists)) return false;
+    if (_public && !_authState.hasPermission(PermissionType.createPrivatePlaylists)) return false;
+    if (!_public && !_authState.hasPermission(PermissionType.createPublicPlaylists)) return false;
     return true;
   }
 
   @override
   Widget build(BuildContext context) {
     return !initialized ? Center(child: CircularProgressIndicator()) : Form(
-      key: formKey,
+      key: _formKey,
       child: ResponsiveEditView(
         title: lm.edit_playlist_title,
         actions: [
@@ -173,12 +173,12 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
         imageEditWidget: ImageEditField(
           onImageChanged: (url) {
             setState(() {
-              coverUrl = url;
+              _coverUrl = url;
             });
           },
           fallbackImageUrl: widget.playlistId != null ? "/api/playlists/${widget.playlistId}/image" : null,
           label: lm.edit_playlist_cover,
-          imageUrl: coverUrl,
+          imageUrl: _coverUrl,
           size: 256
         ),
         children: [
@@ -186,7 +186,7 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
             decoration: InputDecoration(
               labelText: lm.edit_playlist_name,
             ),
-            controller: nameController,
+            controller: _nameController,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
                 return lm.edit_playlist_name_validation_empty;
@@ -201,23 +201,23 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
             decoration: InputDecoration(
               labelText: lm.edit_playlist_description,
             ),
-            controller: descriptionController,
+            controller: _descriptionController,
             maxLines: null,
           ),
           TextField(
             decoration: InputDecoration(
               labelText: lm.edit_playlist_vibedef,
             ),
-            controller: vibedefController,
+            controller: _vibedefController,
             maxLines: null,
           ),
           if (allowVisibilityChange())
             SwitchListTile(
               title: Text(lm.edit_playlist_public),
-              value: public,
+              value: _public,
               onChanged: (value) {
                 setState(() {
-                  public = value;
+                  _public = value;
                 });
               },
               thumbIcon: WidgetStateProperty.resolveWith<Icon?>((states) => states.contains(WidgetState.selected) ? Icon(Icons.public) : Icon(Icons.lock))

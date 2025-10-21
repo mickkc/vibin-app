@@ -17,8 +17,8 @@ class RelatedSection extends StatelessWidget {
     required this.trackId
   });
 
-  final apiManager = getIt<ApiManager>();
-  late final tracks = apiManager.service.getRelatedTracks(trackId, 20);
+  final _apiManager = getIt<ApiManager>();
+  late final _tracks = _apiManager.service.getRelatedTracks(trackId, 20);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class RelatedSection extends StatelessWidget {
           title: AppLocalizations.of(context)!.section_related_tracks
         ),
         FutureContent(
-          future: tracks,
+          future: _tracks,
           height: 205,
           hasData: (tracks) => tracks.isNotEmpty,
           builder: (context, tracks) {

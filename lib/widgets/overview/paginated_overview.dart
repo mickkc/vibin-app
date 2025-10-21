@@ -30,35 +30,36 @@ class PaginatedOverview extends StatefulWidget {
 }
 
 class _PaginatedOverviewState extends State<PaginatedOverview> {
-  String searchQuery = "";
-  int page = 1;
-  late Future<dynamic> currentPagination;
+  
+  String _searchQuery = "";
+  int _page = 1;
+  late Future<dynamic> _currentPagination;
 
-  final SettingsManager settingsManager = getIt<SettingsManager>();
+  final _settingsManager = getIt<SettingsManager>();
 
   @override
   void initState() {
     super.initState();
-    currentPagination = fetchData();
+    _currentPagination = fetchData();
   }
 
   void updatePage(int newPage) {
     setState(() {
-      page = newPage;
-      currentPagination = fetchData();
+      _page = newPage;
+      _currentPagination = fetchData();
     });
   }
 
   void updateSearch(String newSearch) {
     setState(() {
-      searchQuery = newSearch;
-      page = 1;
-      currentPagination = fetchData();
+      _searchQuery = newSearch;
+      _page = 1;
+      _currentPagination = fetchData();
     });
   }
 
   Future<dynamic> fetchData() {
-    return widget.fetchFunction(page, settingsManager.get(Settings.pageSize), searchQuery);
+    return widget.fetchFunction(_page, _settingsManager.get(Settings.pageSize), _searchQuery);
   }
 
   @override
@@ -68,7 +69,7 @@ class _PaginatedOverviewState extends State<PaginatedOverview> {
         OverviewHeader(
           title: widget.title,
           icon: widget.icon,
-          searchQuery: searchQuery,
+          searchQuery: _searchQuery,
           onSearchSubmitted: (value) {
             updateSearch(value);
           }
@@ -80,7 +81,7 @@ class _PaginatedOverviewState extends State<PaginatedOverview> {
           children: widget.actions!,
         ),
         FutureContent(
-          future: currentPagination,
+          future: _currentPagination,
           hasData: (data) => data.items.isNotEmpty,
           builder: (context, pagination) {
             return Column(

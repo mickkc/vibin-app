@@ -35,24 +35,24 @@ class TrackList extends StatefulWidget {
 
 class _TrackListState extends State<TrackList> {
 
-  late final AudioManager audioManager = getIt<AudioManager>();
+  late final _audioManager = getIt<AudioManager>();
 
-  late String? currentlyPlayingTrackId = audioManager.getCurrentMediaItem()?.id;
+  late String? _currentlyPlayingTrackId = _audioManager.getCurrentMediaItem()?.id;
 
-  late final StreamSubscription sequenceSubscription;
+  late final StreamSubscription _sequenceSubscription;
 
   _TrackListState() {
-    sequenceSubscription = audioManager.audioPlayer.sequenceStateStream.listen((event) {
+    _sequenceSubscription = _audioManager.currentMediaItemStream.listen((mediaItem) {
       if (!mounted) return;
       setState(() {
-        currentlyPlayingTrackId = audioManager.getCurrentMediaItem()?.id;
+        _currentlyPlayingTrackId = mediaItem.id;
       });
     });
   }
 
   @override
   void dispose() {
-    sequenceSubscription.cancel();
+    _sequenceSubscription.cancel();
     super.dispose();
   }
 
@@ -159,7 +159,7 @@ class _TrackListState extends State<TrackList> {
       },
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: widget.tracks.map((track) {
-        final isCurrentTrack = currentlyPlayingTrackId == track.id.toString();
+        final isCurrentTrack = _currentlyPlayingTrackId == track.id.toString();
         return TableRow(
           children: [
             NetworkImageWidget(
