@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vibin_app/color_schemes/color_scheme_list.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/settings/accent_color_picker.dart';
@@ -13,6 +12,7 @@ import 'package:vibin_app/widgets/settings/settings_title.dart';
 import '../../dialogs/lyrics_dialog.dart';
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
+import '../../themes/color_scheme_list.dart';
 
 class AppSettingsPage extends StatefulWidget {
 

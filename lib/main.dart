@@ -9,13 +9,13 @@ import 'package:just_audio_media_kit/just_audio_media_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:vibin_app/audio/audio_manager.dart';
-import 'package:vibin_app/color_schemes/color_scheme_list.dart';
 import 'package:vibin_app/dbus/mpris_player.dart';
 import 'package:vibin_app/dependency_injection.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/router.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
+import 'package:vibin_app/themes/color_scheme_list.dart';
 import 'package:vibin_app/widgets/settings/theme_settings.dart';
 
 import 'auth/auth_state.dart';

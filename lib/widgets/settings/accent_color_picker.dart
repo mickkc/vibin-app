@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:vibin_app/color_schemes/color_scheme_list.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
+
+import '../../themes/color_scheme_list.dart';
 
 class AccentColorPicker extends StatefulWidget {
   const AccentColorPicker({super.key});

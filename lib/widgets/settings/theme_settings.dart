@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vibin_app/color_schemes/color_scheme_list.dart';
+
+import '../../themes/color_scheme_list.dart';
 
 class ThemeSettings {
   ThemeMode themeMode;

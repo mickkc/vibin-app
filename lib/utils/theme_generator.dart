@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../themes/text_theme.dart';
+
 class ThemeGenerator {
 
   static ThemeData generateTheme(Color primaryColor, CustomThemeSpec spec) {
@@ -89,6 +91,8 @@ class ThemeGenerator {
       iconTheme: IconThemeData(
         color: spec.foregroundColor,
       ),
+      fontFamily: TextThemes.defaultFontFamily,
+      textTheme: TextThemes.defaultTextTheme
 
     );
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:vibin_app/color_schemes/base_color_scheme_provider.dart';
 import 'package:vibin_app/utils/theme_generator.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../base_color_scheme_provider.dart';
 
 class GruvboxTheme extends BaseColorSchemeProvider {
 
