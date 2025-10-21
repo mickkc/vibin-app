@@ -27,7 +27,7 @@ class EntityCard extends StatelessWidget {
       case EntityCardType.playlist:
         return entity.name;
       case EntityCardType.user:
-        return entity.displayName;
+        return entity.displayName ?? entity.username;
     }
   }
 
