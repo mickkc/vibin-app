@@ -22,7 +22,7 @@ Please note that this project, just like the server, is still in its early stage
   - [ ] Windows
   - [ ] Web
 - [x] Dark/Light mode
-- [x] Dynamic color scheme
+- [x] ~~Dynamic color scheme~~ (Dropped in favor of manual color schemes due to complexity)
 - [x] Manual color schemes
 - [x] Player controls
     - [x] Play/Pause

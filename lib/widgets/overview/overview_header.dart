@@ -20,7 +20,10 @@ class OverviewHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final width = MediaQuery.of(context).size.width;
+    final theme = Theme.of(context);
+
     return Row(
       spacing: 8,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -31,10 +34,14 @@ class OverviewHeader extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(icon, size: 32),
+            Icon(
+              icon,
+              size: 32,
+              color: theme.colorScheme.onSurface,
+            ),
             Text(
               title,
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: theme.textTheme.headlineMedium,
             ),
           ],
         ),
@@ -50,7 +57,7 @@ class OverviewHeader extends StatelessWidget {
               ),
               filled: true,
               contentPadding: EdgeInsets.zero,
-              fillColor: Theme.of(context).colorScheme.surfaceContainerHigh
+              fillColor: theme.colorScheme.surfaceContainerHigh
             ),
             controller: TextEditingController(text: searchQuery),
             onChanged: onSearchChanged,
