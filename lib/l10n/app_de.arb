@@ -271,6 +271,10 @@
 
   "settings_app_theme_gruvbox_title": "Gruvbox",
   "settings_app_theme_material3_title": "Material 3",
+  "settings_app_theme_catppuccin_latte_title": "Catppuccin Latte",
+  "settings_app_theme_catppuccin_frappe_title": "Catppuccin Frappe",
+  "settings_app_theme_catppuccin_macchiato_title": "Catppuccin Macchiato",
+  "settings_app_theme_catppuccin_mocha_title": "Catppuccin Mocha",
 
   "settings_app_lyrics_design_title": "Liedtext-Design",
   "settings_app_lyrics_design_system": "System",

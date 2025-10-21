@@ -60,6 +60,10 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
               return switch(key) {
                 ColorSchemeKey.material3 => _lm.settings_app_theme_material3_title,
                 ColorSchemeKey.gruvbox => _lm.settings_app_theme_gruvbox_title,
+                ColorSchemeKey.catppuccinLatte => _lm.settings_app_theme_catppuccin_latte_title,
+                ColorSchemeKey.catppuccinFrappe => _lm.settings_app_theme_catppuccin_frappe_title,
+                ColorSchemeKey.catppuccinMacchiato => _lm.settings_app_theme_catppuccin_macchiato_title,
+                ColorSchemeKey.catppuccinMocha => _lm.settings_app_theme_catppuccin_mocha_title
               };
             },
             icon: Icons.format_paint,
