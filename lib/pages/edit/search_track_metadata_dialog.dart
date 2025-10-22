@@ -3,6 +3,7 @@ import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/track/track_info_metadata.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/edit/base_metadata_dialog.dart';
+import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
 class SearchTrackMetadataDialog extends StatelessWidget {
@@ -37,7 +38,8 @@ class SearchTrackMetadataDialog extends StatelessWidget {
           subtitle: Text(metadata.artistNames?.join(", ") ?? "")
         );
       },
-      sourceSelector: (s) => s.track
+      sourceSelector: (s) => s.track,
+      defaultProviderSettingKey: Settings.trackMetadataProvider
     );
   }
 }

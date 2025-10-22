@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/artist/artist_metadata.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -39,7 +40,8 @@ class SearchArtistMetadataDialog extends StatelessWidget {
           subtitle: Text(metadata.biography ?? lm.edit_artist_metadata_no_description)
         );
       },
-      sourceSelector: (s) => s.artist
+      sourceSelector: (s) => s.artist,
+      defaultProviderSettingKey: Settings.artistMetadataProvider,
     );
   }
 }

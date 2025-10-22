@@ -4,6 +4,7 @@ import 'package:vibin_app/dtos/lyrics_metadata.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/edit/base_metadata_dialog.dart';
+import 'package:vibin_app/settings/setting_definitions.dart';
 
 import '../../l10n/app_localizations.dart';
 
@@ -49,6 +50,7 @@ class SearchLyricsDialog extends StatelessWidget {
       },
       sourceSelector: (sources) => sources.lyrics,
       initialSearch: initialSearch,
+      defaultProviderSettingKey: Settings.lyricsProvider,
     );
   }
 }

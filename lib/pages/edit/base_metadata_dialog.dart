@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/metadata_sources.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/settings/settings_key.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../settings/settings_manager.dart';
 
 class BaseMetadataDialog<T> extends StatefulWidget {
   final String? initialSearch;
@@ -12,6 +14,7 @@ class BaseMetadataDialog<T> extends StatefulWidget {
   final Future<List<T>> Function(String, String) fetchMethod;
   final ListTile Function(BuildContext, T, void Function() onTap) itemBuilder;
   final List<String> Function(MetadataSources) sourceSelector;
+  final StringSettingsKey? defaultProviderSettingKey;
 
   const BaseMetadataDialog({
     super.key,
@@ -20,6 +23,7 @@ class BaseMetadataDialog<T> extends StatefulWidget {
     required this.fetchMethod,
     required this.itemBuilder,
     required this.sourceSelector,
+    this.defaultProviderSettingKey,
   });
 
   @override
@@ -38,6 +42,7 @@ class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
   late Future<List<T>> _searchFuture;
 
   final _apiManager = getIt<ApiManager>();
+  final _settingsManager = getIt<SettingsManager>();
   late final _lm = AppLocalizations.of(context)!;
 
   double get width => MediaQuery.of(context).size.width;
@@ -63,9 +68,20 @@ class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
     _apiManager.service.getMetadataProviders().then((providers) {
       setState(() {
         _providers = widget.sourceSelector(providers);
+
         if (_providers.isNotEmpty) {
-          _selectedProvider = _providers.first;
+          final defaultProvider = widget.defaultProviderSettingKey != null
+              ? _settingsManager.get(widget.defaultProviderSettingKey!)
+              : null;
+
+          if (defaultProvider != null && _providers.contains(defaultProvider)) {
+            _selectedProvider = defaultProvider;
+          }
+          else {
+            _selectedProvider = _providers.first;
+          }
         }
+
         _initialized = true;
       });
       search();

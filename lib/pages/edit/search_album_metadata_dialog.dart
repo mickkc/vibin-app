@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/album/album_info_metadata.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -44,7 +45,8 @@ class SearchAlbumMetadataDialog extends StatelessWidget {
           subtitle: Text([artistStr, yearStr, descriptionStr].where((s) => s.isNotEmpty).join(", "))
         );
       },
-      sourceSelector: (s) => s.album
+      sourceSelector: (s) => s.album,
+      defaultProviderSettingKey: Settings.albumMetadataProvider,
     );
   }
 }
