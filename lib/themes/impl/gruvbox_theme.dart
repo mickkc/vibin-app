@@ -38,7 +38,7 @@ class GruvboxTheme extends BaseColorSchemeProvider {
     ];
   }
   
-  final darkSpec = CustomThemeSpec(
+  static final _darkSpec = const CustomThemeSpec(
     backgroundColor: Color(0xFF1D2021),
     foregroundColor: Color(0xFFFBF1C7),
     highestSurfaceColor: Color(0xFF32302F),
@@ -48,7 +48,7 @@ class GruvboxTheme extends BaseColorSchemeProvider {
     brightness: Brightness.dark
   );
 
-  final lightSpec = CustomThemeSpec(
+  static final _lightSpec = const CustomThemeSpec(
       backgroundColor: Color(0xFFFBF1C7),
       foregroundColor: Color(0xFF1D2021),
       highestSurfaceColor: Color(0xFFEBDBB2),
@@ -61,7 +61,7 @@ class GruvboxTheme extends BaseColorSchemeProvider {
   @override
   ThemeData generateThemeData({required Color accentColor, required Brightness brightness}) {
 
-    final spec = brightness == Brightness.light ? lightSpec : darkSpec;
+    final spec = brightness == Brightness.light ? _lightSpec : _darkSpec;
 
     return ThemeGenerator.generateTheme(accentColor, spec);
   }

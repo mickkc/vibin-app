@@ -16,7 +16,7 @@ class Material3Theme extends BaseColorSchemeProvider {
 
   @override
   List<Color> getAccentColors(Brightness brightness) {
-    return [
+    return const [
       Colors.red,
       Colors.pink,
       Colors.purple,

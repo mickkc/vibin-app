@@ -118,7 +118,7 @@ class CustomThemeSpec {
   final bool backgroundOnSecondary;
   final bool backgroundOnError;
 
-  CustomThemeSpec({
+  const CustomThemeSpec({
     required this.backgroundColor,
     required this.foregroundColor,
     required this.highestSurfaceColor,

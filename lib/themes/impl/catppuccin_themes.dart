@@ -17,7 +17,7 @@ class CatppuccinLatteTheme extends BaseColorSchemeProvider {
     return lm.settings_app_theme_catppuccin_latte_title;
   }
 
-  final _spec = CustomThemeSpec(
+  static final _spec = const CustomThemeSpec(
     backgroundColor: Color(0xffeff1f5),
     foregroundColor: Color(0xff4c4f69),
     highestSurfaceColor: Color(0xffccd0da),
@@ -29,7 +29,7 @@ class CatppuccinLatteTheme extends BaseColorSchemeProvider {
 
   @override
   List<Color> getAccentColors(Brightness brightness) {
-    return [
+    return const [
       Color(0xffdc8a78),
       Color(0xffdd7878),
       Color(0xffea76cb),
@@ -65,7 +65,7 @@ class CatppuccinFrappeTheme extends BaseColorSchemeProvider {
     return lm.settings_app_theme_catppuccin_frappe_title;
   }
 
-  final _spec = CustomThemeSpec(
+  static final _spec = const CustomThemeSpec(
     backgroundColor: Color(0xff303446),
     foregroundColor: Color(0xffc6d0f5),
     highestSurfaceColor: Color(0xff51576d),
@@ -80,7 +80,7 @@ class CatppuccinFrappeTheme extends BaseColorSchemeProvider {
 
   @override
   List<Color> getAccentColors(Brightness brightness) {
-    return [
+    return const [
       Color(0xffeebebe),
       Color(0xfff4b8e4),
       Color(0xffca9ee6),
@@ -115,7 +115,7 @@ class CatppuccinMacchiatoTheme extends BaseColorSchemeProvider {
     return lm.settings_app_theme_catppuccin_macchiato_title;
   }
 
-  final _spec = CustomThemeSpec(
+  static final _spec = const CustomThemeSpec(
       backgroundColor: Color(0xff24273a),
       foregroundColor: Color(0xffcad3f5),
       highestSurfaceColor: Color(0xff494d64),
@@ -130,7 +130,7 @@ class CatppuccinMacchiatoTheme extends BaseColorSchemeProvider {
 
   @override
   List<Color> getAccentColors(Brightness brightness) {
-    return [
+    return const [
       Color(0xfff0c6c6),
       Color(0xfff5bde6),
       Color(0xffc6a0f6),
@@ -165,7 +165,7 @@ class CatppuccinMochaTheme extends BaseColorSchemeProvider {
     return lm.settings_app_theme_catppuccin_mocha_title;
   }
 
-  final _spec = CustomThemeSpec(
+  static final _spec = const CustomThemeSpec(
       backgroundColor: Color(0xff1e1e2e),
       foregroundColor: Color(0xffcdd6f4),
       highestSurfaceColor: Color(0xff45475a),
@@ -180,7 +180,7 @@ class CatppuccinMochaTheme extends BaseColorSchemeProvider {
 
   @override
   List<Color> getAccentColors(Brightness brightness) {
-    return [
+    return const [
       Color(0xfff2cdcd),
       Color(0xfff5c2e7),
       Color(0xffcba6f7),

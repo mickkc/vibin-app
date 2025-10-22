@@ -6,6 +6,7 @@ import '../settings/settings_manager.dart';
 import 'base_color_scheme_provider.dart';
 import 'impl/gruvbox_theme.dart';
 import 'impl/material3_theme.dart';
+import 'impl/nord_theme.dart';
 
 enum ColorSchemeKey {
   material3,
@@ -14,6 +15,7 @@ enum ColorSchemeKey {
   catppuccinFrappe,
   catppuccinMacchiato,
   catppuccinMocha,
+  nord,
 }
 
 class ColorSchemeList {
@@ -26,6 +28,7 @@ class ColorSchemeList {
       ColorSchemeKey.catppuccinFrappe => CatppuccinFrappeTheme(),
       ColorSchemeKey.catppuccinMacchiato => CatppuccinMacchiatoTheme(),
       ColorSchemeKey.catppuccinMocha => CatppuccinMochaTheme(),
+      ColorSchemeKey.nord => NordTheme(),
     };
   }
 
