@@ -4,6 +4,7 @@ import 'package:vibin_app/themes/impl/catppuccin_themes.dart';
 import '../main.dart';
 import '../settings/settings_manager.dart';
 import 'base_color_scheme_provider.dart';
+import 'impl/dracula_theme.dart';
 import 'impl/gruvbox_theme.dart';
 import 'impl/material3_theme.dart';
 import 'impl/nord_theme.dart';
@@ -16,6 +17,7 @@ enum ColorSchemeKey {
   catppuccinMacchiato,
   catppuccinMocha,
   nord,
+  dracula
 }
 
 class ColorSchemeList {
@@ -29,6 +31,7 @@ class ColorSchemeList {
       ColorSchemeKey.catppuccinMacchiato => CatppuccinMacchiatoTheme(),
       ColorSchemeKey.catppuccinMocha => CatppuccinMochaTheme(),
       ColorSchemeKey.nord => NordTheme(),
+      ColorSchemeKey.dracula => DraculaTheme(),
     };
   }
 
