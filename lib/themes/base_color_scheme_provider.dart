@@ -3,7 +3,6 @@ import 'package:vibin_app/l10n/app_localizations.dart';
 
 abstract class BaseColorSchemeProvider {
 
-  String get id;
   String getName(AppLocalizations lm);
 
   bool get supportsBrightness => true;

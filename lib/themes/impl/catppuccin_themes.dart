@@ -7,9 +7,6 @@ import '../../l10n/app_localizations.dart';
 class CatppuccinLatteTheme extends BaseColorSchemeProvider {
 
   @override
-  String get id => "catppuccin_latte";
-
-  @override
   bool get supportsBrightness => false;
 
   @override
@@ -53,9 +50,6 @@ class CatppuccinLatteTheme extends BaseColorSchemeProvider {
 }
 
 class CatppuccinFrappeTheme extends BaseColorSchemeProvider {
-
-  @override
-  String get id => "catppuccin_frappe";
 
   @override
   bool get supportsBrightness => false;
@@ -105,9 +99,6 @@ class CatppuccinFrappeTheme extends BaseColorSchemeProvider {
 class CatppuccinMacchiatoTheme extends BaseColorSchemeProvider {
 
   @override
-  String get id => "catppuccin_macchiato";
-
-  @override
   bool get supportsBrightness => false;
 
   @override
@@ -153,9 +144,6 @@ class CatppuccinMacchiatoTheme extends BaseColorSchemeProvider {
 }
 
 class CatppuccinMochaTheme extends BaseColorSchemeProvider {
-
-  @override
-  String get id => "catppuccin_mocha";
 
   @override
   bool get supportsBrightness => false;

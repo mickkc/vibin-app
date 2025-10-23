@@ -7,9 +7,6 @@ import '../base_color_scheme_provider.dart';
 class GruvboxTheme extends BaseColorSchemeProvider {
 
   @override
-  String get id => "gruvbox";
-
-  @override
   String getName(AppLocalizations lm) {
     return lm.settings_app_theme_gruvbox_title;
   }

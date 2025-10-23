@@ -5,8 +5,6 @@ import 'package:vibin_app/utils/theme_generator.dart';
 import '../../l10n/app_localizations.dart';
 
 class NordTheme extends BaseColorSchemeProvider {
-  @override
-  String get id => "nord";
 
   @override
   String getName(AppLocalizations lm) {

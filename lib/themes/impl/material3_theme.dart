@@ -7,9 +7,6 @@ import '../text_theme.dart';
 class Material3Theme extends BaseColorSchemeProvider {
 
   @override
-  String get id => "material3";
-
-  @override
   String getName(AppLocalizations lm) {
     return lm.settings_app_theme_material3_title;
   }
