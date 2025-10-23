@@ -8,6 +8,7 @@ import 'impl/dracula_theme.dart';
 import 'impl/gruvbox_theme.dart';
 import 'impl/material3_theme.dart';
 import 'impl/nord_theme.dart';
+import 'impl/solarized_theme.dart';
 
 enum ColorSchemeKey {
   material3,
@@ -17,7 +18,8 @@ enum ColorSchemeKey {
   catppuccinMacchiato,
   catppuccinMocha,
   nord,
-  dracula
+  dracula,
+  solarized,
 }
 
 class ColorSchemeList {
@@ -32,6 +34,7 @@ class ColorSchemeList {
       ColorSchemeKey.catppuccinMocha => CatppuccinMochaTheme(),
       ColorSchemeKey.nord => NordTheme(),
       ColorSchemeKey.dracula => DraculaTheme(),
+      ColorSchemeKey.solarized => SolarizedTheme(),
     };
   }
 
