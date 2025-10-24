@@ -70,10 +70,10 @@ Please note that this project, just like the server, is still in its early stage
 - [x] Create 
   - [x] Playlists
   - [x] Tags
-- [ ] Delete
+- [x] Delete
     - [x] Playlists
     - [x] Tracks
-    - [ ] Albums
+    - [x] Albums
     - [x] Artists
     - [x] Tags
 - [ ] Upload tracks

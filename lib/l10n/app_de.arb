@@ -154,6 +154,11 @@
   "edit_album_metadata_no_description": "Keine Beschreibung verfügbar.",
   "edit_album_metadata_has_description": "Beschreibung verfügbar.",
 
+  "delete_album_confirmation": "Möchtest du dieses Album wirklich löschen?",
+  "delete_album_confirmation_warning": "Diese Aktion kann nicht rückgängig gemacht werden. Alle Titel in diesem Album werden gelöscht.",
+  "delete_album_error": "Beim Löschen des Albums ist ein Fehler aufgetreten.",
+
+
   "edit_artist_title": "Künstler bearbeiten",
   "edit_artist_name": "Name",
   "edit_artist_name_validation_empty": "Der Künstlername darf nicht leer sein.",

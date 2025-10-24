@@ -1,8 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:vibin_app/dtos/album/album_edit_data.dart';
+import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/pages/edit/search_album_metadata_dialog.dart';
@@ -10,6 +12,7 @@ import 'package:vibin_app/widgets/edit/image_edit_field.dart';
 import 'package:vibin_app/widgets/edit/responsive_edit_view.dart';
 
 import '../../api/api_manager.dart';
+import '../../auth/auth_state.dart';
 import '../../main.dart';
 
 class AlbumEditPage extends StatefulWidget {
@@ -27,6 +30,7 @@ class AlbumEditPage extends StatefulWidget {
 class _AlbumEditPageState extends State<AlbumEditPage> {
 
   final _apiManager = getIt<ApiManager>();
+  final _authState = getIt<AuthState>();
   late String? _albumCoverUrl;
 
   late final _lm = AppLocalizations.of(context)!;
@@ -104,6 +108,22 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
     }
   }
 
+  Future<void> delete() async {
+    final confirmed = await showConfirmDialog(context, _lm.delete_album_confirmation, _lm.delete_album_confirmation_warning);
+    if (!confirmed) return;
+
+    try {
+      await _apiManager.service.deleteAlbum(widget.albumId);
+      if (mounted) {
+        GoRouter.of(context).go("/albums");
+      }
+    }
+    catch (e) {
+      log("Failed to delete album: $e", error: e, level: Level.error.value);
+      if (mounted) showErrorDialog(context, _lm.delete_album_error);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return !_initialized ? Center(child: CircularProgressIndicator()) : Material(
@@ -114,7 +134,7 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
           imageEditWidget: ImageEditField(
             onImageChanged: (albumCoverUrl) {
               setState(() {
-                this._albumCoverUrl = albumCoverUrl;
+                _albumCoverUrl = albumCoverUrl;
               });
             },
             fallbackImageUrl: "/api/albums/${widget.albumId}/cover",
@@ -123,6 +143,16 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
             label: _lm.edit_album_cover,
           ),
           actions: [
+            if (_authState.hasPermission(PermissionType.deleteAlbums))
+              ElevatedButton.icon(
+                onPressed: delete,
+                icon: const Icon(Icons.delete_forever),
+                label: Text(_lm.dialog_delete),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _theme.colorScheme.errorContainer,
+                  foregroundColor: _theme.colorScheme.onErrorContainer,
+                ),
+              ),
             ElevatedButton.icon(
               onPressed: () { Navigator.pop(context); },
               icon: const Icon(Icons.cancel),

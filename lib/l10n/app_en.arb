@@ -154,6 +154,10 @@
   "edit_album_metadata_no_description": "No description available.",
   "edit_album_metadata_has_description": "Description available.",
 
+  "delete_album_confirmation": "Are you sure you want to delete this album?",
+  "delete_album_confirmation_warning": "This action cannot be undone. All tracks in the album will also be deleted.",
+  "delete_album_error": "An error occurred while deleting the album.",
+
   "edit_artist_title": "Edit Artist",
   "edit_artist_name": "Name",
   "edit_artist_name_validation_empty": "The artist name cannot be empty.",

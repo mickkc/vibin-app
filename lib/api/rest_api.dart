@@ -90,6 +90,9 @@ abstract class ApiService {
   @GET("/api/albums/artists/{id}")
   Future<List<ArtistDiscography>> getArtistDiscography(@Path("id") int artistId);
 
+  @DELETE("/api/albums/{id}")
+  Future<Success> deleteAlbum(@Path("id") int id);
+
   // Artists
 
   @GET("/api/artists")
