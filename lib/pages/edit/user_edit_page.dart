@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/user/user.dart';
@@ -10,6 +11,7 @@ import 'package:vibin_app/widgets/edit/image_edit_field.dart';
 import 'package:vibin_app/widgets/edit/responsive_edit_view.dart';
 
 import '../../api/api_manager.dart';
+import '../../dialogs/delete_user_dialog.dart';
 import '../../extensions.dart';
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
@@ -121,6 +123,31 @@ class _UserEditPageState extends State<UserEditPage> {
     }
   }
 
+  Future<void> delete() async {
+
+    DeleteUserDialog.show(
+      context,
+      widget.userId!,
+      (confirmed, deleteData) async {
+
+        if (!confirmed) {
+          return;
+        }
+
+        try {
+          await _apiManager.service.deleteUser(widget.userId!, deleteData);
+          if (!mounted) return;
+          GoRouter.of(context).replace("/users");
+        }
+        catch (e) {
+          log("Failed to delete user: $e", error: e, level: Level.error.value);
+          if (!mounted) return;
+          showErrorDialog(context, _lm.delete_user_error);
+        }
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -143,7 +170,7 @@ class _UserEditPageState extends State<UserEditPage> {
         ),
         actions: [
           ElevatedButton.icon(
-            onPressed: (){},
+            onPressed: delete,
             icon: Icon(Icons.delete_forever),
             label: Text(_lm.dialog_delete),
             style: ElevatedButton.styleFrom(

@@ -256,6 +256,14 @@
   "edit_user_load_error": "An error occurred while loading user data.",
   "edit_user_save_success": "User Saved",
 
+  "delete_user_confirmation": "Are you sure you want to delete this user?",
+  "delete_user_confirmation_self": "Are you sure you want to delete your own user account?",
+  "delete_user_confirmation_warning": "This action cannot be undone.",
+  "delete_user_self_warning": "You will be logged out immediately after deleting your account.",
+  "delete_user_delete_data": "Delete all tracks uploaded by this user",
+  "delete_user_delete_data_self": "Also delete all tracks I have uploaded",
+  "delete_user_error": "An error occurred while deleting the user.",
+
   "pick_artist_title": "Select Artist",
   "pick_artists_title": "Select Artists",
 

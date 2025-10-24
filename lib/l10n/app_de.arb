@@ -256,6 +256,14 @@
   "edit_user_load_error": "Beim Laden des Benutzers ist ein Fehler aufgetreten.",
   "edit_user_save_success": "Benutzer erfolgreich gespeichert.",
 
+  "delete_user_confirmation": "Möchtest du diesen Benutzer wirklich löschen?",
+  "delete_user_confirmation_self": "Möchtest du deinen eigenen Benutzer wirklich löschen?",
+  "delete_user_confirmation_warning": "Diese Aktion kann nicht rückgängig gemacht werden.",
+  "delete_user_self_warning": "Du wirst abgemeldet, nachdem dein Benutzer gelöscht wurde.",
+  "delete_user_delete_data": "Alle vom Benutzer hochgeladenen Titel löschen",
+  "delete_user_delete_data_self": "Alle meine hochgeladenen Titel löschen",
+  "delete_user_error": "Beim Löschen des Benutzers ist ein Fehler aufgetreten.",
+
   "pick_artists_title": "Künstler auswählen",
   "pick_artist_title": "Künstler auswählen",
 
