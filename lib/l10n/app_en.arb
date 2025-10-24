@@ -103,6 +103,7 @@
   "users_uploads": "Uploads",
   "users_permissions": "Permissions",
   "users_edit": "Edit User",
+  "users_create": "Create User",
 
   "user_info_username": "Username",
   "user_info_display_name": "Display Name",
@@ -253,6 +254,7 @@
   "edit_user_description": "Bio",
   "edit_user_change_password": "Change Password",
   "edit_user_password": "Password",
+  "edit_user_password_validation_empty_new_user": "Password cannot be empty for new users.",
   "edit_user_password_validation_length": "Password must be at least 8 characters long.",
   "edit_user_password_validation_mismatch": "Passwords do not match.",
   "edit_user_password_confirm": "Confirm Password",

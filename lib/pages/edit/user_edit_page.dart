@@ -279,6 +279,7 @@ class _UserEditPageState extends State<UserEditPage> {
             obscureText: true,
             validator: (value) {
               if (value == null || value.isEmpty) {
+                if (widget.userId == null) return _lm.edit_user_password_validation_empty_new_user;
                 return null;
               }
               if (value.length < 8) {

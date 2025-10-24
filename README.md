@@ -95,10 +95,10 @@ Please note that this project, just like the server, is still in its early stage
   - [ ] Server settings
     - [ ] ...
 - [ ] Playlist collaboration
-- [ ] User management
+- [x] User management
   - [x] View users
   - [x] Edit users
-  - [ ] Create users
+  - [x] Create users
   - [x] Delete users
 - [ ] User view
   - [ ] Top tracks (when permitted by user)
