@@ -5,11 +5,13 @@ import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/artist/artist_edit_data.dart';
+import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/pages/edit/search_artist_metadata_dialog.dart';
 import 'package:vibin_app/widgets/edit/image_edit_field.dart';
 import 'package:vibin_app/widgets/edit/responsive_edit_view.dart';
 
+import '../../auth/auth_state.dart';
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 
@@ -26,6 +28,7 @@ class _ArtistEditPageState extends State<ArtistEditPage> {
 
   late final _lm = AppLocalizations.of(context)!;
   late final _theme = Theme.of(context);
+  final _authState = getIt<AuthState>();
   final _apiManager = getIt<ApiManager>();
 
   String? _imageUrl;
@@ -112,6 +115,26 @@ class _ArtistEditPageState extends State<ArtistEditPage> {
     }
   }
 
+  Future<void> delete() async {
+
+    if (widget.artistId == null) return;
+
+    final confirmed = await showConfirmDialog(context, _lm.delete_artist_confirmation, _lm.delete_artist_confirmation_warning);
+    if (!confirmed) return;
+
+    try {
+      await _apiManager.service.deleteArtist(widget.artistId!);
+      if (mounted) {
+        GoRouter.of(context).go("/artists");
+      }
+    }
+    catch (error) {
+      if (!mounted) return;
+      log("An error occurred while deleting artist: $error", error: error, level: Level.error.value);
+      showErrorDialog(context, _lm.delete_artist_error);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -119,15 +142,16 @@ class _ArtistEditPageState extends State<ArtistEditPage> {
       child: ResponsiveEditView(
         title: _lm.edit_artist_title,
         actions: [
-          ElevatedButton.icon(
-            onPressed: () {},
-            label: Text(_lm.dialog_delete),
-            icon: Icon(Icons.delete_forever),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: _theme.colorScheme.errorContainer,
-              foregroundColor: _theme.colorScheme.onErrorContainer,
+          if (_authState.hasPermission(PermissionType.deleteArtists))
+            ElevatedButton.icon(
+              onPressed: delete,
+              label: Text(_lm.dialog_delete),
+              icon: Icon(Icons.delete_forever),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: _theme.colorScheme.errorContainer,
+                foregroundColor: _theme.colorScheme.onErrorContainer,
+              ),
             ),
-          ),
           ElevatedButton.icon(
             onPressed: () => openMetadataDialog(context),
             label: Text(_lm.edit_artist_search_metadata),

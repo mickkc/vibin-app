@@ -72,9 +72,9 @@ Please note that this project, just like the server, is still in its early stage
   - [x] Tags
 - [ ] Delete
     - [x] Playlists
-    - [ ] Tracks
+    - [x] Tracks
     - [ ] Albums
-    - [ ] Artists
+    - [x] Artists
     - [x] Tags
 - [ ] Upload tracks
 - [ ] Download tracks
