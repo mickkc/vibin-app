@@ -99,7 +99,7 @@ Please note that this project, just like the server, is still in its early stage
   - [x] View users
   - [x] Edit users
   - [ ] Create users
-  - [ ] Delete users
+  - [x] Delete users
 - [ ] User view
   - [ ] Top tracks (when permitted by user)
   - [ ] Top artists (when permitted by user)

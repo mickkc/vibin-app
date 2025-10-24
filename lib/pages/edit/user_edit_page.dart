@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:vibin_app/auth/auth_state.dart';
+import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/user/user.dart';
 import 'package:vibin_app/dtos/user/user_edit_data.dart';
 import 'package:vibin_app/sections/section_header.dart';
@@ -169,6 +170,8 @@ class _UserEditPageState extends State<UserEditPage> {
           },
         ),
         actions: [
+          if ((_authState.user?.id == widget.userId && _authState.hasPermission(PermissionType.deleteOwnUser)) ||
+            (_authState.user?.id != widget.userId && _authState.hasPermission(PermissionType.deleteUsers)))
           ElevatedButton.icon(
             onPressed: delete,
             icon: Icon(Icons.delete_forever),
