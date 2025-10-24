@@ -216,6 +216,10 @@
   "edit_track_lyrics_shift_amount_hint": "e.g., -2.5 or +3",
   "edit_track_no_tags": "No tags applied. Search and click a tag to add it.",
 
+  "delete_track_confirmation": "Are you sure you want to delete this track?",
+  "delete_track_confirmation_warning": "This action cannot be undone. The track will be removed from all albums and playlists.",
+  "delete_track_error": "An error occurred while deleting the track.",
+
   "edit_tag_title": "Edit Tag",
   "create_tag_title": "Create Tag",
   "edit_tag_name": "Name",

@@ -216,6 +216,10 @@
   "edit_track_lyrics_shift_amount_hint": "z.B. -2,5 oder +3",
   "edit_track_no_tags": "Es sind keine Tags angewendet. Suche nach Tags und klicke auf einen Tag, um es hinzuzufügen.",
 
+  "delete_track_confirmation": "Möchtest du diesen Titel wirklich löschen?",
+  "delete_track_confirmation_warning": "Diese Aktion kann nicht rückgängig gemacht werden. Der Titel wird von allen Playlists und Alben entfernt.",
+  "delete_track_error": "Beim Löschen des Titels ist ein Fehler aufgetreten.",
+
   "edit_tag_title": "Tag bearbeiten",
   "create_tag_title": "Tag erstellen",
   "edit_tag_name": "Name",

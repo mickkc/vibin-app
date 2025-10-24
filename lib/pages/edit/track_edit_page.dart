@@ -246,6 +246,23 @@ class _TrackEditPageState extends State<TrackEditPage> {
     }
   }
 
+  Future<void> delete() async {
+
+    if (widget.trackId == null) return;
+
+    final confirmed = await showConfirmDialog(context, _lm.delete_track_confirmation, _lm.delete_track_confirmation_warning);
+    if (!confirmed) return;
+
+    try {
+      await _apiManager.service.deleteTrack(widget.trackId!);
+      if (mounted) Navigator.pop(context);
+    }
+    catch (e) {
+      log("Error deleting track: $e", error: e, level: Level.error.value);
+      if (mounted) showErrorDialog(context, _lm.delete_track_error);
+    }
+  }
+
   Future<List<String>> autoCompleteAlbumNames(String query) async {
     final suggestions = await _apiManager.service.autocompleteAlbums(query, null);
     return suggestions;
@@ -264,7 +281,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
           actions: [
             if (_authState.hasPermission(PermissionType.deleteTracks) && widget.trackId != null)
               ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: delete,
                 label: Text(lm.dialog_delete),
                 icon: Icon(Icons.delete_forever),
                 style: ElevatedButton.styleFrom(
