@@ -273,7 +273,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
 
     final lm = AppLocalizations.of(context)!;
 
-    return !initialized ? CircularProgressIndicator() : Material(
+    return !initialized ? Center(child: CircularProgressIndicator()) : Material(
       child: Form(
         key: _formKey,
         child: ResponsiveEditView(
