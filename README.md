@@ -106,7 +106,7 @@ Please note that this project, just like the server, is still in its early stage
   - [ ] Recent activity (when permitted by user)
   - [x] Playlists (only publicly shared)
   - [ ] Uploaded tracks (when permitted by user)
-- [ ] Sessions management
+- [x] Sessions management
 - [x] Permissions management
 - [x] Lyrics
 - [ ] HTML Widgets for embedding

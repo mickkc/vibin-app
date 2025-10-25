@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/settings/accent_color_picker.dart';
@@ -9,6 +11,7 @@ import 'package:vibin_app/widgets/settings/int_settings_field.dart';
 import 'package:vibin_app/widgets/settings/preferred_metadata_pickers.dart';
 import 'package:vibin_app/widgets/settings/settings_title.dart';
 
+import '../../auth/auth_state.dart';
 import '../../dialogs/lyrics_dialog.dart';
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
@@ -25,6 +28,7 @@ class AppSettingsPage extends StatefulWidget {
 class _AppSettingsPageState extends State<AppSettingsPage> {
 
   final _settingsManager = getIt<SettingsManager>();
+  final _authState = getIt<AuthState>();
   late final _lm = AppLocalizations.of(context)!;
 
   @override
@@ -154,7 +158,23 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
 
           Divider(),
 
-          PreferredMetadataPickers()
+          PreferredMetadataPickers(),
+
+          Divider(),
+
+          SettingsTitle(
+            title: _lm.settings_app_advanced_title,
+          ),
+
+          if (_authState.hasPermission(PermissionType.manageSessions))
+            ListTile(
+              leading: const Icon(Icons.manage_accounts),
+              title: Text(_lm.settings_app_manage_sessions_title),
+              subtitle: Text(_lm.settings_app_manage_sessions_description),
+              onTap: () {
+                GoRouter.of(context).push("/sessions");
+              },
+            )
         ],
       ),
     );

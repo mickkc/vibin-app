@@ -331,6 +331,21 @@
   "settings_app_metadata_providers_title": "Metadata Providers",
   "settings_app_metadata_providers_description": "Select which metadata providers to use for fetching metadata from the internet.",
 
+  "settings_app_advanced_title": "Advanced Settings",
+
+  "settings_app_manage_sessions_title": "Session Management",
+  "settings_app_manage_sessions_description": "View and manage all active sessions for your user account on this server.",
+
+  "settings_sessions_last_used": "Last used:",
+  "settings_sessions_created_at": "Created at:",
+  "settings_sessions_revoke": "Revoke Session",
+  "settings_sessions_revoke_all": "Revoke All Sessions",
+  "settings_sessions_revoke_all_confirmation": "Are you sure you want to revoke all sessions? You will be logged out on all other devices.",
+  "settings_sessions_revoke_warning_current": "You are about to revoke the current session. You will be logged out immediately.",
+  "settings_sessions_copy_token": "Copy Token to Clipboard",
+  "settings_sessions_token_copied": "The session token has been copied to the clipboard.",
+  "settings_sessions_revoke_failed": "An error occurred while revoking the session.",
+
 
   "permissions_change_server_settings": "Change Server Settings",
   "permissions_change_own_settings": "Change Own Settings",

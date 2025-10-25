@@ -332,6 +332,21 @@
   "settings_app_metadata_providers_title": "Metadaten-Anbieter",
   "settings_app_metadata_providers_description": "Wähle die Metadaten-Anbieter aus, die für die Suche nach Metadaten aus dem Internet verwendet werden sollen.",
 
+  "settings_app_advanced_title": "Erweiterte Einstellungen",
+
+  "settings_app_manage_sessions_title": "Sitzungen verwalten",
+  "settings_app_manage_sessions_description": "Verwalte deine aktiven Sitzungen auf verschiedenen Geräten.",
+
+
+  "settings_sessions_last_used": "Letzte Nutzung:",
+  "settings_sessions_created_at": "Erstellt am:",
+  "settings_sessions_revoke": "Sitzung beenden",
+  "settings_sessions_revoke_all": "Alle Sitzungen beenden",
+  "settings_sessions_revoke_all_confirmation": "Möchtest du wirklich alle Sitzungen beenden? Du wirst auf allen anderen Geräten abgemeldet.",
+  "settings_sessions_revoke_warning_current": "Du beendest gerade die Sitzung, mit der du angemeldet bist. Du wirst abgemeldet.",
+  "settings_sessions_copy_token": "Token in die Zwischenablage kopieren",
+  "settings_sessions_token_copied": "Der Sitzungstoken wurde in die Zwischenablage kopiert.",
+  "settings_sessions_revoke_failed": "Fehler beim Beenden der Sitzung.",
 
   "permissions_change_server_settings": "Server-Einstellungen ändern",
   "permissions_change_own_settings": "Eigene Einstellungen ändern",

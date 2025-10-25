@@ -37,7 +37,9 @@ enum PermissionType {
   viewTags("view_tags"),
   manageTags("manage_tags"),
   deleteTags("delete_tags"),
-  createTags("create_tags");
+  createTags("create_tags"),
+
+  manageSessions("manage_sessions");
 
   final String value;
   const PermissionType(this.value);

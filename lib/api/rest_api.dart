@@ -24,6 +24,7 @@ import 'package:vibin_app/dtos/playlist/playlist.dart';
 import 'package:vibin_app/dtos/playlist/playlist_data.dart';
 import 'package:vibin_app/dtos/playlist/playlist_edit_data.dart';
 import 'package:vibin_app/dtos/server_check.dart';
+import 'package:vibin_app/dtos/sessions/sessions_response.dart';
 import 'package:vibin_app/dtos/success.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/dtos/tags/tag_edit_data.dart';
@@ -68,6 +69,15 @@ abstract class ApiService {
 
   @DELETE("/api/auth/media/token")
   Future<Success> invalidateMediaToken(@Query("deviceId") String deviceId);
+
+  @GET("/api/auth/sessions")
+  Future<SessionsResponse> getAllSessions();
+
+  @DELETE("/api/auth/sessions/{id}")
+  Future<Success> deleteSession(@Path("id") int id);
+
+  @DELETE("/api/auth/sessions/all")
+  Future<Success> deleteAllSessions(@Query("excludeDeviceId") String excludeDeviceId);
 
   // Albums
 
