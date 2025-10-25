@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibin_app/dtos/track/track.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/widgets/colored_icon_button.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
 import '../api/api_manager.dart';
+import '../audio/audio_manager.dart';
 import '../main.dart';
 
 class EntityCard extends StatelessWidget {
   final EntityCardType type;
   final dynamic entity;
   final double coverSize;
+  final bool showActions;
 
   const EntityCard({
     super.key,
     required this.type,
     required this.entity,
     this.coverSize = 128,
+    this.showActions = true,
   });
 
   String getTitle() {
@@ -71,6 +76,42 @@ class EntityCard extends StatelessWidget {
     GoRouter.of(context).push(route);
   }
 
+  Widget _actions(BuildContext context) {
+
+    if (type == EntityCardType.user || type == EntityCardType.artist) return const SizedBox.shrink();
+
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ColoredIconButton(
+              icon: Icons.play_arrow,
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
+              onPressed: _play
+            )
+          ],
+        )
+      ),
+    );
+  }
+
+  Future<void> _play() async {
+
+    final audioManager = getIt<AudioManager>();
+
+    await switch (type) {
+      EntityCardType.track => entity is Track ? audioManager.playTrack(entity) : audioManager.playMinimalTrack(entity),
+      EntityCardType.album => audioManager.playAlbum(entity, true),
+      EntityCardType.artist => throw UnimplementedError("Playing artist not implemented"), // TODO: implement playing artist
+      EntityCardType.playlist => audioManager.playPlaylist(entity, true),
+      EntityCardType.user => throw UnimplementedError("Playing user not implemented"),
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     final apiManager = getIt<ApiManager>();
@@ -91,16 +132,22 @@ class EntityCard extends StatelessWidget {
               children: [
                 AspectRatio(
                   aspectRatio: 1,
-                  child: ClipRRect(
-                    borderRadius: type == EntityCardType.artist || type == EntityCardType.user
-                        ? BorderRadius.circular(coverSize / 2)
-                        : BorderRadius.circular(8),
-                    child: NetworkImageWidget(
-                      url: getCoverUrl(apiManager),
-                      width: coverSize,
-                      height: coverSize,
-                      fit: BoxFit.contain,
-                    ),
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: type == EntityCardType.artist || type == EntityCardType.user
+                            ? BorderRadius.circular(coverSize / 2)
+                            : BorderRadius.circular(8),
+                        child: NetworkImageWidget(
+                          url: getCoverUrl(apiManager),
+                          width: coverSize,
+                          height: coverSize,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      if (showActions)
+                        _actions(context)
+                    ],
                   ),
                 ),
                 const SizedBox(height: 12),
