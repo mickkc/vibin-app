@@ -153,6 +153,11 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   Future<void> playPlaylist(Playlist playlist, bool shuffle) async {
     await audioPlayer.stop();
     final playlistData = await _apiManager.service.getPlaylist(playlist.id);
+
+    if (playlistData.tracks.isEmpty) {
+      return;
+    }
+
     await playPlaylistData(playlistData, null, shuffle);
   }
 
@@ -160,6 +165,10 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     var tracks = data.tracks.map((i) => i.track).toList();
     final initialIndex = preferredTrackId != null ? tracks.indexWhere((t) => t.id == preferredTrackId) : 0;
+
+    if (tracks.isEmpty) {
+      return;
+    }
 
     audioPlayer.setShuffleModeEnabled(shuffle);
     setAudioType(AudioType.playlist, data.playlist.id);
@@ -175,12 +184,21 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   Future<void> playAlbum(Album album, bool shuffle) async {
     await audioPlayer.stop();
     final albumData = await _apiManager.service.getAlbum(album.id);
+
+    if (albumData.tracks.isEmpty) {
+      return;
+    }
+
     await playAlbumData(albumData, null, shuffle);
   }
 
   Future<void> playAlbumData(AlbumData data, int? preferredTrackId, bool shuffle) async {
     var tracks = data.tracks;
     final initialIndex = preferredTrackId != null ? tracks.indexWhere((t) => t.id == preferredTrackId) : 0;
+
+    if (tracks.isEmpty) {
+      return;
+    }
 
     audioPlayer.setShuffleModeEnabled(shuffle);
     setAudioType(AudioType.album, data.album.id);
