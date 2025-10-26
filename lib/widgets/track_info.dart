@@ -18,11 +18,11 @@ class TrackInfoView extends StatelessWidget {
     this.showMetadata = true
   });
 
-  void openArtistPage(BuildContext context, int artistId) {
+  void _openArtistPage(BuildContext context, int artistId) {
     GoRouter.of(context).push("/artists/$artistId");
   }
 
-  void openAlbumPage(BuildContext context, int albumId) {
+  void _openAlbumPage(BuildContext context, int albumId) {
     GoRouter.of(context).push('/albums/$albumId');
   }
 
@@ -57,7 +57,7 @@ class TrackInfoView extends StatelessWidget {
                 Icon(Icons.person),
                 for (var artist in track.artists) ...[
                   InkWell(
-                    onTap: () => openArtistPage(context, artist.id),
+                    onTap: () => _openArtistPage(context, artist.id),
                     child: Text(artist.name, style: TextStyle(color: theme.colorScheme.primary)),
                   ),
                   if (artist != track.artists.last)
@@ -70,7 +70,7 @@ class TrackInfoView extends StatelessWidget {
               children: [
                 Icon(Icons.album),
                 InkWell(
-                  onTap: () => openAlbumPage(context, track.album.id),
+                  onTap: () => _openAlbumPage(context, track.album.id),
                   child: Text(track.album.title, style: TextStyle(color: theme.colorScheme.primary))
                 ),
               ],

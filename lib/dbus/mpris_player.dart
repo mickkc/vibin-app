@@ -22,7 +22,7 @@ class MprisPlayer extends DBusObject {
         "LoopStatus": DBusString(fromLoopMode(_audioManager.loopMode)),
         "Rate": DBusDouble(_audioManager.speed),
         "Shuffle": DBusBoolean(_audioManager.isShuffling),
-        "Metadata": getCurrentTrackMetadata(),
+        "Metadata": _getCurrentTrackMetadata(),
         "Volume": DBusDouble(_audioManager.volume),
         "Position": DBusInt64(_audioManager.position.inMicroseconds),
         "MinimumRate": DBusDouble(0.25),
@@ -140,7 +140,7 @@ class MprisPlayer extends DBusObject {
         case "Shuffle":
           return DBusGetPropertyResponse(DBusBoolean(_audioManager.isShuffling));
         case "Metadata":
-          return DBusGetPropertyResponse(getCurrentTrackMetadata());
+          return DBusGetPropertyResponse(_getCurrentTrackMetadata());
         case "Volume":
           return DBusGetPropertyResponse(DBusDouble(_audioManager.volume));
         case "Position":
@@ -201,7 +201,7 @@ class MprisPlayer extends DBusObject {
     return Future.value(DBusMethodErrorResponse.unknownProperty());
   }
 
-  DBusDict getCurrentTrackMetadata() {
+  DBusDict _getCurrentTrackMetadata() {
     final currentMediaItem = _audioManager.getCurrentMediaItem();
     if (currentMediaItem != null) {
       return DBusDict.stringVariant({
@@ -230,7 +230,7 @@ class MprisPlayer extends DBusObject {
   void subscribeToAudioPlayer() {
     _audioManager.audioPlayer.currentIndexStream.listen((_) {
       emitPropertiesChanged("org.mpris.MediaPlayer2.Player", changedProperties: {
-        "Metadata": getCurrentTrackMetadata(),
+        "Metadata": _getCurrentTrackMetadata(),
         "Position": DBusInt64(_audioManager.position.inMicroseconds),
       });
     });

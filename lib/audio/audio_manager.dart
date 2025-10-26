@@ -174,7 +174,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     setAudioType(AudioType.playlist, data.playlist.id);
 
     final mediaToken = await _clientData.getMediaToken();
-    final sources = data.tracks.map((track) => fromTrack(track.track, mediaToken)).toList();
+    final sources = data.tracks.map((track) => _fromTrack(track.track, mediaToken)).toList();
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSources(sources, initialIndex: initialIndex);
     await play();
@@ -204,7 +204,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     setAudioType(AudioType.album, data.album.id);
 
     final mediaToken = await _clientData.getMediaToken();
-    final sources = data.tracks.map((track) => fromTrack(track, mediaToken)).toList();
+    final sources = data.tracks.map((track) => _fromTrack(track, mediaToken)).toList();
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSources(sources, initialIndex: initialIndex);
     await play();
@@ -213,7 +213,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   Future<void> playMinimalTrack(MinimalTrack track) async {
     final mediaToken = await _clientData.getMediaToken();
-    final source = fromMinimalTrack(track, mediaToken);
+    final source = _fromMinimalTrack(track, mediaToken);
     await audioPlayer.stop();
 
     setAudioType(AudioType.tracks, null);
@@ -225,7 +225,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   Future<void> playTrack(Track track) async {
     final mediaToken = await _clientData.getMediaToken();
-    final source = fromTrack(track, mediaToken);
+    final source = _fromTrack(track, mediaToken);
     await audioPlayer.stop();
 
     setAudioType(AudioType.tracks, null);
@@ -237,7 +237,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   Future<void> playMinimalTrackWithQueue(MinimalTrack track, List<MinimalTrack> queue) async {
     final mediaToken = await _clientData.getMediaToken();
-    final sources = queue.map((t) => fromMinimalTrack(t, mediaToken)).toList();
+    final sources = queue.map((t) => _fromMinimalTrack(t, mediaToken)).toList();
     final initialIndex = queue.indexWhere((t) => t.id == track.id);
     await audioPlayer.stop();
 
@@ -255,7 +255,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   Future<void> addTrackToQueue(Track track, bool next) async {
     final mediaToken = await _clientData.getMediaToken();
-    final source = fromTrack(track, mediaToken);
+    final source = _fromTrack(track, mediaToken);
 
     if (next && audioPlayer.currentIndex != null) {
       await audioPlayer.insertAudioSource(audioPlayer.currentIndex! + 1, source);
@@ -272,7 +272,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   Future<void> addMinimalTrackToQueue(MinimalTrack track, bool next) async {
     final mediaToken = await _clientData.getMediaToken();
-    final source = fromMinimalTrack(track, mediaToken);
+    final source = _fromMinimalTrack(track, mediaToken);
 
     if (next && audioPlayer.currentIndex != null) {
       await audioPlayer.insertAudioSource(audioPlayer.currentIndex! + 1, source);
@@ -295,7 +295,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     }
 
     final mediaToken = await _clientData.getMediaToken();
-    final sources = albumData.tracks.map((track) => fromTrack(track, mediaToken)).toList();
+    final sources = albumData.tracks.map((track) => _fromTrack(track, mediaToken)).toList();
 
     if (next && audioPlayer.currentIndex != null) {
       await audioPlayer.insertAudioSources(audioPlayer.currentIndex! + 1, sources);
@@ -318,7 +318,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     }
 
     final mediaToken = await _clientData.getMediaToken();
-    final sources = playlistData.tracks.map((track) => fromTrack(track.track, mediaToken)).toList();
+    final sources = playlistData.tracks.map((track) => _fromTrack(track.track, mediaToken)).toList();
 
     if (next && audioPlayer.currentIndex != null) {
       await audioPlayer.insertAudioSources(audioPlayer.currentIndex! + 1, sources);
@@ -343,7 +343,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     return null;
   }
 
-  AudioSource fromMinimalTrack(MinimalTrack track, String mediaToken) {
+  AudioSource _fromMinimalTrack(MinimalTrack track, String mediaToken) {
     final url = "${_apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/stream?mediaToken=$mediaToken";
     final artUrl = "${_apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/cover?mediaToken=$mediaToken";
     final mi = MediaItem(
@@ -366,7 +366,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     );
   }
 
-  AudioSource fromTrack(Track track, String mediaToken) {
+  AudioSource _fromTrack(Track track, String mediaToken) {
     final url = "${_apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/stream?mediaToken=$mediaToken";
     final artUrl = "${_apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/cover?mediaToken=$mediaToken";
     final mi = MediaItem(

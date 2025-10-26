@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   late final _router = GoRouter.of(context);
   late final _theme = Theme.of(context);
 
-  Future<void> login() async {
+  Future<void> _login() async {
     try {
       final loginResult = await _apiManager.service.login(_usernameController.text, _passwordController.text);
       if (loginResult.success) {
@@ -80,12 +80,12 @@ class _LoginPageState extends State<LoginPage> {
               ),
               obscureText: true,
               textInputAction: TextInputAction.done,
-              onSubmitted: (_) => login(),
+              onSubmitted: (_) => _login(),
               controller: _passwordController,
             ),
           ),
           ElevatedButton(
-            onPressed: login,
+            onPressed: _login,
             child: Text(_lm.login_button_login),
           )
         ],

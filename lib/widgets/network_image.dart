@@ -21,16 +21,16 @@ class NetworkImageWidget extends StatelessWidget {
     this.borderRadius = BorderRadius.zero,
   });
 
-  bool isAbsoluteUrl() {
+  bool _isAbsoluteUrl() {
     return url.startsWith("http://") || url.startsWith("https://");
   }
 
-  bool isBase64Url() {
+  bool _isBase64Url() {
     return url.startsWith("data:image/");
   }
 
-  String getUrl() {
-    if (isAbsoluteUrl()) {
+  String _getUrl() {
+    if (_isAbsoluteUrl()) {
       return url;
     } else {
       ApiManager apiManager = getIt<ApiManager>();
@@ -38,8 +38,8 @@ class NetworkImageWidget extends StatelessWidget {
     }
   }
 
-  Map<String, String> getHeaders() {
-    if (isAbsoluteUrl()) {
+  Map<String, String> _getHeaders() {
+    if (_isAbsoluteUrl()) {
       return {};
     }
     ApiManager apiManager = getIt<ApiManager>();
@@ -48,7 +48,7 @@ class NetworkImageWidget extends StatelessWidget {
     };
   }
 
-  Widget base64Image() {
+  Widget _base64Image() {
     return Image.memory(
       Uri.parse(url).data!.contentAsBytes(),
       width: width,
@@ -70,12 +70,12 @@ class NetworkImageWidget extends StatelessWidget {
       padding: padding,
       child: ClipRRect(
         borderRadius: borderRadius,
-        child: isBase64Url() ? base64Image() : Image.network(
-          getUrl(),
+        child: _isBase64Url() ? _base64Image() : Image.network(
+          _getUrl(),
           width: width,
           height: height,
           fit: fit,
-          headers: getHeaders(),
+          headers: _getHeaders(),
           loadingBuilder: (context, child, loadingProgress) {
             if (loadingProgress == null) return child;
             return SizedBox(

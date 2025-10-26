@@ -24,7 +24,7 @@ class AlbumInfoPage extends StatelessWidget {
     required this.albumId
   });
 
-  Widget albumInfo(BuildContext context, AlbumData data) {
+  Widget _albumInfo(BuildContext context, AlbumData data) {
     final theme = Theme.of(context);
     final lm = AppLocalizations.of(context)!;
     return Column(
@@ -100,7 +100,7 @@ class AlbumInfoPage extends StatelessWidget {
                         width: 200,
                         height: 200
                       ),
-                      Expanded(child: albumInfo(context, data))
+                      Expanded(child: _albumInfo(context, data))
                     ];
                   },
                   columnBuilder: (context, constraints) {
@@ -112,7 +112,7 @@ class AlbumInfoPage extends StatelessWidget {
                       ),
                       SizedBox(
                           width: constraints.maxWidth,
-                          child: albumInfo(context, data)
+                          child: _albumInfo(context, data)
                       )
                     ];
                   },

@@ -35,7 +35,7 @@ class _UserPermissionToggleState extends State<UserPermissionToggle> {
   final _apiManager = getIt<ApiManager>();
   late final _lm = AppLocalizations.of(context)!;
 
-  Future<void> setPermission(bool value) async {
+  Future<void> _setPermission(bool value) async {
 
     if (value == _hasPermission) return;
 
@@ -65,11 +65,11 @@ class _UserPermissionToggleState extends State<UserPermissionToggle> {
       trailing: Switch(
         value: _hasPermission,
         onChanged: (value) async {
-          await setPermission(value);
+          await _setPermission(value);
         },
       ),
       onTap: () async {
-        await setPermission(!_hasPermission);
+        await _setPermission(!_hasPermission);
       },
     );
   }

@@ -21,7 +21,7 @@ class _ConnectPageState extends State<ConnectPage> {
   late final _lm = AppLocalizations.of(context)!;
   late final _router = GoRouter.of(context);
 
-  Future<void> connect() async {
+  Future<void> _connect() async {
     try {
       _apiManager.setBaseUrl(_controller.text);
       await _apiManager.checkConnection();
@@ -63,12 +63,12 @@ class _ConnectPageState extends State<ConnectPage> {
               ),
               keyboardType: TextInputType.url,
               textInputAction: TextInputAction.done,
-              onSubmitted: (_) => connect(),
+              onSubmitted: (_) => _connect(),
               controller: _controller,
             ),
           ),
           ElevatedButton(
-            onPressed: connect,
+            onPressed: _connect,
             child: Text(_lm.connect_button_connect),
           ),
         ],

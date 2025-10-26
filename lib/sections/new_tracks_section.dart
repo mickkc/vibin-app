@@ -21,8 +21,8 @@ class NewTracksSection extends StatelessWidget {
       spacing: 8,
       children: [
         SectionHeader(
-            title: AppLocalizations.of(context)!.section_newest_tracks,
-            viewAllRoute: "/tracks",
+          title: AppLocalizations.of(context)!.section_newest_tracks,
+          viewAllRoute: "/tracks",
         ),
         FutureContent(
           future: tracks,

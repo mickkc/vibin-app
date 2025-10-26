@@ -31,7 +31,7 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
   final _audioManager = getIt<AudioManager>();
   final _apiManager = getIt<ApiManager>();
 
-  void showMobileDialog() {
+  void _showMobileDialog() {
     showModalBottomSheet(
       context: context,
       useRootNavigator: true,
@@ -50,11 +50,11 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
     );
   }
 
-  void showQueue() {
+  void _showQueue() {
     NowPlayingQueue.show(context);
   }
 
-  Widget lyricsButton() {
+  Widget _lyricsButton() {
 
     Widget buttonBase(VoidCallback? onPressed) {
       return ElevatedButton.icon(
@@ -127,13 +127,13 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
               spacing: 8,
               children: [
                 ElevatedButton.icon(
-                  onPressed: showMobileDialog,
+                  onPressed: _showMobileDialog,
                   label: Text(lm.now_plying_advanced_controls),
                   icon: Icon(Icons.settings)
                 ),
-                lyricsButton(),
+                _lyricsButton(),
                 ElevatedButton.icon(
-                  onPressed: showQueue,
+                  onPressed: _showQueue,
                   label: Text(lm.now_playing_queue),
                   icon: Icon(Icons.queue_music)
                 ),
@@ -149,9 +149,9 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
               Expanded(
                 child: const VolumeSlider()
               ),
-              lyricsButton(),
+              _lyricsButton(),
               ElevatedButton.icon(
-                onPressed: showQueue,
+                onPressed: _showQueue,
                 label: Text(lm.now_playing_queue),
                 icon: Icon(Icons.queue_music)
               ),

@@ -40,25 +40,25 @@ class _PaginatedOverviewState extends State<PaginatedOverview> {
   @override
   void initState() {
     super.initState();
-    _currentPagination = fetchData();
+    _currentPagination = _fetchData();
   }
 
-  void updatePage(int newPage) {
+  void _updatePage(int newPage) {
     setState(() {
       _page = newPage;
-      _currentPagination = fetchData();
+      _currentPagination = _fetchData();
     });
   }
 
-  void updateSearch(String newSearch) {
+  void _updateSearch(String newSearch) {
     setState(() {
       _searchQuery = newSearch;
       _page = 1;
-      _currentPagination = fetchData();
+      _currentPagination = _fetchData();
     });
   }
 
-  Future<dynamic> fetchData() {
+  Future<dynamic> _fetchData() {
     return widget.fetchFunction(_page, _settingsManager.get(Settings.pageSize), _searchQuery);
   }
 
@@ -71,7 +71,7 @@ class _PaginatedOverviewState extends State<PaginatedOverview> {
           icon: widget.icon,
           searchQuery: _searchQuery,
           onSearchSubmitted: (value) {
-            updateSearch(value);
+            _updateSearch(value);
           }
         ),
         if (widget.actions != null) Row(
@@ -92,7 +92,7 @@ class _PaginatedOverviewState extends State<PaginatedOverview> {
                 ),
                 PaginationFooter(
                   pagination: pagination,
-                  onPageChanged: (newPage) => updatePage(newPage),
+                  onPageChanged: (newPage) => _updatePage(newPage),
                 )
               ],
             );

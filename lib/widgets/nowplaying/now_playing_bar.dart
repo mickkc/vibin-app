@@ -47,16 +47,12 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
     super.dispose();
   }
 
-  void skipNext() {
+  void _skipNext() {
     _audioManager.skipToNext();
   }
 
-  void skipPrevious() {
+  void _skipPrevious() {
     _audioManager.skipToPrevious();
-  }
-
-  void seek(double milliseconds) {
-    _audioManager.seek(Duration(milliseconds: milliseconds.toInt()));
   }
 
   double get _width => MediaQuery.sizeOf(context).width;
@@ -71,9 +67,9 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
       onHorizontalDragEnd: (details) {
         if (details.primaryVelocity == null) return;
         if (details.primaryVelocity! < 0) {
-          skipNext();
+          _skipNext();
         } else if (details.primaryVelocity! > 0) {
-          skipPrevious();
+          _skipPrevious();
         }
       },
       onTap: () {
@@ -174,13 +170,13 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
                       const SizedBox(width: 16)
                     ],
                     IconButton(
-                      onPressed: skipPrevious,
+                      onPressed: _skipPrevious,
                       icon: const Icon(Icons.skip_previous),
                       tooltip: _lm.now_playing_previous
                     ),
                     const PlayPauseToggle(),
                     IconButton(
-                      onPressed: skipNext,
+                      onPressed: _skipNext,
                       icon: const Icon(Icons.skip_next),
                       tooltip: _lm.now_playing_next
                     ),

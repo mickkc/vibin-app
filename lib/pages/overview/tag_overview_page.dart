@@ -23,21 +23,21 @@ class _TagOverviewPageState extends State<TagOverviewPage> {
   final _apiManager = getIt<ApiManager>();
   late Future<List<Tag>> _tagsFuture = _apiManager.service.getAllTags(null, null);
 
-  void refreshTags() {
+  void _refreshTags() {
     setState(() {
       _tagsFuture = _apiManager.service.getAllTags(_searchQuery, null);
     });
   }
 
-  void editTag(Tag tag) {
+  void _editTag(Tag tag) {
     showDialog(
       context: context,
       builder: (context) {
         return TagEditDialog(
           onSave: (tag) {
-            refreshTags();
+            _refreshTags();
           },
-          onDelete: refreshTags,
+          onDelete: _refreshTags,
           initialName: tag.name,
           initialDescription: tag.description,
           initialColor: tag.color,
@@ -47,12 +47,12 @@ class _TagOverviewPageState extends State<TagOverviewPage> {
     );
   }
 
-  void createTag() {
+  void _createTag() {
     showDialog(
       context: context,
       builder: (context) {
         return TagEditDialog(onSave: (tag) {
-          refreshTags();
+          _refreshTags();
         });
       }
     );
@@ -71,7 +71,7 @@ class _TagOverviewPageState extends State<TagOverviewPage> {
           onSearchSubmitted: (value) {
             setState(() {
               _searchQuery = value;
-              refreshTags();
+              _refreshTags();
             });
           }
         ),
@@ -81,7 +81,7 @@ class _TagOverviewPageState extends State<TagOverviewPage> {
           children: [
             ElevatedButton.icon(
               onPressed: () {
-                createTag();
+                _createTag();
               },
               icon: Icon(Icons.add),
               label: Text(lm.create_tag_title)
@@ -103,7 +103,7 @@ class _TagOverviewPageState extends State<TagOverviewPage> {
                   child: TagWidget(
                     tag: tag,
                     onTap: () {
-                      editTag(tag);
+                      _editTag(tag);
                     },
                   )
                 )).toList()

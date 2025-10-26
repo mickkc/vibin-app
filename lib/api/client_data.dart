@@ -39,7 +39,7 @@ class ClientData {
     try {
       final sharedPrefs = await sharedPrefsFuture;
       final storedToken = sharedPrefs.getString('mediaToken');
-      if (await validateMediaToken(storedToken)) {
+      if (await _validateMediaToken(storedToken)) {
         mediaToken = storedToken;
         return mediaToken!;
       }
@@ -64,14 +64,14 @@ class ClientData {
     }
   }
 
-  static Future<bool> validateMediaToken(String? token) async {
+  static Future<bool> _validateMediaToken(String? token) async {
     if (token == null) {
       return false;
     }
 
     try {
       final apiManager = getIt<ApiManager>();
-      final validation = await apiManager.service.checkMediaToken(token!);
+      final validation = await apiManager.service.checkMediaToken(token);
       return validation.success;
     }
     catch (e) {

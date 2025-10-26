@@ -21,8 +21,8 @@ class PlaylistsSection extends StatelessWidget {
       spacing: 8,
       children: [
         SectionHeader(
-            title: AppLocalizations.of(context)!.section_playlists,
-            viewAllRoute: "/playlists",
+          title: AppLocalizations.of(context)!.section_playlists,
+          viewAllRoute: "/playlists",
         ),
         FutureContent(
           future: playlistFuture,

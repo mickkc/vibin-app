@@ -21,25 +21,25 @@ class _AutoLoginErrorPageState extends State<AutoLoginErrorPage> {
   late final _router = GoRouter.of(context);
   late final _lm = AppLocalizations.of(context)!;
 
-  void retry() async {
+  void _retry() async {
     final result = await _authState.tryAutoLogin();
-    setAutoLoginResult(result);
+    _setAutoLoginResult(result);
     if (!result.isError()) {
       _authState.clearAutoLoginResult();
       _router.replace('/home');
     }
   }
 
-  void reconnect() async {
+  void _reconnect() async {
     await _authState.logout();
     _router.replace('/connect');
   }
 
-  void quit() {
+  void _quit() {
     SystemNavigator.pop();
   }
 
-  void setAutoLoginResult(AutoLoginResult? result) {
+  void _setAutoLoginResult(AutoLoginResult? result) {
     setState(() {
       _autoLoginResult = result;
     });
@@ -72,9 +72,9 @@ class _AutoLoginErrorPageState extends State<AutoLoginErrorPage> {
               ),
             ),
           ],
-          ElevatedButton(onPressed: retry, child: Text(_lm.autologin_retry)),
-          ElevatedButton(onPressed: reconnect, child: Text(_lm.autologin_reconnect)),
-          ElevatedButton(onPressed: quit, child: Text(_lm.autologin_quit)),
+          ElevatedButton(onPressed: _retry, child: Text(_lm.autologin_retry)),
+          ElevatedButton(onPressed: _reconnect, child: Text(_lm.autologin_reconnect)),
+          ElevatedButton(onPressed: _quit, child: Text(_lm.autologin_quit)),
         ],
       ),
     );

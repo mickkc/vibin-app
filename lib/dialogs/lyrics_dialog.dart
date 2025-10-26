@@ -52,7 +52,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
 
   int? _lastLyricIndex;
 
-  Color getBackgroundColor(LyricsDesign lyricsDesign, ColorScheme? cs, ThemeData theme) {
+  Color _getBackgroundColor(LyricsDesign lyricsDesign, ColorScheme? cs, ThemeData theme) {
 
     return switch (lyricsDesign) {
       LyricsDesign.system => theme.colorScheme.surfaceContainer,
@@ -69,7 +69,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
     };
   }
 
-  Color getForegroundColor(LyricsDesign lyricsDesign, ColorScheme? cs, ThemeData theme) {
+  Color _getForegroundColor(LyricsDesign lyricsDesign, ColorScheme? cs, ThemeData theme) {
     return switch (lyricsDesign) {
       LyricsDesign.system => theme.colorScheme.onSurface,
       LyricsDesign.primary => theme.colorScheme.onPrimaryContainer,
@@ -83,7 +83,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
     }.withAlpha(200);
   }
 
-  Color getAccentColor(LyricsDesign lyricsDesign, ColorScheme? cs, ThemeData theme) {
+  Color _getAccentColor(LyricsDesign lyricsDesign, ColorScheme? cs, ThemeData theme) {
     return switch (lyricsDesign) {
       LyricsDesign.system => theme.colorScheme.primary,
       LyricsDesign.primary => theme.colorScheme.primary,
@@ -97,7 +97,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
     };
   }
 
-  void fetchLyrics() {
+  void _fetchLyrics() {
     final id = _currentMediaItem == null ? null : int.tryParse(_currentMediaItem!.id);
     setState(() {
       if (id == null) {
@@ -118,7 +118,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
       setState(() {
         _currentMediaItem = mediaItem;
       });
-      fetchLyrics();
+      _fetchLyrics();
     });
 
     final savedDesign = _settingsManager.get(Settings.lyricsDesign);
@@ -126,7 +126,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
       LyricsDialog.lyricsDesignNotifier.value = savedDesign;
     }
 
-    fetchLyrics();
+    _fetchLyrics();
   }
 
   @override
@@ -147,9 +147,9 @@ class _LyricsDialogState extends State<LyricsDialog> {
             builder: (context, data) {
               final theme = Theme.of(context);
 
-              final backgroundColor = getBackgroundColor(value, data?.colorScheme, theme);
-              final textColor = getForegroundColor(value, data?.colorScheme, theme);
-              final accentColor = getAccentColor(value, data?.colorScheme, theme);
+              final backgroundColor = _getBackgroundColor(value, data?.colorScheme, theme);
+              final textColor = _getForegroundColor(value, data?.colorScheme, theme);
+              final accentColor = _getAccentColor(value, data?.colorScheme, theme);
 
               if (data?.lyrics == null || data!.lyrics!.isEmpty) {
                 return Container(

@@ -19,7 +19,7 @@ class ResponsiveEditView extends StatelessWidget {
     this.imageEditWidgetWidth = 256,
   });
 
-  Widget actionsRow() {
+  Widget _actionsRow() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -61,7 +61,7 @@ class ResponsiveEditView extends StatelessWidget {
                 children: [
                   ...children,
                   Divider(),
-                  actionsRow()
+                  _actionsRow()
                 ]
               ),
             )
@@ -76,7 +76,7 @@ class ResponsiveEditView extends StatelessWidget {
               ),
             ...children,
             Divider(),
-            actionsRow()
+            _actionsRow()
           ]
         )
       ]

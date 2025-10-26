@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:vibin_app/api/api_manager.dart';
-import 'package:vibin_app/settings/settings_manager.dart';
 
 import '../l10n/app_localizations.dart';
 import '../main.dart';
@@ -26,50 +25,45 @@ class ArtistPickerDialog extends StatefulWidget {
 
 class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
   
-  late List<String> selectedArtists;
+  late List<String> _selectedArtists;
 
   String _search = "";
   String _currentSearch = "";
 
-  final apiManager = getIt<ApiManager>();
-  final settingsManager = getIt<SettingsManager>();
+  final _apiManager = getIt<ApiManager>();
 
   Future<List<String>> fetchArtistNameSuggestions(String query) async {
-    final suggestions = await apiManager.service.autocompleteArtists(query, null);
-    return suggestions.where((name) => !selectedArtists.contains(name)).toList();
+    final suggestions = await _apiManager.service.autocompleteArtists(query, null);
+    return suggestions.where((name) => !_selectedArtists.contains(name)).toList();
   }
   
   @override
   void initState() {
     super.initState();
-    selectedArtists = List.from(widget.selected);
+    _selectedArtists = List.from(widget.selected);
   }
 
-  void removeArtist(String artistName) {
+  void _removeArtist(String artistName) {
     setState(() {
-      selectedArtists.remove(artistName);
+      _selectedArtists.remove(artistName);
     });
   }
 
-  void addArtist(String artistName) {
-    if (selectedArtists.contains(artistName)) return;
+  void _addArtist(String artistName) {
+    if (_selectedArtists.contains(artistName)) return;
     setState(() {
       if (widget.allowMultiple) {
-        selectedArtists.add(artistName);
+        _selectedArtists.add(artistName);
       } else {
-        selectedArtists = [artistName];
+        _selectedArtists = [artistName];
       }
       _search = "";
       _currentSearch = "";
     });
   }
 
-  List<String> getAdditionalArtists() {
-    return selectedArtists.where((a) => !widget.selected.contains(a)).toList();
-  }
-
-  bool isValid() {
-    if (selectedArtists.isEmpty && !widget.allowEmpty) return false;
+  bool _isValid() {
+    if (_selectedArtists.isEmpty && !widget.allowEmpty) return false;
     return true;
   }
   
@@ -114,11 +108,11 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
                       },
                       onSubmitted: (value) {
                         if (value.trim().isEmpty) return;
-                        addArtist(value.trim());
+                        _addArtist(value.trim());
                       },
                     );
                   },
-                  onSelected: addArtist,
+                  onSelected: _addArtist,
                   suggestionsCallback: (pattern) async {
                     if (pattern.trim().length < 2) return [];
                     return fetchArtistNameSuggestions(pattern);
@@ -132,7 +126,7 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
                 icon: Icon(Icons.add),
                 onPressed: () {
                   if (_currentSearch.isEmpty) return;
-                  addArtist(_currentSearch.trim());
+                  _addArtist(_currentSearch.trim());
                 },
               )
             ],
@@ -145,14 +139,14 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
               child: ListView(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                children: selectedArtists.map((additionalArtist) {
+                children: _selectedArtists.map((additionalArtist) {
                   return ListTile(
                     title: Text(additionalArtist),
                     leading: Icon(Icons.person),
                     trailing: IconButton(
                       icon: Icon(Icons.remove_circle),
                       onPressed: () {
-                        removeArtist(additionalArtist);
+                        _removeArtist(additionalArtist);
                       },
                     ),
                   );
@@ -164,8 +158,8 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
       ),
       actions: [
         ElevatedButton(
-          onPressed: isValid() ? () {
-            widget.onChanged(selectedArtists);
+          onPressed: _isValid() ? () {
+            widget.onChanged(_selectedArtists);
             Navigator.of(context).pop();
           } : null,
           child: Text(lm.dialog_finish),

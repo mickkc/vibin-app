@@ -40,7 +40,7 @@ class ArtistInfoPage extends StatelessWidget {
       ? _apiManager.service.getTracksByArtist(artistId)
       : null;
 
-  Widget albumTitle(BuildContext context, Album album) {
+  Widget _albumTitle(BuildContext context, Album album) {
     return Row(
       spacing: 16,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -83,7 +83,7 @@ class ArtistInfoPage extends StatelessWidget {
     );
   }
 
-  Widget albumTrackList(BuildContext context, List<MinimalTrack> tracks) {
+  Widget _albumTrackList(BuildContext context, List<MinimalTrack> tracks) {
     return ListView(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
@@ -123,7 +123,7 @@ class ArtistInfoPage extends StatelessWidget {
     );
   }
 
-  Widget artistInfo(BuildContext context, Artist artist) {
+  Widget _artistInfo(BuildContext context, Artist artist) {
     return Column(
       spacing: 16,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,7 +177,7 @@ class ArtistInfoPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(width * 0.375),
                 ),
                 Expanded(
-                  child: artistInfo(context, artist)
+                  child: _artistInfo(context, artist)
                 )
               ],
             );
@@ -204,10 +204,10 @@ class ArtistInfoPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        albumTitle(context, entry.key),
+                        _albumTitle(context, entry.key),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: albumTrackList(context, entry.value),
+                          child: _albumTrackList(context, entry.value),
                         )
                       ],
                     )

@@ -31,14 +31,14 @@ class _TagSearchBarState extends State<TagSearchBar> {
 
   late Future<List<Tag>> _tagsFuture;
 
-  void refreshTags() {
+  void _refreshTags() {
     _tagsFuture = _apiManager.service.getAllTags(_searchController.text, null);
   }
 
   @override
   void initState() {
     super.initState();
-    refreshTags();
+    _refreshTags();
   }
 
   @override
@@ -68,7 +68,7 @@ class _TagSearchBarState extends State<TagSearchBar> {
             if (_searchDebounce?.isActive ?? false) _searchDebounce!.cancel();
             _searchDebounce = Timer(const Duration(milliseconds: 300), () {
               setState(() {
-                refreshTags();
+                _refreshTags();
               });
             });
           },

@@ -57,11 +57,11 @@ class _TrackActionBarState extends State<TrackActionBar> {
     super.dispose();
   }
 
-  void playTrack(Track track) {
+  void _playTrack(Track track) {
     _audioManager.playTrack(track);
   }
 
-  Future<void> addToQueue(BuildContext context, int trackId) async {
+  Future<void> _addToQueue(BuildContext context, int trackId) async {
     await _audioManager.addTrackIdToQueue(trackId, false);
     if (!mounted || !context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
@@ -83,13 +83,13 @@ class _TrackActionBarState extends State<TrackActionBar> {
                 _audioManager.playPause();
               } else {
                 final track = await _apiManager.service.getTrack(widget.trackId);
-                playTrack(track);
+                _playTrack(track);
               }
             }
           ),
           IconButton(
             onPressed: () {
-              addToQueue(context, widget.trackId);
+              _addToQueue(context, widget.trackId);
             },
             icon: const Icon(Icons.queue_music, size: 32),
             tooltip: lm.track_actions_add_to_queue,

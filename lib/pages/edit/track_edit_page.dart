@@ -87,7 +87,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
 
   final _formKey = GlobalKey<FormState>();
 
-  void init() {
+  void _init() {
     if (widget.trackId == null) {
       setState(() {
         _titleController.text = widget.trackTitle ?? "";
@@ -140,11 +140,11 @@ class _TrackEditPageState extends State<TrackEditPage> {
 
   @override
   void initState() {
-    init();
+    _init();
     super.initState();
   }
 
-  Future<void> showArtistPicker() async {
+  Future<void> _showArtistPicker() async {
     await showDialog(
       context: context,
       builder: (context) {
@@ -162,7 +162,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
     );
   }
 
-  Future<void> searchMetadata() async {
+  Future<void> _searchMetadata() async {
     await showDialog(
       context: context,
       builder: (context) {
@@ -190,7 +190,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
     );
   }
 
-  Future<void> searchLyrics() async {
+  Future<void> _searchLyrics() async {
     await showDialog(
       context: context,
       builder: (context) {
@@ -207,7 +207,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
     );
   }
 
-  Future<void> save() async {
+  Future<void> _save() async {
 
     if (!_formKey.currentState!.validate()) return;
 
@@ -246,7 +246,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
     }
   }
 
-  Future<void> delete() async {
+  Future<void> _delete() async {
 
     if (widget.trackId == null) return;
 
@@ -263,7 +263,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
     }
   }
 
-  Future<List<String>> autoCompleteAlbumNames(String query) async {
+  Future<List<String>> _autoCompleteAlbumNames(String query) async {
     final suggestions = await _apiManager.service.autocompleteAlbums(query, null);
     return suggestions;
   }
@@ -281,7 +281,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
           actions: [
             if (_authState.hasPermission(PermissionType.deleteTracks) && widget.trackId != null)
               ElevatedButton.icon(
-                onPressed: delete,
+                onPressed: _delete,
                 label: Text(lm.dialog_delete),
                 icon: Icon(Icons.delete_forever),
                 style: ElevatedButton.styleFrom(
@@ -291,7 +291,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
               ),
 
             ElevatedButton.icon(
-              onPressed: searchMetadata,
+              onPressed: _searchMetadata,
               label: Text(lm.edit_track_search_metadata),
               icon: Icon(Icons.search),
               style: ElevatedButton.styleFrom(
@@ -300,7 +300,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
               ),
             ),
             ElevatedButton.icon(
-              onPressed: save,
+              onPressed: _save,
               icon: Icon(Icons.save),
               label: Text(lm.dialog_save),
               style: ElevatedButton.styleFrom(
@@ -342,7 +342,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
                 labelText: lm.edit_track_artists
               ),
               controller: TextEditingController(text: _artistNames.join(", ")),
-              onTap: showArtistPicker,
+              onTap: _showArtistPicker,
             ),
             TypeAheadField<String>(
               controller: TextEditingController(text: _albumName),
@@ -368,7 +368,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
               },
               suggestionsCallback: (pattern) {
                 if (pattern.trim().length < 2) return [];
-                return autoCompleteAlbumNames(pattern);
+                return _autoCompleteAlbumNames(pattern);
               }
             ),
             TextFormField(
@@ -486,7 +486,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
                   style: _theme.textTheme.headlineMedium,
                 ),
                 IconButton(
-                  onPressed: searchLyrics,
+                  onPressed: _searchLyrics,
                   icon: Icon(Icons.search),
                   tooltip: lm.edit_track_search_lyrics,
                 )

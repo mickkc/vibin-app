@@ -31,7 +31,7 @@ class _HomepageSectionsListState extends State<HomepageSectionsList> {
   late List<Entry<String, String>> _selectedSections;
   late final _lm = AppLocalizations.of(context)!;
 
-  String getSectionName(String key) {
+  String _getSectionName(String key) {
 
     switch (key) {
       case "RECENTLY_LISTENED":
@@ -65,15 +65,15 @@ class _HomepageSectionsListState extends State<HomepageSectionsList> {
     super.initState();
   }
 
-  void toggleSection(String sectionKey) {
+  void _toggleSection(String sectionKey) {
     setState(() {
       final section = _selectedSections.firstWhere((s) => s.key == sectionKey);
       section.value = (section.value == false.toString()).toString();
     });
-    save();
+    _save();
   }
 
-  void save() {
+  void _save() {
     _settingsManager.set(Settings.homepageSections, _selectedSections);
   }
 
@@ -95,11 +95,11 @@ class _HomepageSectionsListState extends State<HomepageSectionsList> {
             for (int index = 0; index < _selectedSections.length; index++)
               ListTile(
                 key: Key('$index'),
-                title: Text(getSectionName(_selectedSections[index].key)),
+                title: Text(_getSectionName(_selectedSections[index].key)),
                 leading: Checkbox(
                   value: _selectedSections[index].value == true.toString(),
                   onChanged: (value) {
-                    toggleSection(_selectedSections[index].key);
+                    _toggleSection(_selectedSections[index].key);
                   },
                 ),
               ),
@@ -113,7 +113,7 @@ class _HomepageSectionsListState extends State<HomepageSectionsList> {
               final section = _selectedSections.firstWhere((s) => s.key == key.key);
               _selectedSections.remove(section);
               _selectedSections.insert(newIndex, section);
-              save();
+              _save();
             });
           },
         ),

@@ -24,7 +24,7 @@ class EntityCard extends StatelessWidget {
     this.showActions = true,
   });
 
-  String getTitle() {
+  String _getTitle() {
     switch (type) {
       case EntityCardType.track:
       case EntityCardType.album:
@@ -37,7 +37,7 @@ class EntityCard extends StatelessWidget {
     }
   }
 
-  String getDescription(BuildContext context) {
+  String _getDescription(BuildContext context) {
     switch (type) {
       case EntityCardType.track:
       case EntityCardType.album:
@@ -51,7 +51,7 @@ class EntityCard extends StatelessWidget {
     }
   }
 
-  String getCoverUrl(ApiManager apiManager) {
+  String _getCoverUrl(ApiManager apiManager) {
     switch (type) {
       case EntityCardType.track:
         return "/api/tracks/${entity.id}/cover?quality=large";
@@ -66,7 +66,7 @@ class EntityCard extends StatelessWidget {
     }
   }
 
-  void onTap(BuildContext context) {
+  void _onTap(BuildContext context) {
     final route = switch (type) {
       EntityCardType.track => "/tracks/${entity.id}",
       EntityCardType.album => "/albums/${entity.id}",
@@ -132,7 +132,7 @@ class EntityCard extends StatelessWidget {
         AddTrackToPlaylistDialog.show(entity.id, context);
         break;
       case EntityCardAction.viewInfo:
-        onTap(context);
+        _onTap(context);
         break;
     }
   }
@@ -168,7 +168,7 @@ class EntityCard extends StatelessWidget {
     final apiManager = getIt<ApiManager>();
 
     return InkWell(
-      onTap: () => onTap(context),
+      onTap: () => _onTap(context),
       onSecondaryTapDown: (details) => _showContextMenu(context, details.globalPosition),
       child: Ink(
         decoration: BoxDecoration(
@@ -189,7 +189,7 @@ class EntityCard extends StatelessWidget {
                         ? BorderRadius.circular(coverSize / 2)
                         : BorderRadius.circular(8),
                     child: NetworkImageWidget(
-                      url: getCoverUrl(apiManager),
+                      url: _getCoverUrl(apiManager),
                       width: coverSize,
                       height: coverSize,
                       fit: BoxFit.contain,
@@ -198,7 +198,7 @@ class EntityCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  getTitle(),
+                  _getTitle(),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -208,7 +208,7 @@ class EntityCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  getDescription(context),
+                  _getDescription(context),
                   style: TextStyle(
                     fontSize: 14,
                     color: Theme.of(context).colorScheme.onSurface.withAlpha(180),

@@ -24,7 +24,7 @@ class PlaylistInfoPage extends StatelessWidget {
     required this.playlistId
   });
 
-  Widget playlistInfo(BuildContext context, Future<PlaylistData> playlistDataFuture) {
+  Widget _playlistInfo(BuildContext context, Future<PlaylistData> playlistDataFuture) {
     final lm = AppLocalizations.of(context)!;
     return FutureContent(
       future: playlistDataFuture,
@@ -90,7 +90,7 @@ class PlaylistInfoPage extends StatelessWidget {
               ),
               SizedBox(
                 width: constraints.maxWidth,
-                child: playlistInfo(context, _playlistDataFuture)
+                child: _playlistInfo(context, _playlistDataFuture)
               )
             ];
           },
@@ -102,7 +102,7 @@ class PlaylistInfoPage extends StatelessWidget {
                 height: 200
               ),
               Expanded(
-                child: playlistInfo(context, _playlistDataFuture)
+                child: _playlistInfo(context, _playlistDataFuture)
               )
             ];
           },

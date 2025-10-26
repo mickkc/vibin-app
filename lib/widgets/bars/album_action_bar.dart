@@ -54,7 +54,7 @@ class _AlbumActionBarState extends State<AlbumActionBar> {
     }));
   }
 
-  void playPause() async {
+  void _playPause() async {
     if (!_isCurrent) {
       final album = await _apiManager.service.getAlbum(widget.albumId);
       _audioManager.playAlbumData(album, null, _isShuffleEnabled);
@@ -63,7 +63,7 @@ class _AlbumActionBarState extends State<AlbumActionBar> {
     }
   }
 
-  void toggleShuffle() {
+  void _toggleShuffle() {
     if (_isCurrent) {
       _audioManager.toggleShuffle();
     }
@@ -83,10 +83,10 @@ class _AlbumActionBarState extends State<AlbumActionBar> {
         if (_authState.hasPermission(PermissionType.streamTracks)) ... [
           PlayButton(
             isPlaying: _isCurrent && _isPlaying,
-            onTap: playPause
+            onTap: _playPause
           ),
           IconButton(
-            onPressed: toggleShuffle,
+            onPressed: _toggleShuffle,
             icon: Icon(
               Icons.shuffle,
               color: _isShuffleEnabled ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,

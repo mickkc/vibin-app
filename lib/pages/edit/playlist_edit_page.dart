@@ -78,7 +78,7 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
     super.dispose();
   }
 
-  Future<void> save() async {
+  Future<void> _save() async {
 
     if (!_formKey.currentState!.validate()) return;
 
@@ -109,7 +109,7 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
     }
   }
 
-  Future<void> delete() async {
+  Future<void> _delete() async {
 
     if (!await showConfirmDialog(context, lm.delete_playlist_confirmation, lm.delete_playlist_confirmation_warning)) {
       return;
@@ -124,7 +124,7 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
     }
   }
 
-  bool allowVisibilityChange() {
+  bool _allowVisibilityChange() {
     if (_public && !_authState.hasPermission(PermissionType.createPrivatePlaylists)) return false;
     if (!_public && !_authState.hasPermission(PermissionType.createPublicPlaylists)) return false;
     return true;
@@ -139,7 +139,7 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
         actions: [
           if (widget.playlistId != null)
             ElevatedButton.icon(
-              onPressed: delete,
+              onPressed: _delete,
               icon: Icon(Icons.delete),
               label: Text(lm.dialog_delete),
               style: ElevatedButton.styleFrom(
@@ -161,7 +161,7 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
             ),
           ),
           ElevatedButton.icon(
-            onPressed: save,
+            onPressed: _save,
             icon: Icon(Icons.save),
             label: Text(lm.dialog_save),
             style: ElevatedButton.styleFrom(
@@ -211,7 +211,7 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
             controller: _vibedefController,
             maxLines: null,
           ),
-          if (allowVisibilityChange())
+          if (_allowVisibilityChange())
             SwitchListTile(
               title: Text(lm.edit_playlist_public),
               value: _public,

@@ -35,7 +35,7 @@ class ImageEditField extends StatelessWidget {
     caseSensitive: false,
   );
 
-  void enterUrl(BuildContext context) async {
+  void _enterUrl(BuildContext context) async {
     final lm = AppLocalizations.of(context)!;
     await showDialog(
       context: context,
@@ -46,7 +46,7 @@ class ImageEditField extends StatelessWidget {
             keyboardType: TextInputType.url,
             autofocus: true,
             onSubmitted: (value) {
-              if (setUrl(value)) {
+              if (_setUrl(value)) {
                 Navigator.pop(context);
               }
             },
@@ -64,7 +64,7 @@ class ImageEditField extends StatelessWidget {
     );
   }
 
-  Future<ImageUploadResult> uploadImage() async {
+  Future<ImageUploadResult> _uploadImage() async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.image,
@@ -102,7 +102,7 @@ class ImageEditField extends StatelessWidget {
     }
   }
 
-  bool setUrl(String url) {
+  bool _setUrl(String url) {
     if (url.isNotEmpty && _urlRegex.hasMatch(url)) {
       onImageChanged(url);
       return true;
@@ -144,7 +144,7 @@ class ImageEditField extends StatelessWidget {
             children: [
               ColoredIconButton(
                 onPressed: () async {
-                  final result = await uploadImage();
+                  final result = await _uploadImage();
                   String? message = switch(result) {
                     ImageUploadResult.success => null,
                     ImageUploadResult.fileTooLarge => lm.edit_image_too_large,
@@ -164,7 +164,7 @@ class ImageEditField extends StatelessWidget {
                 tooltip: lm.edit_image_upload,
               ),
               ColoredIconButton(
-                onPressed: () { enterUrl(context); },
+                onPressed: () { _enterUrl(context); },
                 icon: Icons.link,
                 backgroundColor: theme.colorScheme.primaryContainer,
                 iconColor: theme.colorScheme.onPrimaryContainer,

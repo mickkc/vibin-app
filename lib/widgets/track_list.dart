@@ -56,7 +56,7 @@ class _TrackListState extends State<TrackList> {
     super.dispose();
   }
 
-  void showArtistPicker(BuildContext context, Track track) {
+  void _showArtistPicker(BuildContext context, Track track) {
     showModalBottomSheet(
       showDragHandle: true,
       isScrollControlled: false,
@@ -97,26 +97,26 @@ class _TrackListState extends State<TrackList> {
     );
   }
 
-  void openAlbum(BuildContext context, Track track) {
+  void _openAlbum(BuildContext context, Track track) {
     Navigator.pop(context);
     GoRouter.of(context).push('/albums/${track.album.id}');
   }
 
-  void openTrack(BuildContext context, Track track) {
+  void _openTrack(BuildContext context, Track track) {
     Navigator.pop(context);
     GoRouter.of(context).push('/tracks/${track.id}');
   }
 
-  void openArtist(BuildContext context, Track track) {
+  void _openArtist(BuildContext context, Track track) {
     if (track.artists.length == 1) {
       Navigator.pop(context);
       GoRouter.of(context).push('/artists/${track.artists.first.id}');
     } else {
-      showArtistPicker(context, track);
+      _showArtistPicker(context, track);
     }
   }
 
-  Future<void> addToQueue(Track track) async {
+  Future<void> _addToQueue(Track track) async {
     final audioManager = getIt<AudioManager>();
     await audioManager.addTrackIdToQueue(track.id, false);
     if (!mounted || !context.mounted) return;
@@ -125,7 +125,7 @@ class _TrackListState extends State<TrackList> {
     );
   }
 
-  Future<void> addTrackToPlaylist(int trackId, BuildContext context) async {
+  Future<void> _addTrackToPlaylist(int trackId, BuildContext context) async {
     final modifiedPlaylistIds = await AddTrackToPlaylistDialog.show(trackId, context);
     if (widget.playlistId != null && modifiedPlaylistIds.contains(widget.playlistId)) {
       // If the current playlist was modified, the track must have been removed. Update the UI.
@@ -181,7 +181,7 @@ class _TrackListState extends State<TrackList> {
                     ),
                     InkWell(
                       onTap: () {
-                        openArtist(context, track);
+                        _openArtist(context, track);
                       },
                       child: Text(
                         track.artists.map((e) => e.name).join(", "),
@@ -219,32 +219,32 @@ class _TrackListState extends State<TrackList> {
                   if (as.hasPermission(PermissionType.managePlaylists)) ... [
                     PopupMenuItem(
                       child: IconText(icon: Icons.add_outlined, text: lm.track_actions_add_to_playlist),
-                      onTap: () { addTrackToPlaylist(track.id, context); },
+                      onTap: () { _addTrackToPlaylist(track.id, context); },
                     )
                   ],
                   if (as.hasPermission(PermissionType.streamTracks)) ... [
                     PopupMenuItem(
                       child: IconText(icon: Icons.queue_music_outlined, text: lm.track_actions_add_to_queue),
-                      onTap: () { addToQueue(track); },
+                      onTap: () { _addToQueue(track); },
                     )
                   ],
                   PopupMenuDivider(),
                   if (as.hasPermission(PermissionType.viewTracks)) ... [
                     PopupMenuItem(
                       child: IconText(icon: Icons.library_music_outlined, text: lm.track_actions_goto_track),
-                      onTap: () { openTrack(context, track); },
+                      onTap: () { _openTrack(context, track); },
                     )
                   ],
                   if (as.hasPermission(PermissionType.viewArtists)) ... [
                     PopupMenuItem(
                       child: IconText(icon: Icons.person_outlined, text: lm.track_actions_goto_artist),
-                      onTap: () { openArtist(context, track); },
+                      onTap: () { _openArtist(context, track); },
                     )
                   ],
                   if(as.hasPermission(PermissionType.viewAlbums) && (widget.albumId == null || widget.albumId != track.album.id)) ... [
                     PopupMenuItem(
                       child: IconText(icon: Icons.album_outlined, text: lm.track_actions_goto_album),
-                      onTap: () { openAlbum(context, track); },
+                      onTap: () { _openAlbum(context, track); },
                     ),
                   ],
                   if (as.hasPermission(PermissionType.downloadTracks)) ... [

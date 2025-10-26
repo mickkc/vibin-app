@@ -57,7 +57,7 @@ class _ArtistEditPageState extends State<ArtistEditPage> {
     }
   }
 
-  Future<void> openMetadataDialog(BuildContext context) async {
+  Future<void> _openMetadataDialog(BuildContext context) async {
     await showDialog(
       context: context,
       builder: (context) {
@@ -75,7 +75,7 @@ class _ArtistEditPageState extends State<ArtistEditPage> {
     );
   }
 
-  Future<void> save() async {
+  Future<void> _save() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -115,7 +115,7 @@ class _ArtistEditPageState extends State<ArtistEditPage> {
     }
   }
 
-  Future<void> delete() async {
+  Future<void> _delete() async {
 
     if (widget.artistId == null) return;
 
@@ -144,7 +144,7 @@ class _ArtistEditPageState extends State<ArtistEditPage> {
         actions: [
           if (_authState.hasPermission(PermissionType.deleteArtists))
             ElevatedButton.icon(
-              onPressed: delete,
+              onPressed: _delete,
               label: Text(_lm.dialog_delete),
               icon: Icon(Icons.delete_forever),
               style: ElevatedButton.styleFrom(
@@ -153,7 +153,7 @@ class _ArtistEditPageState extends State<ArtistEditPage> {
               ),
             ),
           ElevatedButton.icon(
-            onPressed: () => openMetadataDialog(context),
+            onPressed: () => _openMetadataDialog(context),
             label: Text(_lm.edit_artist_search_metadata),
             icon: Icon(Icons.search),
             style: ElevatedButton.styleFrom(
@@ -162,7 +162,7 @@ class _ArtistEditPageState extends State<ArtistEditPage> {
             ),
           ),
           ElevatedButton.icon(
-            onPressed: save,
+            onPressed: _save,
             label: Text(_lm.dialog_save),
             icon: Icon(Icons.save),
             style: ElevatedButton.styleFrom(

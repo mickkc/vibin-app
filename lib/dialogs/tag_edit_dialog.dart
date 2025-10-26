@@ -63,7 +63,7 @@ class _TagEditDialogState extends State<TagEditDialog> {
     super.dispose();
   }
 
-  Future<bool> checkIfTagExists(String name) async {
+  Future<bool> _checkIfTagExists(String name) async {
     try {
       await _apiManager.service.getTagByName(name);
       return true;
@@ -73,10 +73,10 @@ class _TagEditDialogState extends State<TagEditDialog> {
     }
   }
 
-  Future<void> save() async {
+  Future<void> _save() async {
 
     if (_nameController.text != widget.initialName) {
-      final exists = await checkIfTagExists(_nameController.text);
+      final exists = await _checkIfTagExists(_nameController.text);
       if (exists) {
         // Tag with this name already exists
         if (mounted) {
@@ -106,7 +106,7 @@ class _TagEditDialogState extends State<TagEditDialog> {
     }
   }
 
-  Future<void> delete() async {
+  Future<void> _delete() async {
     if (!await showConfirmDialog(context, _lm.edit_tag_delete_confirmation, _lm.edit_tag_delete_confirmation_warning)) {
       return;
     }
@@ -178,11 +178,11 @@ class _TagEditDialogState extends State<TagEditDialog> {
       actions: [
         if (widget.tagId != null && _authState.hasPermission(PermissionType.deleteTags))
           TextButton(
-            onPressed: delete,
+            onPressed: _delete,
             child: Text(_lm.dialog_delete),
           ),
         ElevatedButton(
-          onPressed: save,
+          onPressed: _save,
           child: Text(_lm.dialog_save),
         ),
       ],

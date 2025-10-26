@@ -47,7 +47,7 @@ class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
 
   double get width => MediaQuery.of(context).size.width;
 
-  void search() {
+  void _search() {
     if (_searchQuery.isEmpty || _selectedProvider.isEmpty) {
       setState(() {
         _searchFuture = Future.value([]);
@@ -84,7 +84,7 @@ class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
 
         _initialized = true;
       });
-      search();
+      _search();
     });
   }
 
@@ -117,7 +117,7 @@ class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
                   textInputAction: TextInputAction.search,
                   onSubmitted: (value) {
                     _searchQuery = value;
-                    search();
+                    _search();
                   },
                 ),
               ),
@@ -136,7 +136,7 @@ class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
                     setState(() {
                       _selectedProvider = value;
                     });
-                    search();
+                    _search();
                   },
                 ),
               )

@@ -61,7 +61,7 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
     super.dispose();
   }
 
-  void toggleShuffle() {
+  void _toggleShuffle() {
     if (_isCurrent) {
       _audioManager.toggleShuffle();
     }
@@ -71,7 +71,7 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
     widget.shuffleState?.isShuffling = _isShuffleEnabled;
   }
 
-  void playPause() {
+  void _playPause() {
     if (!_isCurrent) {
       _audioManager.playPlaylistData(widget.playlistData, null, _isShuffleEnabled);
     } else {
@@ -79,7 +79,7 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
     }
   }
 
-  bool allowEdit() {
+  bool _allowEdit() {
     if (!_authState.hasPermission(PermissionType.managePlaylists)) {
       return false;
     }
@@ -103,10 +103,10 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
         if (_authState.hasPermission(PermissionType.streamTracks)) ... [
           PlayButton(
             isPlaying: _isCurrent && _isPlaying,
-            onTap: playPause
+            onTap: _playPause
           ),
           IconButton(
-            onPressed: toggleShuffle,
+            onPressed: _toggleShuffle,
             tooltip: _isShuffleEnabled ? lm.playlist_actions_disable_shuffling : lm.playlist_actions_enable_shuffling,
             icon: Icon(
               Icons.shuffle,
@@ -122,7 +122,7 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
             icon: const Icon(Icons.group_add, size: 32),
           )
         ],
-        if (allowEdit()) ... [
+        if (_allowEdit()) ... [
           IconButton(
             tooltip: lm.playlist_actions_edit,
             onPressed: () {

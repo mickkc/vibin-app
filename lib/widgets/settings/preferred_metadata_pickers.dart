@@ -30,7 +30,7 @@ class _PreferredMetadataPickersState extends State<PreferredMetadataPickers> {
 
   late final _providersFuture = _apiManager.service.getMetadataProviders();
 
-  Widget buildPicker(String title, String currentValue, List<String> options, Function(String) onChanged) {
+  Widget _buildPicker(String title, String currentValue, List<String> options, Function(String) onChanged) {
     final actualSelected = options.contains(currentValue) ? currentValue : options.first;
     return ListTile(
       title: Text(title),
@@ -66,7 +66,7 @@ class _PreferredMetadataPickersState extends State<PreferredMetadataPickers> {
               subtitle: _lm.settings_app_metadata_providers_description
             ),
 
-            buildPicker(
+            _buildPicker(
               _lm.artists,
               _artistProvider,
               providers.artist,
@@ -78,7 +78,7 @@ class _PreferredMetadataPickersState extends State<PreferredMetadataPickers> {
               }
             ),
 
-            buildPicker(
+            _buildPicker(
               _lm.albums,
               _albumProvider,
               providers.album,
@@ -90,7 +90,7 @@ class _PreferredMetadataPickersState extends State<PreferredMetadataPickers> {
               }
             ),
 
-            buildPicker(
+            _buildPicker(
               _lm.tracks,
               _trackProvider,
               providers.track,
@@ -102,7 +102,7 @@ class _PreferredMetadataPickersState extends State<PreferredMetadataPickers> {
               }
             ),
 
-            buildPicker(
+            _buildPicker(
               _lm.lyrics_p,
               _lyricsProvider,
               providers.lyrics,

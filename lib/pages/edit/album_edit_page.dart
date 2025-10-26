@@ -68,7 +68,7 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
     super.dispose();
   }
   
-  void showMetadataDialog() {
+  void _showMetadataDialog() {
     showDialog(
       context: context,
       builder: (context) {
@@ -84,7 +84,7 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
     );
   }
 
-  Future<void> save() async {
+  Future<void> _save() async {
 
     if (!_formKey.currentState!.validate()) return;
 
@@ -108,7 +108,7 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
     }
   }
 
-  Future<void> delete() async {
+  Future<void> _delete() async {
     final confirmed = await showConfirmDialog(context, _lm.delete_album_confirmation, _lm.delete_album_confirmation_warning);
     if (!confirmed) return;
 
@@ -145,7 +145,7 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
           actions: [
             if (_authState.hasPermission(PermissionType.deleteAlbums))
               ElevatedButton.icon(
-                onPressed: delete,
+                onPressed: _delete,
                 icon: const Icon(Icons.delete_forever),
                 label: Text(_lm.dialog_delete),
                 style: ElevatedButton.styleFrom(
@@ -163,7 +163,7 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
               ),
             ),
             ElevatedButton.icon(
-              onPressed: showMetadataDialog,
+              onPressed: _showMetadataDialog,
               icon: const Icon(Icons.search),
               label: Text(_lm.edit_album_search_metadata),
               style: ElevatedButton.styleFrom(
@@ -172,7 +172,7 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
               ),
             ),
             ElevatedButton.icon(
-              onPressed: save,
+              onPressed: _save,
               icon: const Icon(Icons.save),
               label: Text(_lm.dialog_save),
               style: ElevatedButton.styleFrom(
