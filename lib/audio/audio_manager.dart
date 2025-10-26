@@ -153,6 +153,43 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     }
   }
 
+  Future<void> moveQueueItem(int oldIndex, int newIndex) async {
+
+    if (oldIndex < 0 || oldIndex >= audioPlayer.sequence.length || audioPlayer.currentIndex == null) {
+      return;
+    }
+
+    if (newIndex < 0 || newIndex >= audioPlayer.sequence.length) {
+      return;
+    }
+
+    // Adjust newIndex if moving down the list because all indexes shift down by 1
+    if (newIndex > oldIndex) {
+      newIndex -= 1;
+    }
+
+    final sequence = audioPlayer.sequence;
+    final currentIndex = audioPlayer.currentIndex!;
+
+    final newSources = List<AudioSource>.from(sequence);
+    final item = newSources.removeAt(oldIndex);
+    newSources.insert(newIndex, item);
+
+    int updatedCurrentIndex = currentIndex;
+    if (oldIndex == currentIndex) {
+      // Same item is being moved - no other adjustments needed
+      updatedCurrentIndex = newIndex;
+    } else if (oldIndex < currentIndex && newIndex >= currentIndex) {
+      // Current item is pushed up - decrement current index
+      updatedCurrentIndex -= 1;
+    } else if (oldIndex > currentIndex && newIndex <= currentIndex) {
+      // Current item is pushed down - increment current index
+      updatedCurrentIndex += 1;
+    }
+
+    await _rebuild(newSources, updatedCurrentIndex);
+  }
+
   Future<void> _insertNextAudioSource(AudioSource newSource) async {
     final sequence = audioPlayer.sequence;
     final currentIndex = audioPlayer.currentIndex ?? 0;

@@ -83,8 +83,9 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
       padding: const EdgeInsets.all(16),
       child: _audioManager.sequence.isEmpty
         ? Text(AppLocalizations.of(context)!.now_playing_nothing)
-        : ListView.builder(
-            controller: widget.scrollController,
+        : ReorderableListView.builder(
+            scrollController: widget.scrollController,
+            buildDefaultDragHandles: false,
             itemCount: _audioManager.sequence.length,
             itemBuilder: (context, index) {
               final source = _audioManager.sequence[index];
@@ -94,23 +95,30 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
               }
               final isCurrent = _currentIndex == index;
               return ListTile(
+                key: ValueKey(source.tag),
                 leading: NetworkImageWidget(
                   url: tag.artUri.toString(),
                   width: 48,
                   height: 48
                 ),
-                title: Text(tag.title),
-                subtitle: Text(tag.artist ?? ''),
-                trailing: isCurrent ? AnimatedSpectogramIcon(
-                  size: 24,
-                  color: Theme.of(context).colorScheme.primary,
-                  isPlaying: _isPlaying,
-                ) : null,
+                title: Text(tag.title, maxLines: 1),
+                subtitle: Text(tag.artist ?? '', maxLines: 1),
+                trailing: ReorderableDragStartListener(
+                  index: index,
+                  child: isCurrent ? AnimatedSpectogramIcon(
+                       size: 24,
+                       color: Theme.of(context).colorScheme.primary,
+                       isPlaying: _isPlaying,
+                     ) : const Icon(Icons.drag_handle)
+                ),
                 onTap: () {
                   _audioManager.skipToQueueItem(index);
                   if (widget.isBottomSheet) Navigator.pop(context);
                 },
               );
+            },
+            onReorder: (oldIndex, newIndex) {
+              _audioManager.moveQueueItem(oldIndex, newIndex);
             },
           ),
     );
