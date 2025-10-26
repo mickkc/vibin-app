@@ -9,7 +9,12 @@ import 'package:vibin_app/widgets/animated_spectrogram_icon.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
 class NowPlayingQueue extends StatefulWidget {
-  const NowPlayingQueue({super.key});
+  final ScrollController? scrollController;
+
+  const NowPlayingQueue({
+    super.key,
+    this.scrollController,
+  });
 
   static void show(BuildContext context) {
     showModalBottomSheet(
@@ -18,7 +23,15 @@ class NowPlayingQueue extends StatefulWidget {
       isScrollControlled: true,
       showDragHandle: true,
       builder: (BuildContext context) {
-        return const NowPlayingQueue();
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.5,
+          minChildSize: 0.3,
+          maxChildSize: 0.9,
+          builder: (context, scrollController) {
+            return NowPlayingQueue(scrollController: scrollController);
+          },
+        );
       },
     );
   }
@@ -64,48 +77,40 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
 
   @override
   Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      expand: false,
-      initialChildSize: 0.5,
-      minChildSize: 0.3,
-      maxChildSize: 0.9,
-      builder: (context, scrollController) {
-        return Container(
-          padding: const EdgeInsets.all(16),
-          child: _audioManager.sequence.isEmpty
-            ? Text(AppLocalizations.of(context)!.now_playing_nothing)
-            : ListView.builder(
-                controller: scrollController,
-                itemCount: _audioManager.sequence.length,
-                itemBuilder: (context, index) {
-                  final source = _audioManager.sequence[index];
-                  final tag = source.tag;
-                  if (tag is! MediaItem) {
-                    return const SizedBox.shrink();
-                  }
-                  final isCurrent = _currentIndex == index;
-                  return ListTile(
-                    leading: NetworkImageWidget(
-                      url: tag.artUri.toString(),
-                      width: 48,
-                      height: 48
-                    ),
-                    title: Text(tag.title),
-                    subtitle: Text(tag.artist ?? ''),
-                    trailing: isCurrent ? AnimatedSpectogramIcon(
-                      size: 24,
-                      color: Theme.of(context).colorScheme.primary,
-                      isPlaying: _isPlaying,
-                    ) : null,
-                    onTap: () {
-                      _audioManager.skipToQueueItem(index);
-                      Navigator.pop(context);
-                    },
-                  );
+    return Container(
+      padding: const EdgeInsets.all(16),
+      child: _audioManager.sequence.isEmpty
+        ? Text(AppLocalizations.of(context)!.now_playing_nothing)
+        : ListView.builder(
+            controller: widget.scrollController,
+            itemCount: _audioManager.sequence.length,
+            itemBuilder: (context, index) {
+              final source = _audioManager.sequence[index];
+              final tag = source.tag;
+              if (tag is! MediaItem) {
+                return const SizedBox.shrink();
+              }
+              final isCurrent = _currentIndex == index;
+              return ListTile(
+                leading: NetworkImageWidget(
+                  url: tag.artUri.toString(),
+                  width: 48,
+                  height: 48
+                ),
+                title: Text(tag.title),
+                subtitle: Text(tag.artist ?? ''),
+                trailing: isCurrent ? AnimatedSpectogramIcon(
+                  size: 24,
+                  color: Theme.of(context).colorScheme.primary,
+                  isPlaying: _isPlaying,
+                ) : null,
+                onTap: () {
+                  _audioManager.skipToQueueItem(index);
+                  Navigator.pop(context);
                 },
-              ),
-        );
-      },
+              );
+            },
+          ),
     );
   }
 }
