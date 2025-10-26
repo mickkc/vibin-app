@@ -81,8 +81,6 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
         currentMediaItemStreamController.add(currentMediaItem);
       }
     });
-
-
   }
 
   final currentMediaItemStreamController = StreamController<MediaItem>.broadcast();
@@ -148,6 +146,39 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
         audioPlayer.setLoopMode(LoopMode.off);
         break;
     }
+  }
+
+  Future<void> _insertNextAudioSource(AudioSource newSource) async {
+    final sequence = audioPlayer.sequence;
+    final currentIndex = audioPlayer.currentIndex ?? 0;
+
+    final newSources = List<AudioSource>.from(sequence);
+
+    newSources.insert(
+      currentIndex + 1,
+      newSource,
+    );
+
+    await _rebuild(newSources, currentIndex);
+  }
+
+  Future<void> _insertNextAudioSources(List<AudioSource> newSources) async {
+    final sequence = audioPlayer.sequence;
+    final currentIndex = audioPlayer.currentIndex ?? 0;
+
+    final sources = List<AudioSource>.from(sequence);
+
+    sources.insertAll(
+      currentIndex + 1,
+      newSources,
+    );
+
+    await _rebuild(sources, currentIndex);
+  }
+
+  Future<void> _rebuild(List<AudioSource> newSources, int currentIndex) async {
+    final currentPosition = audioPlayer.position;
+    await audioPlayer.setAudioSources(newSources, initialIndex: currentIndex, initialPosition: currentPosition);
   }
 
   Future<void> playPlaylist(Playlist playlist, bool shuffle) async {
@@ -258,7 +289,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final source = _fromTrack(track, mediaToken);
 
     if (next && audioPlayer.currentIndex != null) {
-      await audioPlayer.insertAudioSource(audioPlayer.currentIndex! + 1, source);
+      await _insertNextAudioSource(source);
     } else {
       await audioPlayer.addAudioSource(source);
     }
@@ -275,7 +306,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final source = _fromMinimalTrack(track, mediaToken);
 
     if (next && audioPlayer.currentIndex != null) {
-      await audioPlayer.insertAudioSource(audioPlayer.currentIndex! + 1, source);
+      await _insertNextAudioSource(source);
     } else {
       await audioPlayer.addAudioSource(source);
     }
@@ -298,7 +329,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final sources = albumData.tracks.map((track) => _fromTrack(track, mediaToken)).toList();
 
     if (next && audioPlayer.currentIndex != null) {
-      await audioPlayer.insertAudioSources(audioPlayer.currentIndex! + 1, sources);
+      await _insertNextAudioSources(sources);
     } else {
       await audioPlayer.addAudioSources(sources);
     }
@@ -321,7 +352,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final sources = playlistData.tracks.map((track) => _fromTrack(track.track, mediaToken)).toList();
 
     if (next && audioPlayer.currentIndex != null) {
-      await audioPlayer.insertAudioSources(audioPlayer.currentIndex! + 1, sources);
+      await _insertNextAudioSources(sources);
     } else {
       await audioPlayer.addAudioSources(sources);
     }
