@@ -33,7 +33,11 @@ dependencies:
 
   just_audio: ^0.10.5
   audio_service: ^0.18.18
-  just_audio_media_kit: ^2.1.0
+
+  just_audio_media_kit:
+    git:
+      url: https://github.com/Pato05/just_audio_media_kit
+      ref: feat/queue-shuffle # TODO: use main when https://github.com/Pato05/just_audio_media_kit/issues/3 is fixed
 
   media_kit_libs_linux: any
   media_kit_libs_windows_audio: any
