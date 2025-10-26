@@ -122,6 +122,11 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   bool get hasNext => audioPlayer.hasNext;
   bool get hasPrevious => audioPlayer.hasPrevious;
 
+  Future<void> _loadAndPlay() async {
+    await audioPlayer.load();
+    await play();
+  }
+
   Future<void> playPause() async {
     if (audioPlayer.playing) {
       await audioPlayer.pause();
@@ -238,7 +243,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final sources = data.tracks.map((track) => _fromTrack(track, mediaToken)).toList();
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSources(sources, initialIndex: initialIndex);
-    await play();
+    await _loadAndPlay();
     await _apiManager.service.reportAlbumListen(data.album.id);
   }
 
@@ -251,7 +256,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSource(source);
-    await play();
+    await _loadAndPlay();
   }
 
   Future<void> playTrack(Track track) async {
@@ -263,7 +268,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSource(source);
-    await play();
+    await _loadAndPlay();
   }
 
   Future<void> playMinimalTrackWithQueue(MinimalTrack track, List<MinimalTrack> queue) async {
@@ -276,7 +281,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     await audioPlayer.clearAudioSources();
     await audioPlayer.setAudioSources(sources, initialIndex: initialIndex);
-    await play();
+    await _loadAndPlay();
   }
   
   Future<void> addTrackIdToQueue(int trackId, bool next) async {
@@ -297,7 +302,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     setAudioType(AudioType.tracks, null);
 
     if (audioPlayer.sequence.length == 1) {
-      await play();
+      await _loadAndPlay();
     }
   }
 
@@ -314,7 +319,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     setAudioType(AudioType.tracks, null);
 
     if (audioPlayer.sequence.length == 1) {
-      await play();
+      await _loadAndPlay();
     }
   }
 
@@ -335,7 +340,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     }
 
     if (audioPlayer.sequence.length == sources.length) {
-      await play();
+      await _loadAndPlay();
     }
 
     _apiManager.service.reportAlbumListen(album.id);
@@ -358,7 +363,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     }
 
     if (audioPlayer.sequence.length == sources.length) {
-      await play();
+      await _loadAndPlay();
     }
 
     _apiManager.service.reportPlaylistListen(playlist.id);
