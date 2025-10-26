@@ -118,7 +118,7 @@ class _TrackListState extends State<TrackList> {
 
   Future<void> addToQueue(Track track) async {
     final audioManager = getIt<AudioManager>();
-    await audioManager.addTrackToQueue(track.id);
+    await audioManager.addTrackIdToQueue(track.id, false);
     if (!mounted || !context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(AppLocalizations.of(context)!.track_actions_added_to_queue))

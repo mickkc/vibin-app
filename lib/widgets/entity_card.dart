@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibin_app/dialogs/add_track_to_playlist_dialog.dart';
 import 'package:vibin_app/dtos/track/track.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
-import 'package:vibin_app/widgets/colored_icon_button.dart';
+import 'package:vibin_app/widgets/icon_text.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
 import '../api/api_manager.dart';
@@ -76,27 +77,64 @@ class EntityCard extends StatelessWidget {
     GoRouter.of(context).push(route);
   }
 
-  Widget _actions(BuildContext context) {
+  Future<void> _showContextMenu(BuildContext context, Offset position) async {
 
-    if (type == EntityCardType.user || type == EntityCardType.artist) return const SizedBox.shrink();
+    final lm = AppLocalizations.of(context)!;
 
-    return Align(
-      alignment: Alignment.bottomRight,
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ColoredIconButton(
-              icon: Icons.play_arrow,
-              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-              iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
-              onPressed: _play
-            )
-          ],
-        )
+    final selected = await showMenu<EntityCardAction>(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        position.dx,
+        position.dy,
+        position.dx,
+        position.dy,
       ),
+      items: [
+        if (type != EntityCardType.user && type != EntityCardType.artist) ... [
+          PopupMenuItem(
+            value: EntityCardAction.play,
+            child: IconText(icon: Icons.play_arrow, text: lm.card_actions_play_now)
+          ),
+          PopupMenuItem(
+            value: EntityCardAction.playNext,
+            child: IconText(icon: Icons.skip_next, text: lm.card_actions_play_next)
+          ),
+          PopupMenuItem(
+            value: EntityCardAction.addToQueue,
+            child: IconText(icon: Icons.queue_music, text: lm.card_actions_add_to_queue)
+          ),
+        ],
+        if (type == EntityCardType.track)
+          PopupMenuItem(
+            value: EntityCardAction.addToPlaylist,
+            child: IconText(icon: Icons.playlist_add, text: lm.card_actions_add_to_playlist)
+          ),
+        PopupMenuItem(
+          value: EntityCardAction.viewInfo,
+          child: IconText(icon: Icons.info, text: lm.card_actions_view_details)
+        ),
+      ]
     );
+    
+    if (selected == null || !context.mounted) return;
+    
+    switch (selected) {
+      case EntityCardAction.play:
+        await _play();
+        break;
+      case EntityCardAction.playNext:
+        await _addToQueue(true);
+        break;
+      case EntityCardAction.addToQueue:
+        await _addToQueue(false);
+        break;
+      case EntityCardAction.addToPlaylist:
+        AddTrackToPlaylistDialog.show(entity.id, context);
+        break;
+      case EntityCardAction.viewInfo:
+        onTap(context);
+        break;
+    }
   }
 
   Future<void> _play() async {
@@ -111,6 +149,19 @@ class EntityCard extends StatelessWidget {
       EntityCardType.user => throw UnimplementedError("Playing user not implemented"),
     };
   }
+  
+  Future<void> _addToQueue(bool first) async {
+
+    final audioManager = getIt<AudioManager>();
+
+    await switch (type) {
+      EntityCardType.track => entity is Track ? audioManager.addTrackToQueue(entity, first) : audioManager.addMinimalTrackToQueue(entity, first),
+      EntityCardType.album => audioManager.addAlbumToQueue(entity, first),
+      EntityCardType.artist => throw UnimplementedError("Adding artist not implemented"), // TODO: implement adding artist
+      EntityCardType.playlist => audioManager.addPlaylistToQueue(entity, first),
+      EntityCardType.user => throw UnimplementedError("Adding user not implemented"),
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,6 +169,7 @@ class EntityCard extends StatelessWidget {
 
     return InkWell(
       onTap: () => onTap(context),
+      onSecondaryTapDown: (details) => _showContextMenu(context, details.globalPosition),
       child: Ink(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -132,22 +184,16 @@ class EntityCard extends StatelessWidget {
               children: [
                 AspectRatio(
                   aspectRatio: 1,
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: type == EntityCardType.artist || type == EntityCardType.user
-                            ? BorderRadius.circular(coverSize / 2)
-                            : BorderRadius.circular(8),
-                        child: NetworkImageWidget(
-                          url: getCoverUrl(apiManager),
-                          width: coverSize,
-                          height: coverSize,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      if (showActions)
-                        _actions(context)
-                    ],
+                  child: ClipRRect(
+                    borderRadius: type == EntityCardType.artist || type == EntityCardType.user
+                        ? BorderRadius.circular(coverSize / 2)
+                        : BorderRadius.circular(8),
+                    child: NetworkImageWidget(
+                      url: getCoverUrl(apiManager),
+                      width: coverSize,
+                      height: coverSize,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -185,4 +231,12 @@ enum EntityCardType {
   artist,
   playlist,
   user
+}
+
+enum EntityCardAction {
+  play,
+  playNext,
+  addToQueue,
+  addToPlaylist,
+  viewInfo,
 }

@@ -388,5 +388,12 @@
   "permissions_delete_tags": "Delete Tags",
   "permissions_create_tags": "Create Tags",
 
-  "permissions_change_error": "An error occurred while changing permissions."
+  "permissions_change_error": "An error occurred while changing permissions.",
+
+
+  "card_actions_play_now": "Play Now",
+  "card_actions_play_next": "Play Next",
+  "card_actions_add_to_queue": "Add to Queue",
+  "card_actions_add_to_playlist": "Add to Playlist",
+  "card_actions_view_details": "View Details"
 }

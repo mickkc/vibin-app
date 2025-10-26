@@ -62,7 +62,7 @@ class _TrackActionBarState extends State<TrackActionBar> {
   }
 
   Future<void> addToQueue(BuildContext context, int trackId) async {
-    await _audioManager.addTrackToQueue(trackId);
+    await _audioManager.addTrackIdToQueue(trackId, false);
     if (!mounted || !context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(AppLocalizations.of(context)!.track_actions_added_to_queue))

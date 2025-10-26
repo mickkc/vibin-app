@@ -389,5 +389,12 @@
   "permissions_delete_tags": "Tags löschen",
   "permissions_create_tags": "Tags erstellen",
 
-  "permissions_change_error": "Beim Ändern der Berechtigungen ist ein Fehler aufgetreten."
+  "permissions_change_error": "Beim Ändern der Berechtigungen ist ein Fehler aufgetreten.",
+
+
+  "card_actions_play_now": "Abspielen",
+  "card_actions_play_next": "Als nächstes abspielen",
+  "card_actions_add_to_queue": "Zur Warteschlange hinzufügen",
+  "card_actions_add_to_playlist": "Zu Playlist hinzufügen",
+  "card_actions_view_details": "Details anzeigen"
 }

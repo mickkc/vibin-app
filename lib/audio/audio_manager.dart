@@ -247,18 +247,90 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     await audioPlayer.setAudioSources(sources, initialIndex: initialIndex);
     await play();
   }
-
-  Future<void> addTrackToQueue(int trackId) async {
+  
+  Future<void> addTrackIdToQueue(int trackId, bool next) async {
     final track = await _apiManager.service.getTrack(trackId);
+    return addTrackToQueue(track, next);
+  }
+
+  Future<void> addTrackToQueue(Track track, bool next) async {
     final mediaToken = await _clientData.getMediaToken();
     final source = fromTrack(track, mediaToken);
-    await audioPlayer.addAudioSource(source);
+
+    if (next && audioPlayer.currentIndex != null) {
+      await audioPlayer.insertAudioSource(audioPlayer.currentIndex! + 1, source);
+    } else {
+      await audioPlayer.addAudioSource(source);
+    }
 
     setAudioType(AudioType.tracks, null);
 
     if (audioPlayer.sequence.length == 1) {
       await play();
     }
+  }
+
+  Future<void> addMinimalTrackToQueue(MinimalTrack track, bool next) async {
+    final mediaToken = await _clientData.getMediaToken();
+    final source = fromMinimalTrack(track, mediaToken);
+
+    if (next && audioPlayer.currentIndex != null) {
+      await audioPlayer.insertAudioSource(audioPlayer.currentIndex! + 1, source);
+    } else {
+      await audioPlayer.addAudioSource(source);
+    }
+
+    setAudioType(AudioType.tracks, null);
+
+    if (audioPlayer.sequence.length == 1) {
+      await play();
+    }
+  }
+
+  Future<void> addAlbumToQueue(Album album, bool next) async {
+    final albumData = await _apiManager.service.getAlbum(album.id);
+
+    if (albumData.tracks.isEmpty) {
+      return;
+    }
+
+    final mediaToken = await _clientData.getMediaToken();
+    final sources = albumData.tracks.map((track) => fromTrack(track, mediaToken)).toList();
+
+    if (next && audioPlayer.currentIndex != null) {
+      await audioPlayer.insertAudioSources(audioPlayer.currentIndex! + 1, sources);
+    } else {
+      await audioPlayer.addAudioSources(sources);
+    }
+
+    if (audioPlayer.sequence.length == sources.length) {
+      await play();
+    }
+
+    _apiManager.service.reportAlbumListen(album.id);
+  }
+
+  Future<void> addPlaylistToQueue(Playlist playlist, bool next) async {
+    final playlistData = await _apiManager.service.getPlaylist(playlist.id);
+
+    if (playlistData.tracks.isEmpty) {
+      return;
+    }
+
+    final mediaToken = await _clientData.getMediaToken();
+    final sources = playlistData.tracks.map((track) => fromTrack(track.track, mediaToken)).toList();
+
+    if (next && audioPlayer.currentIndex != null) {
+      await audioPlayer.insertAudioSources(audioPlayer.currentIndex! + 1, sources);
+    } else {
+      await audioPlayer.addAudioSources(sources);
+    }
+
+    if (audioPlayer.sequence.length == sources.length) {
+      await play();
+    }
+
+    _apiManager.service.reportPlaylistListen(playlist.id);
   }
 
   MediaItem? getCurrentMediaItem() {
