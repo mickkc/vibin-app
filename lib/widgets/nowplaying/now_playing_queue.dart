@@ -10,10 +10,12 @@ import 'package:vibin_app/widgets/network_image.dart';
 
 class NowPlayingQueue extends StatefulWidget {
   final ScrollController? scrollController;
+  final bool isBottomSheet;
 
   const NowPlayingQueue({
     super.key,
     this.scrollController,
+    this.isBottomSheet = false,
   });
 
   static void show(BuildContext context) {
@@ -29,7 +31,7 @@ class NowPlayingQueue extends StatefulWidget {
           minChildSize: 0.3,
           maxChildSize: 0.9,
           builder: (context, scrollController) {
-            return NowPlayingQueue(scrollController: scrollController);
+            return NowPlayingQueue(scrollController: scrollController, isBottomSheet: true);
           },
         );
       },
@@ -106,7 +108,7 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
                 ) : null,
                 onTap: () {
                   _audioManager.skipToQueueItem(index);
-                  Navigator.pop(context);
+                  if (widget.isBottomSheet) Navigator.pop(context);
                 },
               );
             },
