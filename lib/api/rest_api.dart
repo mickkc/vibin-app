@@ -304,6 +304,10 @@ abstract class ApiService {
   @GET("/api/tracks/artists/{id}")
   Future<List<Track>> getTracksByArtist(@Path("id") int artistId);
 
+  @GET("/api/tracks/{id}/download")
+  @DioResponseType(ResponseType.bytes)
+  Future<HttpResponse<List<int>>> downloadTrack(@Path("id") int id);
+
   // Users
 
   @GET("/api/users")

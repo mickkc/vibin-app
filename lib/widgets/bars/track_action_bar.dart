@@ -1,9 +1,15 @@
 import 'dart:async';
+import 'dart:developer';
+import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dialogs/add_track_to_playlist_dialog.dart';
+import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/widgets/play_button.dart';
 
 import '../../api/api_manager.dart';
@@ -69,6 +75,42 @@ class _TrackActionBarState extends State<TrackActionBar> {
     );
   }
 
+  Future<void> _downloadTrack() async {
+
+    final lm = AppLocalizations.of(context)!;
+
+    try {
+      final track = await _apiManager.service.getTrack(widget.trackId);
+      final bytes = await _apiManager.service.downloadTrack(widget.trackId);
+
+      if (!mounted) return;
+
+      final saveFile = await FilePicker.platform.saveFile(
+        dialogTitle: lm.track_actions_download,
+        fileName: track.path.split("/").last,
+        bytes: Uint8List.fromList(bytes.data),
+        type: FileType.audio
+      );
+
+      if (saveFile == null) return;
+
+      if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+        final file = File(saveFile);
+        await file.writeAsBytes(bytes.data);
+      }
+
+      if (mounted) {
+        showSnackBar(context, lm.track_actions_download_success);
+      }
+    }
+    catch (e) {
+      log("Error downloading track: $e", error: e, level: Level.error.value);
+      if (mounted) {
+        showSnackBar(context, lm.track_actions_download_error);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final lm = AppLocalizations.of(context)!;
@@ -104,7 +146,7 @@ class _TrackActionBarState extends State<TrackActionBar> {
         ],
         if (_authState.hasPermission(PermissionType.downloadTracks)) ... [
           IconButton(
-            onPressed: () {},
+            onPressed: _downloadTrack,
             icon: const Icon(Icons.download, size: 32),
             tooltip: lm.track_actions_download,
           )

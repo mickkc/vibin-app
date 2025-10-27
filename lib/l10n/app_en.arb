@@ -89,6 +89,9 @@
   "track_actions_pause": "Pause",
   "track_actions_edit": "Edit",
 
+  "track_actions_download_success": "Track downloaded successfully.",
+  "track_actions_download_error": "An error occurred while downloading the track.",
+
   "playlist_actions_play": "Play Playlist",
   "playlist_actions_pause": "Pause Playlist",
   "playlist_actions_resume": "Resume Playlist",

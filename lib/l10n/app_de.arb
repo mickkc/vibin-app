@@ -89,6 +89,9 @@
   "track_actions_pause": "Pause",
   "track_actions_edit": "Bearbeiten",
 
+  "track_actions_download_success": "Der Titel wurde erfolgreich heruntergeladen.",
+  "track_actions_download_error": "Beim Herunterladen des Titels ist ein Fehler aufgetreten.",
+
   "playlist_actions_play": "Playlist abspielen",
   "playlist_actions_pause": "Playlist pausieren",
   "playlist_actions_resume": "Playlist fortsetzen",
