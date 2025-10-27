@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
+import 'package:vibin_app/widgets/entity_card_row.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 
 import '../api/api_manager.dart';
@@ -27,22 +28,9 @@ class PlaylistsSection extends StatelessWidget {
         FutureContent(
           future: playlistFuture,
           height: 205,
+          hasData: (data) => data.isNotEmpty,
           builder: (context, playlists) {
-            return ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: playlists.length,
-              itemBuilder: (context, index) {
-                final track = playlists[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: EntityCard(
-                    entity: track,
-                    type: EntityCardType.playlist,
-                  ),
-                );
-              },
-              primary: false,
-            );
+            return EntityCardRow(entities: playlists, type: EntityCardType.playlist);
           }
         )
       ],
