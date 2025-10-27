@@ -187,7 +187,34 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       updatedCurrentIndex += 1;
     }
 
-    await _rebuild(newSources, updatedCurrentIndex);
+    await _rebuild(newSources, currentIndex: updatedCurrentIndex);
+  }
+
+  @override
+  Future<void> removeQueueItemAt(int index) {
+    final sequence = audioPlayer.sequence;
+    final currentIndex = audioPlayer.currentIndex ?? 0;
+
+    final newSources = List<AudioSource>.from(sequence);
+    newSources.removeAt(index);
+
+    int updatedCurrentIndex = currentIndex;
+    if (index < currentIndex) {
+      // Current item is pushed up - decrement current index
+      updatedCurrentIndex -= 1;
+    } else if (index == currentIndex) {
+      // Current item is removed - set to next item if possible
+      if (newSources.isNotEmpty) {
+        updatedCurrentIndex = currentIndex.clamp(0, newSources.length - 1);
+      }
+      else {
+        audioPlayer.stop();
+      }
+    }
+
+    bool isRemovingCurrentItem = index == currentIndex;
+
+    return _rebuild(newSources, currentIndex: updatedCurrentIndex, position: isRemovingCurrentItem ? Duration.zero : null);
   }
 
   Future<void> _insertNextAudioSource(AudioSource newSource) async {
@@ -201,7 +228,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       newSource,
     );
 
-    await _rebuild(newSources, currentIndex);
+    await _rebuild(newSources, currentIndex: currentIndex);
   }
 
   Future<void> _insertNextAudioSources(List<AudioSource> newSources) async {
@@ -215,11 +242,11 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       newSources,
     );
 
-    await _rebuild(sources, currentIndex);
+    await _rebuild(sources, currentIndex: currentIndex);
   }
 
-  Future<void> _rebuild(List<AudioSource> newSources, int currentIndex) async {
-    final currentPosition = audioPlayer.position;
+  Future<void> _rebuild(List<AudioSource> newSources, {int? currentIndex, Duration? position}) async {
+    final currentPosition = position ?? audioPlayer.position;
     await audioPlayer.setAudioSources(newSources, initialIndex: currentIndex, initialPosition: currentPosition);
   }
 

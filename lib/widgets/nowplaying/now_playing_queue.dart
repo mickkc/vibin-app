@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
@@ -51,6 +52,7 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
 
   late final StreamSubscription _sequenceSubscription;
   late final StreamSubscription _playingSubscription;
+  late List<IndexedAudioSource> _sequence = _audioManager.sequence;
 
   _NowPlayingQueueState() {
     _sequenceSubscription = _audioManager.audioPlayer.sequenceStateStream.listen((event) {
@@ -58,6 +60,7 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
       if (event.currentIndex == _currentIndex) return;
       setState(() {
         _currentIndex = _audioManager.audioPlayer.currentIndex;
+        _sequence = _audioManager.sequence;
       });
     });
 
@@ -81,40 +84,55 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
-      child: _audioManager.sequence.isEmpty
+      child: _sequence.isEmpty
         ? Text(AppLocalizations.of(context)!.now_playing_nothing)
         : ReorderableListView.builder(
             scrollController: widget.scrollController,
             buildDefaultDragHandles: false,
-            itemCount: _audioManager.sequence.length,
+            itemCount: _sequence.length,
             itemBuilder: (context, index) {
-              final source = _audioManager.sequence[index];
+              final source = _sequence[index];
               final tag = source.tag;
               if (tag is! MediaItem) {
                 return const SizedBox.shrink();
               }
               final isCurrent = _currentIndex == index;
-              return ListTile(
+              return Dismissible(
                 key: ValueKey(source.tag),
-                leading: NetworkImageWidget(
-                  url: tag.artUri.toString(),
-                  width: 48,
-                  height: 48
+                direction: DismissDirection.endToStart,
+                background: Container(
+                  color: Theme.of(context).colorScheme.error,
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Icon(Icons.delete, color: Theme.of(context).colorScheme.onError),
                 ),
-                title: Text(tag.title, maxLines: 1),
-                subtitle: Text(tag.artist ?? '', maxLines: 1),
-                trailing: ReorderableDragStartListener(
-                  index: index,
-                  child: isCurrent ? AnimatedSpectogramIcon(
-                       size: 24,
-                       color: Theme.of(context).colorScheme.primary,
-                       isPlaying: _isPlaying,
-                     ) : const Icon(Icons.drag_handle)
-                ),
-                onTap: () {
-                  _audioManager.skipToQueueItem(index);
-                  if (widget.isBottomSheet) Navigator.pop(context);
+                onDismissed: (direction) {
+                  _audioManager.removeQueueItemAt(index);
+                  setState(() {
+                    if (_sequence.isNotEmpty) _sequence.removeAt(index);
+                  });
                 },
+                child: ListTile(
+                  leading: NetworkImageWidget(
+                    url: tag.artUri.toString(),
+                    width: 48,
+                    height: 48
+                  ),
+                  title: Text(tag.title, maxLines: 1),
+                  subtitle: Text(tag.artist ?? '', maxLines: 1),
+                  trailing: ReorderableDragStartListener(
+                    index: index,
+                    child: isCurrent ? AnimatedSpectogramIcon(
+                         size: 24,
+                         color: Theme.of(context).colorScheme.primary,
+                         isPlaying: _isPlaying,
+                       ) : const Icon(Icons.drag_handle)
+                  ),
+                  onTap: () {
+                    _audioManager.skipToQueueItem(index);
+                    if (widget.isBottomSheet) Navigator.pop(context);
+                  },
+                ),
               );
             },
             onReorder: (oldIndex, newIndex) {
