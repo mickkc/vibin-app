@@ -85,7 +85,9 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
     return Container(
       padding: const EdgeInsets.all(16),
       child: _sequence.isEmpty
-        ? Text(AppLocalizations.of(context)!.now_playing_nothing)
+        ? Center(
+            child: Text(AppLocalizations.of(context)!.now_playing_nothing)
+          )
         : ReorderableListView.builder(
             scrollController: widget.scrollController,
             buildDefaultDragHandles: false,

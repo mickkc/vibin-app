@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
+import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/nowplaying/now_playing_control_bar.dart';
 import 'package:vibin_app/widgets/row_small_column.dart';
@@ -41,7 +42,7 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
 
   _NowPlayingPageState() {
     _currentMediaItemSubscription = _audioManager.currentMediaItemStream.listen((mediaItem) {
-      if (mediaItem.id != _currentMediaItem?.id) {
+      if (mediaItem?.id != _currentMediaItem?.id) {
         setState(() {
           _currentMediaItem = _audioManager.getCurrentMediaItem();
         });
@@ -64,7 +65,10 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
         child: Wrap(
           runSpacing: 32,
           children: _currentMediaItem == null ? [
-            const Text("No track is currently playing")
+            Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Text(AppLocalizations.of(context)!.now_playing_nothing),
+            )
           ] : [
             RowSmallColumn(
               spacing: 32,

@@ -41,6 +41,10 @@ class _AlbumActionBarState extends State<AlbumActionBar> {
     _subscriptions.add(_audioManager.currentMediaItemStream.listen((mediaItem) {
       if (!mounted) return;
       setState(() {
+        if (mediaItem == null) {
+          _isCurrent = false;
+          return;
+        }
         _isCurrent = _audioManager.currentAudioType != null &&
             _audioManager.currentAudioType!.audioType == AudioType.album &&
             _audioManager.currentAudioType!.id == widget.albumId;

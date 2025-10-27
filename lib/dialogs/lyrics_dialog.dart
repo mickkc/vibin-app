@@ -112,7 +112,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
   void initState() {
     super.initState();
     _currentMediaItemSubscription = _audioManager.currentMediaItemStream.listen((mediaItem) {
-      if (mediaItem.id == _currentMediaItem?.id) {
+      if (mediaItem?.id == _currentMediaItem?.id) {
         return;
       }
       setState(() {

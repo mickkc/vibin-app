@@ -25,6 +25,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   CurrentAudioType? _currentAudioType;
   CurrentAudioType? get currentAudioType => _currentAudioType;
 
+  int? _lastIndex;
+
   void setAudioType(AudioType type, int? id) {
     _currentAudioType = CurrentAudioType(audioType: type, id: id);
   }
@@ -72,19 +74,23 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       ));
     });
 
-    audioPlayer.sequenceStateStream.listen((index) {
+    audioPlayer.currentIndexStream.listen((index) {
+
+      if (index == _lastIndex) {
+        return;
+      }
+
       final currentMediaItem = getCurrentMediaItem();
 
       mediaItem.add(currentMediaItem);
+      currentMediaItemStreamController.add(currentMediaItem);
 
-      if (currentMediaItem != null) {
-        currentMediaItemStreamController.add(currentMediaItem);
-      }
+      _lastIndex = index;
     });
   }
 
-  final currentMediaItemStreamController = StreamController<MediaItem>.broadcast();
-  Stream<MediaItem> get currentMediaItemStream => currentMediaItemStreamController.stream;
+  final currentMediaItemStreamController = StreamController<MediaItem?>.broadcast();
+  Stream<MediaItem?> get currentMediaItemStream => currentMediaItemStreamController.stream;
 
   @override Future<void> play() => audioPlayer.play();
   @override Future<void> pause() => audioPlayer.pause();
@@ -191,7 +197,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   }
 
   @override
-  Future<void> removeQueueItemAt(int index) {
+  Future<void> removeQueueItemAt(int index) async {
     final sequence = audioPlayer.sequence;
     final currentIndex = audioPlayer.currentIndex ?? 0;
 
@@ -214,7 +220,15 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     bool isRemovingCurrentItem = index == currentIndex;
 
-    return _rebuild(newSources, currentIndex: updatedCurrentIndex, position: isRemovingCurrentItem ? Duration.zero : null);
+    await _rebuild(newSources, currentIndex: updatedCurrentIndex, position: isRemovingCurrentItem ? Duration.zero : null);
+
+    queueUpdated();
+  }
+
+  void queueUpdated() {
+    if (audioPlayer.sequence.isEmpty) {
+       setAudioType(AudioType.unspecified, null);
+    }
   }
 
   Future<void> _insertNextAudioSource(AudioSource newSource) async {

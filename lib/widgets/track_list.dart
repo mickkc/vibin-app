@@ -45,7 +45,7 @@ class _TrackListState extends State<TrackList> {
     _sequenceSubscription = _audioManager.currentMediaItemStream.listen((mediaItem) {
       if (!mounted) return;
       setState(() {
-        _currentlyPlayingTrackId = mediaItem.id;
+        _currentlyPlayingTrackId = mediaItem?.id;
       });
     });
   }

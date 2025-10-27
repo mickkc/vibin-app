@@ -37,9 +37,13 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
   final List<StreamSubscription> _subscriptions = [];
 
   _PlaylistActionBarState() {
-    _subscriptions.add(_audioManager.currentMediaItemStream.listen((event) {
+    _subscriptions.add(_audioManager.currentMediaItemStream.listen((mediaItem) {
       if (!mounted) return;
       setState(() {
+        if (mediaItem == null) {
+          _isCurrent = false;
+          return;
+        }
         _isCurrent = _audioManager.currentAudioType != null &&
             _audioManager.currentAudioType!.audioType == AudioType.playlist &&
             _audioManager.currentAudioType!.id == widget.playlistData.playlist.id;

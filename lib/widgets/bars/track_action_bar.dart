@@ -43,9 +43,9 @@ class _TrackActionBarState extends State<TrackActionBar> {
         _isPlaying = event;
       });
     });
-    _sequenceSubscription = _audioManager.currentMediaItemStream.listen((event) {
+    _sequenceSubscription = _audioManager.currentMediaItemStream.listen((mediaItem) {
       setState(() {
-        _isCurrentTrack = event.id == widget.trackId.toString();
+        _isCurrentTrack = mediaItem?.id == widget.trackId.toString();
       });
     });
   }

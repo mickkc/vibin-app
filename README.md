@@ -37,6 +37,7 @@ Please note that this project, just like the server, is still in its early stage
 - [ ] Queue
     - [x] View queue
     - [x] Reorder queue
+    - [x] Remove tracks from queue
     - [ ] Add random / recommended tracks to queue
     - [ ] Save queue as playlist
 - [x] Homepage

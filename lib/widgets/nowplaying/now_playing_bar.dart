@@ -31,7 +31,7 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
   @override
   void initState() {
     _currentMediaItemSubscription = _audioManager.currentMediaItemStream.listen((mediaItem) {
-      if (mediaItem.id == _currentMediaItem?.id) {
+      if (mediaItem?.id == _currentMediaItem?.id) {
         return;
       }
       setState(() {

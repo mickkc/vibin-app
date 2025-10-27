@@ -12,5 +12,6 @@ enum AudioType {
   tracks,
   album,
   artist,
-  playlist
+  playlist,
+  unspecified
 }
