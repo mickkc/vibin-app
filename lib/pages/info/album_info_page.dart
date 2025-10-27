@@ -132,7 +132,11 @@ class AlbumInfoPage extends StatelessWidget {
               tracks: data.tracks,
               albumId: data.album.id,
               onTrackTapped: (track) {
-                _audioManager.playAlbumData(data, track.id, _shuffleState.isShuffling);
+                _audioManager.playAlbumData(
+                  data,
+                  preferredTrackId: track.id,
+                  shuffle: _shuffleState.isShuffling
+                );
               }
             );
           }

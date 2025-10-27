@@ -29,11 +29,11 @@ class PlaylistActionBar extends StatefulWidget {
 
 class _PlaylistActionBarState extends State<PlaylistActionBar> {
 
+  final _audioManager = getIt<AudioManager>();
+  final _authState = getIt<AuthState>();
   bool _isCurrent = false;
-  bool _isPlaying = false;
-  bool _isShuffleEnabled = false;
-  late final _audioManager = getIt<AudioManager>();
-  late final _authState = getIt<AuthState>();
+  late bool _isPlaying = _audioManager.isPlaying;
+  late bool _isShuffleEnabled = _audioManager.isShuffling;
   final List<StreamSubscription> _subscriptions = [];
 
   _PlaylistActionBarState() {
@@ -77,7 +77,7 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
 
   void _playPause() {
     if (!_isCurrent) {
-      _audioManager.playPlaylistData(widget.playlistData, null, _isShuffleEnabled);
+      _audioManager.playPlaylistData(widget.playlistData, shuffle: _isShuffleEnabled);
     } else {
       _audioManager.playPause();
     }

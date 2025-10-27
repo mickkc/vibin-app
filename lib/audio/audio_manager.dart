@@ -27,10 +27,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   int? _lastIndex;
 
-  void setAudioType(AudioType type, int? id) {
-    _currentAudioType = CurrentAudioType(audioType: type, id: id);
-  }
-
+  // region Init
+  
   AudioManager() {
     _apiManager = getIt<ApiManager>();
     _clientData = getIt<ClientData>();
@@ -46,6 +44,12 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       )
     );
 
+    _initPlaybackEvents();
+    _initMediaItemEvents();
+  }
+  
+  /// Initializes playback event listeners to update the playback state accordingly.
+  void _initPlaybackEvents() {
     audioPlayer.playbackEventStream.listen((event) {
       playbackState.add(playbackState.value.copyWith(
         controls: [
@@ -73,7 +77,15 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
         queueIndex: audioPlayer.currentIndex,
       ));
     });
-
+  }
+  
+  final currentMediaItemStreamController = StreamController<MediaItem?>.broadcast();
+  
+  /// A stream that emits the current media item whenever it changes or null if there is no current item.
+  Stream<MediaItem?> get currentMediaItemStream => currentMediaItemStreamController.stream;
+  
+  // Initializes media item event listeners to update the current media item accordingly.
+  void _initMediaItemEvents() {
     audioPlayer.currentIndexStream.listen((index) {
 
       if (index == _lastIndex) {
@@ -89,8 +101,26 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     });
   }
 
-  final currentMediaItemStreamController = StreamController<MediaItem?>.broadcast();
-  Stream<MediaItem?> get currentMediaItemStream => currentMediaItemStreamController.stream;
+  /// Initializes the background audio task for audio playback.
+  static Future<AudioManager> initBackgroundTask() async {
+
+    final settingsManager = getIt<SettingsManager>();
+
+    return await AudioService.init(
+        builder: () => AudioManager(),
+        config: AudioServiceConfig(
+          androidNotificationChannelId: 'wtf.ndu.vibin.channel.audio',
+          androidNotificationChannelName: 'Vibin Audio Playback',
+          androidStopForegroundOnPause: false,
+          androidNotificationIcon: "mipmap/ic_launcher_monochrome",
+          notificationColor: settingsManager.get(Settings.accentColor),
+        )
+    );
+  }
+  
+  // endregion
+
+  // region Playback Controls
 
   @override Future<void> play() => audioPlayer.play();
   @override Future<void> pause() => audioPlayer.pause();
@@ -133,6 +163,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     await play();
   }
 
+  /// Toggles between play and pause states.
   Future<void> playPause() async {
     if (audioPlayer.playing) {
       await audioPlayer.pause();
@@ -141,10 +172,12 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     }
   }
 
+  /// Toggles shuffle mode on or off.
   void toggleShuffle() {
     audioPlayer.setShuffleModeEnabled(!audioPlayer.shuffleModeEnabled);
   }
 
+  /// Toggles repeat mode between off, all, and one.
   void toggleRepeat() {
     switch (audioPlayer.loopMode) {
       case LoopMode.off:
@@ -158,7 +191,12 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
         break;
     }
   }
+  
+  // endregion
+  
+  // region Queue Management
 
+  /// Moves a queue item from oldIndex to newIndex, adjusting the current index as necessary.
   Future<void> moveQueueItem(int oldIndex, int newIndex) async {
 
     if (oldIndex < 0 || oldIndex >= audioPlayer.sequence.length || audioPlayer.currentIndex == null) {
@@ -196,6 +234,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     await _rebuild(newSources, currentIndex: updatedCurrentIndex);
   }
 
+  /// Removes the queue item at the specified index, adjusting the current index as necessary.
   @override
   Future<void> removeQueueItemAt(int index) async {
     final sequence = audioPlayer.sequence;
@@ -222,15 +261,23 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     await _rebuild(newSources, currentIndex: updatedCurrentIndex, position: isRemovingCurrentItem ? Duration.zero : null);
 
-    queueUpdated();
+    _queueUpdated();
   }
 
-  void queueUpdated() {
+  /// Called whenever the queue is updated to handle any necessary state changes.
+  void _queueUpdated() {
     if (audioPlayer.sequence.isEmpty) {
        setAudioType(AudioType.unspecified, null);
     }
   }
+  
+  // endregion
+  
+  // region Sequence Fixes
 
+  /// Inserts a new audio source immediately after the current one.
+  /// Rebuilds the entire sequence to fix issues with wrong Indexes.
+  /// [newSource] The audio source to insert.
   Future<void> _insertNextAudioSource(AudioSource newSource) async {
     final sequence = audioPlayer.sequence;
     final currentIndex = audioPlayer.currentIndex ?? 0;
@@ -245,6 +292,9 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     await _rebuild(newSources, currentIndex: currentIndex);
   }
 
+  /// Inserts multiple new audio sources immediately after the current one.
+  /// Rebuilds the entire sequence to fix issues with wrong Indexes.
+  /// [newSources] The list of audio sources to insert.
   Future<void> _insertNextAudioSources(List<AudioSource> newSources) async {
     final sequence = audioPlayer.sequence;
     final currentIndex = audioPlayer.currentIndex ?? 0;
@@ -259,12 +309,25 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     await _rebuild(sources, currentIndex: currentIndex);
   }
 
+  /// Rebuilds the audio player's sequence with new sources, preserving the current index and position.
+  /// [newSources] The new list of audio sources to set.
+  /// [currentIndex] The index to set as the current item after rebuilding. If null, the first item is used.
+  /// [position] The position to set for the current item after rebuilding. If null, the current position is preserved.
   Future<void> _rebuild(List<AudioSource> newSources, {int? currentIndex, Duration? position}) async {
     final currentPosition = position ?? audioPlayer.position;
     await audioPlayer.setAudioSources(newSources, initialIndex: currentIndex, initialPosition: currentPosition);
   }
+  
+  // endregion
+  
+  // region Play Methods
+  
+  // region Playlists
 
-  Future<void> playPlaylist(Playlist playlist, bool shuffle) async {
+  /// Plays the specified playlist, optionally shuffling the tracks.
+  /// [playlist] The playlist to play.
+  /// [shuffle] Whether to enable shuffle mode (null to not change).
+  Future<void> playPlaylist(Playlist playlist, {bool? shuffle}) async {
     await audioPlayer.stop();
     final playlistData = await _apiManager.service.getPlaylist(playlist.id);
 
@@ -272,10 +335,14 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       return;
     }
 
-    await playPlaylistData(playlistData, null, shuffle);
+    await playPlaylistData(playlistData, shuffle: shuffle);
   }
 
-  Future<void> playPlaylistData(PlaylistData data, int? preferredTrackId, bool shuffle) async {
+  /// Plays the specified playlist data, optionally starting from a preferred track and shuffling.
+  /// [data] The playlist data to play.
+  /// [preferredTrackId] The ID of the track to start playing first, if any.
+  /// [shuffle] Whether to enable shuffle mode (null to not change).
+  Future<void> playPlaylistData(PlaylistData data, {int? preferredTrackId, bool? shuffle}) async {
 
     var tracks = data.tracks.map((i) => i.track).toList();
     final initialIndex = preferredTrackId != null ? tracks.indexWhere((t) => t.id == preferredTrackId) : 0;
@@ -284,7 +351,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       return;
     }
 
-    audioPlayer.setShuffleModeEnabled(shuffle);
+    if (shuffle != null) audioPlayer.setShuffleModeEnabled(shuffle);
     setAudioType(AudioType.playlist, data.playlist.id);
 
     final mediaToken = await _clientData.getMediaToken();
@@ -294,8 +361,15 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     await play();
     await _apiManager.service.reportPlaylistListen(data.playlist.id);
   }
+  
+  // endregion
+  
+  // region Albums
 
-  Future<void> playAlbum(Album album, bool shuffle) async {
+  /// Plays the specified album, optionally shuffling the tracks.
+  /// [album] The album to play.
+  /// [shuffle] Whether to enable shuffle mode (null to not change).
+  Future<void> playAlbum(Album album, {bool? shuffle}) async {
     await audioPlayer.stop();
     final albumData = await _apiManager.service.getAlbum(album.id);
 
@@ -303,10 +377,14 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       return;
     }
 
-    await playAlbumData(albumData, null, shuffle);
+    await playAlbumData(albumData, shuffle: shuffle);
   }
 
-  Future<void> playAlbumData(AlbumData data, int? preferredTrackId, bool shuffle) async {
+  /// Plays the specified album data, optionally starting from a preferred track and shuffling.
+  /// [data] The album data to play.
+  /// [preferredTrackId] The ID of the track to start playing first, if any.
+  /// [shuffle] Whether to enable shuffle mode (null to not change).
+  Future<void> playAlbumData(AlbumData data, {int? preferredTrackId, bool? shuffle}) async {
     var tracks = data.tracks;
     final initialIndex = preferredTrackId != null ? tracks.indexWhere((t) => t.id == preferredTrackId) : 0;
 
@@ -314,7 +392,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       return;
     }
 
-    audioPlayer.setShuffleModeEnabled(shuffle);
+    if (shuffle != null) audioPlayer.setShuffleModeEnabled(shuffle);
     setAudioType(AudioType.album, data.album.id);
 
     final mediaToken = await _clientData.getMediaToken();
@@ -324,7 +402,13 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     await _loadAndPlay();
     await _apiManager.service.reportAlbumListen(data.album.id);
   }
+  
+  // endregion
+  
+  // region Minimal Tracks
 
+  /// Plays the specified minimal track, replacing the current queue.
+  /// [track] The minimal track to play.
   Future<void> playMinimalTrack(MinimalTrack track) async {
     final mediaToken = await _clientData.getMediaToken();
     final source = _fromMinimalTrack(track, mediaToken);
@@ -337,18 +421,9 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     await _loadAndPlay();
   }
 
-  Future<void> playTrack(Track track) async {
-    final mediaToken = await _clientData.getMediaToken();
-    final source = _fromTrack(track, mediaToken);
-    await audioPlayer.stop();
-
-    setAudioType(AudioType.tracks, null);
-
-    await audioPlayer.clearAudioSources();
-    await audioPlayer.setAudioSource(source);
-    await _loadAndPlay();
-  }
-
+  /// Plays the specified minimal track within the provided queue of minimal tracks.
+  /// [track] The minimal track to play.
+  /// [queue] The queue of minimal tracks to play from.
   Future<void> playMinimalTrackWithQueue(MinimalTrack track, List<MinimalTrack> queue) async {
     final mediaToken = await _clientData.getMediaToken();
     final sources = queue.map((t) => _fromMinimalTrack(t, mediaToken)).toList();
@@ -362,11 +437,41 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     await _loadAndPlay();
   }
   
+  // endregion
+  
+  // region Tracks
+
+  /// Plays the specified track, replacing the current queue.
+  /// [track] The track to play.
+  Future<void> playTrack(Track track) async {
+    final mediaToken = await _clientData.getMediaToken();
+    final source = _fromTrack(track, mediaToken);
+    await audioPlayer.stop();
+
+    setAudioType(AudioType.tracks, null);
+
+    await audioPlayer.clearAudioSources();
+    await audioPlayer.setAudioSource(source);
+    await _loadAndPlay();
+  }
+  
+  // endregion
+  
+  // endregion
+  
+  // region Add to Queue Methods
+
+  /// Adds the track with the specified ID to the queue.
+  /// [trackId] The ID of the track to add.
+  /// [next] Whether to add the track to play next or at the end of the queue.
   Future<void> addTrackIdToQueue(int trackId, bool next) async {
     final track = await _apiManager.service.getTrack(trackId);
     return addTrackToQueue(track, next);
   }
 
+  /// Adds the specified track to the queue.
+  /// [track] The track to add.
+  /// [next] Whether to add the track to play next or at the end of the queue.
   Future<void> addTrackToQueue(Track track, bool next) async {
     final mediaToken = await _clientData.getMediaToken();
     final source = _fromTrack(track, mediaToken);
@@ -384,6 +489,9 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     }
   }
 
+  /// Adds the specified minimal track to the queue.
+  /// [track] The minimal track to add.
+  /// [next] Whether to add the track to play next or at the end of the queue.
   Future<void> addMinimalTrackToQueue(MinimalTrack track, bool next) async {
     final mediaToken = await _clientData.getMediaToken();
     final source = _fromMinimalTrack(track, mediaToken);
@@ -401,12 +509,17 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     }
   }
 
+  /// Adds all tracks from the specified album to the queue.
+  /// [album] The album whose tracks to add.
+  /// [next] Whether to add the tracks to play next or at the end of the queue.
   Future<void> addAlbumToQueue(Album album, bool next) async {
     final albumData = await _apiManager.service.getAlbum(album.id);
 
     if (albumData.tracks.isEmpty) {
       return;
     }
+
+    final wasEmpty = audioPlayer.sequence.isEmpty;
 
     final mediaToken = await _clientData.getMediaToken();
     final sources = albumData.tracks.map((track) => _fromTrack(track, mediaToken)).toList();
@@ -417,19 +530,25 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       await audioPlayer.addAudioSources(sources);
     }
 
-    if (audioPlayer.sequence.length == sources.length) {
+    if (wasEmpty) {
+      setAudioType(AudioType.album, album.id);
       await _loadAndPlay();
     }
 
     _apiManager.service.reportAlbumListen(album.id);
   }
 
+  /// Adds all tracks from the specified playlist to the queue.
+  /// [playlist] The playlist whose tracks to add.
+  /// [next] Whether to add the tracks to play next or at the end of the queue.
   Future<void> addPlaylistToQueue(Playlist playlist, bool next) async {
     final playlistData = await _apiManager.service.getPlaylist(playlist.id);
 
     if (playlistData.tracks.isEmpty) {
       return;
     }
+
+    final wasEmpty = audioPlayer.sequence.isEmpty;
 
     final mediaToken = await _clientData.getMediaToken();
     final sources = playlistData.tracks.map((track) => _fromTrack(track.track, mediaToken)).toList();
@@ -440,13 +559,23 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       await audioPlayer.addAudioSources(sources);
     }
 
-    if (audioPlayer.sequence.length == sources.length) {
+    if (wasEmpty) {
+      setAudioType(AudioType.playlist, playlist.id);
       await _loadAndPlay();
     }
 
     _apiManager.service.reportPlaylistListen(playlist.id);
   }
+  
+  // endregion
+  
+  // region Helpers
 
+  void setAudioType(AudioType type, int? id) {
+    _currentAudioType = CurrentAudioType(audioType: type, id: id);
+  }
+
+  /// Gets the current media item being played, or null if there is none.
   MediaItem? getCurrentMediaItem() {
     final current = audioPlayer.sequenceState.currentSource;
     if (current == null) return null;
@@ -456,6 +585,10 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     }
     return null;
   }
+  
+  // endregion
+  
+  // region AudioSource Builders
 
   AudioSource _fromMinimalTrack(MinimalTrack track, String mediaToken) {
     final url = "${_apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}/api/tracks/${track.id}/stream?mediaToken=$mediaToken";
@@ -502,20 +635,6 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       }
     );
   }
-
-  static Future<AudioManager> initBackgroundTask() async {
-
-    final settingsManager = getIt<SettingsManager>();
-
-    return await AudioService.init(
-        builder: () => AudioManager(),
-        config: AudioServiceConfig(
-        androidNotificationChannelId: 'wtf.ndu.vibin.channel.audio',
-        androidNotificationChannelName: 'Vibin Audio Playback',
-        androidStopForegroundOnPause: false,
-        androidNotificationIcon: "mipmap/ic_launcher_monochrome",
-        notificationColor: settingsManager.get(Settings.accentColor),
-      )
-    );
-  }
+  
+  // endregion
 }

@@ -143,9 +143,9 @@ class EntityCard extends StatelessWidget {
 
     await switch (type) {
       EntityCardType.track => entity is Track ? audioManager.playTrack(entity) : audioManager.playMinimalTrack(entity),
-      EntityCardType.album => audioManager.playAlbum(entity, true),
+      EntityCardType.album => audioManager.playAlbum(entity),
       EntityCardType.artist => throw UnimplementedError("Playing artist not implemented"), // TODO: implement playing artist
-      EntityCardType.playlist => audioManager.playPlaylist(entity, true),
+      EntityCardType.playlist => audioManager.playPlaylist(entity),
       EntityCardType.user => throw UnimplementedError("Playing user not implemented"),
     };
   }

@@ -120,7 +120,11 @@ class PlaylistInfoPage extends StatelessWidget {
               tracks: data.tracks.map((e) => e.track).toList(),
               playlistId: playlistId,
               onTrackTapped: (track) {
-                _audioManager.playPlaylistData(data, track.id, _shuffleState.isShuffling);
+                _audioManager.playPlaylistData(
+                  data,
+                  preferredTrackId: track.id,
+                  shuffle: _shuffleState.isShuffling
+                );
               }
             );
           }

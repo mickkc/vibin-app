@@ -33,7 +33,7 @@ class _AlbumActionBarState extends State<AlbumActionBar> {
   late final _authState = getIt<AuthState>();
   late bool _isPlaying = _audioManager.isPlaying;
   late bool _isCurrent = false;
-  late bool _isShuffleEnabled = false;
+  late bool _isShuffleEnabled = _audioManager.isShuffling;
 
   final List<StreamSubscription> _subscriptions = [];
 
@@ -61,7 +61,7 @@ class _AlbumActionBarState extends State<AlbumActionBar> {
   void _playPause() async {
     if (!_isCurrent) {
       final album = await _apiManager.service.getAlbum(widget.albumId);
-      _audioManager.playAlbumData(album, null, _isShuffleEnabled);
+      _audioManager.playAlbumData(album, shuffle: _isShuffleEnabled);
     } else {
       await _audioManager.playPause();
     }
