@@ -1,7 +1,7 @@
 enum MetadataImageSize {
   small("small"),
-  large("large"),
-  original("original");
+  medium("medium"),
+  large("large");
 
   final String qualityParam;
 

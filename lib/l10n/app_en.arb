@@ -346,8 +346,8 @@
   "settings_app_metadata_image_size_description": "Select the size of images provided as the album cover in metadata. Applies to all tracks added to the queue after changing this setting.",
 
   "settings_app_metadata_image_size_small": "Small (128px)",
+  "settings_app_metadata_image_size_medium": "Medium (256px)",
   "settings_app_metadata_image_size_large": "Large (512px)",
-  "settings_app_metadata_image_size_original": "Original Size",
 
 
   "settings_sessions_last_used": "Last used:",

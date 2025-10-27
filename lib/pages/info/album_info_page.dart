@@ -96,7 +96,7 @@ class AlbumInfoPage extends StatelessWidget {
                   rowBuilder: (context, constraints) {
                     return [
                       NetworkImageWidget(
-                        url: "/api/albums/$albumId/cover?quality=original",
+                        url: "/api/albums/$albumId/cover?quality=medium",
                         width: 200,
                         height: 200
                       ),
@@ -106,7 +106,7 @@ class AlbumInfoPage extends StatelessWidget {
                   columnBuilder: (context, constraints) {
                     return [
                       NetworkImageWidget(
-                          url: "/api/albums/$albumId/cover?quality=original",
+                          url: "/api/albums/$albumId/cover?quality=large",
                           width: constraints.maxWidth * 0.75,
                           height: constraints.maxWidth * 0.75
                       ),

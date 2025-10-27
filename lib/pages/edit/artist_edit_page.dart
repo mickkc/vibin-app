@@ -177,7 +177,7 @@ class _ArtistEditPageState extends State<ArtistEditPage> {
               _imageUrl = url;
             });
           },
-          fallbackImageUrl: "/api/artists/${widget.artistId}/image?quality=original",
+          fallbackImageUrl: "/api/artists/${widget.artistId}/image?quality=medium",
           imageUrl: _imageUrl,
           label: _lm.edit_artist_image,
           size: 256,

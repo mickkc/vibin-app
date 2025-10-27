@@ -204,8 +204,8 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
             optionLabel: (option) {
               return switch (option) {
                 MetadataImageSize.small => _lm.settings_app_metadata_image_size_small,
+                MetadataImageSize.medium => _lm.settings_app_metadata_image_size_medium,
                 MetadataImageSize.large => _lm.settings_app_metadata_image_size_large,
-                MetadataImageSize.original => _lm.settings_app_metadata_image_size_original,
               };
             },
             onChanged: (size) {},

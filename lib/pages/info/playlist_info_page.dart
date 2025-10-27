@@ -84,7 +84,7 @@ class PlaylistInfoPage extends StatelessWidget {
           columnBuilder: (context, constraints) {
             return [
               NetworkImageWidget(
-                url: "/api/playlists/$playlistId/image?quality=original",
+                url: "/api/playlists/$playlistId/image?quality=large",
                 width: constraints.maxWidth * 0.75,
                 height: constraints.maxWidth * 0.75
               ),
@@ -97,7 +97,7 @@ class PlaylistInfoPage extends StatelessWidget {
           rowBuilder: (context, constraints) {
             return [
               NetworkImageWidget(
-                url: "/api/playlists/$playlistId/image?quality=original",
+                url: "/api/playlists/$playlistId/image?quality=medium",
                 width: 200,
                 height: 200
               ),

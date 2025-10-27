@@ -171,7 +171,7 @@ class ArtistInfoPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 NetworkImageWidget(
-                  url: "/api/artists/$artistId/image?quality=original",
+                  url: "/api/artists/$artistId/image?quality=medium",
                   width: width > 600 ? 200 : width / 4,
                   height: width > 600 ? 200 : width / 4,
                   borderRadius: BorderRadius.circular(width * 0.375),

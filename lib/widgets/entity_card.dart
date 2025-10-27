@@ -51,18 +51,28 @@ class EntityCard extends StatelessWidget {
     }
   }
 
+  String _getImageQuality() {
+    if (coverSize <= 128) {
+      return "small";
+    } else if (coverSize <= 256) {
+      return "medium";
+    } else {
+      return "large";
+    }
+  }
+
   String _getCoverUrl(ApiManager apiManager) {
     switch (type) {
       case EntityCardType.track:
-        return "/api/tracks/${entity.id}/cover?quality=large";
+        return "/api/tracks/${entity.id}/cover?quality=${_getImageQuality()}";
       case EntityCardType.album:
-        return "/api/albums/${entity.id}/cover?quality=large";
+        return "/api/albums/${entity.id}/cover?quality=${_getImageQuality()}";
       case EntityCardType.artist:
-        return "/api/artists/${entity.id}/image?quality=large";
+        return "/api/artists/${entity.id}/image?quality=${_getImageQuality()}";
       case EntityCardType.playlist:
-        return "/api/playlists/${entity.id}/image?quality=large";
+        return "/api/playlists/${entity.id}/image?quality=${_getImageQuality()}";
       case EntityCardType.user:
-        return "/api/users/${entity.id}/pfp?quality=large";
+        return "/api/users/${entity.id}/pfp?quality=${_getImageQuality()}";
     }
   }
 

@@ -347,8 +347,8 @@
   "settings_app_metadata_image_size_description": "Wähle die Größe der Bilder aus, die in den Metadaten verwendet werden sollen. Wird auf alle Titel angewendet, die nach dem Ändern dieser Einstellung zur Warteschlange hinzugefügt werden.",
 
   "settings_app_metadata_image_size_small": "Klein (128px)",
+  "settings_app_metadata_image_size_medium": "Mittel (256px)",
   "settings_app_metadata_image_size_large": "Groß (512px)",
-  "settings_app_metadata_image_size_original": "Originalgröße",
 
 
 
