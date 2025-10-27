@@ -113,16 +113,17 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                          _currentMediaItem!.title,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: theme.textTheme.bodyLarge
+                        _currentMediaItem!.title,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: theme.textTheme.bodyLarge
                       ),
                       Text(
-                          _currentMediaItem!.artist ?? "",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: theme.textTheme.bodyMedium,
+                        _currentMediaItem!.artist ?? "",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: theme.textTheme.bodyMedium
+                            ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                       ),
                   ]),
                 ),
