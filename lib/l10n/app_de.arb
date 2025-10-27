@@ -337,6 +337,20 @@
   "settings_app_manage_sessions_title": "Sitzungen verwalten",
   "settings_app_manage_sessions_description": "Verwalte deine aktiven Sitzungen auf verschiedenen Geräten.",
 
+  "settings_app_enable_linux_dbus_integration_title": "Linux D-Bus Integration aktivieren",
+  "settings_app_enable_linux_dbus_integration_description": "Ermöglicht die Steuerung der Wiedergabe über D-Bus (z.B. für Desktop-Benachrichtigungen und Mediensteuerungen). App-Neustart erforderlich.",
+
+  "settings_app_embed_images_as_base64_title": "Bilder als Base64 einbetten",
+  "settings_app_embed_images_as_base64_description": "Bilder in Metadaten als Base64 einbetten, statt sie als urls zu laden. Dies kann die Kompatibilität mit einigen Geräten verbessern, ist aber speicherintensiver.",
+
+  "settings_app_metadata_image_size_title": "Größe der Metadaten-Bilder",
+  "settings_app_metadata_image_size_description": "Wähle die Größe der Bilder aus, die in den Metadaten verwendet werden sollen. Wird auf alle Titel angewendet, die nach dem Ändern dieser Einstellung zur Warteschlange hinzugefügt werden.",
+
+  "settings_app_metadata_image_size_small": "Klein (128px)",
+  "settings_app_metadata_image_size_large": "Groß (512px)",
+  "settings_app_metadata_image_size_original": "Originalgröße",
+
+
 
   "settings_sessions_last_used": "Letzte Nutzung:",
   "settings_sessions_created_at": "Erstellt am:",

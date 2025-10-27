@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
@@ -15,6 +18,7 @@ import '../../auth/auth_state.dart';
 import '../../dialogs/lyrics_dialog.dart';
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
+import '../../settings/enums/metadata_image_size.dart';
 import '../../themes/color_scheme_list.dart';
 
 class AppSettingsPage extends StatefulWidget {
@@ -174,7 +178,38 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
               onTap: () {
                 GoRouter.of(context).push("/sessions");
               },
-            )
+            ),
+
+          if (!kIsWeb && Platform.isLinux)
+            BoolSettingsField(
+              settingsKey: Settings.linuxEnableDbusMpris,
+              title: _lm.settings_app_enable_linux_dbus_integration_title,
+              description: _lm.settings_app_enable_linux_dbus_integration_description,
+              icon: Icons.cable,
+            ),
+
+          if (_authState.hasPermission(PermissionType.streamTracks))
+            BoolSettingsField(
+              settingsKey: Settings.embedImagesAsBase64,
+              title: _lm.settings_app_embed_images_as_base64_title,
+              description: _lm.settings_app_embed_images_as_base64_description,
+              icon: Icons.image,
+            ),
+
+          EnumSettingsField(
+            settingKey: Settings.metadataImageSize,
+            title: _lm.settings_app_metadata_image_size_title,
+            description: _lm.settings_app_metadata_image_size_description,
+            icon: Icons.image_search,
+            optionLabel: (option) {
+              return switch (option) {
+                MetadataImageSize.small => _lm.settings_app_metadata_image_size_small,
+                MetadataImageSize.large => _lm.settings_app_metadata_image_size_large,
+                MetadataImageSize.original => _lm.settings_app_metadata_image_size_original,
+              };
+            },
+            onChanged: (size) {},
+          )
         ],
       ),
     );

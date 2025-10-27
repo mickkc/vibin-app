@@ -92,6 +92,9 @@ Please note that this project, just like the server, is still in its early stage
     - [ ] Block explicit content
     - [x] Accent color
     - [x] Lyric design
+    - [x] D-Bus settings
+    - [x] Embed images as base64
+    - [x] Image quality
     - [ ] ...
   - [ ] Server settings
     - [ ] ...

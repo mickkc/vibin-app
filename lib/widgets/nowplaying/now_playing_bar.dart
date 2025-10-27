@@ -5,6 +5,7 @@ import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/main_layout.dart';
 import 'package:vibin_app/pages/now_playing_page.dart';
+import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/nowplaying/audio_progress_slider.dart';
 import 'package:vibin_app/widgets/nowplaying/controls/play_pause_toggle.dart';
 import 'package:vibin_app/widgets/nowplaying/controls/repeat_toggle.dart';
@@ -99,12 +100,11 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
                 if (_currentMediaItem?.artUri != null) ...[
                   Padding(
                     padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                    child: Image.network(
-                      _currentMediaItem!.artUri.toString(),
-                      headers: _currentMediaItem?.artHeaders ?? {},
+                    child: NetworkImageWidget(
+                      url: _currentMediaItem!.artUri.toString(),
                       width: 44,
                       height: 44
-                    ),
+                    )
                   )
                 ],
                 Expanded(

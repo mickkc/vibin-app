@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/dialogs/lyrics_dialog.dart';
+import 'package:vibin_app/settings/enums/metadata_image_size.dart';
 import 'package:vibin_app/settings/settings_key.dart';
 import 'package:vibin_app/widgets/settings/homepage_sections_list.dart';
 
@@ -22,4 +23,8 @@ class Settings {
   static final albumMetadataProvider = StringSettingsKey("albumMetadataProvider", "Deezer");
   static final trackMetadataProvider = StringSettingsKey("trackMetadataProvider", "iTunes" );
   static final lyricsProvider = StringSettingsKey("lyricsProvider", "LrcLib");
+
+  static final linuxEnableDbusMpris = BoolSettingsKey("linuxEnableDbusMpris", true);
+  static final embedImagesAsBase64 = BoolSettingsKey("embedImagesAsBase64", false);
+  static final metadataImageSize = EnumSettingsKey("metadataImageSize", MetadataImageSize.original, MetadataImageSize.values);
 }

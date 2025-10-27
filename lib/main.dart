@@ -28,7 +28,9 @@ void main() async {
 
   JustAudioMediaKit.ensureInitialized();
 
-  if (!kIsWeb && Platform.isLinux) {
+  final settingsManager = getIt<SettingsManager>();
+
+  if (!kIsWeb && Platform.isLinux && settingsManager.get(Settings.linuxEnableDbusMpris)) {
     final session = DBusClient.session();
     final mpris = MprisPlayer();
 
