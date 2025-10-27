@@ -28,7 +28,10 @@ class LyricsDialog extends StatefulWidget {
         child: SizedBox(
           width: 400,
           height: 600,
-          child: LyricsDialog(),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: LyricsDialog(),
+          ),
         ),
       )
     );
@@ -137,90 +140,92 @@ class _LyricsDialogState extends State<LyricsDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8.0),
-      child: ValueListenableBuilder(
-        valueListenable: LyricsDialog.lyricsDesignNotifier,
-        builder: (context, value, child) {
-          return FutureContent(
-            future: _lyricsFuture,
-            builder: (context, data) {
-              final theme = Theme.of(context);
+    return ValueListenableBuilder(
+      valueListenable: LyricsDialog.lyricsDesignNotifier,
+      builder: (context, value, child) {
+        return FutureContent(
+          future: _lyricsFuture,
+          builder: (context, data) {
+            final theme = Theme.of(context);
 
-              final backgroundColor = _getBackgroundColor(value, data?.colorScheme, theme);
-              final textColor = _getForegroundColor(value, data?.colorScheme, theme);
-              final accentColor = _getAccentColor(value, data?.colorScheme, theme);
+            final backgroundColor = _getBackgroundColor(value, data?.colorScheme, theme);
+            final textColor = _getForegroundColor(value, data?.colorScheme, theme);
+            final accentColor = _getAccentColor(value, data?.colorScheme, theme);
 
-              if (data?.lyrics == null || data!.lyrics!.isEmpty) {
-                return Container(
-                  color: backgroundColor,
-                  child: Center(
-                    child: Text(
-                        "No lyrics available",
-                        style: TextStyle(color: textColor, fontSize: 18)
-                    ),
+            if (data?.lyrics == null || data!.lyrics!.isEmpty) {
+              return Container(
+                color: backgroundColor,
+                child: Center(
+                  child: Text(
+                      "No lyrics available",
+                      style: TextStyle(color: textColor, fontSize: 18)
                   ),
-                );
-              }
+                ),
+              );
+            }
 
-              var parsedLyrics = LrcParser.parseLyrics(data.lyrics!);
+            var parsedLyrics = LrcParser.parseLyrics(data.lyrics!);
 
-              if (!parsedLyrics.isSynced) {
-                final lines = data.lyrics!.split('\n');
-
-                return Container(
-                  color: backgroundColor,
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(16.0),
-                    itemCount: lines.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: Text(
-                          lines[index],
-                          style: TextStyle(color: textColor, fontSize: 16),
-                          textAlign: TextAlign.center,
-                        ),
-                      );
-                    }
-                  ),
-                );
-              }
+            if (!parsedLyrics.isSynced) {
+              final lines = data.lyrics!.split('\n');
 
               return Container(
                 color: backgroundColor,
-                padding: const EdgeInsets.all(8.0),
-                child: StreamBuilder(
-                  stream: _audioManager.audioPlayer.positionStream,
-                  builder: (context, snapshot) {
-                    final position = snapshot.data ?? Duration.zero;
-                    final positionMs = position.inMilliseconds;
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(16.0),
+                  itemCount: lines.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Text(
+                        lines[index],
+                        style: TextStyle(color: textColor, fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  }
+                ),
+              );
+            }
 
-                    // Find the closest lyric line that is less than or equal to the current position
-                    int? currentIndex;
-                    for (var (index, line) in parsedLyrics.lines.indexed) {
-                      if (line.timestamp.inMilliseconds <= positionMs) {
-                        currentIndex = index;
-                      } else {
-                        break;
-                      }
+            return Container(
+              color: backgroundColor,
+              padding: const EdgeInsets.all(8.0),
+              child: StreamBuilder(
+                stream: _audioManager.audioPlayer.positionStream,
+                builder: (context, snapshot) {
+                  final position = snapshot.data ?? Duration.zero;
+                  final positionMs = position.inMilliseconds;
+
+                  // Find the closest lyric line that is less than or equal to the current position
+                  int? currentIndex;
+                  for (var (index, line) in parsedLyrics.lines.indexed) {
+                    if (line.timestamp.inMilliseconds <= positionMs) {
+                      currentIndex = index;
+                    } else {
+                      break;
                     }
+                  }
 
-                    if (currentIndex != null && currentIndex != _lastLyricIndex) {
-                      _lastLyricIndex = currentIndex;
-                      // Scroll to the current lyric line
-                      if (_scrollController.isAttached) {
-                        _scrollController.scrollTo(
-                          index: currentIndex,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                          alignment: 0.5
-                        );
-                      }
+                  if (currentIndex != null && currentIndex != _lastLyricIndex) {
+                    _lastLyricIndex = currentIndex;
+                    // Scroll to the current lyric line
+                    if (_scrollController.isAttached) {
+                      _scrollController.scrollTo(
+                        index: currentIndex,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        alignment: 0.5
+                      );
                     }
+                  }
 
-                    return ScrollablePositionedList.builder(
+                  return ScrollConfiguration(
+                    behavior: const ScrollBehavior()
+                        .copyWith(overscroll: false, scrollbars: false),
+                    child: ScrollablePositionedList.builder(
                       physics: const ClampingScrollPhysics(),
+
                       itemCount: parsedLyrics.lines.length,
                       itemScrollController: _scrollController,
                       itemBuilder: (context, index) {
@@ -247,14 +252,14 @@ class _LyricsDialogState extends State<LyricsDialog> {
                           ),
                         );
                       }
-                    );
-                  },
-                )
-              );
-            }
-          );
-        }
-      ),
+                    ),
+                  );
+                },
+              )
+            );
+          }
+        );
+      }
     );
   }
 }
