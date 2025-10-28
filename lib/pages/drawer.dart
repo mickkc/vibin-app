@@ -12,6 +12,11 @@ class DrawerComponent extends StatelessWidget {
   
   const DrawerComponent({super.key});
   
+  void _goTo(BuildContext context, String route) {
+    Navigator.pop(context);
+    GoRouter.of(context).go(route);
+  }
+  
   @override
   Widget build(BuildContext context) {
     final lm = AppLocalizations.of(context)!;
@@ -40,99 +45,67 @@ class DrawerComponent extends StatelessWidget {
         ListTile(
           leading: Icon(Icons.home),
           title: Text(lm.drawer_home),
-          onTap: () {
-            Navigator.pop(context);
-            GoRouter.of(context).go('/home');
-          },
+          onTap: () => _goTo(context, '/'),
         ),
         ListTile(
           leading: Icon(Icons.search),
           title: Text(lm.drawer_search),
-          onTap: () {
-            Navigator.pop(context);
-            GoRouter.of(context).go('/search');
-          },
+          onTap: () => _goTo(context, '/search'),
         ),
         Divider(),
         if (authState.hasPermission(PermissionType.viewTracks))
           ListTile(
             leading: Icon(Icons.library_music),
             title: Text(lm.tracks),
-            onTap: () {
-              Navigator.pop(context);
-              GoRouter.of(context).go('/tracks');
-            },
+            onTap: () => _goTo(context, '/tracks'),
           ),
         if (authState.hasPermission(PermissionType.viewAlbums))
           ListTile(
             leading: Icon(Icons.album),
             title: Text(lm.albums),
-            onTap: () {
-              Navigator.pop(context);
-              GoRouter.of(context).push('/albums');
-            },
+            onTap: () => _goTo(context, '/albums'),
           ),
         if (authState.hasPermission(PermissionType.viewArtists))
           ListTile(
             leading: Icon(Icons.person),
             title: Text(lm.artists),
-            onTap: () {
-              Navigator.pop(context);
-              GoRouter.of(context).push('/artists');
-            },
+            onTap: () => _goTo(context, '/artists'),
           ),
         if (authState.hasPermission(PermissionType.viewPlaylists))
           ListTile(
             leading: Icon(Icons.playlist_play),
             title: Text(lm.playlists),
-            onTap: () {
-              Navigator.pop(context);
-              GoRouter.of(context).push('/playlists');
-            },
+            onTap: () => _goTo(context, '/playlists'),
           ),
         if (authState.hasPermission(PermissionType.viewTags))
           ListTile(
             leading: Icon(Icons.sell),
             title: Text(lm.tags),
-            onTap: () {
-              Navigator.pop(context);
-              GoRouter.of(context).push('/tags');
-            },
+            onTap: () => _goTo(context, '/tags'),
           ),
         if (authState.hasPermission(PermissionType.viewUsers))
           ListTile(
             leading: Icon(Icons.group),
             title: Text(lm.users),
-            onTap: () {
-              Navigator.pop(context);
-              GoRouter.of(context).push('/users');
-            },
+            onTap: () => _goTo(context, '/users'),
           ),
         Divider(),
-        ListTile(
-          leading: Icon(Icons.person),
-          title: Text(lm.drawer_profile),
-          onTap: () {
-            Navigator.pop(context);
-            GoRouter.of(context).go('/profile');
-          },
-        ),
+        if (authState.user != null)
+          ListTile(
+            leading: Icon(Icons.person),
+            title: Text(lm.drawer_profile),
+            onTap: () => _goTo(context, '/users/${authState.user!.id}'),
+          ),
         ListTile(
           leading: Icon(Icons.settings),
           title: Text(lm.drawer_app_settings),
-          onTap: () {
-            Navigator.pop(context);
-            GoRouter.of(context).go('/settings/app');
-          },
+          onTap: () => _goTo(context, '/settings/app'),
         ),
         if (authState.hasPermission(PermissionType.changeServerSettings)) ... [
           ListTile(
             leading: Icon(Icons.electrical_services),
             title: Text(lm.drawer_server_settings),
-            onTap: () {
-              Navigator.pop(context);
-              GoRouter.of(context).go('/settings/server');
-            },
+            onTap: () => _goTo(context, '/settings/server'),
           )
         ],
         ListTile(
