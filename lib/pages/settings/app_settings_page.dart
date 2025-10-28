@@ -180,6 +180,16 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
               },
             ),
 
+          if (_authState.hasPermission(PermissionType.manageTasks))
+            ListTile(
+              leading: const Icon(Icons.refresh),
+              title: Text(_lm.settings_app_manage_tasks_title),
+              subtitle: Text(_lm.settings_app_manage_tasks_description),
+              onTap: () {
+                GoRouter.of(context).push("/tasks");
+              },
+            ),
+
           if (!kIsWeb && Platform.isLinux)
             BoolSettingsField(
               settingsKey: Settings.linuxEnableDbusMpris,
@@ -208,8 +218,7 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
                 MetadataImageSize.large => _lm.settings_app_metadata_image_size_large,
               };
             },
-            onChanged: (size) {},
-          )
+          ),
         ],
       ),
     );

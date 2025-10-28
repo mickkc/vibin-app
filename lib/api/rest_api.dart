@@ -37,6 +37,7 @@ import 'package:vibin_app/dtos/user/user_edit_data.dart';
 import 'package:vibin_app/dtos/user_activity.dart';
 
 import '../dtos/artist/artist_edit_data.dart';
+import '../dtos/task_dto.dart';
 
 part 'rest_api.g.dart';
 
@@ -260,6 +261,17 @@ abstract class ApiService {
 
   @GET("/api/tags/check/{name}")
   Future<Success> checkTagName(@Path("name") String name);
+
+  // Tasks
+
+  @GET("/api/tasks")
+  Future<List<Task>> getAllTasks();
+
+  @PUT("/api/tasks/{id}/enable")
+  Future<Success> setTaskEnabled(@Path("id") String id, @Query("enable") bool enable);
+
+  @POST("/api/tasks/{id}/run")
+  Future<TaskResult> runTaskNow(@Path("id") String id);
 
   // Tracks
 

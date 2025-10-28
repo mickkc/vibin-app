@@ -12,4 +12,8 @@ class DateTimeUtils {
     return formatter.format(localDateTime);
   }
 
+  static int getUtcNow() {
+    return DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000;
+  }
+
 }

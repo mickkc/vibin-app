@@ -353,6 +353,23 @@
   "settings_app_metadata_image_size_medium": "Mittel (256px)",
   "settings_app_metadata_image_size_large": "Groß (512px)",
 
+  "settings_app_manage_tasks_title": "Hintergrundaufgaben verwalten",
+  "settings_app_manage_tasks_description": "Verwalte Aufgaben, die auf dem Server im Hintergrund ausgeführt werden.",
+
+  "settings_task_fetch_error": "Beim Laden der Aufgaben ist ein Fehler aufgetreten.",
+
+  "settings_task_last_run": "Letzte Ausführung:",
+  "settings_task_next_run": "Nächste Ausführung:",
+  "settings_task_run_never": "Nie",
+  "settings_task_message": "Nachricht:",
+  "settings_task_no_message": "Keine Nachricht.",
+  "settings_task_interval": "Intervall:",
+  "settings_task_toggle_enable": "Aktivieren",
+  "settings_task_toggle_disable": "Deaktivieren",
+  "settings_task_run_now": "Jetzt ausführen",
+
+  "settings_task_toggle_failed": "Beim Ändern des Aufgabenstatus ist ein Fehler aufgetreten.",
+  "settings_task_run_now_failed": "Beim Ausführen der Aufgabe ist ein Fehler aufgetreten.",
 
 
   "settings_sessions_last_used": "Letzte Nutzung:",

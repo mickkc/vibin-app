@@ -48,6 +48,11 @@ String getTotalDurationString(Iterable<Track> tracks) {
       totalSeconds += (track.duration! / 1000).round();
     }
   }
+
+  return getDurationString(totalSeconds);
+}
+
+String getDurationString(int totalSeconds) {
   final hours = (totalSeconds / 3600).floor();
   final minutes = ((totalSeconds % 3600) / 60).floor();
   final seconds = totalSeconds % 60;
