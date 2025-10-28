@@ -27,6 +27,8 @@ class _MainLayoutViewState extends State<MainLayoutView> {
   double get _width => MediaQuery.of(context).size.width;
   late double _sideBarWidth = 300;
 
+  var _isSidebarTooSmall = false;
+
   @override
   void initState() {
     super.initState();
@@ -56,8 +58,24 @@ class _MainLayoutViewState extends State<MainLayoutView> {
                     onHorizontalDragUpdate: (details) {
                       setState(() {
                         _sideBarWidth -= details.delta.dx;
+
+                        if (_sideBarWidth < 300) {
+                          _sideBarWidth = 300;
+                          _isSidebarTooSmall = true;
+                          return;
+                        }
+                        else {
+                          _isSidebarTooSmall = false;
+                        }
+
                         _sideBarWidth = _sideBarWidth.clamp(300, _width / 3);
                       });
+                    },
+                    onHorizontalDragEnd: (details) {
+                      if (_isSidebarTooSmall) {
+                        sidebarNotifier.value = SidebarType.none;
+                        _isSidebarTooSmall = false;
+                      }
                     },
                     child: MouseRegion(
                       cursor: SystemMouseCursors.resizeColumn,
@@ -67,14 +85,15 @@ class _MainLayoutViewState extends State<MainLayoutView> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: _sideBarWidth,
-                    child: switch (value) {
-                      SidebarType.queue => NowPlayingQueue(),
-                      SidebarType.lyrics => LyricsDialog(),
-                      SidebarType.none => SizedBox.shrink()
-                    },
-                  ),
+                  if (!_isSidebarTooSmall)
+                    SizedBox(
+                      width: _sideBarWidth,
+                      child: switch (value) {
+                        SidebarType.queue => NowPlayingQueue(),
+                        SidebarType.lyrics => LyricsDialog(),
+                        SidebarType.none => SizedBox.shrink()
+                      },
+                    ),
                 ],
               );
             }
