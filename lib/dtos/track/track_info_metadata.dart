@@ -1,24 +1,25 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:vibin_app/dtos/id_or_name.dart';
 
 @JsonSerializable()
 class TrackInfoMetadata {
   final String title;
-  final List<String>? artistNames;
-  final String? albumName;
+  final List<IdOrName>? artists;
+  final IdOrName? album;
   final int? trackNumber;
   final int? trackCount;
   final int? discNumber;
   final int? discCount;
   final int? year;
-  final List<String>? tags;
+  final List<IdOrName>? tags;
   final String? comment;
   final String? coverImageUrl;
   final bool? explicit;
 
   TrackInfoMetadata({
     required this.title,
-    this.artistNames,
-    this.albumName,
+    this.artists,
+    this.album,
     this.trackNumber,
     this.trackCount,
     this.discNumber,
@@ -33,16 +34,22 @@ class TrackInfoMetadata {
   factory TrackInfoMetadata.fromJson(Map<String, dynamic> json) {
     return TrackInfoMetadata(
       title: json['title'],
-      artistNames: json['artistNames'] != null
-          ? List<String>.from(json['artistNames'])
+      artists: json['artistNames'] != null
+          ? List<IdOrName>.from(
+              json['artistNames'].map((x) => IdOrName.fromJson(x)))
           : null,
-      albumName: json['albumName'],
+      album: json['albumName'] != null
+          ? IdOrName.fromJson(json['albumName'])
+          : null,
       trackNumber: json['trackNumber'],
       trackCount: json['trackCount'],
       discNumber: json['discNumber'],
       discCount: json['discCount'],
       year: json['year'],
-      tags: json['tags'] != null ? List<String>.from(json['tags']) : null,
+      tags: json['tags'] != null
+          ? List<IdOrName>.from(
+              json['tags'].map((x) => IdOrName.fromJson(x)))
+          : null,
       comment: json['comment'],
       coverImageUrl: json['coverImageUrl'],
       explicit: json['explicit'],
@@ -52,8 +59,8 @@ class TrackInfoMetadata {
   Map<String, dynamic> toJson() {
     return {
       'title': title,
-      'artistNames': artistNames,
-      'albumName': albumName,
+      'artists': artists,
+      'album': album,
       'trackNumber': trackNumber,
       'trackCount': trackCount,
       'discNumber': discNumber,

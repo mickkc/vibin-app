@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:vibin_app/dtos/id_or_name.dart';
 
 @JsonSerializable()
 class TrackEditData {
@@ -11,9 +12,9 @@ class TrackEditData {
   final int? year;
   final String? comment;
   final String? imageUrl;
-  final String? albumName;
-  final List<String>? artistNames;
-  final List<int>? tagIds;
+  final IdOrName? album;
+  final List<IdOrName>? artists;
+  final List<IdOrName>? tags;
   final String? lyrics;
 
   TrackEditData({
@@ -26,9 +27,9 @@ class TrackEditData {
     this.year,
     this.comment,
     this.imageUrl,
-    this.albumName,
-    this.artistNames,
-    this.tagIds,
+    this.album,
+    this.artists,
+    this.tags,
     this.lyrics,
   });
 
@@ -43,12 +44,14 @@ class TrackEditData {
       year: json['year'],
       comment: json['comment'],
       imageUrl: json['imageUrl'],
-      albumName: json['albumName'],
-      artistNames: json['artistNames'] != null
-          ? List<String>.from(json['artistNames'])
+      album: json['album'] != null
+          ? IdOrName.fromJson(json['album'])
           : null,
-      tagIds: json['tagIds'] != null
-          ? List<int>.from(json['tagIds'])
+      artists: json['artists'] != null
+          ? List<IdOrName>.from(json['artists'])
+          : null,
+      tags: json['tags'] != null
+          ? List<IdOrName>.from(json['tags'])
           : null,
       lyrics: json['lyrics'],
     );
@@ -65,9 +68,9 @@ class TrackEditData {
       'year': year,
       'comment': comment,
       'imageUrl': imageUrl,
-      'albumName': albumName,
-      'artistNames': artistNames,
-      'tagIds': tagIds,
+      'album': album,
+      'artists': artists,
+      'tags': tags,
       'lyrics': lyrics,
     };
   }

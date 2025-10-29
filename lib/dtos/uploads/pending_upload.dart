@@ -1,12 +1,13 @@
-import 'package:vibin_app/dtos/tags/tag.dart';
-import 'package:vibin_app/dtos/user/user.dart';
+import 'package:vibin_app/dtos/id_or_name.dart';
 
 class PendingUpload {
   final int id;
   final String filePath;
   final String title;
-  final String album;
-  final List<String> artists;
+  final IdOrName album;
+  final List<IdOrName> artists;
+  final List<IdOrName> tags;
+  final String? lyrics;
   final bool explicit;
   final int? trackNumber;
   final int? trackCount;
@@ -15,9 +16,8 @@ class PendingUpload {
   final int? year;
   final String comment;
   final String? coverUrl;
-  final User uploader;
-  final List<Tag> tags;
-  final String? lyrics;
+  final int uploaderId;
+  final int? lastUpdated;
 
   PendingUpload({
     required this.id,
@@ -25,6 +25,7 @@ class PendingUpload {
     required this.title,
     required this.album,
     required this.artists,
+    this.lyrics,
     required this.explicit,
     this.trackNumber,
     this.trackCount,
@@ -33,9 +34,9 @@ class PendingUpload {
     this.year,
     required this.comment,
     this.coverUrl,
-    required this.uploader,
+    required this.uploaderId,
     required this.tags,
-    this.lyrics,
+    this.lastUpdated,
   });
 
   factory PendingUpload.fromJson(Map<String, dynamic> json) {
@@ -44,7 +45,8 @@ class PendingUpload {
       filePath: json['filePath'],
       title: json['title'],
       album: json['album'],
-      artists: List<String>.from(json['artists']),
+      artists: (json['artists'] as List).map((artistJson) => IdOrName.fromJson(artistJson)).toList(),
+      tags: (json['tags'] as List).map((tagJson) => IdOrName.fromJson(tagJson)).toList(),
       explicit: json['explicit'],
       trackNumber: json['trackNumber'],
       trackCount: json['trackCount'],
@@ -52,10 +54,10 @@ class PendingUpload {
       discCount: json['discCount'],
       year: json['year'],
       comment: json['comment'],
-      coverUrl: json['coverUrl'],
-      uploader: User.fromJson(json['uploader']),
-      tags: (json['tags'] as List).map((tagJson) => Tag.fromJson(tagJson)).toList(),
       lyrics: json['lyrics'],
+      coverUrl: json['coverUrl'],
+      uploaderId: json['uploaderId'],
+      lastUpdated: json['lastUpdated'],
     );
   }
 }

@@ -285,6 +285,11 @@
 
   "pick_artists_title": "Künstler auswählen",
   "pick_artist_title": "Künstler auswählen",
+  "pick_artist_create_new": "Neuen Künstler '{name}' erstellen",
+  "pick_artist_new": "neu",
+
+  "pick_album_title": "Album auswählen",
+  "pick_album_create_new": "Neues Album '{name}' erstellen",
 
 
   "settings_app_appearance_title": "Erscheinungsbild",

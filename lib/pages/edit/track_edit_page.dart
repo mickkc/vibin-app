@@ -1,10 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:logger/logger.dart';
 import 'package:vibin_app/api/api_manager.dart';
+import 'package:vibin_app/dialogs/album_picker.dart';
 import 'package:vibin_app/dialogs/artist_picker.dart';
+import 'package:vibin_app/dtos/id_or_name.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/track/track_edit_data.dart';
 import 'package:vibin_app/dtos/uploads/pending_upload.dart';
@@ -16,12 +17,9 @@ import 'package:vibin_app/utils/lrc_parser.dart';
 import 'package:vibin_app/widgets/edit/image_edit_field.dart';
 import 'package:vibin_app/widgets/edit/nullable_int_input.dart';
 import 'package:vibin_app/widgets/edit/responsive_edit_view.dart';
-import 'package:vibin_app/widgets/edit/tag_search_bar.dart';
 
 import '../../auth/auth_state.dart';
-import '../../dtos/tags/tag.dart';
 import '../../l10n/app_localizations.dart';
-import '../../widgets/tag_widget.dart';
 
 class TrackEditPage extends StatefulWidget {
   final int? trackId;
@@ -53,15 +51,15 @@ class _TrackEditPageState extends State<TrackEditPage> {
 
   late int? _trackDuration;
 
-  late List<Tag> _tags;
+  late List<IdOrName> _tags;
 
   final _titleController = TextEditingController();
   final _commentController = TextEditingController();
 
   final _lyricsController = TextEditingController();
 
-  late String? _albumName;
-  late List<String> _artistNames;
+  late IdOrName? _album;
+  late List<IdOrName> _artists;
 
   final _apiManager = getIt<ApiManager>();
   final _authState = getIt<AuthState>();
@@ -85,8 +83,8 @@ class _TrackEditPageState extends State<TrackEditPage> {
         _commentController.text = widget.pendingUpload?.comment ?? "";
         _lyricsController.text = widget.pendingUpload?.lyrics ?? "";
 
-        _albumName = widget.pendingUpload?.album;
-        _artistNames = widget.pendingUpload?.artists ?? [];
+        _album = widget.pendingUpload?.album;
+        _artists = widget.pendingUpload?.artists ?? [];
         _tags = widget.pendingUpload?.tags ?? [];
 
         _trackDuration = null;
@@ -108,9 +106,9 @@ class _TrackEditPageState extends State<TrackEditPage> {
         _commentController.text = data.comment ?? "";
         _imageUrl = null;
 
-        _albumName = data.album.title;
-        _artistNames = data.artists.map((a) => a.name).toList();
-        _tags = data.tags;
+        _album = IdOrName(id: data.album.id, name: data.album.title);
+        _artists = data.artists.map((a) => IdOrName(id: a.id, name: a.name)).toList();
+        _tags = data.tags.map((t) => IdOrName(id: t.id, name: t.name)).toList();
 
         _trackDuration = data.duration;
 
@@ -136,14 +134,30 @@ class _TrackEditPageState extends State<TrackEditPage> {
       context: context,
       builder: (context) {
         return ArtistPickerDialog(
-          selected: _artistNames,
+          selected: _artists,
           onChanged: (artists) {
             setState(() {
-              _artistNames = artists;
+              _artists = artists;
             });
           },
           allowEmpty: false,
           allowMultiple: true
+        );
+      }
+    );
+  }
+
+  Future<void> _showAlbumPicker() async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlbumPicker(
+          selectedAlbum: _album,
+          onAlbumSelected: (album) {
+            setState(() {
+              _album = album;
+            });
+          },
         );
       }
     );
@@ -168,8 +182,8 @@ class _TrackEditPageState extends State<TrackEditPage> {
               _year = metadata.year;
               _commentController.text = metadata.comment ?? "";
               _imageUrl = metadata.coverImageUrl;
-              _albumName = metadata.albumName ?? _albumName;
-              _artistNames = metadata.artistNames ?? _artistNames;
+              _album = metadata.album ?? _album;
+              _artists = metadata.artists ?? _artists;
             });
           },
         );
@@ -187,7 +201,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
               _lyricsController.text = metadata.content;
             });
           },
-          initialSearch: "${_artistNames.isEmpty ? "" : "${_artistNames.first} - "}${_titleController.text}",
+          initialSearch: "${_artists.isEmpty ? "" : "${_artists.first} - "}${_titleController.text}",
           duration: _trackDuration,
         );
       }
@@ -209,9 +223,9 @@ class _TrackEditPageState extends State<TrackEditPage> {
         year: _year,
         comment: _commentController.text,
         imageUrl: _imageUrl,
-        albumName: _albumName,
-        artistNames: _artistNames,
-        tagIds: _tags.map((t) => t.id).toList(),
+        album: _album,
+        artists: _artists,
+        tags: _tags,
         lyrics: _lyricsController.text.isEmpty ? null : _lyricsController.text
       );
 
@@ -248,11 +262,6 @@ class _TrackEditPageState extends State<TrackEditPage> {
       log("Error deleting track: $e", error: e, level: Level.error.value);
       if (mounted) showErrorDialog(context, _lm.delete_track_error);
     }
-  }
-
-  Future<List<String>> _autoCompleteAlbumNames(String query) async {
-    final suggestions = await _apiManager.service.autocompleteAlbums(query, null);
-    return suggestions;
   }
 
   @override
@@ -328,35 +337,16 @@ class _TrackEditPageState extends State<TrackEditPage> {
               decoration: InputDecoration(
                 labelText: lm.edit_track_artists
               ),
-              controller: TextEditingController(text: _artistNames.join(", ")),
+              controller: TextEditingController(text: _artists.map((a) => a.name).join(", ")),
               onTap: _showArtistPicker,
             ),
-            TypeAheadField<String>(
-              controller: TextEditingController(text: _albumName),
-              builder: (context, controller, focusNode) {
-                return TextField(
-                  controller: controller,
-                  focusNode: focusNode,
-                  decoration: InputDecoration(
-                    labelText: lm.edit_track_album,
-                  ),
-                  onChanged: (value) {
-                    _albumName = value;
-                  },
-                );
-              },
-              itemBuilder: (context, suggestion) {
-                return ListTile(title: Text(suggestion));
-              },
-              onSelected: (album) {
-                setState(() {
-                  _albumName = album;
-                });
-              },
-              suggestionsCallback: (pattern) {
-                if (pattern.trim().length < 2) return [];
-                return _autoCompleteAlbumNames(pattern);
-              }
+            TextField(
+              readOnly: true,
+              decoration: InputDecoration(
+                  labelText: lm.edit_track_album
+              ),
+              controller: TextEditingController(text: _album?.name ?? ""),
+              onTap: _showAlbumPicker,
             ),
             TextFormField(
               decoration: InputDecoration(
@@ -440,29 +430,26 @@ class _TrackEditPageState extends State<TrackEditPage> {
               lm.tags,
               style: _theme.textTheme.headlineMedium,
             ),
-            Wrap(
+/*            Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: _tags.isEmpty ? [Text(lm.edit_track_no_tags)] : _tags.map((tag) => Tooltip(
-                message: tag.description,
-                child: TagWidget(
-                  tag: tag,
-                  onTap: () async {
-                    setState(() {
-                      _tags.remove(tag);
-                    });
-                  },
-                )
+              children: _tags.isEmpty ? [Text(lm.edit_track_no_tags)] : _tags.map((tag) => TagWidget(
+                tag: tag,
+                onTap: () async {
+                  setState(() {
+                    _tags.remove(tag);
+                  });
+                },
               )).toList()
-            ),
-            TagSearchBar(
+            ),*/
+/*            TagSearchBar(
               ignoredTags: _tags,
               onTagSelected: (tag) {
                 setState(() {
                   _tags.add(tag);
                 });
               },
-            ),
+            ),*/
             Divider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
