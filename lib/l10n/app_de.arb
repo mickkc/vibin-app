@@ -59,6 +59,7 @@
   "drawer_title": "Vibin'",
   "drawer_home": "Startseite",
   "drawer_search": "Suche",
+  "drawer_uploads": "Uploads",
   "drawer_profile": "Profil",
   "drawer_app_settings": "App-Einstellungen",
   "drawer_server_settings": "Server-Einstellungen",
@@ -430,5 +431,24 @@
   "card_actions_play_next": "Als nächstes abspielen",
   "card_actions_add_to_queue": "Zur Warteschlange hinzufügen",
   "card_actions_add_to_playlist": "Zu Playlist hinzufügen",
-  "card_actions_view_details": "Details anzeigen"
+  "card_actions_view_details": "Details anzeigen",
+
+  "uploads_fetch_error": "Beim Laden der Uploads ist ein Fehler aufgetreten.",
+  "uploads_no_uploads": "Es wurden keine ausstehenden Uploads gefunden.",
+  "uploads_edit_save_error": "Beim Speichern des Uploads ist ein Fehler aufgetreten.",
+  "uploads_upload_file": "Datei hochladen",
+  "uploads_upload_error": "Beim Hochladen der Datei {fileName} ist ein Fehler aufgetreten.",
+  "uploads_upload_error_file_exists": "Upload fehlgeschlagen: Diese Datei existiert bereits.",
+  "uploads_upload_error_invalid_file": "Upload fehlgeschlagen: Ungültige Datei.",
+  "uploads_all_uploads_failed": "Es wurden keine Dateien hochgeladen; alle Uploads sind fehlgeschlagen.",
+
+  "uploads_apply_success": "Der Titel {title} wurde erfolgreich hochgeladen.",
+  "uploads_apply_success_open_track": "Titel anzeigen",
+  "uploads_apply_error": "Beim Upload von {title} ist ein Fehler aufgetreten.",
+  "uploads_apply_failed_file_exists": "Upload fehlgeschlagen: Ein Titel mit demselben Namen existiert bereits.",
+
+  "uploads_delete_confirm_title": "Upload löschen",
+  "uploads_delete_confirm_message": "Möchtest du diesen Upload wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "uploads_delete_success": "Der Upload wurde erfolgreich gelöscht.",
+  "uploads_delete_error": "Beim Löschen des Uploads ist ein Fehler aufgetreten."
 }

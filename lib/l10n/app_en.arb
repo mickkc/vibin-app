@@ -60,6 +60,7 @@
   "drawer_home": "Home",
   "drawer_search": "Search",
   "drawer_profile": "Profile",
+  "drawer_uploads": "Uploads",
   "drawer_app_settings": "App Settings",
   "drawer_server_settings": "Server Settings",
   "drawer_logout": "Logout",
@@ -430,5 +431,24 @@
   "card_actions_play_next": "Play Next",
   "card_actions_add_to_queue": "Add to Queue",
   "card_actions_add_to_playlist": "Add to Playlist",
-  "card_actions_view_details": "View Details"
+  "card_actions_view_details": "View Details",
+
+  "uploads_fetch_error": "An error occurred while fetching uploads.",
+  "uploads_no_uploads": "No pending uploads found.",
+  "uploads_edit_save_error": "An error occurred while saving the upload.",
+  "uploads_upload_file": "Upload File",
+  "uploads_upload_error": "An error occurred while uploading the file {fileName}.",
+  "uploads_upload_error_file_exists": "Upload failed: This file already exists.",
+  "uploads_upload_error_invalid_file": "Upload failed: The selected file is not a valid audio file.",
+  "uploads_all_uploads_failed": "No files were uploaded; all uploads failed.",
+
+  "uploads_apply_success": "Track {title} uploaded successfully.",
+  "uploads_apply_success_open_track": "Open Track",
+  "uploads_apply_error": "An error occurred while uploading the track {title}.",
+  "uploads_apply_failed_file_exists": "Upload failed: A track with the same name already exists.",
+
+  "uploads_delete_confirm_title": "Delete Upload",
+  "uploads_delete_confirm_message": "Are you sure you want to delete this upload? This action cannot be undone.",
+  "uploads_delete_success": "Upload deleted successfully.",
+  "uploads_delete_error": "An error occurred while deleting the upload."
 }

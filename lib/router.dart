@@ -27,6 +27,7 @@ import 'package:vibin_app/pages/overview/users_page.dart';
 import 'package:vibin_app/pages/settings/app_settings_page.dart';
 import 'package:vibin_app/pages/settings/session_management_page.dart';
 import 'package:vibin_app/pages/settings/task_management_page.dart';
+import 'package:vibin_app/pages/upload_page.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/nowplaying/now_playing_bar.dart';
 
@@ -142,6 +143,7 @@ GoRouter configureRouter(AuthState authState) {
           GoRoute(path: '/users/:id', builder: (context, state) => UserInfoPage(userId: int.parse(state.pathParameters['id']!))),
           GoRoute(path: '/sessions', builder: (context, state) => SessionManagementPage()),
           GoRoute(path: '/tasks', builder: (context, state) => TaskManagementPage()),
+          GoRoute(path: '/uploads', builder: (context, state) => UploadPage()),
         ],
       )
     ],

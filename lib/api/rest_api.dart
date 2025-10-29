@@ -32,12 +32,14 @@ import 'package:vibin_app/dtos/track/minimal_track.dart';
 import 'package:vibin_app/dtos/track/track.dart';
 import 'package:vibin_app/dtos/track/track_edit_data.dart';
 import 'package:vibin_app/dtos/track/track_info_metadata.dart';
+import 'package:vibin_app/dtos/uploads/upload_result.dart';
 import 'package:vibin_app/dtos/user/user.dart';
 import 'package:vibin_app/dtos/user/user_edit_data.dart';
 import 'package:vibin_app/dtos/user_activity.dart';
 
 import '../dtos/artist/artist_edit_data.dart';
 import '../dtos/task_dto.dart';
+import '../dtos/uploads/pending_upload.dart';
 
 part 'rest_api.g.dart';
 
@@ -319,6 +321,23 @@ abstract class ApiService {
   @GET("/api/tracks/{id}/download")
   @DioResponseType(ResponseType.bytes)
   Future<HttpResponse<List<int>>> downloadTrack(@Path("id") int id);
+
+  // Uploads
+
+  @GET("/api/uploads")
+  Future<List<PendingUpload>> getPendingUploads();
+
+  @POST("/api/uploads")
+  Future<PendingUpload> createUpload(@Body() String fileContentBase64, @Query("filename") String fileName);
+
+  @PUT("/api/uploads/{id}/metadata")
+  Future<PendingUpload> updatePendingUpload(@Path("id") int id, @Body() TrackEditData metadata);
+
+  @DELETE("/api/uploads/{id}")
+  Future<Success> deletePendingUpload(@Path("id") int id);
+
+  @POST("/api/uploads/{id}/apply")
+  Future<UploadResult> applyPendingUpload(@Path("id") int id);
 
   // Users
 

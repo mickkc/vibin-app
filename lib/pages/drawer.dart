@@ -96,6 +96,12 @@ class DrawerComponent extends StatelessWidget {
             title: Text(lm.drawer_profile),
             onTap: () => _goTo(context, '/users/${authState.user!.id}'),
           ),
+        if (authState.hasPermission(PermissionType.uploadTracks))
+          ListTile(
+            leading: Icon(Icons.file_upload),
+            title: Text(lm.drawer_uploads),
+            onTap: () => _goTo(context, '/uploads'),
+          ),
         ListTile(
           leading: Icon(Icons.settings),
           title: Text(lm.drawer_app_settings),

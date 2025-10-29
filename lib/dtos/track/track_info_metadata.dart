@@ -48,4 +48,21 @@ class TrackInfoMetadata {
       explicit: json['explicit'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'artistNames': artistNames,
+      'albumName': albumName,
+      'trackNumber': trackNumber,
+      'trackCount': trackCount,
+      'discNumber': discNumber,
+      'discCount': discCount,
+      'year': year,
+      'tags': tags,
+      'comment': comment,
+      'coverImageUrl': coverImageUrl,
+      'explicit': explicit,
+    };
+  }
 }

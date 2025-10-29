@@ -7,6 +7,7 @@ import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dialogs/artist_picker.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/track/track_edit_data.dart';
+import 'package:vibin_app/dtos/uploads/pending_upload.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/edit/search_lyrics_dialog.dart';
@@ -24,31 +25,14 @@ import '../../widgets/tag_widget.dart';
 
 class TrackEditPage extends StatefulWidget {
   final int? trackId;
-
-  final String? trackTitle;
-  final bool? isExplicit;
-  final int? trackNumber;
-  final int? trackCount;
-  final int? discNumber;
-  final int? discCount;
-  final int? year;
-  final String? comment;
-  final String? imageUrl;
+  final PendingUpload? pendingUpload;
 
   final Function(TrackEditData)? onSave;
 
   const TrackEditPage({
     super.key,
-    required this.trackId,
-    this.trackTitle,
-    this.isExplicit,
-    this.trackNumber,
-    this.trackCount,
-    this.discNumber,
-    this.discCount,
-    this.year,
-    this.comment,
-    this.imageUrl,
+    this.trackId,
+    this.pendingUpload,
     this.onSave
   });
 
@@ -90,19 +74,22 @@ class _TrackEditPageState extends State<TrackEditPage> {
   void _init() {
     if (widget.trackId == null) {
       setState(() {
-        _titleController.text = widget.trackTitle ?? "";
-        _isExplicit = widget.isExplicit ?? false;
-        _trackNumber = widget.trackNumber;
-        _trackCount = widget.trackCount;
-        _discNumber = widget.discNumber;
-        _discCount = widget.discCount;
-        _year = widget.year;
-        _titleController.text = widget.comment ?? "";
-        _imageUrl = widget.imageUrl;
+        _titleController.text = widget.pendingUpload?.title ?? "";
+        _isExplicit = widget.pendingUpload?.explicit ?? false;
+        _trackNumber = widget.pendingUpload?.trackNumber;
+        _trackCount = widget.pendingUpload?.trackCount;
+        _discNumber = widget.pendingUpload?.discNumber;
+        _discCount = widget.pendingUpload?.discCount;
+        _year = widget.pendingUpload?.year;
+        _imageUrl = widget.pendingUpload?.coverUrl;
+        _commentController.text = widget.pendingUpload?.comment ?? "";
+        _lyricsController.text = widget.pendingUpload?.lyrics ?? "";
 
-        _albumName = null;
-        _artistNames = [];
-        _tags = [];
+        _albumName = widget.pendingUpload?.album;
+        _artistNames = widget.pendingUpload?.artists ?? [];
+        _tags = widget.pendingUpload?.tags ?? [];
+
+        _trackDuration = null;
 
         initialized = true;
       });

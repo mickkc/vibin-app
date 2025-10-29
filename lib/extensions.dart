@@ -76,6 +76,20 @@ void showSnackBar(BuildContext context, String message) {
   );
 }
 
+void showActionSnackBar(BuildContext context, String message, String actionLabel, VoidCallback onAction) {
+  if (!context.mounted) return;
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+      duration: const Duration(seconds: 4),
+      action: SnackBarAction(
+        label: actionLabel,
+        onPressed: onAction,
+      ),
+    ),
+  );
+}
+
 Future<bool> showConfirmDialog(BuildContext context, String title, String content, {String? confirmText, String? cancelText}) async {
   bool confirmed = false;
   final lm = AppLocalizations.of(context)!;
