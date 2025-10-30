@@ -229,6 +229,7 @@
   "edit_track_lyrics_shift_amount_validation": "Die Verschiebung muss eine Zahl sein (negativ oder positiv).",
   "edit_track_lyrics_shift_amount_hint": "z.B. -2,5 oder +3",
   "edit_track_no_tags": "Es sind keine Tags angewendet. Suche nach Tags und klicke auf einen Tag, um es hinzuzufügen.",
+  "edit_track_apply_metadata_error": "Beim Anwenden der Metadaten ist ein Fehler aufgetreten.",
 
   "delete_track_confirmation": "Möchtest du diesen Titel wirklich löschen?",
   "delete_track_confirmation_warning": "Diese Aktion kann nicht rückgängig gemacht werden. Der Titel wird von allen Playlists und Alben entfernt.",
@@ -287,9 +288,11 @@
   "pick_artist_title": "Künstler auswählen",
   "pick_artist_create_new": "Neuen Künstler '{name}' erstellen",
   "pick_artist_new": "neu",
+  "pick_artist_create_error": "Beim Erstellen des Künstlers ist ein Fehler aufgetreten.",
 
   "pick_album_title": "Album auswählen",
   "pick_album_create_new": "Neues Album '{name}' erstellen",
+  "pick_album_create_error": "Beim Erstellen des Albums ist ein Fehler aufgetreten.",
 
 
   "settings_app_appearance_title": "Erscheinungsbild",

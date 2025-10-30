@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:vibin_app/dtos/id_or_name.dart';
 
 @JsonSerializable()
 class TrackEditData {
@@ -12,9 +11,9 @@ class TrackEditData {
   final int? year;
   final String? comment;
   final String? imageUrl;
-  final IdOrName? album;
-  final List<IdOrName>? artists;
-  final List<IdOrName>? tags;
+  final int? album;
+  final List<int>? artists;
+  final List<int>? tags;
   final String? lyrics;
 
   TrackEditData({
@@ -44,15 +43,9 @@ class TrackEditData {
       year: json['year'],
       comment: json['comment'],
       imageUrl: json['imageUrl'],
-      album: json['album'] != null
-          ? IdOrName.fromJson(json['album'])
-          : null,
-      artists: json['artists'] != null
-          ? List<IdOrName>.from(json['artists'])
-          : null,
-      tags: json['tags'] != null
-          ? List<IdOrName>.from(json['tags'])
-          : null,
+      album: json['album'],
+      artists: json['artists'] != null ? List<int>.from(json['artists']) : null,
+      tags: json['tags'] != null ? List<int>.from(json['tags']) : null,
       lyrics: json['lyrics'],
     );
   }

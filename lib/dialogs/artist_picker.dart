@@ -1,18 +1,22 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:vibin_app/api/api_manager.dart';
-import 'package:vibin_app/dtos/id_or_name.dart';
+import 'package:vibin_app/dtos/artist/artist.dart';
+import 'package:vibin_app/dtos/artist/artist_edit_data.dart';
 import 'package:vibin_app/dtos/pagination/artist_pagination.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/pagination_footer.dart';
 
+import '../extensions.dart';
 import '../l10n/app_localizations.dart';
 import '../main.dart';
 
 class ArtistPickerDialog extends StatefulWidget {
-  final List<IdOrName> selected;
-  final Function(List<IdOrName>) onChanged;
+  final List<Artist> selected;
+  final Function(List<Artist>) onChanged;
   final bool allowEmpty;
   final bool allowMultiple;
   
@@ -30,7 +34,7 @@ class ArtistPickerDialog extends StatefulWidget {
 
 class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
 
-  late List<IdOrName> _selectedArtists;
+  late List<Artist> _selectedArtists;
 
   final _searchController = TextEditingController();
   ArtistPagination? _searchResults;
@@ -52,13 +56,13 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
     super.dispose();
   }
 
-  void _removeArtist(int index) {
+  void _removeArtist(Artist artist) {
     setState(() {
-      _selectedArtists.removeAt(index);
+      _selectedArtists.removeWhere((a) => a.id == artist.id);
     });
   }
 
-  void _addArtist(IdOrName artist) {
+  void _addArtist(Artist artist) {
     if (_selectedArtists.any((a) => a.id == artist.id)) return;
     setState(() {
       if (widget.allowMultiple) {
@@ -67,15 +71,6 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
         _selectedArtists = [artist];
       }
     });
-  }
-
-  bool _doesContainName(String name) {
-    for (final artist in _selectedArtists) {
-      if (artist.name.toLowerCase() == name.toLowerCase()) {
-        return true;
-      }
-    }
-    return false;
   }
 
   bool _isValid() {
@@ -119,9 +114,9 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
               for (final artist in _selectedArtists)
                 Chip(
                   deleteIcon: Icon(Icons.remove),
-                  label: Text(artist.id == null ? "${artist.name} (${lm.pick_artist_new})" : "${artist.name} (${artist.id})"),
+                  label: Text(artist.name),
                   onDeleted: () {
-                    _removeArtist(_selectedArtists.indexOf(artist));
+                    _removeArtist(artist);
                   },
                 ),
             ],
@@ -141,15 +136,18 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
             },
           ),
 
-          if (_searchController.text.isNotEmpty && !_doesContainName(_searchController.text))
+          if (_searchController.text.isNotEmpty)
             ListTile(
               title: Text(lm.pick_artist_create_new(_searchController.text)),
               leading: Icon(Icons.add),
-              onTap: () {
-                _addArtist(IdOrName(name: _searchController.text));
-                setState(() {
-                  _searchController.text = "";
-                });
+              onTap: () async {
+                try {
+                  final newArtist = await _apiManager.service.createArtist(ArtistEditData(name: _searchController.text));
+                  _addArtist(newArtist);
+                } catch (e) {
+                  log("An error occurred while creating new artist: $e", error: e, level: Level.error.value);
+                  if (context.mounted) showErrorDialog(context, lm.pick_artist_create_error);
+                }
               },
             ),
 
@@ -173,10 +171,10 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
                       subtitle: artist.description.isEmpty ? null : Text(artist.description),
                       onTap: () {
                         if (contains) {
-                          _removeArtist(_selectedArtists.indexWhere((a) => a.id == artist.id));
+                          _removeArtist(artist);
                         }
                         else {
-                          _addArtist(IdOrName(id: artist.id, name: artist.name));
+                          _addArtist(artist);
                         }
                       },
                       trailing: contains ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary) : null

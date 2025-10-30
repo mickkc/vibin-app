@@ -35,7 +35,7 @@ class SearchTrackMetadataDialog extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
           ),
           title: Text(metadata.title),
-          subtitle: Text(metadata.artists?.map((a) => a.name).join(", ") ?? "")
+          subtitle: Text(metadata.artists?.join(", ") ?? "")
         );
       },
       sourceSelector: (s) => s.track,

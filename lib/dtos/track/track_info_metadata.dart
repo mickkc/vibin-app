@@ -1,17 +1,16 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:vibin_app/dtos/id_or_name.dart';
 
 @JsonSerializable()
 class TrackInfoMetadata {
   final String title;
-  final List<IdOrName>? artists;
-  final IdOrName? album;
+  final List<String>? artists;
+  final String? album;
   final int? trackNumber;
   final int? trackCount;
   final int? discNumber;
   final int? discCount;
   final int? year;
-  final List<IdOrName>? tags;
+  final List<String>? tags;
   final String? comment;
   final String? coverImageUrl;
   final bool? explicit;
@@ -34,22 +33,16 @@ class TrackInfoMetadata {
   factory TrackInfoMetadata.fromJson(Map<String, dynamic> json) {
     return TrackInfoMetadata(
       title: json['title'],
-      artists: json['artistNames'] != null
-          ? List<IdOrName>.from(
-              json['artistNames'].map((x) => IdOrName.fromJson(x)))
+      artists: json['artists'] != null
+          ? List<String>.from(json['artists'])
           : null,
-      album: json['albumName'] != null
-          ? IdOrName.fromJson(json['albumName'])
-          : null,
+      album: json['album'],
       trackNumber: json['trackNumber'],
       trackCount: json['trackCount'],
       discNumber: json['discNumber'],
       discCount: json['discCount'],
       year: json['year'],
-      tags: json['tags'] != null
-          ? List<IdOrName>.from(
-              json['tags'].map((x) => IdOrName.fromJson(x)))
-          : null,
+      tags: json['tags'] != null ? List<String>.from(json['tags']) : null,
       comment: json['comment'],
       coverImageUrl: json['coverImageUrl'],
       explicit: json['explicit'],

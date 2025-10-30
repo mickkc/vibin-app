@@ -38,6 +38,7 @@ import 'package:vibin_app/dtos/user/user_edit_data.dart';
 import 'package:vibin_app/dtos/user_activity.dart';
 
 import '../dtos/artist/artist_edit_data.dart';
+import '../dtos/create_metadata.dart';
 import '../dtos/task_dto.dart';
 import '../dtos/uploads/pending_upload.dart';
 
@@ -106,6 +107,9 @@ abstract class ApiService {
   @DELETE("/api/albums/{id}")
   Future<Success> deleteAlbum(@Path("id") int id);
 
+  @POST("/api/albums")
+  Future<Album> createAlbum(@Body() AlbumEditData albumData);
+
   // Artists
 
   @GET("/api/artists")
@@ -147,6 +151,9 @@ abstract class ApiService {
 
   @GET("/api/metadata/lyrics")
   Future<List<LyricsMetadata>> searchLyricsMetadata(@Query("q") String query, @Query("provider") String provider);
+
+  @POST("/api/metadata/create")
+  Future<CreateMetadataResult> createMetadata(@Body() CreateMetadata data);
 
   // Permissions
 
@@ -331,13 +338,13 @@ abstract class ApiService {
   Future<PendingUpload> createUpload(@Body() String fileContentBase64, @Query("filename") String fileName);
 
   @PUT("/api/uploads/{id}/metadata")
-  Future<PendingUpload> updatePendingUpload(@Path("id") int id, @Body() TrackEditData metadata);
+  Future<PendingUpload> updatePendingUpload(@Path("id") String id, @Body() TrackEditData metadata);
 
   @DELETE("/api/uploads/{id}")
-  Future<Success> deletePendingUpload(@Path("id") int id);
+  Future<Success> deletePendingUpload(@Path("id") String id);
 
   @POST("/api/uploads/{id}/apply")
-  Future<UploadResult> applyPendingUpload(@Path("id") int id);
+  Future<UploadResult> applyPendingUpload(@Path("id") String id);
 
   // Users
 

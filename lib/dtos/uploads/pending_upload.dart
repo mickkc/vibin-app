@@ -1,12 +1,14 @@
-import 'package:vibin_app/dtos/id_or_name.dart';
+import 'package:vibin_app/dtos/album/album.dart';
+import 'package:vibin_app/dtos/artist/artist.dart';
+import 'package:vibin_app/dtos/tags/tag.dart';
 
 class PendingUpload {
-  final int id;
+  final String id;
   final String filePath;
   final String title;
-  final IdOrName album;
-  final List<IdOrName> artists;
-  final List<IdOrName> tags;
+  final Album? album;
+  final List<Artist> artists;
+  final List<Tag> tags;
   final String? lyrics;
   final bool explicit;
   final int? trackNumber;
@@ -44,9 +46,13 @@ class PendingUpload {
       id: json['id'],
       filePath: json['filePath'],
       title: json['title'],
-      album: json['album'],
-      artists: (json['artists'] as List).map((artistJson) => IdOrName.fromJson(artistJson)).toList(),
-      tags: (json['tags'] as List).map((tagJson) => IdOrName.fromJson(tagJson)).toList(),
+      album: json['album'] != null ? Album.fromJson(json['album']) : null,
+      artists: (json['artists'] as List)
+          .map((artistJson) => Artist.fromJson(artistJson))
+          .toList(),
+      tags: (json['tags'] as List)
+          .map((tagJson) => Tag.fromJson(tagJson))
+          .toList(),
       explicit: json['explicit'],
       trackNumber: json['trackNumber'],
       trackCount: json['trackCount'],

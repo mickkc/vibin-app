@@ -215,7 +215,7 @@ class _UploadPageState extends State<UploadPage> {
                   borderRadius: BorderRadius.circular(4),
                 ) : const Icon(Icons.upload_file),
                 title: Text(upload.title),
-                subtitle: Text("${upload.album} - ${upload.artists.join(", ")}"),
+                subtitle: Text("${upload.album?.title} - ${upload.artists.map((a) => a.name).join(", ")}"),
                 onTap: () => _openEditDialog(upload),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,

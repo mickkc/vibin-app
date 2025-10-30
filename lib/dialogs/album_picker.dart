@@ -1,19 +1,23 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:vibin_app/dtos/id_or_name.dart';
+import 'package:logger/logger.dart';
+import 'package:vibin_app/dtos/album/album.dart';
+import 'package:vibin_app/dtos/album/album_edit_data.dart';
 import 'package:vibin_app/dtos/pagination/album_pagination.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/pagination_footer.dart';
 
 import '../api/api_manager.dart';
+import '../extensions.dart';
 import '../main.dart';
 
 class AlbumPicker extends StatefulWidget {
 
-  final IdOrName? selectedAlbum;
-  final Function(IdOrName) onAlbumSelected;
+  final Album? selectedAlbum;
+  final Function(Album) onAlbumSelected;
 
   const AlbumPicker({
     super.key,
@@ -93,9 +97,17 @@ class _AlbumPickerState extends State<AlbumPicker> {
             ListTile(
               leading: Icon(Icons.add),
               title: Text(_lm.pick_album_create_new(_searchController.text)),
-              onTap: () {
-                widget.onAlbumSelected(IdOrName(name: _searchController.text));
-                Navigator.pop(context);
+              onTap: () async {
+                try {
+                  final newAlbum = await _apiManager.service.createAlbum(AlbumEditData(title: _searchController.text));
+                  widget.onAlbumSelected(newAlbum);
+                  if (context.mounted) Navigator.pop(context);
+                }
+                catch (e) {
+                  log("An error occurred while creating album: $e", error: e, level: Level.error.value);
+                  if (context.mounted) showErrorDialog(context, _lm.pick_album_create_error);
+                  return;
+                }
               },
             ),
 
@@ -120,7 +132,7 @@ class _AlbumPickerState extends State<AlbumPicker> {
                     subtitle: album.description.isNotEmpty ? Text(album.description) : null,
                     trailing: isSelected ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary) : null,
                     onTap: () {
-                      widget.onAlbumSelected(IdOrName(id: album.id, name: album.title));
+                      widget.onAlbumSelected(album);
                       Navigator.pop(context);
                     },
                   );
