@@ -9,6 +9,7 @@ import 'package:logger/logger.dart';
 import 'package:vibin_app/dtos/uploads/pending_upload.dart';
 import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/pages/edit/track_edit_page.dart';
+import 'package:vibin_app/pages/loading_overlay.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
 import '../api/api_manager.dart';
@@ -27,25 +28,32 @@ class _UploadPageState extends State<UploadPage> {
 
   List<PendingUpload> _pendingUploads = [];
 
+  bool _initialized = false;
+
   late final _lm = AppLocalizations.of(context)!;
   final _apiManager = getIt<ApiManager>();
+  final _loadingOverlay = getIt<LoadingOverlay>();
   final _encoder = Base64Encoder();
 
   @override
   void initState() {
 
+    super.initState();
+
     _apiManager.service.getPendingUploads()
       .then((uploads) {
         setState(() {
           _pendingUploads = uploads;
+          _initialized = true;
         });
       })
       .catchError((e) {
         log("An error occurred while fetching pending uploads: $e", error: e, level: Level.error.value);
         if (mounted) showErrorDialog(context, _lm.uploads_fetch_error);
+        setState(() {
+          _initialized = true;
+        });
       });
-
-    super.initState();
   }
 
   void _openEditDialog(PendingUpload upload) async {
@@ -90,50 +98,64 @@ class _UploadPageState extends State<UploadPage> {
 
     if (result == null || result.files.isEmpty) return;
 
-    List<PendingUpload> newPendingUploads = [];
+    if (mounted) _loadingOverlay.show(context, message: _lm.uploads_tracks_uploading);
 
-    for (final file in result.files) {
-      try {
-        final fileContentBytes = file.bytes;
+    try {
+      List<PendingUpload> newPendingUploads = [];
 
-        if (fileContentBytes == null) {
-          log("File bytes are null for file: ${file.name}", level: Level.error.value);
-          if (mounted) await showErrorDialog(context, _lm.uploads_upload_error(file.name));
-          continue;
+      for (final file in result.files) {
+        try {
+          final fileContentBytes = file.bytes;
+
+          if (fileContentBytes == null) {
+            log("File bytes are null for file: ${file.name}", level: Level.error.value);
+            if (mounted) await showErrorDialog(context, _lm.uploads_upload_error(file.name));
+            continue;
+          }
+
+          final base64 = _encoder.convert(fileContentBytes);
+
+          final pendingUpload = await _apiManager.service.createUpload(
+              base64, file.name);
+          newPendingUploads.add(pendingUpload);
         }
+        catch (e) {
+          if (e is DioException) {
+            if (e.response?.statusCode == 409 && mounted) {
+              await showErrorDialog(
+                  context, _lm.uploads_upload_error_file_exists);
+            }
+            else if (e.response?.statusCode == 400 && mounted) {
+              await showErrorDialog(
+                  context, _lm.uploads_upload_error_invalid_file);
+            }
+            continue;
+          }
 
-        final base64 = _encoder.convert(fileContentBytes);
-
-        final pendingUpload = await _apiManager.service.createUpload(base64, file.name);
-        newPendingUploads.add(pendingUpload);
+          log("An error occurred while uploading file: $e", error: e,
+              level: Level.error.value);
+          if (mounted) showErrorDialog(context, _lm.uploads_upload_error(file.name));
+        }
       }
-      catch (e) {
-        if (e is DioException) {
-          if(e.response?.statusCode == 409 && mounted) {
-            await showErrorDialog(context, _lm.uploads_upload_error_file_exists);
-          }
-          else if (e.response?.statusCode == 400 && mounted) {
-            await showErrorDialog(context, _lm.uploads_upload_error_invalid_file);
-          }
-          continue;
-        }
 
-        log("An error occurred while uploading file: $e", error: e, level: Level.error.value);
-        if (mounted) showErrorDialog(context, _lm.uploads_upload_error(file.name));
+      if (newPendingUploads.isNotEmpty) {
+        setState(() {
+          _pendingUploads.addAll(newPendingUploads);
+        });
+      }
+      else {
+        if (mounted) showSnackBar(context, _lm.uploads_all_uploads_failed);
       }
     }
-
-    if (newPendingUploads.isNotEmpty) {
-      setState(() {
-        _pendingUploads.addAll(newPendingUploads);
-      });
-    }
-    else {
-      if (mounted) showSnackBar(context, _lm.uploads_all_uploads_failed);
+    finally {
+      _loadingOverlay.hide();
     }
   }
 
   void _applyUpload(PendingUpload upload) async {
+
+    if (mounted) _loadingOverlay.show(context);
+
     try {
       final result = await _apiManager.service.applyPendingUpload(upload.id);
 
@@ -165,11 +187,16 @@ class _UploadPageState extends State<UploadPage> {
       log("An error occurred while applying pending upload: $e", error: e, level: Level.error.value);
       if (mounted) showErrorDialog(context, _lm.uploads_apply_error(upload.title));
     }
+    finally {
+      _loadingOverlay.hide();
+    }
   }
 
   Future<void> _deleteUpload(PendingUpload upload) async {
     final confirmed = await showConfirmDialog(context, _lm.uploads_delete_confirm_title, _lm.uploads_delete_confirm_message);
     if (!confirmed) return;
+
+    if (mounted) _loadingOverlay.show(context);
 
     try {
       await _apiManager.service.deletePendingUpload(upload.id);
@@ -181,6 +208,9 @@ class _UploadPageState extends State<UploadPage> {
     catch (e) {
       log("An error occurred while deleting pending upload: $e", error: e, level: Level.error.value);
       if (mounted) showErrorDialog(context, _lm.uploads_delete_error);
+    }
+    finally {
+      _loadingOverlay.hide();
     }
   }
 
@@ -195,7 +225,9 @@ class _UploadPageState extends State<UploadPage> {
           icon: const Icon(Icons.upload_file),
         ),
 
-        if (_pendingUploads.isEmpty)
+        if (!_initialized)
+          const Center(child: CircularProgressIndicator())
+        else if (_pendingUploads.isEmpty)
           Center(
             child: Text(_lm.uploads_no_uploads),
           )

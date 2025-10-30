@@ -442,6 +442,7 @@
   "card_actions_view_details": "Details anzeigen",
 
   "uploads_fetch_error": "Beim Laden der Uploads ist ein Fehler aufgetreten.",
+  "uploads_tracks_uploading": "Hochladen...",
   "uploads_no_uploads": "Es wurden keine ausstehenden Uploads gefunden.",
   "uploads_edit_save_error": "Beim Speichern des Uploads ist ein Fehler aufgetreten.",
   "uploads_upload_file": "Datei hochladen",

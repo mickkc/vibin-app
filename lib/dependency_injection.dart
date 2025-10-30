@@ -1,6 +1,7 @@
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/api/client_data.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
+import 'package:vibin_app/pages/loading_overlay.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 
 import 'auth/auth_state.dart';
@@ -22,4 +23,7 @@ Future<void> setupDependencyInjection() async {
 
   final audioManager = await AudioManager.initBackgroundTask();
   getIt.registerSingleton<AudioManager>(audioManager);
+
+  final loadingOverlay = LoadingOverlay();
+  getIt.registerSingleton<LoadingOverlay>(loadingOverlay);
 }

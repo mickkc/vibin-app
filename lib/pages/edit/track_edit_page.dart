@@ -25,6 +25,7 @@ import '../../auth/auth_state.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/edit/tag_search_bar.dart';
 import '../../widgets/tag_widget.dart';
+import '../loading_overlay.dart';
 
 class TrackEditPage extends StatefulWidget {
   final int? trackId;
@@ -71,6 +72,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
 
   late final _lm = AppLocalizations.of(context)!;
   late final _theme = Theme.of(context);
+  final _loadingOverlay = getIt<LoadingOverlay>();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -175,6 +177,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
         return SearchTrackMetadataDialog(
           initialSearch: _titleController.text,
           onSelect: (metadata) async {
+            _loadingOverlay.show(context);
             try {
               final createdMetadata = await _apiManager.service.createMetadata(
                 CreateMetadata(
@@ -186,9 +189,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
 
               setState(() {
                 _titleController.text = metadata.title;
-                if (metadata.explicit != null) {
-                  _isExplicit = metadata.explicit!;
-                }
+                _isExplicit = metadata.explicit ?? _isExplicit;
                 _trackNumber = metadata.trackNumber;
                 _trackCount = metadata.trackCount;
                 _discNumber = metadata.discNumber;
@@ -204,6 +205,9 @@ class _TrackEditPageState extends State<TrackEditPage> {
             catch (e) {
               log("Error applying metadata: $e", error: e, level: Level.error.value);
               if (mounted) showErrorDialog(context, _lm.edit_track_apply_metadata_error);
+            }
+            finally {
+              _loadingOverlay.hide();
             }
           },
         );
@@ -231,6 +235,8 @@ class _TrackEditPageState extends State<TrackEditPage> {
   Future<void> _save() async {
 
     if (!_formKey.currentState!.validate()) return;
+
+    _loadingOverlay.show(context);
 
     try {
       final editData = TrackEditData(
@@ -264,6 +270,9 @@ class _TrackEditPageState extends State<TrackEditPage> {
     catch (e) {
       log("Error saving track: $e", error: e, level: Level.error.value);
       if (mounted) showErrorDialog(context, _lm.edit_track_save_error);
+    }
+    finally {
+      _loadingOverlay.hide();
     }
   }
 

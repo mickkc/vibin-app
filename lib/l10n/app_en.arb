@@ -442,6 +442,7 @@
   "card_actions_view_details": "View Details",
 
   "uploads_fetch_error": "An error occurred while fetching uploads.",
+  "uploads_tracks_uploading": "Uploading...",
   "uploads_no_uploads": "No pending uploads found.",
   "uploads_edit_save_error": "An error occurred while saving the upload.",
   "uploads_upload_file": "Upload File",
