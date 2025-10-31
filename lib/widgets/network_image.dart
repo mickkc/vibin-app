@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
 
@@ -34,6 +35,12 @@ class NetworkImageWidget extends StatelessWidget {
       return url;
     } else {
       ApiManager apiManager = getIt<ApiManager>();
+
+      if (kIsWeb) {
+        final currentUri = Uri.base;
+        return "${currentUri.scheme}://${currentUri.host}:${currentUri.port}/$url";
+      }
+
       return "${apiManager.baseUrl}/$url";
     }
   }
