@@ -16,7 +16,6 @@ import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/themes/color_scheme_list.dart';
 import 'package:vibin_app/widgets/settings/theme_settings.dart';
-import 'package:flutter_web_plugins/url_strategy.dart';
 
 import 'auth/auth_state.dart';
 
@@ -45,8 +44,6 @@ void main() async {
 
   final autoLoginResult = await authState.tryAutoLogin();
   authState.autoLoginResult = autoLoginResult;
-
-  setUrlStrategy(PathUrlStrategy());
 
   runApp(
     ChangeNotifierProvider(
