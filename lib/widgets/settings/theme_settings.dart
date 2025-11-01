@@ -22,7 +22,7 @@ class ThemeSettings {
       themeMode: themeMode,
       accentColor: color,
       colorSchemeKey: colorSchemeKey,
-    );
+    ).validate();
   }
 
   ThemeSettings setColorSchemeKey(ColorSchemeKey key) {
@@ -30,6 +30,16 @@ class ThemeSettings {
       themeMode: themeMode,
       accentColor: accentColor,
       colorSchemeKey: key,
+    ).validate();
+  }
+
+  ThemeSettings validate() {
+    final validColorSchemeKey = ColorSchemeList.validateColorSchemeKey(colorSchemeKey);
+    final validAccentColor = ColorSchemeList.validateAccentColor(validColorSchemeKey, accentColor);
+    return ThemeSettings(
+      themeMode: themeMode,
+      accentColor: validAccentColor,
+      colorSchemeKey: validColorSchemeKey,
     );
   }
 }
