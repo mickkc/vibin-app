@@ -227,5 +227,5 @@ Future<String?> showInputDialog(BuildContext context, String title, String label
 }
 
 bool isEmbeddedMode() {
-  return bool.fromEnvironment("VIBIN_EMBEDDED_MODE", defaultValue: false);
+  return const bool.fromEnvironment("VIBIN_EMBEDDED_MODE", defaultValue: false);
 }
