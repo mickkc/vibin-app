@@ -80,7 +80,8 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
               final firstAccentColor = ColorSchemeList.get(key).getAccentColors(Theme.brightnessOf(context)).first;
               _settingsManager.set(Settings.accentColor, firstAccentColor);
               themeNotifier.value = themeNotifier.value.setColorSchemeKey(key).setAccentColor(firstAccentColor);
-            }
+            },
+            isOptionEnabled: (key) => ColorSchemeList.get(key).isSupported(),
           ),
 
           ValueListenableBuilder(

@@ -8,6 +8,8 @@ abstract class BaseColorSchemeProvider {
   bool get supportsBrightness => true;
   bool get supportsAccentColor => true;
 
+  bool isSupported() => true;
+
   List<Color> getAccentColors(Brightness brightness);
 
   ThemeData generateThemeData({

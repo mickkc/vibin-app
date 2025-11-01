@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/themes/impl/catppuccin_themes.dart';
 
@@ -8,6 +10,7 @@ import 'impl/dracula_theme.dart';
 import 'impl/gruvbox_theme.dart';
 import 'impl/material3_theme.dart';
 import 'impl/nord_theme.dart';
+import 'impl/pywal/pywal_theme.dart';
 import 'impl/solarized_theme.dart';
 
 enum ColorSchemeKey {
@@ -20,22 +23,26 @@ enum ColorSchemeKey {
   nord,
   dracula,
   solarized,
+  pywal
 }
 
 class ColorSchemeList {
 
+  static final Map<ColorSchemeKey, BaseColorSchemeProvider> _allSchemes = {
+    ColorSchemeKey.material3: Material3Theme(),
+    ColorSchemeKey.gruvbox: GruvboxTheme(),
+    ColorSchemeKey.catppuccinLatte: CatppuccinLatteTheme(),
+    ColorSchemeKey.catppuccinFrappe: CatppuccinFrappeTheme(),
+    ColorSchemeKey.catppuccinMacchiato: CatppuccinMacchiatoTheme(),
+    ColorSchemeKey.catppuccinMocha: CatppuccinMochaTheme(),
+    ColorSchemeKey.nord: NordTheme(),
+    ColorSchemeKey.dracula: DraculaTheme(),
+    ColorSchemeKey.solarized: SolarizedTheme(),
+    ColorSchemeKey.pywal: PywalTheme(),
+  };
+
   static BaseColorSchemeProvider get(ColorSchemeKey key) {
-    return switch (key) {
-      ColorSchemeKey.material3 => Material3Theme(),
-      ColorSchemeKey.gruvbox => GruvboxTheme(),
-      ColorSchemeKey.catppuccinLatte => CatppuccinLatteTheme(),
-      ColorSchemeKey.catppuccinFrappe => CatppuccinFrappeTheme(),
-      ColorSchemeKey.catppuccinMacchiato => CatppuccinMacchiatoTheme(),
-      ColorSchemeKey.catppuccinMocha => CatppuccinMochaTheme(),
-      ColorSchemeKey.nord => NordTheme(),
-      ColorSchemeKey.dracula => DraculaTheme(),
-      ColorSchemeKey.solarized => SolarizedTheme(),
-    };
+    return _allSchemes[key]!;
   }
 
   static BaseColorSchemeProvider getCurrent() {

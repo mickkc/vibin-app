@@ -11,6 +11,7 @@ class EnumSettingsField<T> extends StatefulWidget {
   final IconData? icon;
   final String Function(T) optionLabel;
   final void Function(T)? onChanged;
+  final bool Function(T)? isOptionEnabled;
 
   const EnumSettingsField({
     super.key,
@@ -20,6 +21,7 @@ class EnumSettingsField<T> extends StatefulWidget {
     this.icon,
     required this.optionLabel,
     this.onChanged,
+    this.isOptionEnabled,
   });
 
   @override
@@ -50,9 +52,16 @@ class _EnumSettingsFieldState<T> extends State<EnumSettingsField<T>> {
           }
         },
         items: widget.settingKey.values.map<DropdownMenuItem<T>>((T option) {
+
+          final enabled = widget.isOptionEnabled?.call(option) ?? true;
+
           return DropdownMenuItem<T>(
             value: option,
-            child: Text(widget.optionLabel(option)),
+            enabled: enabled,
+            child: Text(
+              widget.optionLabel(option),
+              style: enabled ? null : TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+            ),
           );
         }).toList(),
       ),
