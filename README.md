@@ -114,7 +114,7 @@ Please note that this project, just like the server, is still in its early stage
 - [x] Permissions management
 - [x] Lyrics
 - [ ] HTML Widgets for embedding
-- [ ] Embed web version into server
+- [x] Embed web version into server
 - [ ] Clean up Code
 - [ ] Better error handling
 - [ ] Write tests

@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:vibin_app/dbus/mpris_player.dart';
 import 'package:vibin_app/dependency_injection.dart';
+import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/router.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
@@ -17,6 +18,7 @@ import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/themes/color_scheme_list.dart';
 import 'package:vibin_app/widgets/settings/theme_settings.dart';
 
+import 'api/api_manager.dart';
 import 'auth/auth_state.dart';
 
 final getIt = GetIt.instance;
@@ -71,6 +73,11 @@ class MyApp extends StatelessWidget {
     themeNotifier.value.themeMode = settingsManager.get(Settings.themeMode);
 
     themeNotifier.value = themeNotifier.value.validate(context);
+
+    if (isEmbeddedMode()) {
+      final apiManager = getIt<ApiManager>();
+      apiManager.setBaseUrl("");
+    }
 
     final router = configureRouter(authState);
 
