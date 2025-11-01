@@ -49,4 +49,29 @@ class ColorSchemeList {
     final currentKey = getIt<SettingsManager>().get(Settings.colorScheme);
     return get(currentKey);
   }
+
+  static Color validateAccentColor(ColorSchemeKey key, Color accentColor) {
+    final scheme = get(key);
+
+    if (!scheme.supportsAccentColor) {
+      return accentColor;
+    }
+
+    final accentColors = scheme.getAccentColors(Brightness.light) + scheme.getAccentColors(Brightness.dark);
+    if (accentColors.any((color) => color.toARGB32() == accentColor.toARGB32())) {
+      return accentColor;
+    } else {
+      getIt<SettingsManager>().set(Settings.accentColor, accentColors.first);
+      return accentColors.first;
+    }
+  }
+
+  static ColorSchemeKey validateColorSchemeKey(ColorSchemeKey key) {
+    if (_allSchemes.containsKey(key) && _allSchemes[key]!.isSupported()) {
+      return key;
+    } else {
+      getIt<SettingsManager>().set(Settings.colorScheme, ColorSchemeKey.material3);
+      return ColorSchemeKey.material3;
+    }
+  }
 }

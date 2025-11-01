@@ -66,9 +66,12 @@ class MyApp extends StatelessWidget {
 
     final SettingsManager settingsManager = getIt<SettingsManager>();
 
+    final key = ColorSchemeList.validateColorSchemeKey(settingsManager.get(Settings.colorScheme));
+    final accentColor = ColorSchemeList.validateAccentColor(key, settingsManager.get(Settings.accentColor));
+
+    themeNotifier.value.colorSchemeKey = key;
+    themeNotifier.value.accentColor = accentColor;
     themeNotifier.value.themeMode = settingsManager.get(Settings.themeMode);
-    themeNotifier.value.accentColor = settingsManager.get(Settings.accentColor);
-    themeNotifier.value.colorSchemeKey = settingsManager.get(Settings.colorScheme);
 
     final router = configureRouter(authState);
 
