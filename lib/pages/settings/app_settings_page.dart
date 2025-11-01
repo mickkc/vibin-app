@@ -64,7 +64,8 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
                         };
                       },
                       onChanged: (mode) {
-                        themeNotifier.value = themeNotifier.value.setThemeMode(mode);
+                        _settingsManager.set(Settings.themeMode, mode);
+                        themeNotifier.value = themeNotifier.value.setThemeMode(mode).validate(context);
                       }
                     ),
 
@@ -75,19 +76,22 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
                     optionLabel: (key) => ColorSchemeList.get(key).getName(_lm),
                     icon: Icons.format_paint,
                     onChanged: (key) {
-                      final firstAccentColor = ColorSchemeList.get(key).getAccentColors(Theme.brightnessOf(context)).first;
-                      _settingsManager.set(Settings.accentColor, firstAccentColor);
-                      themeNotifier.value = themeNotifier.value.setColorSchemeKey(key).setAccentColor(firstAccentColor);
+                      _settingsManager.set(Settings.colorScheme, key);
+                      themeNotifier.value = themeNotifier.value.setColorSchemeKey(key).validate(context);
                     },
                     isOptionEnabled: (key) => ColorSchemeList.get(key).isSupported(),
                   ),
 
                   if (ColorSchemeList.get(value.colorSchemeKey).supportsAccentColor)
                     ListTile(
+                      key: ValueKey("app_accent_color_picker_${value.accentColor.toARGB32()}"),
                       title: Text(_lm.settings_app_accent_color_title),
                       subtitle: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: AccentColorPicker(),
+                        child: AccentColorPicker(
+                          accentColor: value.accentColor,
+                          colorSchemeKey: value.colorSchemeKey,
+                        ),
                       ),
                       leading: Icon(Icons.palette),
                     )

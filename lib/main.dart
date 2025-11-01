@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
     themeNotifier.value.colorSchemeKey = settingsManager.get(Settings.colorScheme);
     themeNotifier.value.themeMode = settingsManager.get(Settings.themeMode);
 
-    themeNotifier.value = themeNotifier.value.validate();
+    themeNotifier.value = themeNotifier.value.validate(context);
 
     final router = configureRouter(authState);
 
@@ -79,8 +79,10 @@ class MyApp extends StatelessWidget {
       builder: (context, themeSettings, _) {
         return MaterialApp.router(
           title: 'Vibin\'',
-          theme: ColorSchemeList.get(themeSettings.colorSchemeKey).generateThemeData(accentColor: themeSettings.accentColor, brightness: Brightness.light),
-          darkTheme: ColorSchemeList.get(themeSettings.colorSchemeKey).generateThemeData(accentColor: themeSettings.accentColor, brightness: Brightness.dark),
+          theme: ColorSchemeList.get(themeSettings.colorSchemeKey)
+            .generateThemeData(accentColor: themeSettings.accentColor, brightness: Brightness.light),
+          darkTheme: ColorSchemeList.get(themeSettings.colorSchemeKey)
+            .generateThemeData(accentColor: themeSettings.accentColor, brightness: Brightness.dark),
           themeMode: themeSettings.themeMode,
           routerConfig: router,
           debugShowCheckedModeBanner: false,
