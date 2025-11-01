@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/auth/auth_state.dart';
+import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main_layout.dart';
 import 'package:vibin_app/pages/drawer.dart';
 import 'package:vibin_app/pages/edit/album_edit_page.dart';
@@ -147,7 +148,7 @@ GoRouter configureRouter(AuthState authState) {
         ],
       )
     ],
-    initialLocation: '/connect',
+    initialLocation: isEmbeddedMode() ? "/login" : '/connect',
     redirect: (context, state) {
 
       final hasAutoLoginError = authState.autoLoginResult != null && authState.autoLoginResult!.isError();
@@ -158,7 +159,9 @@ GoRouter configureRouter(AuthState authState) {
       final loggedIn = authState.loggedIn;
       final loggingIn = state.fullPath == '/connect' || state.fullPath == '/login';
 
-      if (!loggedIn && !loggingIn) return '/connect'; // force connect/login
+      if (!loggedIn && !loggingIn) {
+        return isEmbeddedMode() ? "/login" : '/connect'; // not logged in, redirect to login
+      }
       if (loggedIn && loggingIn) return '/home'; // already logged in, skip login
 
       if (state.fullPath == '') return '/home';
