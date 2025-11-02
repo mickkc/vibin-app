@@ -30,8 +30,11 @@ class _AccentColorPickerState extends State<AccentColorPicker> {
 
     final theme = Theme.of(context);
 
-    final availableColors = ColorSchemeList.get(widget.colorSchemeKey)
-        .getAccentColors(Theme.brightnessOf(context));
+    final colorScheme = ColorSchemeList.get(widget.colorSchemeKey);
+
+    if (!colorScheme.isSupported()) return const SizedBox.shrink();
+
+    final availableColors = colorScheme.getAccentColors(Theme.brightnessOf(context));
 
     return Wrap(
       spacing: 8.0,
