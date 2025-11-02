@@ -16,11 +16,20 @@ class RecommendedStartSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final apiManager = getIt<ApiManager>();
     final recommended = apiManager.service.getTopListenedNonTrackItems(8, -1);
+    final welcomeMessage = apiManager.service.getWelcomeMessage();
 
     return Column(
       spacing: 8,
       children: [
-        SectionHeader(title: AppLocalizations.of(context)!.welcome_message),
+        FutureContent(
+          future: welcomeMessage,
+          builder: (context, message) {
+            return SectionHeader(
+              title: message.isNotEmpty ? message : AppLocalizations.of(context)!.welcome_message,
+              maxLines: 3,
+            );
+          }
+        ),
         FutureContent(
           future: recommended,
           hasData: (d) => d.isNotEmpty,

@@ -65,21 +65,25 @@ class _StringListSettingState extends State<StringListSetting> {
           itemCount: _value.length,
           itemBuilder: (context, index) {
             final item = _value[index];
-            return ListTile(
-              title: widget.itemBuilder != null
-                  ? widget.itemBuilder!(context, item)
-                  : Text(item),
-              trailing: IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () async {
-                  setState(() {
-                    _value.removeAt(index);
-                  });
-                  await _save();
-                  if (widget.onChanged != null) {
-                    widget.onChanged!(_value);
-                  }
-                },
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: ListTile(
+                title: widget.itemBuilder != null
+                    ? widget.itemBuilder!(context, item)
+                    : Text(item),
+                tileColor: Theme.of(context).colorScheme.surfaceContainerLow,
+                trailing: IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () async {
+                    setState(() {
+                      _value.removeAt(index);
+                    });
+                    await _save();
+                    if (widget.onChanged != null) {
+                      widget.onChanged!(_value);
+                    }
+                  },
+                ),
               ),
             );
           },

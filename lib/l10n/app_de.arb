@@ -429,6 +429,11 @@
   "settings_server_uploads_path_template_title": "Uploads-Pfad-Template",
   "settings_server_uploads_path_template_description": "Template für den Pfad, in dem hochgeladene Dateien gespeichert werden. Verfügbare Platzhalter: '{uploaderId}', '{album}', '{title}', '{artist}', '{name}', '{ext}' (Dateiendung), '{sep}' (Dateisystem-Trennzeichen). Der Pfad muss relativ zum Musikverzeichnis der Instanz sein.",
 
+  "settings_server_misc_title": "Sonstiges",
+
+  "settings_server_welcome_messages_title": "Begrüßungsnachrichten",
+  "settings_server_welcome_messages_description": "Eine Liste von Nachrichten, die Benutzern auf der Startseite angezeigt werden. Eine zufällige Nachricht wird bei jedem Laden der Seite ausgewählt.",
+
 
   "permissions_change_server_settings": "Server-Einstellungen ändern",
   "permissions_change_own_settings": "Eigene Einstellungen ändern",

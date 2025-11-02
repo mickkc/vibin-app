@@ -7,11 +7,13 @@ class SectionHeader extends StatelessWidget {
 
   final String? viewAllRoute;
   final String title;
+  final int? maxLines;
 
   const SectionHeader({
     super.key,
     required this.title,
-    this.viewAllRoute
+    this.viewAllRoute,
+    this.maxLines = 1,
   });
 
   @override
@@ -24,7 +26,7 @@ class SectionHeader extends StatelessWidget {
           child: Text(
             title,
             style: Theme.of(context).textTheme.headlineSmall,
-            maxLines: 1,
+            maxLines: maxLines,
             overflow: TextOverflow.ellipsis,
           ),
         ),

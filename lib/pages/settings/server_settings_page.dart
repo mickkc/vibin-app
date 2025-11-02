@@ -129,6 +129,17 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
               description: _lm.settings_server_uploads_path_template_description,
               icon: Icons.upload_file,
             ),
+
+            const Divider(),
+
+            SettingsTitle(title: _lm.settings_server_misc_title),
+
+            StringListSetting(
+              settingKey: "welcome_texts",
+              initialValue: settings.settings["welcome_texts"],
+              title: _lm.settings_server_welcome_messages_title,
+              description: _lm.settings_server_welcome_messages_description,
+            ),
           ],
         );
       }

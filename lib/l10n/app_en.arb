@@ -429,6 +429,11 @@
   "settings_server_uploads_path_template_title": "Uploads Path Template",
   "settings_server_uploads_path_template_description": "Template for the path where uploaded files are stored. Available placeholders: '{uploaderId}', '{album}', '{title}', '{artist}', '{name}', '{ext}' (file extension), '{sep}' (file system separator). The path must be relative to the music directory of the instance.",
 
+  "settings_server_misc_title": "Miscellaneous",
+
+  "settings_server_welcome_messages_title": "Welcome Messages",
+  "settings_server_welcome_messages_description": "Configure welcome messages displayed to users on the home screen. A random message will be shown each time.",
+
 
   "permissions_change_server_settings": "Change Server Settings",
   "permissions_change_own_settings": "Change Own Settings",

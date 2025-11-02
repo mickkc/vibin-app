@@ -382,4 +382,9 @@ abstract class ApiService {
 
   @GET("/api/users/username/{username}/exists")
   Future<Success> checkUsernameExists(@Path("username") String username);
+
+  // Miscellaneous
+
+  @GET("/api/misc/welcome")
+  Future<String> getWelcomeMessage();
 }
