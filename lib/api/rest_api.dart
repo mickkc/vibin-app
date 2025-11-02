@@ -25,6 +25,8 @@ import 'package:vibin_app/dtos/playlist/playlist_data.dart';
 import 'package:vibin_app/dtos/playlist/playlist_edit_data.dart';
 import 'package:vibin_app/dtos/server_check.dart';
 import 'package:vibin_app/dtos/sessions/sessions_response.dart';
+import 'package:vibin_app/dtos/settings/setting_key_value.dart';
+import 'package:vibin_app/dtos/settings/settings_map.dart';
 import 'package:vibin_app/dtos/success.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/dtos/tags/tag_edit_data.dart';
@@ -206,6 +208,14 @@ abstract class ApiService {
 
   @GET("/api/playlists/containing/{trackId}")
   Future<List<Playlist>> getPlaylistsContainingTrack(@Path("trackId") int trackId);
+
+  // Settings
+
+  @GET("/api/settings/server")
+  Future<SettingsMap> getServerSettings();
+
+  @PUT("/api/settings/server/{key}")
+  Future<SettingKeyValue> updateServerSetting(@Path("key") String key, @Body() String value);
 
   // Statistics
 

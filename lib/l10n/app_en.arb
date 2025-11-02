@@ -1,6 +1,6 @@
 {
-  "app_name": "Vibin'",
-  "welcome_message": "Welcome to Vibin'!",
+  "app_name": "Vibin''",
+  "welcome_message": "Welcome to Vibin''!",
 
   "artist": "Artist",
   "artists": "Artists",
@@ -19,6 +19,8 @@
   "lyrics_s": "Lyric",
   "lyrics_p": "Lyrics",
 
+  "add_item": "Add Item",
+
   "datetime_format_full": "yyyy-MM-dd HH:mm",
   "datetime_format_date": "yyyy-MM-dd",
   "datetime_format_time": "HH:mm",
@@ -30,14 +32,14 @@
   "autologin_quit": "Quit",
 
   "connect_title": "Connect",
-  "connect_description": "Connect to your Vibin' instance.",
+  "connect_description": "Connect to your Vibin'' instance.",
   "connect_label_instance": "Instance URL",
   "connect_placeholder_instance": "http://localhost:8080",
   "connect_button_connect": "Connect",
   "connect_error": "Could not connect to the instance. Please check the URL and your internet connection.",
 
   "login_title": "Login",
-  "login_description": "Log in to your Vibin' instance.",
+  "login_description": "Log in to your Vibin'' instance.",
   "login_placeholder_username": "Username",
   "login_placeholder_password": "Password",
   "login_button_login": "Log In",
@@ -56,7 +58,7 @@
   "section_view_all": "View all",
   "section_no_data": "No data available",
 
-  "drawer_title": "Vibin'",
+  "drawer_title": "Vibin''",
   "drawer_home": "Home",
   "drawer_search": "Search",
   "drawer_profile": "Profile",
@@ -350,7 +352,7 @@
   "settings_app_manage_sessions_description": "View and manage all active sessions for your user account on this server.",
 
   "settings_app_enable_linux_dbus_integration_title": "Linux D-Bus Integration",
-  "settings_app_enable_linux_dbus_integration_description": "Allow Vibin' to integrate with Linux desktop environments that support MPRIS (e.g., for media controls and displaying track info). App restart required.",
+  "settings_app_enable_linux_dbus_integration_description": "Allow Vibin'' to integrate with Linux desktop environments that support MPRIS (e.g., for media controls and displaying track info). App restart required.",
 
   "settings_app_embed_images_as_base64_title": "Embed Images as Base64",
   "settings_app_embed_images_as_base64_description": "When enabled, images in metadata will be embedded as Base64 strings instead of being loaded from URLs. This may improve compatibility but can increase memory usage.",
@@ -390,6 +392,42 @@
   "settings_sessions_copy_token": "Copy Token to Clipboard",
   "settings_sessions_token_copied": "The session token has been copied to the clipboard.",
   "settings_sessions_revoke_failed": "An error occurred while revoking the session.",
+
+
+  "settings_server_update_error": "An error occurred while updating server settings.",
+
+  "settings_server_artist_seperator_title": "Artist Separator",
+  "settings_server_artist_seperator_description": "Characters used to separate multiple artists in track metadata. (spaces are represented as '␣' in the list, please use actual spaces when editing)",
+
+  "settings_server_metadata_title": "Metadata Settings",
+
+  "settings_server_metadata_language_title": "Metadata Language",
+  "settings_server_metadata_language_description": "Preferred language for fetching metadata from the internet. Some providers may not support all languages.",
+
+  "settings_server_spotify_client_id_title": "Spotify Client ID",
+  "settings_server_spotify_client_id_description": "Client ID for the Spotify API. Necessary to fetch metadata from Spotify.",
+
+  "settings_server_spotify_client_secret_title": "Spotify Client Secret",
+  "settings_server_spotify_client_secret_description": "Client Secret for the Spotify API. Necessary to fetch metadata from Spotify.",
+
+  "settings_server_parsing_title": "Parsing Settings",
+
+  "settings_server_lyrics_path_template_title": "Lyrics Path Template",
+  "settings_server_lyrics_path_template_description": "Template for the file path where lyrics are loaded from. Available variables: '{artist}', '{album}', '{title}', '{parentPath}', '{name}', '{ext}' (file extension), '{sep}' (file system separator).",
+
+  "settings_server_primary_metadata_source_title": "Primary Metadata Source",
+  "settings_server_primary_metadata_source_description": "Select the primary source for metadata used when parsing music files.",
+
+  "settings_server_secondary_metadata_source_title": "Secondary Metadata Source",
+  "settings_server_secondary_metadata_source_description": "Select the secondary source for metadata used when parsing music files in case the primary source does not provide sufficient data.",
+
+  "settings_server_genre_as_tags_title": "Use Genres as Tags",
+  "settings_server_genre_as_tags_description": "When enabled, genres from metadata will be automatically added as tags to tracks.",
+
+  "settings_server_uploads_title": "Uploads",
+
+  "settings_server_uploads_path_template_title": "Uploads Path Template",
+  "settings_server_uploads_path_template_description": "Template for the path where uploaded files are stored. Available placeholders: '{uploaderId}', '{album}', '{title}', '{artist}', '{name}', '{ext}' (file extension), '{sep}' (file system separator). The path must be relative to the music directory of the instance.",
 
 
   "permissions_change_server_settings": "Change Server Settings",

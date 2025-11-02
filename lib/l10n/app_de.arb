@@ -1,6 +1,6 @@
 {
-  "app_name": "Vibin'",
-  "welcome_message": "Willkommen bei Vibin'!",
+  "app_name": "Vibin''",
+  "welcome_message": "Willkommen bei Vibin''!",
 
   "artist": "Künstler",
   "artists": "Künstler",
@@ -19,6 +19,8 @@
   "lyrics_s": "Liedtext",
   "lyrics_p": "Liedtexte",
 
+  "add_item": "Element hinzufügen",
+
   "datetime_format_full": "dd.MM.yyyy HH:mm",
   "datetime_format_date": "dd.MM.yyyy",
   "datetime_format_time": "HH:mm",
@@ -30,14 +32,14 @@
   "autologin_quit": "Beenden",
 
   "connect_title": "Verbinden",
-  "connect_description": "Verbinde dich mit deiner Vibin'-Instanz.",
+  "connect_description": "Verbinde dich mit deiner Vibin''-Instanz.",
   "connect_label_instance": "Instanz-URL",
   "connect_placeholder_instance": "http://localhost:8080",
   "connect_button_connect": "Verbinden",
   "connect_error": "Die Verbindung zur Instanz konnte nicht hergestellt werden. Bitte überprüfe die URL und deine Internetverbindung.",
 
   "login_title": "Anmelden",
-  "login_description": "Melde dich bei deiner Vibin'-Instanz an.",
+  "login_description": "Melde dich bei deiner Vibin''-Instanz an.",
   "login_placeholder_username": "Benutzername",
   "login_placeholder_password": "Passwort",
   "login_button_login": "Anmelden",
@@ -56,7 +58,7 @@
   "section_view_all": "Alle anzeigen",
   "section_no_data": "Keine Daten verfügbar",
 
-  "drawer_title": "Vibin'",
+  "drawer_title": "Vibin''",
   "drawer_home": "Startseite",
   "drawer_search": "Suche",
   "drawer_uploads": "Uploads",
@@ -286,12 +288,12 @@
 
   "pick_artists_title": "Künstler auswählen",
   "pick_artist_title": "Künstler auswählen",
-  "pick_artist_create_new": "Neuen Künstler '{name}' erstellen",
+  "pick_artist_create_new": "Neuen Künstler ''{name}'' erstellen",
   "pick_artist_new": "neu",
   "pick_artist_create_error": "Beim Erstellen des Künstlers ist ein Fehler aufgetreten.",
 
   "pick_album_title": "Album auswählen",
-  "pick_album_create_new": "Neues Album '{name}' erstellen",
+  "pick_album_create_new": "Neues Album ''{name}'' erstellen",
   "pick_album_create_error": "Beim Erstellen des Albums ist ein Fehler aufgetreten.",
 
 
@@ -391,6 +393,42 @@
   "settings_sessions_copy_token": "Token in die Zwischenablage kopieren",
   "settings_sessions_token_copied": "Der Sitzungstoken wurde in die Zwischenablage kopiert.",
   "settings_sessions_revoke_failed": "Fehler beim Beenden der Sitzung.",
+
+  "settings_server_update_error": "Beim Aktualisieren der Server-Einstellungen ist ein Fehler aufgetreten.",
+
+  "settings_server_artist_seperator_title": "Künstler-Trennzeichen",
+  "settings_server_artist_seperator_description": "Trennzeichen, die verwendet werden, um mehrere Künstler in den Metadaten eines Titels zu trennen. (Leerzeichen werden in der Liste als '␣' dargestellt, beim Eingeben einfach ein Leerzeichen verwenden.)",
+
+  "settings_server_metadata_title": "Metadaten",
+
+  "settings_server_metadata_language_title": "Bevorzugte Metadaten-Sprache",
+  "settings_server_metadata_language_description": "Bevorzugte Sprache für Metadaten, die von Anbietern abgerufen werden. Einige Anbieter unterstützen möglicherweise keine Sprachwahl.",
+
+  "settings_server_spotify_client_id_title": "Spotify Client ID",
+  "settings_server_spotify_client_id_description": "Client ID für die Spotify API. Notwendig, um Metadaten von Spotify abzurufen.",
+
+  "settings_server_spotify_client_secret_title": "Spotify Client Secret",
+  "settings_server_spotify_client_secret_description": "Client Secret für die Spotify API. Notwendig, um Metadaten von Spotify abzurufen.",
+
+  "settings_server_parsing_title": "Datei-Parsing",
+
+  "settings_server_lyrics_path_template_title": "Liedtext-Pfad-Template",
+  "settings_server_lyrics_path_template_description": "Template für den Pfad, in dem Liedtexte gesucht werden. Verfügbare Platzhalter: '{artist}', '{album}', '{title}', '{parentPath}', '{name}', '{ext}' (Dateiendung), '{sep}' (Dateisystem-Trennzeichen).",
+
+  "settings_server_primary_metadata_source_title": "Primäre Metadaten-Quelle",
+  "settings_server_primary_metadata_source_description": "Wähle die primäre Quelle für Metadaten aus, die beim Parsen von Musikdateien verwendet wird.",
+
+  "settings_server_secondary_metadata_source_title": "Sekundäre Metadaten-Quelle",
+  "settings_server_secondary_metadata_source_description": "Wähle die sekundäre Quelle für Metadaten aus, die beim Parsen von Musikdateien verwendet wird, falls die primäre Quelle keine Metadaten liefert.",
+
+  "settings_server_genre_as_tags_title": "Genres als Tags hinzufügen",
+  "settings_server_genre_as_tags_description": "Wenn aktiviert, werden Genres aus den Metadaten als Tags zu Titeln hinzugefügt.",
+
+  "settings_server_uploads_title": "Uploads",
+
+  "settings_server_uploads_path_template_title": "Uploads-Pfad-Template",
+  "settings_server_uploads_path_template_description": "Template für den Pfad, in dem hochgeladene Dateien gespeichert werden. Verfügbare Platzhalter: '{uploaderId}', '{album}', '{title}', '{artist}', '{name}', '{ext}' (Dateiendung), '{sep}' (Dateisystem-Trennzeichen). Der Pfad muss relativ zum Musikverzeichnis der Instanz sein.",
+
 
   "permissions_change_server_settings": "Server-Einstellungen ändern",
   "permissions_change_own_settings": "Eigene Einstellungen ändern",
