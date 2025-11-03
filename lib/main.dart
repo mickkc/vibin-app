@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:just_audio_media_kit/just_audio_media_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -49,6 +50,7 @@ void main() async {
   authState.autoLoginResult = autoLoginResult;
 
   setUrlStrategy(PathUrlStrategy());
+  GoRouter.optionURLReflectsImperativeAPIs = true;
 
   runApp(
     ChangeNotifierProvider(
