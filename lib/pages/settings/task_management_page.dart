@@ -52,7 +52,7 @@ class _TaskManagementPageState extends State<TaskManagementPage> {
     }
     catch (e) {
       log("An error occurred while running task: $e", error: e, level: Level.error.value);
-      if (context.mounted) showSnackBar(context, _lm.settings_task_run_now_failed);
+      if (mounted) showSnackBar(context, _lm.settings_task_run_now_failed);
     }
   }
 

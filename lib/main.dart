@@ -4,6 +4,7 @@ import 'package:dbus/dbus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:just_audio_media_kit/just_audio_media_kit.dart';
@@ -18,7 +19,6 @@ import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/themes/color_scheme_list.dart';
 import 'package:vibin_app/widgets/settings/theme_settings.dart';
-import 'package:flutter_web_plugins/url_strategy.dart';
 
 import 'api/api_manager.dart';
 import 'auth/auth_state.dart';

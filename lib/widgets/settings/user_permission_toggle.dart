@@ -54,7 +54,7 @@ class _UserPermissionToggleState extends State<UserPermissionToggle> {
     }
     catch (e) {
       log("An error occurred while changing permissions: $e", error: e, level: Level.error.value);
-      if (context.mounted) showErrorDialog(context, _lm.permissions_change_error);
+      if (mounted) showErrorDialog(context, _lm.permissions_change_error);
     }
   }
 

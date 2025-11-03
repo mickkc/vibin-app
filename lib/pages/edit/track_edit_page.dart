@@ -204,7 +204,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
             }
             catch (e) {
               log("Error applying metadata: $e", error: e, level: Level.error.value);
-              if (mounted) showErrorDialog(context, _lm.edit_track_apply_metadata_error);
+              if (context.mounted) showErrorDialog(context, _lm.edit_track_apply_metadata_error);
             }
             finally {
               _loadingOverlay.hide();
@@ -338,7 +338,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
             imageUrl: _imageUrl,
             onImageChanged: (imageUrl) {
               setState(() {
-                this._imageUrl = imageUrl;
+                _imageUrl = imageUrl;
               });
             },
             fallbackImageUrl: "/api/tracks/${widget.trackId}/cover",

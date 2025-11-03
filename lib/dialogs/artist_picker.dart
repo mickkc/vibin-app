@@ -88,7 +88,7 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
   @override
   Widget build(BuildContext context) {
     final lm = AppLocalizations.of(context)!;
-    final _width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.of(context).size.width;
 
     return AlertDialog(
       constraints: BoxConstraints(
@@ -154,7 +154,7 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
           if (_searchResults != null) ... [
             Expanded(
               child: SizedBox(
-                width: _width > 600 ? 600 : _width * 0.9,
+                width: width > 600 ? 600 : width * 0.9,
                 child: ListView(
                   children: _searchResults!.items.map<Widget>((artist) {
                     final contains = _selectedArtists.any((a) => a.id == artist.id);
