@@ -427,7 +427,7 @@
   "settings_server_uploads_title": "Uploads",
 
   "settings_server_uploads_path_template_title": "Uploads-Pfad-Template",
-  "settings_server_uploads_path_template_description": "Template für den Pfad, in dem hochgeladene Dateien gespeichert werden. Verfügbare Platzhalter: '{uploaderId}', '{album}', '{title}', '{artist}', '{name}', '{ext}' (Dateiendung), '{sep}' (Dateisystem-Trennzeichen). Der Pfad muss relativ zum Musikverzeichnis der Instanz sein.",
+  "settings_server_uploads_path_template_description": "Template für den Pfad, in dem hochgeladene Dateien gespeichert werden. Verfügbare Platzhalter: '{uploaderId}', '{album}', '{title}', '{artist}', '{name}', '{ext}' (Dateiendung), '{sep}' (Dateisystem-Trennzeichen). Der Pfad muss relativ zum Musikverzeichnis der Instanz sein. (Wird nur für neue Uploads verwendet.)",
 
   "settings_server_misc_title": "Sonstiges",
 

@@ -427,7 +427,7 @@
   "settings_server_uploads_title": "Uploads",
 
   "settings_server_uploads_path_template_title": "Uploads Path Template",
-  "settings_server_uploads_path_template_description": "Template for the path where uploaded files are stored. Available placeholders: '{uploaderId}', '{album}', '{title}', '{artist}', '{name}', '{ext}' (file extension), '{sep}' (file system separator). The path must be relative to the music directory of the instance.",
+  "settings_server_uploads_path_template_description": "Template for the path where uploaded files are stored. Available placeholders: '{uploaderId}', '{album}', '{title}', '{artist}', '{name}', '{ext}' (file extension), '{sep}' (file system separator). The path must be relative to the music directory of the instance. (Only applied to new uploads)",
 
   "settings_server_misc_title": "Miscellaneous",
 

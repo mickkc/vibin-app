@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
@@ -47,20 +46,29 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
 
   late final _audioManager = getIt<AudioManager>();
 
-  late int? _currentIndex = _audioManager.audioPlayer.currentIndex;
+  late MediaItem? _currentItem = _audioManager.getCurrentMediaItem();
   late bool _isPlaying = _audioManager.isPlaying;
 
   late final StreamSubscription _sequenceSubscription;
+  late final StreamSubscription _currentItemSubscription;
   late final StreamSubscription _playingSubscription;
-  late List<IndexedAudioSource> _sequence = _audioManager.sequence;
+  late List<MediaItem> _sequence = _audioManager.getSequence();
 
   _NowPlayingQueueState() {
-    _sequenceSubscription = _audioManager.audioPlayer.sequenceStateStream.listen((event) {
+    _sequenceSubscription = _audioManager.sequenceStream.listen((event) {
       if (!mounted) return;
-      if (event.currentIndex == _currentIndex) return;
+      if (event == _sequence) return;
       setState(() {
-        _currentIndex = _audioManager.audioPlayer.currentIndex;
-        _sequence = _audioManager.sequence;
+        _currentItem = _audioManager.getCurrentMediaItem();
+        _sequence = event;
+      });
+    });
+
+    _currentItemSubscription = _audioManager.currentMediaItemStream.listen((event) {
+      if (!mounted) return;
+      if (event == _currentItem) return;
+      setState(() {
+        _currentItem = event;
       });
     });
 
@@ -77,6 +85,7 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
   void dispose() {
     _sequenceSubscription.cancel();
     _playingSubscription.cancel();
+    _currentItemSubscription.cancel();
     super.dispose();
   }
 
@@ -93,14 +102,10 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
             buildDefaultDragHandles: false,
             itemCount: _sequence.length,
             itemBuilder: (context, index) {
-              final source = _sequence[index];
-              final tag = source.tag;
-              if (tag is! MediaItem) {
-                return const SizedBox.shrink();
-              }
-              final isCurrent = _currentIndex == index;
+              final item = _sequence[index];
+              final isCurrent = _currentItem?.id == item.id;
               return Dismissible(
-                key: ValueKey(source.tag),
+                key: ValueKey(item.id),
                 direction: DismissDirection.endToStart,
                 background: Container(
                   color: Theme.of(context).colorScheme.error,
@@ -110,18 +115,15 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
                 ),
                 onDismissed: (direction) {
                   _audioManager.removeQueueItemAt(index);
-                  setState(() {
-                    if (_sequence.isNotEmpty) _sequence.removeAt(index);
-                  });
                 },
                 child: ListTile(
                   leading: NetworkImageWidget(
-                    url: tag.artUri.toString(),
+                    url: "/api/tracks/${item.id}/cover?quality=small",
                     width: 48,
                     height: 48
                   ),
-                  title: Text(tag.title, maxLines: 1),
-                  subtitle: Text(tag.artist ?? '', maxLines: 1),
+                  title: Text(item.title, maxLines: 1),
+                  subtitle: Text(item.artist ?? '', maxLines: 1),
                   trailing: ReorderableDragStartListener(
                     index: index,
                     child: isCurrent ? AnimatedSpectogramIcon(

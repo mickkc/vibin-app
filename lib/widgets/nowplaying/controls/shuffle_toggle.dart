@@ -20,9 +20,9 @@ class ShuffleToggle extends StatelessWidget {
     final audioManager = getIt<AudioManager>();
 
     return StreamBuilder(
-      stream: audioManager.audioPlayer.shuffleModeEnabledStream,
+      stream: audioManager.shuffleModeStream,
       builder: (context, snapshot) {
-        final enabled = snapshot.data ?? false;
+        final enabled = snapshot.data ?? audioManager.isShuffling;
         return IconButton(
           onPressed: audioManager.toggleShuffle,
           icon: Icon(

@@ -21,9 +21,9 @@ class RepeatToggle extends StatelessWidget {
     final th = Theme.of(context);
 
     return StreamBuilder(
-      stream: audioManager.audioPlayer.loopModeStream,
+      stream: audioManager.loopModeStream,
       builder: (context, snapshot) {
-        final mode = snapshot.data ?? LoopMode.off;
+        final mode = snapshot.data ?? audioManager.loopMode;
         return IconButton(
           onPressed: audioManager.toggleRepeat,
           icon: switch (mode) {

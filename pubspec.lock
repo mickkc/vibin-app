@@ -552,11 +552,10 @@ packages:
   just_audio_media_kit:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "feat/queue-shuffle"
-      resolved-ref: "556ba101d10bcf3e5c22815f4078c73e035ca974"
-      url: "https://github.com/Pato05/just_audio_media_kit"
-    source: git
+      name: just_audio_media_kit
+      sha256: f3cf04c3a50339709e87e90b4e841eef4364ab4be2bdbac0c54cc48679f84d23
+      url: "https://pub.dev"
+    source: hosted
     version: "2.1.0"
   just_audio_platform_interface:
     dependency: transitive
