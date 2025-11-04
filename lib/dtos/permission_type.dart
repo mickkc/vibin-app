@@ -1,6 +1,7 @@
 enum PermissionType {
 
   changeServerSettings("change_server_settings"),
+  changeOwnUserSettings("change_own_user_settings"),
   managePermissions("manage_permissions"),
 
   viewTracks("view_tracks"),

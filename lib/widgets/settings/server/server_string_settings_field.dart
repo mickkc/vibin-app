@@ -40,7 +40,7 @@ class _ServerStringSettingsFieldState extends State<ServerStringSettingsField> {
 
   Future<void> _save() async {
     try {
-      final updated = await _apiManager.service.updateServerSetting(widget.settingKey, _controller.text);
+      final updated = await _apiManager.service.updateSetting(widget.settingKey, _controller.text);
       setState(() {
         _controller.text = updated.value as String;
         _lastSavedValue = _controller.text;

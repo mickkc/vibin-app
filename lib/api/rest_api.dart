@@ -126,6 +126,9 @@ abstract class ApiService {
   @GET("/api/artists/{id}")
   Future<Artist> getArtist(@Path("id") int id);
 
+  @GET("/api/artists/ids")
+  Future<List<Artist>> getArtistsByIds(@Query("ids") String ids);
+
   @DELETE("/api/artists/{id}")
   @DioResponseType(ResponseType.bytes)
   Future<HttpResponse<List<int>>> deleteArtist(@Path("id") int id);
@@ -214,8 +217,11 @@ abstract class ApiService {
   @GET("/api/settings/server")
   Future<SettingsMap> getServerSettings();
 
-  @PUT("/api/settings/server/{key}")
-  Future<SettingKeyValue> updateServerSetting(@Path("key") String key, @Body() String value);
+  @GET("/api/settings/user")
+  Future<SettingsMap> getUserSettings();
+
+  @PUT("/api/settings/{key}")
+  Future<SettingKeyValue> updateSetting(@Path("key") String key, @Body() String value);
 
   // Statistics
 
@@ -265,6 +271,9 @@ abstract class ApiService {
 
   @PUT("/api/tags/{id}")
   Future<Tag> updateTag(@Path("id") int id, @Body() TagEditData data);
+
+  @GET("/api/tags/ids")
+  Future<List<Tag>> getTagsByIds(@Query("ids") String ids);
 
   @POST("/api/tags")
   Future<Tag> createTag(@Body() TagEditData data);

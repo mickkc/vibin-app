@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
+import 'package:vibin_app/pages/settings/app_user_settings_view.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/settings/accent_color_picker.dart';
@@ -118,7 +119,7 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
             },
           ),
 
-          Divider(),
+          const Divider(),
 
           SettingsTitle(
             title: _lm.settings_app_behavior_title,
@@ -154,15 +155,21 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
             icon: Icons.library_music
           ),
 
-          Divider(),
+          const Divider(),
 
           HomepageSectionsList(),
 
-          Divider(),
+          const Divider(),
 
           PreferredMetadataPickers(),
 
-          Divider(),
+
+          if (_authState.hasPermission(PermissionType.changeOwnUserSettings)) ... [
+            const Divider(),
+            const AppUserSettingsView(),
+          ],
+
+          const Divider(),
 
           SettingsTitle(
             title: _lm.settings_app_advanced_title,

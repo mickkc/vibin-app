@@ -371,6 +371,21 @@
   "settings_app_manage_tasks_title": "Hintergrundaufgaben verwalten",
   "settings_app_manage_tasks_description": "Verwalte Aufgaben, die auf dem Server im Hintergrund ausgeführt werden.",
 
+
+  "settings_app_content_title": "Inhalt",
+  "settings_app_content_description": "Passe an, welche Inhalte in der App angezeigt werden sollen. Diese Einstellungen werden zwischen Geräten synchronisiert.",
+
+  "settings_app_show_activity_on_profile_title": "Aktivität im Profil anzeigen",
+  "settings_app_show_activity_on_profile_description": "Zuletzt abgespielte Titel und Top-Titel sowie -künstler im Profil anzeigen.",
+
+  "settings_app_blocked_artists_title": "Blockierte Künstler",
+  "settings_app_blocked_artists_description": "Verwalte die Liste der Künstler, die du blockiert hast. Titel von blockierten Künstlern werden in Übersichten und Suchergebnissen ausgeblendet.",
+
+  "settings_app_blocked_tags_title": "Blockierte Tags",
+  "settings_app_blocked_tags_description": "Verwalte die Liste der Tags, die du blockiert hast. Titel mit blockierten Tags werden in Übersichten und Suchergebnissen ausgeblendet.",
+
+  "settings_app_save_changes_error": "Beim Speichern der App-Einstellungen ist ein Fehler aufgetreten.",
+
   "settings_task_fetch_error": "Beim Laden der Aufgaben ist ein Fehler aufgetreten.",
 
   "settings_task_last_run": "Letzte Ausführung:",

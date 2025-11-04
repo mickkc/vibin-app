@@ -37,7 +37,7 @@ class _ServerStringDropdownFieldState extends State<ServerStringDropdownField> {
 
   Future<void> _save() async {
     try {
-      final updated = await _apiManager.service.updateServerSetting(widget.settingKey, _currentValue);
+      final updated = await _apiManager.service.updateSetting(widget.settingKey, _currentValue);
       setState(() {
         _currentValue = updated.value as String;
       });

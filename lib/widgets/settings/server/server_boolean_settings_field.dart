@@ -36,7 +36,7 @@ class _ServerBooleanSettingsFieldState extends State<ServerBooleanSettingsField>
 
   Future<void> _save() async {
     try {
-      final updated = await _apiManager.service.updateServerSetting(widget.settingKey, _currentValue.toString());
+      final updated = await _apiManager.service.updateSetting(widget.settingKey, _currentValue.toString());
       setState(() {
         _currentValue = updated.value as bool;
       });

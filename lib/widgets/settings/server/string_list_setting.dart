@@ -42,7 +42,7 @@ class _StringListSettingState extends State<StringListSetting> {
 
   Future<void> _save() async {
     try {
-      final updated = await _apiManager.service.updateServerSetting(widget.settingKey, jsonEncode(_value));
+      final updated = await _apiManager.service.updateSetting(widget.settingKey, jsonEncode(_value));
       _value = (updated.value as List<dynamic>).map((e) => e as String).toList();
     }
     catch (e, st) {

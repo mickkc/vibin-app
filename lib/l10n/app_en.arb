@@ -370,6 +370,22 @@
   "settings_app_manage_tasks_title": "Background Task Management",
   "settings_app_manage_tasks_description": "View and manage all background tasks currently running on the server.",
 
+  "settings_app_content_title": "Content Settings",
+  "settings_app_content_description": "Select which content to display in the app. These settings are synced with your user account and will apply across all devices.",
+
+  "settings_app_show_activity_on_profile_title": "Show Activity on Profile",
+  "settings_app_show_activity_on_profile_description": "When enabled, your recently played tracks, top tracks, and top artists will be visible on your user profile to other users.",
+
+  "settings_app_blocked_artists_title": "Blocked Artists",
+  "settings_app_blocked_artists_description": "Manage the list of artists you have blocked. Tracks from blocked artists will be hidden in overviews and search results.",
+
+  "settings_app_blocked_tags_title": "Blocked Tags",
+  "settings_app_blocked_tags_description": "Manage the list of tags you have blocked. Tracks with blocked tags will be hidden in overviews and search results.",
+
+  "settings_app_save_changes_error": "An error occurred while saving app settings.",
+
+
+
   "settings_task_fetch_error": "An error occurred while fetching tasks.",
 
   "settings_task_last_run": "Last Execution:",
