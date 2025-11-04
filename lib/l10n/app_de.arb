@@ -147,6 +147,9 @@
   "dialog_delete": "Löschen",
   "dialog_yes": "Ja",
   "dialog_no": "Nein",
+  "dialog_close": "Schließen",
+  "dialog_share": "Teilen",
+  "dialog_copy": "Kopieren",
 
   "edit_album_title": "Album bearbeiten",
   "edit_album_name": "Albumname",

@@ -11,6 +11,7 @@ import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
 
 import '../dtos/permission_type.dart';
+import '../utils/error_handler.dart';
 
 class TagEditDialog extends StatefulWidget {
   final int? tagId;
@@ -100,9 +101,9 @@ class _TagEditDialogState extends State<TagEditDialog> {
       widget.onSave(tag);
       if (mounted) Navigator.pop(context);
     }
-    catch (e) {
+    catch (e, st) {
       log("An error occurred while saving the tag: $e", error: e, level: Level.error.value);
-      if (mounted) showErrorDialog(context, _lm.edit_tag_save_error);
+      if (mounted) ErrorHandler.showErrorDialog(context, _lm.edit_tag_save_error, error: e, stackTrace: st);
     }
   }
 
@@ -127,7 +128,7 @@ class _TagEditDialogState extends State<TagEditDialog> {
       if (success) {
         if (mounted && context.mounted) Navigator.pop(context);
       } else {
-        if (mounted && context.mounted) showErrorDialog(context, _lm.edit_tag_delete_error);
+        if (mounted && context.mounted) ErrorHandler.showErrorDialog(context, _lm.edit_tag_delete_error);
       }
     }
   }

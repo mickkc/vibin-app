@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:vibin_app/extensions.dart';
+import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/widgets/settings/settings_title.dart';
 
 import '../../../api/api_manager.dart';
@@ -45,9 +45,9 @@ class _StringListSettingState extends State<StringListSetting> {
       final updated = await _apiManager.service.updateServerSetting(widget.settingKey, jsonEncode(_value));
       _value = (updated.value as List<dynamic>).map((e) => e as String).toList();
     }
-    catch (e) {
+    catch (e, st) {
       log("Failed to save setting ${widget.settingKey}: $e", error: e, level: Level.error.value);
-      if (mounted) showErrorDialog(context, _lm.settings_server_update_error);
+      if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_server_update_error, error: e, stackTrace: st);
     }
   }
 

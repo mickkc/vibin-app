@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
-import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/utils/permission_translator.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -52,9 +52,9 @@ class _UserPermissionToggleState extends State<UserPermissionToggle> {
         _hasPermission = result.granted;
       });
     }
-    catch (e) {
+    catch (e, st) {
       log("An error occurred while changing permissions: $e", error: e, level: Level.error.value);
-      if (mounted) showErrorDialog(context, _lm.permissions_change_error);
+      if (mounted) ErrorHandler.showErrorDialog(context, _lm.permissions_change_error, error: e, stackTrace: st);
     }
   }
 

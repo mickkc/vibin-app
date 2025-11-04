@@ -7,10 +7,10 @@ import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/artist/artist_edit_data.dart';
 import 'package:vibin_app/dtos/pagination/artist_pagination.dart';
+import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/pagination_footer.dart';
 
-import '../extensions.dart';
 import '../l10n/app_localizations.dart';
 import '../main.dart';
 
@@ -144,9 +144,9 @@ class _ArtistPickerDialogState extends State<ArtistPickerDialog> {
                 try {
                   final newArtist = await _apiManager.service.createArtist(ArtistEditData(name: _searchController.text));
                   _addArtist(newArtist);
-                } catch (e) {
+                } catch (e, st) {
                   log("An error occurred while creating new artist: $e", error: e, level: Level.error.value);
-                  if (context.mounted) showErrorDialog(context, lm.pick_artist_create_error);
+                  if (context.mounted) ErrorHandler.showErrorDialog(context, lm.pick_artist_create_error, error: e, stackTrace: st);
                 }
               },
             ),

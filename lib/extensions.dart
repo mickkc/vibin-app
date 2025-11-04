@@ -143,27 +143,6 @@ Future<void> showMessageDialog(BuildContext context, String title, String conten
   );
 }
 
-Future<void> showErrorDialog(BuildContext context, String content) async {
-  final lm = AppLocalizations.of(context)!;
-
-  await showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      icon: Icon(Icons.error, size: 48, color: Theme.of(context).colorScheme.error),
-      title: Text(lm.dialog_error),
-      content: Text(content),
-      actions: [
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text(lm.dialog_confirm)
-        )
-      ],
-    )
-  );
-}
-
 Future<void> showInfoDialog(BuildContext context, String content) async {
   final lm = AppLocalizations.of(context)!;
 

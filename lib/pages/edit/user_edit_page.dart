@@ -8,12 +8,12 @@ import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/user/user.dart';
 import 'package:vibin_app/dtos/user/user_edit_data.dart';
 import 'package:vibin_app/sections/section_header.dart';
+import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/widgets/edit/image_edit_field.dart';
 import 'package:vibin_app/widgets/edit/responsive_edit_view.dart';
 
 import '../../api/api_manager.dart';
 import '../../dialogs/delete_user_dialog.dart';
-import '../../extensions.dart';
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 
@@ -68,9 +68,10 @@ class _UserEditPageState extends State<UserEditPage> {
           _isActive = user.isActive;
           _initialUsername = user.username;
         });
-      }).catchError((emailController) {
+      }).catchError((error, st) {
+        log("An error occurred while loading user: $error", error: error, level: Level.error.value);
         if (!mounted) return;
-        showErrorDialog(context, _lm.edit_user_load_error);
+        ErrorHandler.showErrorDialog(context, _lm.edit_user_load_error, error: error, stackTrace: st);
       });
     }
   }
@@ -89,7 +90,7 @@ class _UserEditPageState extends State<UserEditPage> {
 
         if (doesUserNameExist.success) {
           if (!mounted) return;
-          showErrorDialog(context, _lm.edit_user_username_validation_already_exists);
+          ErrorHandler.showErrorDialog(context, _lm.edit_user_username_validation_already_exists);
           return;
         }
       }
@@ -117,10 +118,10 @@ class _UserEditPageState extends State<UserEditPage> {
 
       widget.onSave(savedUser);
     }
-    catch (e) {
+    catch (e, st) {
       log("Failed to save user: $e", error: e, level: Level.error.value);
       if (!mounted) return;
-      showErrorDialog(context, _lm.edit_user_save_error);
+      ErrorHandler.showErrorDialog(context, _lm.edit_user_save_error, error: e, stackTrace: st);
     }
   }
 
@@ -140,10 +141,10 @@ class _UserEditPageState extends State<UserEditPage> {
           if (!mounted) return;
           GoRouter.of(context).replace("/users");
         }
-        catch (e) {
+        catch (e, st) {
           log("Failed to delete user: $e", error: e, level: Level.error.value);
           if (!mounted) return;
-          showErrorDialog(context, _lm.delete_user_error);
+          ErrorHandler.showErrorDialog(context, _lm.delete_user_error, error: e, stackTrace: st);
         }
       }
     );

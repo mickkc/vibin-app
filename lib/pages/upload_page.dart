@@ -10,6 +10,7 @@ import 'package:vibin_app/dtos/uploads/pending_upload.dart';
 import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/pages/edit/track_edit_page.dart';
 import 'package:vibin_app/pages/loading_overlay.dart';
+import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
 import '../api/api_manager.dart';
@@ -47,9 +48,9 @@ class _UploadPageState extends State<UploadPage> {
           _initialized = true;
         });
       })
-      .catchError((e) {
+      .catchError((e, st) {
         log("An error occurred while fetching pending uploads: $e", error: e, level: Level.error.value);
-        if (mounted) showErrorDialog(context, _lm.uploads_fetch_error);
+        if (mounted) ErrorHandler.showErrorDialog(context, _lm.uploads_fetch_error, error: e, stackTrace: st);
         setState(() {
           _initialized = true;
         });
@@ -76,9 +77,9 @@ class _UploadPageState extends State<UploadPage> {
                     }
                   });
                 }
-                catch (e) {
+                catch (e, st) {
                   log("An error occurred while saving pending upload: $e", error: e, level: Level.error.value);
-                  if (context.mounted) showErrorDialog(context, _lm.uploads_edit_save_error);
+                  if (context.mounted) ErrorHandler.showErrorDialog(context, _lm.uploads_edit_save_error, error: e, stackTrace: st);
                 }
               },
             ),
@@ -109,7 +110,7 @@ class _UploadPageState extends State<UploadPage> {
 
           if (fileContentBytes == null) {
             log("File bytes are null for file: ${file.name}", level: Level.error.value);
-            if (mounted) await showErrorDialog(context, _lm.uploads_upload_error(file.name));
+            if (mounted) await ErrorHandler.showErrorDialog(context, _lm.uploads_upload_error(file.name));
             continue;
           }
 
@@ -119,22 +120,19 @@ class _UploadPageState extends State<UploadPage> {
               base64, file.name);
           newPendingUploads.add(pendingUpload);
         }
-        catch (e) {
+        catch (e, st) {
           if (e is DioException) {
             if (e.response?.statusCode == 409 && mounted) {
-              await showErrorDialog(
-                  context, _lm.uploads_upload_error_file_exists);
+              await ErrorHandler.showErrorDialog(context, _lm.uploads_upload_error_file_exists);
             }
             else if (e.response?.statusCode == 400 && mounted) {
-              await showErrorDialog(
-                  context, _lm.uploads_upload_error_invalid_file);
+              await ErrorHandler.showErrorDialog(context, _lm.uploads_upload_error_invalid_file);
             }
             continue;
           }
 
-          log("An error occurred while uploading file: $e", error: e,
-              level: Level.error.value);
-          if (mounted) showErrorDialog(context, _lm.uploads_upload_error(file.name));
+          log("An error occurred while uploading file: $e", error: e, level: Level.error.value);
+          if (mounted) ErrorHandler.showErrorDialog(context, _lm.uploads_upload_error(file.name), error: e, stackTrace: st);
         }
       }
 
@@ -176,16 +174,16 @@ class _UploadPageState extends State<UploadPage> {
       }
       else {
         if (result.didFileAlreadyExist) {
-          if (mounted) showErrorDialog(context, _lm.uploads_apply_failed_file_exists);
+          if (mounted) ErrorHandler.showErrorDialog(context, _lm.uploads_apply_failed_file_exists);
         }
         else {
-          if (mounted) showErrorDialog(context, _lm.uploads_apply_error(upload.title));
+          if (mounted) ErrorHandler.showErrorDialog(context, _lm.uploads_apply_error(upload.title));
         }
       }
     }
-    catch (e) {
+    catch (e, st) {
       log("An error occurred while applying pending upload: $e", error: e, level: Level.error.value);
-      if (mounted) showErrorDialog(context, _lm.uploads_apply_error(upload.title));
+      if (mounted) ErrorHandler.showErrorDialog(context, _lm.uploads_apply_error(upload.title), error: e, stackTrace: st);
     }
     finally {
       _loadingOverlay.hide();
@@ -205,9 +203,9 @@ class _UploadPageState extends State<UploadPage> {
       });
       if (mounted) showSnackBar(context, _lm.uploads_delete_success);
     }
-    catch (e) {
+    catch (e, st) {
       log("An error occurred while deleting pending upload: $e", error: e, level: Level.error.value);
-      if (mounted) showErrorDialog(context, _lm.uploads_delete_error);
+      if (mounted) ErrorHandler.showErrorDialog(context, _lm.uploads_delete_error, error: e, stackTrace: st);
     }
     finally {
       _loadingOverlay.hide();

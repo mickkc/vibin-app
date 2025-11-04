@@ -16,6 +16,7 @@ import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/edit/search_lyrics_dialog.dart';
 import 'package:vibin_app/pages/edit/search_track_metadata_dialog.dart';
+import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/utils/lrc_parser.dart';
 import 'package:vibin_app/widgets/edit/image_edit_field.dart';
 import 'package:vibin_app/widgets/edit/nullable_int_input.dart';
@@ -202,9 +203,9 @@ class _TrackEditPageState extends State<TrackEditPage> {
                 _tags = createdMetadata.tags.isNotEmpty ? createdMetadata.tags : _tags;
               });
             }
-            catch (e) {
+            catch (e, st) {
               log("Error applying metadata: $e", error: e, level: Level.error.value);
-              if (context.mounted) showErrorDialog(context, _lm.edit_track_apply_metadata_error);
+              if (context.mounted) ErrorHandler.showErrorDialog(context, _lm.edit_track_apply_metadata_error, error: e, stackTrace: st);
             }
             finally {
               _loadingOverlay.hide();
@@ -267,9 +268,9 @@ class _TrackEditPageState extends State<TrackEditPage> {
 
       if (mounted) Navigator.pop(context);
     }
-    catch (e) {
+    catch (e, st) {
       log("Error saving track: $e", error: e, level: Level.error.value);
-      if (mounted) showErrorDialog(context, _lm.edit_track_save_error);
+      if (mounted) ErrorHandler.showErrorDialog(context, _lm.edit_track_save_error, error: e, stackTrace: st);
     }
     finally {
       _loadingOverlay.hide();
@@ -287,9 +288,9 @@ class _TrackEditPageState extends State<TrackEditPage> {
       await _apiManager.service.deleteTrack(widget.trackId!);
       if (mounted) Navigator.pop(context);
     }
-    catch (e) {
+    catch (e, st) {
       log("Error deleting track: $e", error: e, level: Level.error.value);
-      if (mounted) showErrorDialog(context, _lm.delete_track_error);
+      if (mounted) ErrorHandler.showErrorDialog(context, _lm.delete_track_error, error: e, stackTrace: st);
     }
   }
 
@@ -516,7 +517,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
 
                 final amount = double.tryParse(strAmount.trim().replaceFirst(",", "."));
                 if (amount == null) {
-                  showErrorDialog(context, lm.edit_track_lyrics_shift_amount_validation);
+                  ErrorHandler.showErrorDialog(context, lm.edit_track_lyrics_shift_amount_validation);
                   return;
                 }
 

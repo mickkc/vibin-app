@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/utils/error_handler.dart';
 
 import '../../../api/api_manager.dart';
-import '../../../extensions.dart';
 import '../../../main.dart';
 
 class ServerStringDropdownField extends StatefulWidget {
@@ -42,9 +42,9 @@ class _ServerStringDropdownFieldState extends State<ServerStringDropdownField> {
         _currentValue = updated.value as String;
       });
     }
-    catch (e) {
+    catch (e, st) {
       log("Failed to save setting ${widget.settingKey}: $e", error: e, level: Level.error.value);
-      if (mounted) showErrorDialog(context, AppLocalizations.of(context)!.settings_server_update_error);
+      if (mounted) ErrorHandler.showErrorDialog(context, AppLocalizations.of(context)!.settings_server_update_error, error: e, stackTrace: st);
     }
   }
   

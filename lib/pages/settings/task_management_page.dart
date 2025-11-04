@@ -7,6 +7,7 @@ import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/utils/datetime_utils.dart';
+import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/widgets/settings/settings_title.dart';
 
 import '../../api/api_manager.dart';
@@ -35,9 +36,9 @@ class _TaskManagementPageState extends State<TaskManagementPage> {
           _tasks = tasks;
         });
       })
-      .catchError((e) {
+      .catchError((e, st) {
         log("An error occurred while fetching tasks: $e", error: e, level: Level.error.value);
-        if (mounted) showErrorDialog(context, _lm.settings_task_fetch_error);
+        if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_task_fetch_error, error: e, stackTrace: st);
       });
     super.initState();
   }
