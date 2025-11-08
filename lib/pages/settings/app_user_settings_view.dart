@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/dialogs/artist_picker.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
+import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/settings/server/server_boolean_settings_field.dart';
 import 'package:vibin_app/widgets/settings/server/server_multiple_selection_field.dart';
+import 'package:vibin_app/widgets/settings/server/server_tag_list_field.dart';
 import 'package:vibin_app/widgets/settings/settings_title.dart';
 
 import '../../api/api_manager.dart';
@@ -26,10 +28,14 @@ class _AppUserSettingsViewState extends State<AppUserSettingsView> {
     _blockedArtistsFuture = _apiManager.service.getArtistsByIds(
       (settings.settings["blocked_artists"] as List<dynamic>).cast<int>().join(",")
     );
+    _blockedTagsFuture = _apiManager.service.getTagsByIds(
+      (settings.settings["blocked_tags"] as List<dynamic>).cast<int>().join(",")
+    );
     return settings;
   });
 
   Future<List<Artist>>? _blockedArtistsFuture;
+  Future<List<Tag>>? _blockedTagsFuture;
 
   late final _lm = AppLocalizations.of(context)!;
 
@@ -83,6 +89,23 @@ class _AppUserSettingsViewState extends State<AppUserSettingsView> {
                       title: _lm.settings_app_blocked_artists_title,
                       description: _lm.settings_app_blocked_artists_description,
                       icon: Icons.person_off
+                    );
+                  }
+                ),
+              ),
+
+            if(_blockedTagsFuture != null)
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: FutureContent(
+                  future: _blockedTagsFuture!,
+                  builder: (context, tags) {
+                    return ServerTagListField(
+                      settingKey: "blocked_tags",
+                      title: _lm.settings_app_blocked_tags_title,
+                      description: _lm.settings_app_blocked_tags_description,
+                      icon: Icons.label_off,
+                      initialValues: tags,
                     );
                   }
                 ),
