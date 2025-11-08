@@ -123,6 +123,7 @@
   "user_activity_last_tracks": "Zuletzt abgespielte Titel",
   "user_activity_top_tracks": "Top Titel",
   "user_activity_top_artists": "Top Künstler",
+  "user_activity_private": "Die Aktivität dieses Benutzers ist privat.",
 
   "add_track_to_playlist_title": "Zu Playlist hinzufügen",
 
