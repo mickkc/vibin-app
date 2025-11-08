@@ -8,6 +8,7 @@ import 'package:vibin_app/pages/info/user/tabs/user_activity_tab.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_info_tab.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_permissions_tab.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_playlists_tab.dart';
+import 'package:vibin_app/pages/info/user/tabs/user_uploads_tab.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
@@ -164,7 +165,7 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
                   UserActivityTab(userId: widget.userId),
 
                 if (_showUploads)
-                  Center(child: Text("Uploads")),
+                  UserUploadsTab(userId: widget.userId),
 
                 if (_showEdit)
                   Expanded(

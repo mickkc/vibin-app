@@ -365,6 +365,9 @@ abstract class ApiService {
   @POST("/api/uploads/{id}/apply")
   Future<UploadResult> applyPendingUpload(@Path("id") String id);
 
+  @GET("/api/uploads/tracks/{userId}")
+  Future<List<MinimalTrack>> getUploadedTracksByUser(@Path("userId") int userId);
+
   // Users
 
   @GET("/api/users")
