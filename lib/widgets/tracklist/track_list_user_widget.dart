@@ -34,7 +34,7 @@ class TrackListUserWidget extends StatelessWidget {
             message: tooltip ?? user!.name,
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              spacing: 4,
+              spacing: 8,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 NetworkImageWidget(
@@ -43,7 +43,13 @@ class TrackListUserWidget extends StatelessWidget {
                   height: 32,
                   borderRadius: const BorderRadius.all(Radius.circular(16.0)),
                 ),
-                Text(user!.name),
+                Flexible(
+                  child: Text(
+                    user!.name,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  )
+                ),
               ],
             ),
         )
