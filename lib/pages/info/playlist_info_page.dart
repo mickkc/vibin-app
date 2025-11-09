@@ -3,12 +3,12 @@ import 'package:vibin_app/dtos/playlist/playlist_data.dart';
 import 'package:vibin_app/dtos/shuffle_state.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/pages/column_page.dart';
+import 'package:vibin_app/widgets/bars/playlist_action_bar.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
 import 'package:vibin_app/widgets/network_image.dart';
-import 'package:vibin_app/widgets/bars/playlist_action_bar.dart';
 import 'package:vibin_app/widgets/row_small_column.dart';
-import 'package:vibin_app/widgets/track_list.dart';
+import 'package:vibin_app/widgets/tracklist/playlist_track_list.dart';
 
 import '../../api/api_manager.dart';
 import '../../audio/audio_manager.dart';
@@ -35,10 +35,10 @@ class PlaylistInfoPage extends StatelessWidget {
           spacing: 8,
           children: [
             Text(
-                data.playlist.name,
-                style: Theme.of(context).textTheme.headlineMedium,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1
+              data.playlist.name,
+              style: Theme.of(context).textTheme.headlineMedium,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1
             ),
             if (data.playlist.description.isNotEmpty) ... [
               Text(
@@ -116,8 +116,8 @@ class PlaylistInfoPage extends StatelessWidget {
         FutureContent(
           future: _playlistDataFuture,
           builder: (context, data) {
-            return TrackList(
-              tracks: data.tracks.map((e) => e.track).toList(),
+            return PlaylistTrackList(
+              tracks: data.tracks,
               playlistId: playlistId,
               onTrackTapped: (track) {
                 _audioManager.playPlaylistData(

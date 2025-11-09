@@ -23,6 +23,7 @@ import 'package:vibin_app/dtos/permission_granted.dart';
 import 'package:vibin_app/dtos/playlist/playlist.dart';
 import 'package:vibin_app/dtos/playlist/playlist_data.dart';
 import 'package:vibin_app/dtos/playlist/playlist_edit_data.dart';
+import 'package:vibin_app/dtos/playlist/playlist_track.dart';
 import 'package:vibin_app/dtos/server_check.dart';
 import 'package:vibin_app/dtos/sessions/sessions_response.dart';
 import 'package:vibin_app/dtos/settings/setting_key_value.dart';
@@ -207,7 +208,7 @@ abstract class ApiService {
   Future<Success> removeTrackFromPlaylist(@Path("playlistId") int playlistId, @Query("trackId") int trackId);
 
   @PUT("/api/playlists/{playlistId}/tracks")
-  Future<Success> reorderPlaylistTracks(@Path("playlistId") int playlistId, @Query("trackId") int trackId, @Query("newPosition") int newPosition);
+  Future<List<PlaylistTrack>> reorderPlaylistTracks(@Path("playlistId") int playlistId, @Query("trackId") int trackId, @Query("afterTrackId") int? afterTrackId);
 
   @GET("/api/playlists/containing/{trackId}")
   Future<List<Playlist>> getPlaylistsContainingTrack(@Path("trackId") int trackId);

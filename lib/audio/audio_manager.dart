@@ -583,7 +583,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     setAudioType(AudioType.playlist, data.playlist.id);
 
     final mediaToken = await _clientData.getMediaToken();
-    _queue = await Future.wait(tracks.map((track) => _buildMediaItem(track, mediaToken)));
+    _queue = await Future.wait(tracks.map((track) => _buildMediaItemFromMinimal(track, mediaToken)));
 
     final initialIndex = preferredTrackId != null
         ? _queue.indexWhere((item) => item.id == preferredTrackId.toString())
@@ -804,7 +804,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final wasEmpty = _queue.isEmpty;
 
     final mediaToken = await _clientData.getMediaToken();
-    final items = await Future.wait(playlistData.tracks.map((track) => _buildMediaItem(track.track, mediaToken)));
+    final items = await Future.wait(playlistData.tracks.map((track) => _buildMediaItemFromMinimal(track.track, mediaToken)));
 
     if (next && _queue.isNotEmpty) {
       _queue.insertAll(_currentIndex + 1, items);

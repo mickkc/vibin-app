@@ -103,6 +103,10 @@
   "playlist_actions_disable_shuffling": "Zufallswiedergabe deaktivieren",
   "playlist_actions_add_collaborators": "Mitwirkende hinzufügen",
 
+  "playlist_reorder_tracks_error": "Beim Neuordnen der Titel in der Playlist ist ein Fehler aufgetreten.",
+  "playlist_added_by_at": "Hinzugefügt von {username} am {date}",
+  "playlist_added_via_vibedef": "Zur Playlist hinzugefügt via Vibe-def",
+
   "users_info": "Info",
   "users_playlists": "Playlists",
   "users_activity": "Aktivität",

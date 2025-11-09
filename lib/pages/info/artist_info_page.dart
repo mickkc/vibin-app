@@ -12,7 +12,7 @@ import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/network_image.dart';
-import 'package:vibin_app/widgets/track_list.dart';
+import 'package:vibin_app/widgets/tracklist/track_list.dart';
 
 import '../../auth/auth_state.dart';
 

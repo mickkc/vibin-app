@@ -1,9 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:vibin_app/dtos/track/base_track.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
-
-import 'dtos/track/track.dart';
 
 extension HexColor on Color {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
@@ -41,11 +40,12 @@ String randomString(int length) {
   return List.generate(length, (index) => chars[rand.nextInt(chars.length)]).join();
 }
 
-String getTotalDurationString(Iterable<Track> tracks) {
+String getTotalDurationString(Iterable<BaseTrack> tracks) {
   int totalSeconds = 0;
   for (var track in tracks) {
-    if (track.duration != null) {
-      totalSeconds += (track.duration! / 1000).round();
+    final duration = track.getDuration();
+    if (duration != null) {
+      totalSeconds += (duration / 1000).round();
     }
   }
 

@@ -1,20 +1,28 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:vibin_app/dtos/track/track.dart';
+
+import '../id_name.dart';
+import '../track/minimal_track.dart';
 
 @JsonSerializable()
 class PlaylistTrack {
-  final Track track;
-  final String source;
+  final MinimalTrack track;
+  final int position;
+  final IdName? addedBy;
+  final int? addedAt;
 
   PlaylistTrack({
     required this.track,
-    required this.source,
+    required this.position,
+    this.addedBy,
+    this.addedAt,
   });
 
   factory PlaylistTrack.fromJson(Map<String, dynamic> json) {
     return PlaylistTrack(
-      track: Track.fromJson(json['track']),
-      source: json['source'],
+      track: MinimalTrack.fromJson(json['track']),
+      position: json['position'],
+      addedBy: json['addedBy'] != null ? IdName.fromJson(json['addedBy']) : null,
+      addedAt: json['addedAt'],
     );
   }
 }

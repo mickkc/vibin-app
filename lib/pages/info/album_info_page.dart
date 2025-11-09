@@ -11,7 +11,7 @@ import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/row_small_column.dart';
-import 'package:vibin_app/widgets/track_list.dart';
+import 'package:vibin_app/widgets/tracklist/track_list.dart';
 
 import '../../audio/audio_manager.dart';
 import '../../l10n/app_localizations.dart';

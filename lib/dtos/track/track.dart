@@ -1,11 +1,14 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
+import 'package:vibin_app/dtos/id_name.dart';
 import 'package:vibin_app/dtos/image.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
+import 'package:vibin_app/dtos/track/base_track.dart';
 
 @JsonSerializable()
-class Track {
+class Track implements BaseTrack {
+  @override
   final int id;
   final String title;
   final Album album;
@@ -84,4 +87,21 @@ class Track {
       updatedAt: json['updatedAt'],
     );
   }
+
+  @override
+  String getTitle() => title;
+
+  @override
+  IdName getAlbum() => IdName(id: album.id, name: album.title);
+
+  @override
+  List<IdName> getArtists() {
+    return artists.map((artist) => IdName(id: artist.id, name: artist.name)).toList();
+  }
+
+  @override
+  int? getTrackNumber() => trackNumber;
+
+  @override
+  int? getDuration() => duration;
 }
