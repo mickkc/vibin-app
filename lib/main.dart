@@ -62,14 +62,24 @@ void main() async {
 
 final themeNotifier = ValueNotifier(ThemeSettings());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
 
   final AuthState authState;
 
   const MyApp({super.key, required this.authState});
 
   @override
-  Widget build(BuildContext context) {
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  late final GoRouter _router;
+  bool _themeValidated = false;
+
+  @override
+  void initState() {
+    super.initState();
 
     final SettingsManager settingsManager = getIt<SettingsManager>();
 
@@ -77,14 +87,27 @@ class MyApp extends StatelessWidget {
     themeNotifier.value.colorSchemeKey = settingsManager.get(Settings.colorScheme);
     themeNotifier.value.themeMode = settingsManager.get(Settings.themeMode);
 
-    themeNotifier.value = themeNotifier.value.validate(context);
-
     if (isEmbeddedMode()) {
       final apiManager = getIt<ApiManager>();
       apiManager.setBaseUrl("");
     }
 
-    final router = configureRouter(authState);
+    _router = configureRouter(widget.authState);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // Validate theme with context (only once when context becomes available)
+    if (!_themeValidated) {
+      themeNotifier.value = themeNotifier.value.validate(context);
+      _themeValidated = true;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return ValueListenableBuilder(
       valueListenable: themeNotifier,
@@ -96,7 +119,7 @@ class MyApp extends StatelessWidget {
           darkTheme: ColorSchemeList.get(themeSettings.colorSchemeKey)
             .generateThemeData(accentColor: themeSettings.accentColor, brightness: Brightness.dark),
           themeMode: themeSettings.themeMode,
-          routerConfig: router,
+          routerConfig: _router,
           debugShowCheckedModeBanner: false,
           localizationsDelegates: [
             AppLocalizations.delegate,
