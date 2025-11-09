@@ -16,9 +16,10 @@ class ConnectPage extends StatefulWidget {
 class _ConnectPageState extends State<ConnectPage> {
 
   final _apiManager = getIt<ApiManager>();
-  late final _controller = TextEditingController(text: _apiManager.baseUrl);
+  late final TextEditingController _controller;
 
   late final _lm = AppLocalizations.of(context)!;
+  late final _theme = Theme.of(context);
   late final _router = GoRouter.of(context);
 
   Future<void> _connect() async {
@@ -33,6 +34,12 @@ class _ConnectPageState extends State<ConnectPage> {
   }
 
   @override
+  void initState() {
+    _controller = TextEditingController(text: _apiManager.baseUrl);
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _controller.dispose();
     super.dispose();
@@ -40,39 +47,37 @@ class _ConnectPageState extends State<ConnectPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        spacing: 8,
-        children: [
-          Text(
-            _lm.connect_title,
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          Text(
-            _lm.connect_description
-          ),
-          SizedBox(
-            width: 300,
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: _lm.connect_placeholder_instance,
-                labelText: _lm.connect_label_instance
-              ),
-              keyboardType: TextInputType.url,
-              textInputAction: TextInputAction.done,
-              onSubmitted: (_) => _connect(),
-              controller: _controller,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      spacing: 8,
+      children: [
+        Text(
+          _lm.connect_title,
+          style: _theme.textTheme.headlineMedium,
+        ),
+        Text(
+          _lm.connect_description
+        ),
+        SizedBox(
+          width: 300,
+          child: TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: _lm.connect_placeholder_instance,
+              labelText: _lm.connect_label_instance
             ),
+            keyboardType: TextInputType.url,
+            textInputAction: TextInputAction.done,
+            onSubmitted: (_) => _connect(),
+            controller: _controller,
           ),
-          ElevatedButton(
-            onPressed: _connect,
-            child: Text(_lm.connect_button_connect),
-          ),
-        ],
-      ),
+        ),
+        ElevatedButton(
+          onPressed: _connect,
+          child: Text(_lm.connect_button_connect),
+        ),
+      ],
     );
   }
 }
