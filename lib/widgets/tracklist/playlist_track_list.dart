@@ -54,7 +54,41 @@ class _PlaylistTrackListState extends State<PlaylistTrackList> {
     return ReorderableListView.builder(
       itemCount: _tracks.length,
       shrinkWrap: true,
-      buildDefaultDragHandles: false,
+      physics: const NeverScrollableScrollPhysics(),
+      buildDefaultDragHandles: isMobile,
+      proxyDecorator: (child, index, animation) {
+
+        // Display a different style for vibedef tracks to indicate they cannot be reordered
+
+        final playlistTrack = _tracks[index];
+        final isVibedefTrack = playlistTrack.addedBy == null;
+
+        return AnimatedBuilder(
+          animation: animation,
+          builder: (context, child) {
+            return Material(
+              elevation: 6,
+              color: Colors.transparent,
+              child: Opacity(
+                opacity: isVibedefTrack ? 0.5 : 1.0,
+                child: ColorFiltered(
+                  colorFilter: isVibedefTrack
+                    ? ColorFilter.mode(
+                        Colors.red.withAlpha(100),
+                        BlendMode.srcATop,
+                      )
+                    : const ColorFilter.mode(
+                        Colors.transparent,
+                        BlendMode.dst,
+                      ),
+                  child: child,
+                ),
+              ),
+            );
+          },
+          child: child,
+        );
+      },
       itemBuilder: (context, index) {
         final playlistTrack = _tracks[index];
         return Row(
@@ -84,7 +118,7 @@ class _PlaylistTrackListState extends State<PlaylistTrackList> {
             ),
 
             SizedBox(
-              width: 150,
+              width: isMobile ? null : 120,
               child: Align(
                 alignment: Alignment.centerRight,
                 child: TrackListUserWidget(
@@ -116,13 +150,15 @@ class _PlaylistTrackListState extends State<PlaylistTrackList> {
             ),
 
             if (!isMobile)
-              ReorderableDragStartListener(
-                index: index,
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Icon(Icons.drag_handle),
-                ),
-              )
+              playlistTrack.addedBy != null
+                ? ReorderableDragStartListener(
+                    index: index,
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Icon(Icons.drag_handle),
+                    ),
+                  )
+                : const SizedBox(width: 40)
           ]
         );
       },
@@ -137,7 +173,16 @@ class _PlaylistTrackListState extends State<PlaylistTrackList> {
         PlaylistTrack item = _tracks[oldIndex];
         PlaylistTrack? beforeNewIndex = newIndex - 1 >= 0 ? _tracks[newIndex - 1] : null;
 
+        // Prevent moving vibedef tracks (addedBy == null)
         if (item.addedBy == null) {
+          return;
+        }
+
+        // Find the first vibedef track index
+        final firstVibedefIndex = _tracks.indexWhere((t) => t.addedBy == null);
+
+        // Prevent moving user tracks to or below vibedef tracks
+        if (firstVibedefIndex != -1 && newIndex >= firstVibedefIndex) {
           return;
         }
 

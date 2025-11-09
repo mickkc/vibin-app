@@ -21,7 +21,10 @@ class TrackListUserWidget extends StatelessWidget {
 
     if (user == null) {
       // Vibedef
-      return const Icon(Icons.auto_awesome);
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: const Icon(Icons.auto_awesome),
+      );
     }
 
     return Padding(
