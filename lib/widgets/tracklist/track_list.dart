@@ -78,7 +78,7 @@ class _TrackListState extends State<TrackList> {
             if (!isMobile) ... [
               TrackListAlbumView(
                 album: widget.albumId == null ? track.getAlbum() : null,
-                trackNumber: widget.albumId == null ? track.getTrackNumber() : null,
+                trackNumber: widget.albumId != null ? track.getTrackNumber() : null,
 
               ),
               TrackListDurationView(
