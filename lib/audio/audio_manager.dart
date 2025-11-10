@@ -908,7 +908,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     if (_settingsManager.get(Settings.embedImagesAsBase64)) {
       try {
         final bytes = await _apiManager.service.getTrackCover(
-            trackId, _settingsManager.get(Settings.metadataImageSize).qualityParam
+            trackId, _settingsManager.get(Settings.metadataImageSize).pixelSize
         );
         if (bytes.data.isNotEmpty) {
           return Uri.dataFromBytes(bytes.data, mimeType: "image/jpeg");
@@ -923,7 +923,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
         "${_apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}"
             "/api/tracks/$trackId/cover"
             "?mediaToken=$mediaToken"
-            "&quality=${_settingsManager.get(Settings.metadataImageSize).qualityParam}");
+            "&quality=${_settingsManager.get(Settings.metadataImageSize).pixelSize}");
   }
 
   /// Constructs the stream URL for the specified track ID and media token.

@@ -1,11 +1,11 @@
 enum MetadataImageSize {
-  small("small"),
-  medium("medium"),
-  large("large");
+  small(128),
+  medium(256),
+  large(512);
 
-  final String qualityParam;
+  final int pixelSize;
 
   const MetadataImageSize(
-    this.qualityParam,
+    this.pixelSize,
   );
 }
