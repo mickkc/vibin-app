@@ -10,16 +10,17 @@ import '../../widgets/entity_card.dart';
 
 class TrackPage extends StatelessWidget {
 
-  TrackPage({super.key});
-
-  final _settingsManager = getIt<SettingsManager>();
-  final _apiManager = getIt<ApiManager>();
+  const TrackPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    final settingsManager = getIt<SettingsManager>();
+    final apiManager = getIt<ApiManager>();
+
     return PaginatedOverview(
       fetchFunction: (page, pageSize, query) {
-        return _apiManager.service.searchTracks(query, _settingsManager.get(Settings.advancedTrackSearch), page, pageSize);
+        return apiManager.service.searchTracks(query, settingsManager.get(Settings.advancedTrackSearch), page, pageSize);
       },
       type: EntityCardType.track,
       title: AppLocalizations.of(context)!.tracks,

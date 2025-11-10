@@ -11,25 +11,24 @@ import '../../widgets/entity_card.dart';
 
 class UsersPage extends StatelessWidget {
 
-  UsersPage({super.key});
-
-  final _apiManager = getIt<ApiManager>();
-  final _authState = getIt<AuthState>();
+  const UsersPage({super.key});
 
   @override
   Widget build(BuildContext context) {
 
+    final apiManager = getIt<ApiManager>();
+    final authState = getIt<AuthState>();
     final lm = AppLocalizations.of(context)!;
 
     return PaginatedOverview(
       fetchFunction: (page, pageSize, query) {
-        return _apiManager.service.getUsers(page, pageSize, query);
+        return apiManager.service.getUsers(page, pageSize, query);
       },
       type: EntityCardType.user,
       title: lm.users,
       icon: Icons.group,
       actions: [
-        if (_authState.hasPermission(PermissionType.createUsers))
+        if (authState.hasPermission(PermissionType.createUsers))
           ElevatedButton.icon(
             onPressed: () {
               GoRouter.of(context).push("/users/create");
