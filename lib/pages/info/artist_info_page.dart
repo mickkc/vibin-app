@@ -48,7 +48,7 @@ class ArtistInfoPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         NetworkImageWidget(
-          url: "/api/albums/${album.id}/cover?quality=small",
+          url: "/api/albums/${album.id}/cover?quality=64",
           width: 64,
           height: 64,
           borderRadius: BorderRadius.circular(4),
@@ -92,7 +92,7 @@ class ArtistInfoPage extends StatelessWidget {
         for (var track in tracks)
           ListTile(
             leading: NetworkImageWidget(
-              url: "/api/tracks/${track.id}/cover?quality=small",
+              url: "/api/tracks/${track.id}/cover?quality=64",
               width: 48,
               height: 48,
               borderRadius: BorderRadius.circular(4),
@@ -172,7 +172,7 @@ class ArtistInfoPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 NetworkImageWidget(
-                  url: "/api/artists/$artistId/image?quality=medium",
+                  url: "/api/artists/$artistId/image?quality=256",
                   width: width > 600 ? 200 : width / 4,
                   height: width > 600 ? 200 : width / 4,
                   borderRadius: BorderRadius.circular(width * 0.375),

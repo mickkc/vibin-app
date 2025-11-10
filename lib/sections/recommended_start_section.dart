@@ -74,9 +74,9 @@ class RecommendedStartSection extends StatelessWidget {
                             children: [
                               NetworkImageWidget(
                                 url: switch (item.key) {
-                                  "ALBUM" => "/api/albums/${item.value["id"]}/cover?quality=small",
-                                  "ARTIST" => "/api/artists/${item.value["id"]}/image?quality=small",
-                                  "PLAYLIST" => "/api/playlists/${item.value["id"]}/image?quality=small",
+                                  "ALBUM" => "/api/albums/${item.value["id"]}/cover?quality=64",
+                                  "ARTIST" => "/api/artists/${item.value["id"]}/image?quality=64",
+                                  "PLAYLIST" => "/api/playlists/${item.value["id"]}/image?quality=64",
                                   _ => "",
                                 },
                                 width: 50,

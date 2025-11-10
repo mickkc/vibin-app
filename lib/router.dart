@@ -82,7 +82,7 @@ GoRouter configureRouter(AuthState authState) {
               backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
               actions: [
                 NetworkImageWidget(
-                  url: "/api/users/${authState.user?.id}/pfp?quality=small",
+                  url: "/api/users/${authState.user?.id}/pfp?quality=64",
                   fit: BoxFit.contain,
                   width: 32,
                   height: 32,

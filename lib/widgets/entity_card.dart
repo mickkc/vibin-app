@@ -51,28 +51,23 @@ class EntityCard extends StatelessWidget {
     }
   }
 
-  String _getImageQuality() {
-    if (coverSize <= 128) {
-      return "small";
-    } else if (coverSize <= 256) {
-      return "medium";
-    } else {
-      return "large";
-    }
+  int _getImageQuality(BuildContext context) {
+    final ratio = MediaQuery.of(context).devicePixelRatio;
+    return (coverSize * ratio).ceil();
   }
 
-  String _getCoverUrl(ApiManager apiManager) {
+  String _getCoverUrl(BuildContext context, ApiManager apiManager) {
     switch (type) {
       case EntityCardType.track:
-        return "/api/tracks/${entity.id}/cover?quality=${_getImageQuality()}";
+        return "/api/tracks/${entity.id}/cover?quality=${_getImageQuality(context)}";
       case EntityCardType.album:
-        return "/api/albums/${entity.id}/cover?quality=${_getImageQuality()}";
+        return "/api/albums/${entity.id}/cover?quality=${_getImageQuality(context)}";
       case EntityCardType.artist:
-        return "/api/artists/${entity.id}/image?quality=${_getImageQuality()}";
+        return "/api/artists/${entity.id}/image?quality=${_getImageQuality(context)}";
       case EntityCardType.playlist:
-        return "/api/playlists/${entity.id}/image?quality=${_getImageQuality()}";
+        return "/api/playlists/${entity.id}/image?quality=${_getImageQuality(context)}";
       case EntityCardType.user:
-        return "/api/users/${entity.id}/pfp?quality=${_getImageQuality()}";
+        return "/api/users/${entity.id}/pfp?quality=${_getImageQuality(context)}";
     }
   }
 
@@ -199,7 +194,7 @@ class EntityCard extends StatelessWidget {
                         ? BorderRadius.circular(coverSize / 2)
                         : BorderRadius.circular(8),
                     child: NetworkImageWidget(
-                      url: _getCoverUrl(apiManager),
+                      url: _getCoverUrl(context, apiManager),
                       width: coverSize,
                       height: coverSize,
                       fit: BoxFit.contain,

@@ -34,7 +34,7 @@ class TrackListArtistView extends StatelessWidget {
               final artist = artists[index];
               return ListTile(
                 leading: NetworkImageWidget(
-                  url: "/api/artists/${artist.id}/image?quality=small",
+                  url: "/api/artists/${artist.id}/image?quality=64",
                   width: 40,
                   height: 40,
                   borderRadius: BorderRadius.circular(20),

@@ -52,7 +52,7 @@ class AddTrackToPlaylistDialog {
                           final containsTrack = playlistsContainingTrack.any((p) => p.id == playlist.id);
                           return ListTile(
                             leading: NetworkImageWidget(
-                              url: "/api/playlists/${playlist.id}/image",
+                              url: "/api/playlists/${playlist.id}/image?quality=64",
                               width: 48,
                               height: 48,
                               fit: BoxFit.contain

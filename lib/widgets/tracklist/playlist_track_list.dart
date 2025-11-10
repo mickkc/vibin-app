@@ -96,7 +96,7 @@ class _PlaylistTrackListState extends State<PlaylistTrackList> {
           key: ValueKey(playlistTrack.track.id),
           children: [
             NetworkImageWidget(
-              url: "/api/tracks/${playlistTrack.track.id}/cover?quality=small",
+              url: "/api/tracks/${playlistTrack.track.id}/cover?quality=64",
               width: 48,
               height: 48
             ),

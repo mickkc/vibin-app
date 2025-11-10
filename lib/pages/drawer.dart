@@ -32,7 +32,7 @@ class DrawerComponent extends StatelessWidget {
         if (authState.user != null) ... [
           ListTile(
             leading: NetworkImageWidget(
-              url: "/api/users/${authState.user!.id}/pfp?quality=small",
+              url: "/api/users/${authState.user!.id}/pfp?quality=64",
               width: 40,
               height: 40,
               borderRadius: BorderRadius.circular(20),

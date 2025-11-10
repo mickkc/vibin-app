@@ -92,7 +92,7 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   NetworkImageWidget(
-                    url: "/api/users/${user.id}/pfp",
+                    url: "/api/users/${user.id}/pfp?quality=128",
                     width: 100,
                     height: 100,
                     borderRadius: BorderRadius.circular(50)

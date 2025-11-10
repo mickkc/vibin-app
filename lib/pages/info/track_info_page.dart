@@ -25,7 +25,7 @@ class TrackInfoPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           rowChildren: [
             NetworkImageWidget(
-              url: "/api/tracks/$trackId/cover?quality=medium",
+              url: "/api/tracks/$trackId/cover?quality=256",
               width: 200,
               height: 200,
             ),
@@ -35,7 +35,7 @@ class TrackInfoPage extends StatelessWidget {
             LayoutBuilder(
               builder: (context, constraints) {
                 return NetworkImageWidget(
-                  url: "/api/tracks/$trackId/cover?quality=large",
+                  url: "/api/tracks/$trackId/cover",
                   width: constraints.maxWidth * 0.75,
                   height: constraints.maxWidth * 0.75,
                 );

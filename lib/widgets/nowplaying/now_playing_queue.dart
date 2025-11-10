@@ -118,7 +118,7 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
                 },
                 child: ListTile(
                   leading: NetworkImageWidget(
-                    url: "/api/tracks/${item.id}/cover?quality=small",
+                    url: "/api/tracks/${item.id}/cover?quality=64",
                     width: 48,
                     height: 48
                   ),

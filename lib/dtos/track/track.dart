@@ -24,7 +24,6 @@ class Track implements BaseTrack {
   final int? sampleRate;
   final int? channels;
   final String path;
-  final String checksum;
   final List<Tag> tags;
   final bool hasLyrics;
   final int createdAt;
@@ -47,7 +46,6 @@ class Track implements BaseTrack {
     this.sampleRate,
     this.channels,
     required this.path,
-    required this.checksum,
     required this.tags,
     required this.hasLyrics,
     required this.createdAt,
@@ -74,7 +72,6 @@ class Track implements BaseTrack {
       sampleRate: json['sampleRate'],
       channels: json['channels'],
       path: json['path'],
-      checksum: json['checksum'],
       tags: (json['tags'] as List<dynamic>)
           .map((tagJson) => Tag.fromJson(tagJson))
           .toList(),

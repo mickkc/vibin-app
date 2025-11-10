@@ -74,7 +74,7 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
               spacing: 32,
               rowChildren: [
                 NetworkImageWidget(
-                  url: "/api/tracks/${_currentMediaItem!.id}/cover?quality=medium",
+                  url: "/api/tracks/${_currentMediaItem!.id}/cover?quality=256",
                   width: 200,
                   height: 200,
                 ),
@@ -87,7 +87,7 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
               ],
               columnChildren: [
                 NetworkImageWidget(
-                  url: "/api/tracks/${_currentMediaItem!.id}/cover?quality=medium",
+                  url: "/api/tracks/${_currentMediaItem!.id}/cover",
                   width: width * 0.75,
                   height: width * 0.75,
                 ),

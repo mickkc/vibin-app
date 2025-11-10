@@ -122,7 +122,7 @@ class _AlbumPickerState extends State<AlbumPicker> {
                   final isSelected = widget.selectedAlbum?.id == album.id;
                   return ListTile(
                     leading: NetworkImageWidget(
-                      url: "/api/albums/${album.id}/cover?quality=small",
+                      url: "/api/albums/${album.id}/cover?quality=64",
                       width: 44,
                       height: 44,
                       fit: BoxFit.cover,

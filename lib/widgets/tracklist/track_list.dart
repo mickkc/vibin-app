@@ -63,7 +63,7 @@ class _TrackListState extends State<TrackList> {
         return TableRow(
           children: [
             NetworkImageWidget(
-              url: "/api/tracks/${track.id}/cover?quality=small",
+              url: "/api/tracks/${track.id}/cover?quality=64",
               width: 48,
               height: 48
             ),

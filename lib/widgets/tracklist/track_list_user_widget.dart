@@ -38,7 +38,7 @@ class TrackListUserWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 NetworkImageWidget(
-                  url: "/api/users/${user!.id}/pfp?quality=small",
+                  url: "/api/users/${user!.id}/pfp?quality=64",
                   width: 32,
                   height: 32,
                   borderRadius: const BorderRadius.all(Radius.circular(16.0)),
@@ -56,7 +56,7 @@ class TrackListUserWidget extends StatelessWidget {
         : Tooltip(
             message: tooltip ?? user!.name,
             child: NetworkImageWidget(
-              url: "/api/users/${user!.id}/pfp?quality=small",
+              url: "/api/users/${user!.id}/pfp?quality=64",
               width: 32,
               height: 32,
               borderRadius: const BorderRadius.all(Radius.circular(16.0)),
