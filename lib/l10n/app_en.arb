@@ -25,6 +25,9 @@
   "datetime_format_date": "yyyy-MM-dd",
   "datetime_format_time": "HH:mm",
 
+  "datetime_created_at": "Created at {date}",
+  "datetime_updated_at": "Last modified at {date}",
+
   "autologin_failed_title": "Auto Login Failed",
   "autologin_failed_message": "Auto login failed. Your session may have expired or the instance is unreachable.",
   "autologin_retry": "Retry",

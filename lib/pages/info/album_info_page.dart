@@ -7,6 +7,7 @@ import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/widgets/bars/album_action_bar.dart';
+import 'package:vibin_app/widgets/date_footer.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
 import 'package:vibin_app/widgets/network_image.dart';
@@ -138,6 +139,18 @@ class AlbumInfoPage extends StatelessWidget {
                   shuffle: _shuffleState.isShuffling
                 );
               }
+            );
+          }
+        ),
+
+        const Divider(),
+
+        FutureContent(
+          future: _albumFuture,
+          builder: (context, data) {
+            return DateFooter(
+              createdAt: data.album.createdAt,
+              updatedAt: data.album.updatedAt,
             );
           }
         )

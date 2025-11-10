@@ -10,6 +10,7 @@ import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/sections/section_header.dart';
+import 'package:vibin_app/widgets/date_footer.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/tracklist/track_list.dart';
@@ -227,7 +228,19 @@ class ArtistInfoPage extends StatelessWidget {
               return TrackList(tracks: tracks);
             }
           )
-        ]
+        ],
+
+        const Divider(),
+
+        FutureContent(
+          future: _artistFuture,
+          builder: (context, artist) {
+            return DateFooter(
+              createdAt: artist.createdAt,
+              updatedAt: artist.updatedAt,
+            );
+          }
+        )
       ],
     );
   }

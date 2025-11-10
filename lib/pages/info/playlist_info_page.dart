@@ -4,6 +4,7 @@ import 'package:vibin_app/dtos/shuffle_state.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/widgets/bars/playlist_action_bar.dart';
+import 'package:vibin_app/widgets/date_footer.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
 import 'package:vibin_app/widgets/network_image.dart';
@@ -113,6 +114,7 @@ class PlaylistInfoPage extends StatelessWidget {
             return PlaylistActionBar(playlistData: data, shuffleState: _shuffleState);
           }
         ),
+
         FutureContent(
           future: _playlistDataFuture,
           builder: (context, data) {
@@ -126,6 +128,18 @@ class PlaylistInfoPage extends StatelessWidget {
                   shuffle: _shuffleState.isShuffling
                 );
               }
+            );
+          }
+        ),
+
+        const Divider(),
+
+        FutureContent(
+          future: _playlistDataFuture,
+          builder: (context, data) {
+            return DateFooter(
+              createdAt: data.playlist.createdAt,
+              updatedAt: data.playlist.updatedAt,
             );
           }
         )
