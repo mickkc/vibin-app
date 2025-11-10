@@ -97,10 +97,6 @@ abstract class ApiService {
   @PUT("/api/albums/{id}")
   Future<Album> updateAlbum(@Path("id") int id, @Body() AlbumEditData data);
 
-  @GET("/api/albums/{id}/cover")
-  @DioResponseType(ResponseType.bytes)
-  Future<HttpResponse<List<int>>> getAlbumCover(@Path("id") int id, @Query("quality") String quality);
-
   @GET("/api/albums/autocomplete")
   Future<List<String>> autocompleteAlbums(@Query("query") String query, @Query("limit") int? limit);
 
@@ -131,12 +127,7 @@ abstract class ApiService {
   Future<List<Artist>> getArtistsByIds(@Query("ids") String ids);
 
   @DELETE("/api/artists/{id}")
-  @DioResponseType(ResponseType.bytes)
-  Future<HttpResponse<List<int>>> deleteArtist(@Path("id") int id);
-
-  @GET("/api/artists/{id}/image")
-  @DioResponseType(ResponseType.bytes)
-  Future<HttpResponse<List<int>>> getArtistImage(@Path("id") int id, @Query("quality") String quality);
+  Future<Success> deleteArtist(@Path("id") int id);
 
   @GET("/api/artists/autocomplete")
   Future<List<String>> autocompleteArtists(@Query("query") String query, @Query("limit") int? limit);
@@ -188,10 +179,6 @@ abstract class ApiService {
 
   @DELETE("/api/playlists/{id}")
   Future<Success> deletePlaylist(@Path("id") int id);
-
-  @GET("/api/playlists/{id}/image")
-  @DioResponseType(ResponseType.bytes)
-  Future<HttpResponse<List<int>>> getPlaylistImage(@Path("id") int id, @Query("quality") String quality);
 
   @GET("/api/playlists/random")
   Future<List<Playlist>> getRandomPlaylists(@Query("limit") int? limit);
@@ -325,7 +312,7 @@ abstract class ApiService {
 
   @GET("/api/tracks/{id}/cover")
   @DioResponseType(ResponseType.bytes)
-  Future<HttpResponse<List<int>>> getTrackCover(@Path("id") int id, @Query("quality") String quality);
+  Future<HttpResponse<List<int>>> getTrackCover(@Path("id") int id, @Query("quality") int quality);
 
   @GET("/api/tracks/random")
   Future<List<MinimalTrack>> getRandomTracks(@Query("limit") int limit);
@@ -388,10 +375,6 @@ abstract class ApiService {
 
   @DELETE("/api/users/{userId}")
   Future<Success> deleteUser(@Path("userId") int id, @Query("deleteData") bool deleteData);
-
-  @GET("/api/users/{userId}/pfp")
-  @DioResponseType(ResponseType.bytes)
-  Future<HttpResponse<List<int>>> getUserProfilePicture(@Path("userId") int id);
 
   @GET("/api/users/username/{username}/exists")
   Future<Success> checkUsernameExists(@Path("username") String username);

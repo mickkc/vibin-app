@@ -2,7 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/id_name.dart';
-import 'package:vibin_app/dtos/image.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/dtos/track/base_track.dart';
 
@@ -24,7 +23,6 @@ class Track implements BaseTrack {
   final int? bitrate;
   final int? sampleRate;
   final int? channels;
-  final Image? cover;
   final String path;
   final String checksum;
   final List<Tag> tags;
@@ -48,7 +46,6 @@ class Track implements BaseTrack {
     this.bitrate,
     this.sampleRate,
     this.channels,
-    this.cover,
     required this.path,
     required this.checksum,
     required this.tags,
@@ -76,7 +73,6 @@ class Track implements BaseTrack {
       bitrate: json['bitrate'],
       sampleRate: json['sampleRate'],
       channels: json['channels'],
-      cover: json['cover'] != null ? Image.fromJson(json['cover']) : null,
       path: json['path'],
       checksum: json['checksum'],
       tags: (json['tags'] as List<dynamic>)

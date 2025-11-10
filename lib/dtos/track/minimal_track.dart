@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:vibin_app/dtos/id_name.dart';
-import 'package:vibin_app/dtos/image.dart';
 import 'package:vibin_app/dtos/track/base_track.dart';
 
 @JsonSerializable()
@@ -11,7 +10,6 @@ class MinimalTrack implements BaseTrack {
   final List<IdName> artists;
   final IdName album;
   final int? duration;
-  final Image? cover;
   final IdName? uploader;
 
   MinimalTrack({
@@ -20,7 +18,6 @@ class MinimalTrack implements BaseTrack {
     required this.artists,
     required this.album,
     this.duration,
-    this.cover,
     this.uploader,
   });
 
@@ -33,7 +30,6 @@ class MinimalTrack implements BaseTrack {
           .toList(),
       album: IdName.fromJson(json['album']),
       duration: json['duration'],
-      cover: json['cover'] != null ? Image.fromJson(json['cover']) : null,
       uploader: json['uploader'] != null ? IdName.fromJson(json['uploader']) : null,
     );
   }

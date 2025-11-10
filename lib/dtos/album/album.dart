@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
-import 'package:vibin_app/dtos/image.dart';
 
 @JsonSerializable()
 class Album {
@@ -9,7 +8,6 @@ class Album {
   final String description;
   final int? year;
   final List<Artist> artists;
-  final Image? cover;
   final int trackCount;
   final bool? single;
   final int createdAt;
@@ -19,7 +17,6 @@ class Album {
     required this.id,
     required this.title,
     required this.artists,
-    this.cover,
     required this.trackCount,
     this.single,
     required this.createdAt,
@@ -37,7 +34,6 @@ class Album {
       artists: (json['artists'] as List<dynamic>)
           .map((artistJson) => Artist.fromJson(artistJson))
           .toList(),
-      cover: json['cover'] != null ? Image.fromJson(json['cover']) : null,
       trackCount: json['trackCount'],
       single: json['single'],
       createdAt: json['createdAt'],
