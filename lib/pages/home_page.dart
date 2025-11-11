@@ -4,6 +4,7 @@ import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/sections/explore_section.dart';
+import 'package:vibin_app/sections/global_stats_section.dart';
 import 'package:vibin_app/sections/last_listened_to_tracks_section.dart';
 import 'package:vibin_app/sections/most_listened_to_artists_section.dart';
 import 'package:vibin_app/sections/new_tracks_section.dart';
@@ -43,6 +44,8 @@ class _HomePagState extends State<HomePage> {
         return PopularItemsSection();
       case "PLAYLISTS" when _authState.hasPermission(PermissionType.viewPlaylists):
         return PlaylistsSection();
+      case "STATS":
+        return GlobalStatsSection();
       default:
         return null;
     }

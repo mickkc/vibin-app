@@ -57,6 +57,10 @@
   "section_newest_tracks": "Neueste Titel",
   "section_popular_items": "Beliebt",
   "section_playlists": "Deine Playlists",
+  "section_global_stats": "Statistiken",
+
+  "stats_total_tracks_duration": "Gesamtdauer",
+  "stats_total_plays": "Wiedergaben",
 
   "section_view_all": "Alle anzeigen",
   "section_no_data": "Keine Daten verfügbar",

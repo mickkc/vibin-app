@@ -57,6 +57,10 @@
   "section_newest_tracks": "Newest Tracks",
   "section_popular_items": "Popular",
   "section_playlists": "Your Playlists",
+  "section_global_stats": "Statistics",
+
+  "stats_total_tracks_duration": "Total Duration",
+  "stats_total_plays": "Played Tracks",
 
   "section_view_all": "View all",
   "section_no_data": "No data available",

@@ -20,7 +20,8 @@ class HomepageSectionsList extends StatefulWidget {
     "TOP_TRACKS",
     "NEW_RELEASES",
     "POPULAR",
-    "PLAYLISTS"
+    "PLAYLISTS",
+    "STATS"
   ];
 }
 
@@ -48,6 +49,8 @@ class _HomepageSectionsListState extends State<HomepageSectionsList> {
         return _lm.section_popular_items;
       case "PLAYLISTS":
         return _lm.section_playlists;
+      case "STATS":
+        return _lm.section_global_stats;
       default:
         return key;
     }

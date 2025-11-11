@@ -8,6 +8,7 @@ import 'package:vibin_app/dtos/album/album_info_metadata.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/artist/artist_metadata.dart';
 import 'package:vibin_app/dtos/artist_dicography.dart';
+import 'package:vibin_app/dtos/global_stats.dart';
 import 'package:vibin_app/dtos/login_result.dart';
 import 'package:vibin_app/dtos/lyrics.dart';
 import 'package:vibin_app/dtos/lyrics_metadata.dart';
@@ -251,6 +252,9 @@ abstract class ApiService {
 
   @GET("/api/stats/users/{id}/activity")
   Future<UserActivity> getUserActivity(@Path("id") int userId, @Query("since") int? since, @Query("limit") int? limit);
+
+  @GET("/api/stats/global")
+  Future<GlobalStats> getGlobalStats();
 
   // Tags
 
