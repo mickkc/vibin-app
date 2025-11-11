@@ -3,10 +3,11 @@ import 'dart:async';
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
+import 'package:vibin_app/dialogs/lyrics_dialog.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/sections/related_section.dart';
 import 'package:vibin_app/widgets/nowplaying/now_playing_control_bar.dart';
-import 'package:vibin_app/widgets/row_small_column.dart';
 import 'package:vibin_app/widgets/track_info.dart';
 
 import '../widgets/network_image.dart';
@@ -19,12 +20,11 @@ class NowPlayingPage extends StatefulWidget {
       context: context,
       builder: (context) => const NowPlayingPage(),
       isScrollControlled: true,
+      enableDrag: true,
       backgroundColor: Theme.of(context).colorScheme.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
+      showDragHandle: true,
       constraints: BoxConstraints(
-        maxWidth: (MediaQuery.of(context).size.width * 0.9).clamp(600, 900)
+        maxWidth: (MediaQuery.of(context).size.width * 0.9).clamp(600, 900),
       ),
     );
   }
@@ -58,49 +58,90 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    return Material(
-      child: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Wrap(
-          runSpacing: 32,
-          children: _currentMediaItem == null ? [
-            Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: Text(AppLocalizations.of(context)!.now_playing_nothing),
-            )
-          ] : [
-            RowSmallColumn(
-              spacing: 32,
-              rowChildren: [
-                NetworkImageWidget(
-                  url: "/api/tracks/${_currentMediaItem!.id}/cover?quality=256",
-                  width: 200,
-                  height: 200,
-                ),
-                Expanded(
-                  child: TrackInfoView(
-                    trackId: int.parse(_currentMediaItem!.id),
-                    showMetadata: true
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isMobile = constraints.maxWidth < 600;
+
+        if (_currentMediaItem == null) {
+          return Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Text(AppLocalizations.of(context)!.now_playing_nothing),
+          );
+        }
+
+        if (isMobile) {
+          return DraggableScrollableSheet(
+            initialChildSize: 0.8,
+            minChildSize: 0.8,
+            maxChildSize: 0.95,
+            snap: true,
+            snapSizes: const [0.8, 0.95],
+            expand: false,
+            builder: (context, scrollController) {
+              return SingleChildScrollView(
+                controller: scrollController,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    spacing: 32,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      NetworkImageWidget(
+                        url: "/api/tracks/${_currentMediaItem!.id}/cover",
+                        width: (constraints.maxWidth - 32) * 0.9,
+                        height: (constraints.maxWidth - 32) * 0.9,
+                      ),
+                      TrackInfoView(
+                        trackId: int.parse(_currentMediaItem!.id),
+                        showMetadata: false,
+                      ),
+                      NowPlayingControlBar(mediaItem: _currentMediaItem!),
+                      Card(
+                        clipBehavior: Clip.hardEdge,
+                        shadowColor: Colors.black,
+                        elevation: 4,
+                        child: SizedBox(
+                          height: 250,
+                          child: LyricsDialog(),
+                        ),
+                      ),
+                      RelatedSection(trackId: int.parse(_currentMediaItem!.id)),
+                    ],
                   ),
                 ),
+              );
+            },
+          );
+        } else {
+          return Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 32,
+              children: [
+                Row(
+                  spacing: 32,
+                  children: [
+                    NetworkImageWidget(
+                      url: "/api/tracks/${_currentMediaItem!.id}/cover?quality=256",
+                      width: 200,
+                      height: 200,
+                    ),
+                    Expanded(
+                      child: TrackInfoView(
+                        trackId: int.parse(_currentMediaItem!.id),
+                        showMetadata: true
+                      ),
+                    ),
+                  ],
+                ),
+                NowPlayingControlBar(mediaItem: _currentMediaItem!),
               ],
-              columnChildren: [
-                NetworkImageWidget(
-                  url: "/api/tracks/${_currentMediaItem!.id}/cover",
-                  width: width * 0.75,
-                  height: width * 0.75,
-                ),
-                TrackInfoView(
-                  trackId: int.parse(_currentMediaItem!.id),
-                  showMetadata: false,
-                ),
-              ]
             ),
-            NowPlayingControlBar(mediaItem: _currentMediaItem!)
-          ]
-        ),
-      )
+          );
+        }
+      },
     );
   }
 }
