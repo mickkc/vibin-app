@@ -11,10 +11,13 @@ import '../main.dart';
 class DrawerComponent extends StatelessWidget {
   
   const DrawerComponent({super.key});
-  
+
   void _goTo(BuildContext context, String route) {
-    Navigator.pop(context);
-    GoRouter.of(context).go(route);
+    final router = GoRouter.of(context);
+    if (router.canPop()) {
+      router.pop(context);
+      router.go(route);
+    }
   }
   
   @override
