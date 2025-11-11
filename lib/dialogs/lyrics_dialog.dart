@@ -51,9 +51,12 @@ class _LyricsDialogState extends State<LyricsDialog> {
   late Future<Lyrics?> _lyricsFuture;
 
   StreamSubscription? _currentMediaItemSubscription;
+  StreamSubscription? _positionSubscription;
   final _scrollController = ItemScrollController();
 
-  int? _lastLyricIndex;
+  int? _currentLyricIndex;
+  int? _lastPositionMs;
+  ParsedLyrics? _parsedLyrics;
 
   Color _getBackgroundColor(LyricsDesign lyricsDesign, ColorScheme? cs, ThemeData theme) {
 
@@ -100,6 +103,49 @@ class _LyricsDialogState extends State<LyricsDialog> {
     };
   }
 
+  void _setupPositionListener() {
+    _positionSubscription?.cancel();
+    _positionSubscription = _audioManager.audioPlayer.positionStream.listen((position) {
+      if (_parsedLyrics == null || !_parsedLyrics!.isSynced) {
+        return;
+      }
+
+      final positionMs = position.inMilliseconds;
+
+      if (positionMs == _lastPositionMs) {
+        return;
+      }
+      _lastPositionMs = positionMs;
+
+      // Find the closest lyric line that is less than or equal to the current position
+      int? newIndex;
+      for (var (index, line) in _parsedLyrics!.lines.indexed) {
+        if (line.timestamp.inMilliseconds <= positionMs) {
+          newIndex = index;
+        } else {
+          break;
+        }
+      }
+
+      if (newIndex != _currentLyricIndex) {
+
+        setState(() {
+          _currentLyricIndex = newIndex;
+        });
+
+        // Scroll to the current lyric line
+        if (newIndex != null && _scrollController.isAttached) {
+          _scrollController.scrollTo(
+            index: newIndex,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            alignment: 0.5
+          );
+        }
+      }
+    });
+  }
+
   void _fetchLyrics() {
     final id = _currentMediaItem == null ? null : int.tryParse(_currentMediaItem!.id);
     setState(() {
@@ -107,7 +153,12 @@ class _LyricsDialogState extends State<LyricsDialog> {
         _lyricsFuture = Future.value(null);
         return;
       }
-      _lyricsFuture = _apiManager.service.getTrackLyrics(id);
+      _lyricsFuture = _apiManager.service.getTrackLyrics(id).then((lyrics) {
+        _parsedLyrics = lyrics.lyrics == null ? null : LrcParser.parseLyrics(lyrics.lyrics!);
+        _currentLyricIndex = null;
+        _setupPositionListener();
+        return lyrics;
+      });
     });
   }
 
@@ -135,6 +186,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
   @override
   void dispose() {
     _currentMediaItemSubscription?.cancel();
+    _positionSubscription?.cancel();
     super.dispose();
   }
 
@@ -152,7 +204,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
             final textColor = _getForegroundColor(value, data?.colorScheme, theme);
             final accentColor = _getAccentColor(value, data?.colorScheme, theme);
 
-            if (data?.lyrics == null || data!.lyrics!.isEmpty) {
+            if (_parsedLyrics == null || _parsedLyrics!.lines.isEmpty) {
               return Container(
                 color: backgroundColor,
                 child: Center(
@@ -164,21 +216,18 @@ class _LyricsDialogState extends State<LyricsDialog> {
               );
             }
 
-            var parsedLyrics = LrcParser.parseLyrics(data.lyrics!);
-
-            if (!parsedLyrics.isSynced) {
-              final lines = data.lyrics!.split('\n');
+            if (!_parsedLyrics!.isSynced) {
 
               return Container(
                 color: backgroundColor,
                 child: ListView.builder(
                   padding: const EdgeInsets.all(16.0),
-                  itemCount: lines.length,
+                  itemCount: _parsedLyrics!.lines.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Text(
-                        lines[index],
+                        _parsedLyrics!.lines[index].text,
                         style: TextStyle(color: textColor, fontSize: 16),
                         textAlign: TextAlign.center,
                       ),
@@ -191,70 +240,38 @@ class _LyricsDialogState extends State<LyricsDialog> {
             return Container(
               color: backgroundColor,
               padding: const EdgeInsets.all(8.0),
-              child: StreamBuilder(
-                stream: _audioManager.audioPlayer.positionStream,
-                builder: (context, snapshot) {
-                  final position = snapshot.data ?? Duration.zero;
-                  final positionMs = position.inMilliseconds;
-
-                  // Find the closest lyric line that is less than or equal to the current position
-                  int? currentIndex;
-                  for (var (index, line) in parsedLyrics.lines.indexed) {
-                    if (line.timestamp.inMilliseconds <= positionMs) {
-                      currentIndex = index;
-                    } else {
-                      break;
-                    }
-                  }
-
-                  if (currentIndex != null && currentIndex != _lastLyricIndex) {
-                    _lastLyricIndex = currentIndex;
-                    // Scroll to the current lyric line
-                    if (_scrollController.isAttached) {
-                      _scrollController.scrollTo(
-                        index: currentIndex,
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                        alignment: 0.5
-                      );
-                    }
-                  }
-
-                  return ScrollConfiguration(
-                    behavior: const ScrollBehavior()
-                        .copyWith(overscroll: false, scrollbars: false),
-                    child: ScrollablePositionedList.builder(
-                      physics: const ClampingScrollPhysics(),
-
-                      itemCount: parsedLyrics.lines.length,
-                      itemScrollController: _scrollController,
-                      itemBuilder: (context, index) {
-                        final line = parsedLyrics.lines.elementAt(index);
-                        final isCurrent = index == currentIndex;
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: InkWell(
-                            onTap: () {
-                              _audioManager.seek(line.timestamp);
-                            },
-                            child: AnimatedDefaultTextStyle(
-                              duration: const Duration(milliseconds: 150),
-                              style: TextStyle(
-                                color: isCurrent ? accentColor : textColor,
-                                fontSize: isCurrent ? 18 : 16,
-                                fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
-                              ),
-                              child: Text(
-                                line.text,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
+              child: ScrollConfiguration(
+                behavior: const ScrollBehavior()
+                    .copyWith(overscroll: false, scrollbars: false),
+                child: ScrollablePositionedList.builder(
+                  physics: const ClampingScrollPhysics(),
+                  itemCount: _parsedLyrics!.lines.length,
+                  itemScrollController: _scrollController,
+                  itemBuilder: (context, index) {
+                    final line = _parsedLyrics!.lines.elementAt(index);
+                    final isCurrent = index == _currentLyricIndex;
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: InkWell(
+                        onTap: () {
+                          _audioManager.seek(line.timestamp);
+                        },
+                        child: AnimatedDefaultTextStyle(
+                          duration: const Duration(milliseconds: 150),
+                          style: TextStyle(
+                            color: isCurrent ? accentColor : textColor,
+                            fontSize: isCurrent ? 18 : 16,
+                            fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
                           ),
-                        );
-                      }
-                    ),
-                  );
-                },
+                          child: Text(
+                            line.text,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                ),
               )
             );
           }
