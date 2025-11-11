@@ -5,6 +5,7 @@ import 'package:vibin_app/dtos/track/base_track.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/utils/track_downloader.dart';
 import 'package:vibin_app/widgets/tracklist/track_list_artist_view.dart';
 
 import '../../audio/audio_manager.dart';
@@ -78,38 +79,39 @@ class TrackListActionView extends StatelessWidget {
           if (as.hasPermission(PermissionType.managePlaylists)) ... [
             PopupMenuItem(
               child: IconText(icon: Icons.add_outlined, text: lm.track_actions_add_to_playlist),
-              onTap: () { _addTrackToPlaylist(track.id, context); },
+              onTap: () => _addTrackToPlaylist(track.id, context),
             )
           ],
           if (as.hasPermission(PermissionType.streamTracks)) ... [
             PopupMenuItem(
               child: IconText(icon: Icons.queue_music_outlined, text: lm.track_actions_add_to_queue),
-              onTap: () { _addToQueue(context, track); },
+              onTap: () => _addToQueue(context, track),
             )
           ],
           PopupMenuDivider(),
           if (as.hasPermission(PermissionType.viewTracks)) ... [
             PopupMenuItem(
               child: IconText(icon: Icons.library_music_outlined, text: lm.track_actions_goto_track),
-              onTap: () { _openTrack(context, track); },
+              onTap: () => _openTrack(context, track),
             )
           ],
           if (as.hasPermission(PermissionType.viewArtists)) ... [
             PopupMenuItem(
               child: IconText(icon: Icons.person_outlined, text: lm.track_actions_goto_artist),
-              onTap: () { _openArtist(context); },
+              onTap: () => _openArtist(context),
             )
           ],
           if(as.hasPermission(PermissionType.viewAlbums) && (albumId == null || albumId != track.getAlbum().id)) ... [
             PopupMenuItem(
               child: IconText(icon: Icons.album_outlined, text: lm.track_actions_goto_album),
-              onTap: () { _openAlbum(context, track); },
+              onTap: () => _openAlbum(context, track),
             ),
           ],
           if (as.hasPermission(PermissionType.downloadTracks)) ... [
             PopupMenuDivider(),
             PopupMenuItem(
               child: IconText(icon: Icons.download_outlined, text: lm.track_actions_download),
+              onTap: () => TrackDownloader.downloadTrack(context, track.id),
             ),
           ],
         ]

@@ -1,15 +1,11 @@
 import 'dart:async';
-import 'dart:developer';
-import 'dart:io';
-import 'dart:typed_data';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dialogs/add_track_to_playlist_dialog.dart';
 import 'package:vibin_app/extensions.dart';
+import 'package:vibin_app/utils/track_downloader.dart';
 import 'package:vibin_app/widgets/play_button.dart';
 
 import '../../api/api_manager.dart';
@@ -70,45 +66,7 @@ class _TrackActionBarState extends State<TrackActionBar> {
   Future<void> _addToQueue(BuildContext context, int trackId) async {
     await _audioManager.addTrackIdToQueue(trackId, false);
     if (!mounted || !context.mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(AppLocalizations.of(context)!.track_actions_added_to_queue))
-    );
-  }
-
-  Future<void> _downloadTrack() async {
-
-    final lm = AppLocalizations.of(context)!;
-
-    try {
-      final track = await _apiManager.service.getTrack(widget.trackId);
-      final bytes = await _apiManager.service.downloadTrack(widget.trackId);
-
-      if (!mounted) return;
-
-      final saveFile = await FilePicker.platform.saveFile(
-        dialogTitle: lm.track_actions_download,
-        fileName: track.path.split("/").last,
-        bytes: Uint8List.fromList(bytes.data),
-        type: FileType.audio
-      );
-
-      if (saveFile == null) return;
-
-      if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-        final file = File(saveFile);
-        await file.writeAsBytes(bytes.data);
-      }
-
-      if (mounted) {
-        showSnackBar(context, lm.track_actions_download_success);
-      }
-    }
-    catch (e) {
-      log("Error downloading track: $e", error: e, level: Level.error.value);
-      if (mounted) {
-        showSnackBar(context, lm.track_actions_download_error);
-      }
-    }
+    showSnackBar(context, AppLocalizations.of(context)!.track_actions_added_to_queue);
   }
 
   @override
@@ -130,32 +88,28 @@ class _TrackActionBarState extends State<TrackActionBar> {
             }
           ),
           IconButton(
-            onPressed: () {
-              _addToQueue(context, widget.trackId);
-            },
+            onPressed: () => _addToQueue(context, widget.trackId),
             icon: const Icon(Icons.queue_music, size: 32),
             tooltip: lm.track_actions_add_to_queue,
           )
         ],
         if (_authState.hasPermission(PermissionType.managePlaylists)) ... [
           IconButton(
-            onPressed: () { AddTrackToPlaylistDialog.show(widget.trackId, context); },
+            onPressed: () => AddTrackToPlaylistDialog.show(widget.trackId, context),
             icon: const Icon(Icons.playlist_add, size: 32),
             tooltip: lm.track_actions_add_to_playlist,
           )
         ],
         if (_authState.hasPermission(PermissionType.downloadTracks)) ... [
           IconButton(
-            onPressed: _downloadTrack,
+            onPressed: () => TrackDownloader.downloadTrack(context, widget.trackId),
             icon: const Icon(Icons.download, size: 32),
             tooltip: lm.track_actions_download,
           )
         ],
         if (_authState.hasPermission(PermissionType.manageTracks)) ... [
           IconButton(
-            onPressed: () {
-              GoRouter.of(context).push("/tracks/${widget.trackId}/edit");
-            },
+            onPressed: () => GoRouter.of(context).push("/tracks/${widget.trackId}/edit"),
             icon: const Icon(Icons.edit, size: 32),
             tooltip: lm.track_actions_edit,
           )
