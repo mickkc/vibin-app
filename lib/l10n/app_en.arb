@@ -464,6 +464,9 @@
   "settings_server_album_metadata_provider_title": "Album Metadata Provider",
   "settings_server_album_metadata_provider_description": "Select the metadata provider used for fetching album metadata automatically.",
 
+  "settings_server_lyrics_metadata_provider_title": "Lyrics Metadata Provider",
+  "settings_server_lyrics_metadata_provider_description": "Select the metadata provider used for fetching lyrics automatically.",
+
   "settings_server_metadata_matching_type_exact": "Exact Match",
   "settings_server_metadata_matching_type_case_insensitive": "Case Insensitive Match",
   "settings_server_metadata_matching_type_first": "First Result",

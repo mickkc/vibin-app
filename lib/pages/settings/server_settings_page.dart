@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
+import 'package:vibin_app/dtos/metadata_fetch_type.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/settings/server/server_boolean_settings_field.dart';
@@ -122,26 +123,8 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
                       title: _lm.settings_server_artist_metadata_matching_type_title,
                       description: _lm.settings_server_artist_metadata_matching_type_description,
                       icon: Icons.filter_list,
-                      options: [
-                        "EXACT_MATCH",
-                        "CASE_INSENSITIVE_MATCH",
-                        "FIRST_RESULT",
-                        "NONE"
-                      ],
-                      itemFormatter: (type) {
-                        switch (type) {
-                          case "EXACT_MATCH":
-                            return _lm.settings_server_metadata_matching_type_exact;
-                          case "CASE_INSENSITIVE_MATCH":
-                            return _lm.settings_server_metadata_matching_type_case_insensitive;
-                          case "FIRST_RESULT":
-                            return _lm.settings_server_metadata_matching_type_first;
-                          case "NONE":
-                            return _lm.settings_server_metadata_matching_type_disabled;
-                          default:
-                            return type;
-                        }
-                      },
+                      options: MetadataFetchType.values,
+                      itemFormatter: (type) => MetadataFetchType.format(type, _lm)
                     ),
 
                     ServerStringDropdownField(
@@ -159,26 +142,8 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
                       title: _lm.settings_server_album_metadata_matching_type_title,
                       description: _lm.settings_server_album_metadata_matching_type_description,
                       icon: Icons.filter_list,
-                      options: [
-                        "EXACT_MATCH",
-                        "CASE_INSENSITIVE_MATCH",
-                        "FIRST_RESULT",
-                        "NONE"
-                      ],
-                      itemFormatter: (type) {
-                        switch (type) {
-                          case "EXACT_MATCH":
-                            return _lm.settings_server_metadata_matching_type_exact;
-                          case "CASE_INSENSITIVE_MATCH":
-                            return _lm.settings_server_metadata_matching_type_case_insensitive;
-                          case "FIRST_RESULT":
-                            return _lm.settings_server_metadata_matching_type_first;
-                          case "NONE":
-                            return _lm.settings_server_metadata_matching_type_disabled;
-                          default:
-                            return type;
-                        }
-                      },
+                      options: MetadataFetchType.values,
+                      itemFormatter: (type) => MetadataFetchType.format(type, _lm)
                     ),
 
                     ServerStringDropdownField(
@@ -188,6 +153,15 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
                       description: _lm.settings_server_album_metadata_provider_description,
                       icon: Icons.source,
                       options: providers.album + ["None"]
+                    ),
+
+                    ServerStringDropdownField(
+                      settingKey: "lyrics_metadata_source",
+                      initialValue: settings.settings["lyrics_metadata_source"],
+                      title: _lm.settings_server_lyrics_metadata_provider_title,
+                      description: _lm.settings_server_lyrics_metadata_provider_description,
+                      icon: Icons.source,
+                      options: providers.lyrics + ["None"]
                     )
                   ],
                 );
