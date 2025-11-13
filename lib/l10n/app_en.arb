@@ -452,6 +452,23 @@
   "settings_server_secondary_metadata_source_title": "Secondary Metadata Source",
   "settings_server_secondary_metadata_source_description": "Select the secondary source for metadata used when parsing music files in case the primary source does not provide sufficient data.",
 
+  "settings_server_artist_metadata_matching_type_title": "Artist Metadata Matching Type",
+  "settings_server_artist_metadata_matching_type_description": "Select how artists are matched when fetching metadata for artists automatically.",
+
+  "settings_server_artist_metadata_provider_title": "Artist Metadata Provider",
+  "settings_server_artist_metadata_provider_description": "Select the metadata provider used for fetching artist metadata automatically.",
+
+  "settings_server_album_metadata_matching_type_title": "Album Metadata Matching Type",
+  "settings_server_album_metadata_matching_type_description": "Select how albums are matched when fetching metadata for albums automatically.",
+
+  "settings_server_album_metadata_provider_title": "Album Metadata Provider",
+  "settings_server_album_metadata_provider_description": "Select the metadata provider used for fetching album metadata automatically.",
+
+  "settings_server_metadata_matching_type_exact": "Exact Match",
+  "settings_server_metadata_matching_type_case_insensitive": "Case Insensitive Match",
+  "settings_server_metadata_matching_type_first": "First Result",
+  "settings_server_metadata_matching_type_disabled": "Disabled",
+
   "settings_server_genre_as_tags_title": "Use Genres as Tags",
   "settings_server_genre_as_tags_description": "When enabled, genres from metadata will be automatically added as tags to tracks.",
 

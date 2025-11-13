@@ -451,6 +451,23 @@
   "settings_server_secondary_metadata_source_title": "Sekundäre Metadaten-Quelle",
   "settings_server_secondary_metadata_source_description": "Wähle die sekundäre Quelle für Metadaten aus, die beim Parsen von Musikdateien verwendet wird, falls die primäre Quelle keine Metadaten liefert.",
 
+  "settings_server_artist_metadata_matching_type_title": "Künstler-Metadaten Übereinstimmungstyp",
+  "settings_server_artist_metadata_matching_type_description": "Wähle aus, wie Künstler abgeglichen werden, wenn Metadaten für Künstler automatisch abgerufen werden.",
+
+  "settings_server_artist_metadata_provider_title": "Künstler Metadaten-Anbieter",
+  "settings_server_artist_metadata_provider_description": "Wähle den Metadaten-Anbieter aus, der zum automatischen Abrufen von Künstler-Metadaten verwendet wird.",
+
+  "settings_server_album_metadata_matching_type_title": "Album-Metadaten Übereinstimmungstyp",
+  "settings_server_album_metadata_matching_type_description": "Wähle aus, wie Alben abgeglichen werden, wenn Metadaten für Alben automatisch abgerufen werden.",
+
+  "settings_server_album_metadata_provider_title": "Album Metadaten-Anbieter",
+  "settings_server_album_metadata_provider_description": "Wähle den Metadaten-Anbieter aus, der zum automatischen Abrufen von Album-Metadaten verwendet wird.",
+
+  "settings_server_metadata_matching_type_exact": "Genaue Übereinstimmung",
+  "settings_server_metadata_matching_type_case_insensitive": "Groß-/Kleinschreibung ignorieren",
+  "settings_server_metadata_matching_type_first": "Erstes Ergebnis",
+  "settings_server_metadata_matching_type_disabled": "Deaktiviert",
+
   "settings_server_genre_as_tags_title": "Genres als Tags hinzufügen",
   "settings_server_genre_as_tags_description": "Wenn aktiviert, werden Genres aus den Metadaten als Tags zu Titeln hinzugefügt.",
 

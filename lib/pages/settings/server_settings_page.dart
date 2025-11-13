@@ -104,18 +104,94 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
                       description: _lm.settings_server_secondary_metadata_source_description,
                       icon: Icons.source,
                       options: providers.file + ["None"]
+                    ),
+
+                    ServerBooleanSettingsField(
+                      settingKey: "add_genre_as_tag",
+                      initialValue: settings.settings["add_genre_as_tag"],
+                      title: _lm.settings_server_genre_as_tags_title,
+                      description: _lm.settings_server_genre_as_tags_description,
+                      icon: Icons.sell,
+                    ),
+
+                    const Divider(),
+
+                    ServerStringDropdownField(
+                      settingKey: "artist_metadata_fetch_type",
+                      initialValue: settings.settings["artist_metadata_fetch_type"],
+                      title: _lm.settings_server_artist_metadata_matching_type_title,
+                      description: _lm.settings_server_artist_metadata_matching_type_description,
+                      icon: Icons.filter_list,
+                      options: [
+                        "EXACT_MATCH",
+                        "CASE_INSENSITIVE_MATCH",
+                        "FIRST_RESULT",
+                        "NONE"
+                      ],
+                      itemFormatter: (type) {
+                        switch (type) {
+                          case "EXACT_MATCH":
+                            return _lm.settings_server_metadata_matching_type_exact;
+                          case "CASE_INSENSITIVE_MATCH":
+                            return _lm.settings_server_metadata_matching_type_case_insensitive;
+                          case "FIRST_RESULT":
+                            return _lm.settings_server_metadata_matching_type_first;
+                          case "NONE":
+                            return _lm.settings_server_metadata_matching_type_disabled;
+                          default:
+                            return type;
+                        }
+                      },
+                    ),
+
+                    ServerStringDropdownField(
+                      settingKey: "artist_metadata_source",
+                      initialValue: settings.settings["artist_metadata_source"],
+                      title: _lm.settings_server_artist_metadata_provider_title,
+                      description: _lm.settings_server_artist_metadata_provider_description,
+                      icon: Icons.source,
+                      options: providers.artist + ["None"]
+                    ),
+
+                    ServerStringDropdownField(
+                      settingKey: "album_metadata_fetch_type",
+                      initialValue: settings.settings["album_metadata_fetch_type"],
+                      title: _lm.settings_server_album_metadata_matching_type_title,
+                      description: _lm.settings_server_album_metadata_matching_type_description,
+                      icon: Icons.filter_list,
+                      options: [
+                        "EXACT_MATCH",
+                        "CASE_INSENSITIVE_MATCH",
+                        "FIRST_RESULT",
+                        "NONE"
+                      ],
+                      itemFormatter: (type) {
+                        switch (type) {
+                          case "EXACT_MATCH":
+                            return _lm.settings_server_metadata_matching_type_exact;
+                          case "CASE_INSENSITIVE_MATCH":
+                            return _lm.settings_server_metadata_matching_type_case_insensitive;
+                          case "FIRST_RESULT":
+                            return _lm.settings_server_metadata_matching_type_first;
+                          case "NONE":
+                            return _lm.settings_server_metadata_matching_type_disabled;
+                          default:
+                            return type;
+                        }
+                      },
+                    ),
+
+                    ServerStringDropdownField(
+                      settingKey: "album_metadata_source",
+                      initialValue: settings.settings["album_metadata_source"],
+                      title: _lm.settings_server_album_metadata_provider_title,
+                      description: _lm.settings_server_album_metadata_provider_description,
+                      icon: Icons.source,
+                      options: providers.album + ["None"]
                     )
                   ],
                 );
               }
-            ),
-
-            ServerBooleanSettingsField(
-              settingKey: "add_genre_as_tag",
-              initialValue: settings.settings["add_genre_as_tag"],
-              title: _lm.settings_server_genre_as_tags_title,
-              description: _lm.settings_server_genre_as_tags_description,
-              icon: Icons.sell,
             ),
 
             const Divider(),

@@ -15,6 +15,7 @@ class ServerStringDropdownField extends StatefulWidget {
   final String initialValue;
   final List<String> options;
   final IconData? icon;
+  final String Function(String)? itemFormatter;
 
   const ServerStringDropdownField({
     super.key,
@@ -24,6 +25,7 @@ class ServerStringDropdownField extends StatefulWidget {
     required this.initialValue,
     required this.options,
     this.icon,
+    this.itemFormatter,
   });
 
   @override
@@ -67,7 +69,9 @@ class _ServerStringDropdownFieldState extends State<ServerStringDropdownField> {
         items: widget.options.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value),
+            child: Text(
+              widget.itemFormatter != null ? widget.itemFormatter!(value) : value
+            ),
           );
         }).toList(),
       ),
