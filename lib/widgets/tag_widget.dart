@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
-import 'package:vibin_app/extensions.dart';
+import 'package:vibin_app/utils/theme_generator.dart';
 
 class TagWidget extends StatelessWidget {
   final Tag tag;
@@ -10,7 +10,13 @@ class TagWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = tag.color == null ? Theme.of(context).colorScheme.primary : HexColor.fromHex(tag.color!);
+
+    final theme = Theme.of(context);
+    final color = ThemeGenerator.blendColors(
+      theme.colorScheme.primary,
+      theme.colorScheme.secondary,
+      (10 - tag.importance) / 10.0
+    );
 
     return InkWell(
       onTap: onTap,

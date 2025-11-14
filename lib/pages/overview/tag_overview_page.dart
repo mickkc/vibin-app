@@ -40,7 +40,7 @@ class _TagOverviewPageState extends State<TagOverviewPage> {
           onDelete: _refreshTags,
           initialName: tag.name,
           initialDescription: tag.description,
-          initialColor: tag.color,
+          initialImportance: tag.importance,
           tagId: tag.id,
         );
       }

@@ -2,17 +2,17 @@ import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()
 class TagEditData {
-  final String? name;
+  final String name;
   final String? description;
-  final String? color;
+  final int importance;
 
-  TagEditData({this.name, this.description, this.color});
+  TagEditData({required this.name, this.description, required this.importance});
 
   factory TagEditData.fromJson(Map<String, dynamic> json) {
     return TagEditData(
       name: json['name'],
       description: json['description'],
-      color: json['color'],
+      importance: json['importance'],
     );
   }
 
@@ -20,7 +20,7 @@ class TagEditData {
     return {
       'name': name,
       'description': description,
-      'color': color,
+      'importance': importance,
     };
   }
 }

@@ -17,7 +17,7 @@ class TagEditDialog extends StatefulWidget {
   final int? tagId;
   final String? initialName;
   final String? initialDescription;
-  final String? initialColor;
+  final int? initialImportance;
   final Function(Tag) onSave;
   final Function()? onDelete;
 
@@ -26,7 +26,7 @@ class TagEditDialog extends StatefulWidget {
     this.tagId,
     this.initialName,
     this.initialDescription,
-    this.initialColor,
+    this.initialImportance,
     required this.onSave,
     this.onDelete
   });
@@ -39,28 +39,26 @@ class _TagEditDialogState extends State<TagEditDialog> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _nameController;
   late TextEditingController _descriptionController;
-  late TextEditingController _colorController;
+
+  late int _importance;
 
   final _apiManager = getIt<ApiManager>();
   final _authState = getIt<AuthState>();
 
   late final _lm = AppLocalizations.of(context)!;
 
-  final _hexColorRegExp = RegExp(r'^#?[0-9a-fA-F]{6}$');
-
   @override
   void initState() {
     super.initState();
     _nameController = TextEditingController(text: widget.initialName ?? '');
     _descriptionController = TextEditingController(text: widget.initialDescription ?? '');
-    _colorController = TextEditingController(text: widget.initialColor ?? '');
+    _importance = widget.initialImportance ?? 10;
   }
 
   @override
   void dispose() {
     _nameController.dispose();
     _descriptionController.dispose();
-    _colorController.dispose();
     super.dispose();
   }
 
@@ -92,7 +90,7 @@ class _TagEditDialogState extends State<TagEditDialog> {
     final editData = TagEditData(
       name: _nameController.text,
       description: _descriptionController.text,
-      color: _colorController.text.isNotEmpty ? _colorController.text : null
+      importance: _importance
     );
     try {
       final tag = widget.tagId == null
@@ -160,19 +158,28 @@ class _TagEditDialogState extends State<TagEditDialog> {
               controller: _descriptionController,
               decoration: InputDecoration(labelText: _lm.edit_tag_description),
             ),
-            TextFormField(
-              controller: _colorController,
-              decoration: InputDecoration(labelText: _lm.edit_tag_color),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return null;
-                }
-                if (!_hexColorRegExp.hasMatch(value)) {
-                  return _lm.edit_tag_color_not_hex;
-                }
-                return null;
-              },
-            ),
+
+            Row(
+              spacing: 8,
+              children: [
+                Text(_lm.edit_tag_importance),
+                Expanded(
+                  child: Slider(
+                    value: _importance.toDouble(),
+                    min: 1,
+                    max: 10,
+                    divisions: 9,
+                    label: _importance.toString(),
+                    onChanged: (value) {
+                      setState(() {
+                        _importance = value.toInt();
+                      });
+                    },
+                  ),
+                ),
+                Text(_importance.toString()),
+              ],
+            )
           ],
         ),
       ),

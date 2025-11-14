@@ -5,7 +5,7 @@ class Tag {
   final int id;
   final String name;
   final String description;
-  final String? color;
+  final int importance;
   final int createdAt;
   final int? updatedAt;
 
@@ -13,7 +13,7 @@ class Tag {
     required this.id,
     required this.name,
     required this.description,
-    this.color,
+    required this.importance,
     required this.createdAt,
     this.updatedAt,
   });
@@ -23,7 +23,7 @@ class Tag {
       id: json['id'],
       name: json['name'],
       description: json['description'],
-      color: json['color'],
+      importance: json['importance'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
     );
