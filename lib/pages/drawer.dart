@@ -14,8 +14,8 @@ class DrawerComponent extends StatelessWidget {
 
   void _goTo(BuildContext context, String route) {
     final router = GoRouter.of(context);
-    if (router.canPop()) {
-      router.pop(context);
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
       router.go(route);
     }
   }
