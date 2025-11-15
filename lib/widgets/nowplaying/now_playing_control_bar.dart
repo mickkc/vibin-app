@@ -1,8 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
-import 'package:vibin_app/dialogs/lyrics_dialog.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/colored_icon_button.dart';
 import 'package:vibin_app/widgets/nowplaying/audio_progress_slider.dart';
@@ -29,7 +27,6 @@ class NowPlayingControlBar extends StatefulWidget {
 class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
 
   final _audioManager = getIt<AudioManager>();
-  final _apiManager = getIt<ApiManager>();
 
   void _showMobileDialog() {
     showModalBottomSheet(
@@ -52,32 +49,6 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
 
   void _showQueue() {
     NowPlayingQueue.show(context);
-  }
-
-  Widget _lyricsButton() {
-
-    Widget buttonBase(VoidCallback? onPressed) {
-      return ElevatedButton.icon(
-        onPressed: onPressed,
-        icon: Icon(Icons.lyrics),
-        label: Text(AppLocalizations.of(context)!.now_playing_lyrics)
-      );
-    }
-
-    final id = int.tryParse(widget.mediaItem.id);
-    if (id == null) return SizedBox.shrink();
-    final lyricsFuture = _apiManager.service.checkTrackHasLyrics(id);
-    return FutureBuilder(
-      future: lyricsFuture,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData || snapshot.hasError || snapshot.data == null || !snapshot.data!.success) {
-          return buttonBase(null);
-        }
-        return buttonBase(() {
-          LyricsDialog.show(context);
-        }
-      );
-    });
   }
 
   @override
@@ -131,7 +102,6 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
                   label: Text(lm.now_plying_advanced_controls),
                   icon: Icon(Icons.settings)
                 ),
-                _lyricsButton(),
                 ElevatedButton.icon(
                   onPressed: _showQueue,
                   label: Text(lm.now_playing_queue),
@@ -149,7 +119,6 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
               Expanded(
                 child: const VolumeSlider()
               ),
-              _lyricsButton(),
               ElevatedButton.icon(
                 onPressed: _showQueue,
                 label: Text(lm.now_playing_queue),
