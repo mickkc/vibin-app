@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/playlist/playlist_data.dart';
 import 'package:vibin_app/dtos/shuffle_state.dart';
 import 'package:vibin_app/extensions.dart';
@@ -13,6 +15,7 @@ import 'package:vibin_app/widgets/tracklist/playlist_track_list.dart';
 
 import '../../api/api_manager.dart';
 import '../../audio/audio_manager.dart';
+import '../../auth/auth_state.dart';
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 
@@ -26,7 +29,10 @@ class PlaylistInfoPage extends StatelessWidget {
   });
 
   Widget _playlistInfo(BuildContext context, Future<PlaylistData> playlistDataFuture) {
+
     final lm = AppLocalizations.of(context)!;
+    final authState = getIt<AuthState>();
+
     return FutureContent(
       future: playlistDataFuture,
       builder: (context, data) {
@@ -47,9 +53,38 @@ class PlaylistInfoPage extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
               )
             ],
-            IconText(icon: Icons.person, text: data.playlist.owner.displayName ?? data.playlist.owner.username),
+            IconText(
+              icon: Icons.person,
+              text: data.playlist.owner.displayName ?? data.playlist.owner.username,
+              onTap: authState.hasPermission(PermissionType.viewUsers) ? () {
+                GoRouter.of(context).push('/users/${data.playlist.owner.id}');
+              } : null,
+            ),
             if (data.playlist.collaborators.isNotEmpty) ... [
-              IconText(icon: Icons.group, text: data.playlist.collaborators.map((e) => e.displayName ?? e.username).join(", ")),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                runAlignment: WrapAlignment.center,
+                alignment: WrapAlignment.start,
+                children: [
+                  Icon(Icons.group),
+                  for (var collaborator in data.playlist.collaborators) ... [
+                    InkWell(
+                      onTap: authState.hasPermission(PermissionType.viewUsers) ? () {
+                        GoRouter.of(context).push('/users/${collaborator.id}');
+                      } : null,
+                      child: Text(
+                        collaborator.displayName ?? collaborator.username,
+                        style: TextStyle(
+                          color: authState.hasPermission(PermissionType.viewUsers) ? Theme.of(context).colorScheme.primary : null
+                        ),
+                      ),
+                    ),
+                    if (collaborator != data.playlist.collaborators.last)
+                      const Text("•")
+                  ]
+                ]
+              )
             ],
             Wrap(
               spacing: 16,
