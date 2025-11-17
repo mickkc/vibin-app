@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/utils/theme_generator.dart';
 
 class TagWidget extends StatelessWidget {
   final Tag tag;
   final void Function()? onTap;
+  final void Function()? onContextMenu;
 
-  const TagWidget({super.key, required this.tag, this.onTap});
+  const TagWidget({
+    super.key,
+    required this.tag,
+    this.onTap,
+    this.onContextMenu
+  });
+
+  static Future<void> openTag(Tag tag, BuildContext context) async {
+    await GoRouter.of(context).push("/tracks?advanced=true&search=%2B%22${tag.name}%22");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +30,9 @@ class TagWidget extends StatelessWidget {
     );
 
     return InkWell(
-      onTap: onTap,
+      onTap: onTap ?? () => openTag(tag, context),
+      onLongPress: onContextMenu,
+      onSecondaryTap: onContextMenu,
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         decoration: BoxDecoration(

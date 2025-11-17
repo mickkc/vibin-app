@@ -55,7 +55,7 @@ class DrawerComponent extends StatelessWidget {
           title: Text(lm.drawer_search),
           onTap: () => _goTo(context, '/search'),
         ),
-        Divider(),
+        const Divider(),
         if (authState.hasPermission(PermissionType.viewTracks))
           ListTile(
             leading: Icon(Icons.library_music),
@@ -92,7 +92,7 @@ class DrawerComponent extends StatelessWidget {
             title: Text(lm.users),
             onTap: () => _goTo(context, '/users'),
           ),
-        Divider(),
+        const Divider(),
         if (authState.user != null)
           ListTile(
             leading: Icon(Icons.person),

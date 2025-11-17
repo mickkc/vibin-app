@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
@@ -18,13 +19,24 @@ class TrackPage extends StatelessWidget {
     final settingsManager = getIt<SettingsManager>();
     final apiManager = getIt<ApiManager>();
 
+    final parameters = GoRouterState.of(context).uri.queryParameters;
+
     return PaginatedOverview(
       fetchFunction: (page, pageSize, query) {
-        return apiManager.service.searchTracks(query, settingsManager.get(Settings.advancedTrackSearch), page, pageSize);
+        final overrideAdvancedSearch = parameters['advanced'];
+        return apiManager.service.searchTracks(
+          query,
+          overrideAdvancedSearch != null
+            ? bool.parse(overrideAdvancedSearch)
+            : settingsManager.get(Settings.advancedTrackSearch),
+          page,
+          pageSize
+        );
       },
       type: EntityCardType.track,
       title: AppLocalizations.of(context)!.tracks,
-      icon: Icons.library_music
+      icon: Icons.library_music,
+      initialSearchQuery: parameters['search'],
     );
   }
 }

@@ -102,7 +102,7 @@ class _TagOverviewPageState extends State<TagOverviewPage> {
                   message: tag.description,
                   child: TagWidget(
                     tag: tag,
-                    onTap: () {
+                    onContextMenu: () {
                       _editTag(tag);
                     },
                   )

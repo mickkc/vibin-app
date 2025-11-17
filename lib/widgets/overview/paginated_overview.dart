@@ -15,6 +15,7 @@ class PaginatedOverview extends StatefulWidget {
   final String title;
   final IconData icon;
   final List<Widget>? actions;
+  final String? initialSearchQuery;
 
   const PaginatedOverview({
     super.key,
@@ -23,6 +24,7 @@ class PaginatedOverview extends StatefulWidget {
     required this.title,
     required this.icon,
     this.actions,
+    this.initialSearchQuery,
   });
 
   @override
@@ -31,7 +33,7 @@ class PaginatedOverview extends StatefulWidget {
 
 class _PaginatedOverviewState extends State<PaginatedOverview> {
   
-  String _searchQuery = "";
+  late String _searchQuery;
   int _page = 1;
   late Future<dynamic> _currentPagination;
 
@@ -40,6 +42,7 @@ class _PaginatedOverviewState extends State<PaginatedOverview> {
   @override
   void initState() {
     super.initState();
+    _searchQuery = widget.initialSearchQuery ?? "";
     _currentPagination = _fetchData();
   }
 
