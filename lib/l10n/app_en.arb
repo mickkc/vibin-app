@@ -102,6 +102,12 @@
   "track_actions_download_success": "Track downloaded successfully.",
   "track_actions_download_error": "An error occurred while downloading the track.",
 
+  "actions_add_to_favorites": "Add to Favorites",
+  "actions_remove_from_favorites": "Remove from Favorites",
+
+  "actions_favorite_added": "Added to Favorites",
+  "actions_favorite_removed": "Removed from Favorites",
+
   "playlist_actions_play": "Play Playlist",
   "playlist_actions_pause": "Pause Playlist",
   "playlist_actions_resume": "Resume Playlist",

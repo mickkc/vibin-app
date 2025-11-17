@@ -6,6 +6,7 @@ import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dialogs/add_track_to_playlist_dialog.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/utils/track_downloader.dart';
+import 'package:vibin_app/widgets/entity_card.dart';
 import 'package:vibin_app/widgets/play_button.dart';
 
 import '../../api/api_manager.dart';
@@ -14,6 +15,7 @@ import '../../dtos/permission_type.dart';
 import '../../dtos/track/track.dart';
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
+import '../favorite_icon_button.dart';
 
 class TrackActionBar extends StatefulWidget {
   final int trackId;
@@ -113,7 +115,12 @@ class _TrackActionBarState extends State<TrackActionBar> {
             icon: const Icon(Icons.edit, size: 32),
             tooltip: lm.track_actions_edit,
           )
-        ]
+        ],
+        if (_authState.hasPermission(PermissionType.manageOwnUser))
+          FavoriteIconButton(
+            type: EntityCardType.track,
+            entityId: widget.trackId,
+          )
       ],
     );
   }

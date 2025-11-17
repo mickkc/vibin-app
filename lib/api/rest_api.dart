@@ -8,6 +8,7 @@ import 'package:vibin_app/dtos/album/album_info_metadata.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/artist/artist_metadata.dart';
 import 'package:vibin_app/dtos/artist_dicography.dart';
+import 'package:vibin_app/dtos/favorite_check_response.dart';
 import 'package:vibin_app/dtos/favorites.dart';
 import 'package:vibin_app/dtos/global_stats.dart';
 import 'package:vibin_app/dtos/login_result.dart';
@@ -139,23 +140,14 @@ abstract class ApiService {
   @GET("/api/favorites/{id}")
   Future<Favorites> getFavoritesForUser(@Path("id") int userId);
 
-  @PUT("/api/favorites/{id}/tracks")
-  Future<Success> toggleFavoriteTrack(@Path("id") int userId, @Query("trackId") int trackId);
+  @PUT("/api/favorites/{type}/{place}")
+  Future<Success> addFavorite(@Path("type") String type, @Path("place") int place, @Query("entityId") int trackId);
 
-  @PUT("/api/favorites/{id}/artists")
-  Future<Success> toggleFavoriteArtist(@Path("id") int userId, @Query("artistId") int artistId);
+  @DELETE("/api/favorites/{type}/{place}")
+  Future<Success> removeFavorite(@Path("type") String type, @Path("place") int place);
 
-  @PUT("/api/favorites/{id}/albums")
-  Future<Success> toggleFavoriteAlbum(@Path("id") int userId, @Query("albumId") int albumId);
-
-  @DELETE("/api/favorites/tracks/{place}")
-  Future<Success> removeFavoriteTrackAtPlace(@Path("place") int place);
-
-  @DELETE("/api/favorites/artists/{place}")
-  Future<Success> removeFavoriteArtistAtPlace(@Path("place") int place);
-
-  @DELETE("/api/favorites/albums/{place}")
-  Future<Success> removeFavoriteAlbumAtPlace(@Path("place") int place);
+  @GET("/api/favorites/{type}/check/{entityId}")
+  Future<FavoriteCheckResponse> checkIsFavorite(@Path("type") String type, @Path("entityId") int entityId);
 
   // Metadata
 

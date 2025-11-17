@@ -16,6 +16,7 @@ class EntityCard extends StatelessWidget {
   final double coverSize;
   final bool showActions;
   final Widget? badge;
+  final Function? onTap;
 
   const EntityCard({
     super.key,
@@ -24,6 +25,7 @@ class EntityCard extends StatelessWidget {
     this.coverSize = 128,
     this.showActions = true,
     this.badge,
+    this.onTap,
   });
 
   String _getTitle() {
@@ -175,8 +177,8 @@ class EntityCard extends StatelessWidget {
     final apiManager = getIt<ApiManager>();
 
     return InkWell(
-      onTap: () => _onTap(context),
-      onSecondaryTapDown: (details) => _showContextMenu(context, details.globalPosition),
+      onTap: onTap != null ? () => onTap!() : () => _onTap(context),
+      onSecondaryTapDown: onTap != null ? null : (details) => _showContextMenu(context, details.globalPosition),
       child: Ink(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),

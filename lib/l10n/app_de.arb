@@ -102,6 +102,12 @@
   "track_actions_download_success": "Der Titel wurde erfolgreich heruntergeladen.",
   "track_actions_download_error": "Beim Herunterladen des Titels ist ein Fehler aufgetreten.",
 
+  "actions_add_to_favorites": "Zu Favoriten hinzufügen",
+  "actions_remove_from_favorites": "Aus Favoriten entfernen",
+
+  "actions_favorite_added": "Zu Favoriten hinzugefügt",
+  "actions_favorite_removed": "Aus Favoriten entfernt",
+
   "playlist_actions_play": "Playlist abspielen",
   "playlist_actions_pause": "Playlist pausieren",
   "playlist_actions_resume": "Playlist fortsetzen",

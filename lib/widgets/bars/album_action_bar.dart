@@ -6,6 +6,8 @@ import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/shuffle_state.dart';
+import 'package:vibin_app/widgets/entity_card.dart';
+import 'package:vibin_app/widgets/favorite_icon_button.dart';
 import 'package:vibin_app/widgets/play_button.dart';
 
 import '../../audio/audio_type.dart';
@@ -104,6 +106,11 @@ class _AlbumActionBarState extends State<AlbumActionBar> {
               GoRouter.of(context).push("/albums/${widget.albumId}/edit");
             },
             icon: const Icon(Icons.edit, size: 32),
+          ),
+        if (_authState.hasPermission(PermissionType.manageOwnUser))
+          FavoriteIconButton(
+            type: EntityCardType.album,
+            entityId: widget.albumId,
           )
       ],
     );
