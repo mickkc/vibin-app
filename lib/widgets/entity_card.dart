@@ -15,6 +15,7 @@ class EntityCard extends StatelessWidget {
   final dynamic entity;
   final double coverSize;
   final bool showActions;
+  final Widget? badge;
 
   const EntityCard({
     super.key,
@@ -22,6 +23,7 @@ class EntityCard extends StatelessWidget {
     required this.entity,
     this.coverSize = 128,
     this.showActions = true,
+    this.badge,
   });
 
   String _getTitle() {
@@ -193,11 +195,21 @@ class EntityCard extends StatelessWidget {
                     borderRadius: type == EntityCardType.artist || type == EntityCardType.user
                         ? BorderRadius.circular(coverSize / 2)
                         : BorderRadius.circular(8),
-                    child: NetworkImageWidget(
-                      url: _getCoverUrl(context, apiManager),
-                      width: coverSize,
-                      height: coverSize,
-                      fit: BoxFit.contain,
+                    child: Stack(
+                      children: [
+                        NetworkImageWidget(
+                          url: _getCoverUrl(context, apiManager),
+                          width: coverSize,
+                          height: coverSize,
+                          fit: BoxFit.contain,
+                        ),
+                        if (badge != null)
+                          Positioned(
+                            top: 4,
+                            right: 4,
+                            child: badge!,
+                          ),
+                      ],
                     ),
                   ),
                 ),

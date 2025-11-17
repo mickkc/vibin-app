@@ -136,6 +136,13 @@
   "user_activity_top_artists": "Top Künstler",
   "user_activity_private": "Die Aktivität dieses Benutzers ist privat.",
 
+  "user_favorites_tracks": "Lieblings-Titel",
+  "user_favorites_albums": "Lieblings-Alben",
+  "user_favorites_artists": "Lieblings-Künstler",
+
+  "user_favorites_no_favorites": "Noch keine Favoriten hinzugefügt.",
+  "user_favorites_empty": "Leer",
+
   "add_track_to_playlist_title": "Zu Playlist hinzufügen",
 
   "playlists_show_all": "Alle Playlists anzeigen",
