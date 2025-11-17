@@ -548,6 +548,9 @@
   "permissions_delete_tags": "Delete Tags",
   "permissions_create_tags": "Create Tags",
 
+  "permissions_manage_sessions": "Manage Own Sessions",
+  "permissions_manage_tasks": "Manage Background Tasks",
+
   "permissions_change_error": "An error occurred while changing permissions.",
 
 

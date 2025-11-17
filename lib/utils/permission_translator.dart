@@ -6,6 +6,7 @@ extension PermissionsTranslator on AppLocalizations {
   String translatePermission(PermissionType type) {
     return switch (type) {
       PermissionType.changeServerSettings => permissions_change_server_settings,
+      PermissionType.changeOwnUserSettings => permissions_change_own_settings,
       PermissionType.managePermissions => permissions_manage_permissions,
 
       PermissionType.viewTracks => permissions_view_tracks,
@@ -43,6 +44,9 @@ extension PermissionsTranslator on AppLocalizations {
       PermissionType.manageTags => permissions_manage_tags,
       PermissionType.deleteTags => permissions_delete_tags,
       PermissionType.createTags => permissions_create_tags,
+
+      PermissionType.manageSessions => permissions_manage_sessions,
+      PermissionType.manageTasks => permissions_manage_tasks,
 
       _ => type.value
     };

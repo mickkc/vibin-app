@@ -547,6 +547,9 @@
   "permissions_delete_tags": "Tags löschen",
   "permissions_create_tags": "Tags erstellen",
 
+  "permissions_manage_sessions": "Eigene Sitzungen verwalten",
+  "permissions_manage_tasks": "Hintergrundaufgaben verwalten",
+
   "permissions_change_error": "Beim Ändern der Berechtigungen ist ein Fehler aufgetreten.",
 
 
