@@ -433,11 +433,20 @@
   "settings_server_metadata_language_title": "Bevorzugte Metadaten-Sprache",
   "settings_server_metadata_language_description": "Bevorzugte Sprache für Metadaten, die von Anbietern abgerufen werden. Einige Anbieter unterstützen möglicherweise keine Sprachwahl.",
 
+  "settings_server_metadata_limit_title": "Maximale Ergebnisse",
+  "settings_server_metadata_limit_description": "Maximale Anzahl der Ergebnisse, die von Metadaten-Anbietern zurückgegeben werden sollen. (0 = Durch Anbieter festgelegt)",
+
+  "settings_server_metadata_extended_title": "Erweiterte Metadaten-Suche",
+  "settings_server_metadata_extended_description": "Wenn aktiviert, werden bei der Suche nach Metadaten zusätzliche Informationen abgefragt. Dies kann die Genauigkeit verbessern, aber auch die Suchzeit und die Anzahl der API-Anfragen stark erhöhen.",
+
   "settings_server_spotify_client_id_title": "Spotify Client ID",
   "settings_server_spotify_client_id_description": "Client ID für die Spotify API. Notwendig, um Metadaten von Spotify abzurufen.",
 
   "settings_server_spotify_client_secret_title": "Spotify Client Secret",
   "settings_server_spotify_client_secret_description": "Client Secret für die Spotify API. Notwendig, um Metadaten von Spotify abzurufen.",
+
+  "settings_server_lastfm_api_key_title": "Last.fm API-Schlüssel",
+  "settings_server_lastfm_api_key_description": "API-Schlüssel für die Last.fm API. Notwendig, um Metadaten von Last.fm abzurufen.",
 
   "settings_server_parsing_title": "Datei-Parsing",
 

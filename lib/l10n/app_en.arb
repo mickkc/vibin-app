@@ -434,11 +434,20 @@
   "settings_server_metadata_language_title": "Metadata Language",
   "settings_server_metadata_language_description": "Preferred language for fetching metadata from the internet. Some providers may not support all languages.",
 
+  "settings_server_metadata_limit_title": "Results Limit",
+  "settings_server_metadata_limit_description": "Maximum number of results to fetch from metadata providers when searching for metadata. (0 = set by provider)",
+
+  "settings_server_metadata_extended_title": "Extended Metadata Search",
+  "settings_server_metadata_extended_description": "When enabled, additional information will be used when searching for metadata to improve accuracy. This can increase search time and API usage drastically.",
+
   "settings_server_spotify_client_id_title": "Spotify Client ID",
   "settings_server_spotify_client_id_description": "Client ID for the Spotify API. Necessary to fetch metadata from Spotify.",
 
   "settings_server_spotify_client_secret_title": "Spotify Client Secret",
   "settings_server_spotify_client_secret_description": "Client Secret for the Spotify API. Necessary to fetch metadata from Spotify.",
+
+  "settings_server_lastfm_api_key_title": "Last.fm API Key",
+  "settings_server_lastfm_api_key_description": "API Key for the Last.fm API. Necessary to fetch metadata from Last.fm.",
 
   "settings_server_parsing_title": "Parsing Settings",
 

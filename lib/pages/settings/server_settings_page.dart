@@ -4,6 +4,7 @@ import 'package:vibin_app/dtos/metadata_fetch_type.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/settings/server/server_boolean_settings_field.dart';
+import 'package:vibin_app/widgets/settings/server/server_int_settings_field.dart';
 import 'package:vibin_app/widgets/settings/server/server_string_settings_field.dart';
 import 'package:vibin_app/widgets/settings/server/settings_string_dropdown_field.dart';
 import 'package:vibin_app/widgets/settings/server/string_list_setting.dart';
@@ -55,6 +56,24 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
               icon: Icons.translate,
             ),
 
+            ServerIntSettingsField(
+              settingKey: "metadata_limit",
+              initialValue: settings.settings["metadata_limit"],
+              title: _lm.settings_server_metadata_limit_title,
+              description: _lm.settings_server_metadata_limit_description,
+              icon: Icons.format_list_numbered,
+            ),
+            
+            ServerBooleanSettingsField(
+              settingKey: "extended_metadata",
+              initialValue: settings.settings["extended_metadata"],
+              title: _lm.settings_server_metadata_extended_title,
+              description: _lm.settings_server_metadata_extended_description,
+              icon: Icons.info,
+            ),
+
+            const Divider(),
+
             ServerStringSettingsField(
               settingKey: "spotify_client_id",
               initialValue: settings.settings["spotify_client_id"],
@@ -68,6 +87,15 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
               initialValue: settings.settings["spotify_client_secret"],
               title: _lm.settings_server_spotify_client_secret_title,
               description: _lm.settings_server_spotify_client_secret_description,
+              icon: Icons.key,
+              isPassword: true,
+            ),
+
+            ServerStringSettingsField(
+              settingKey: "lastfm_api_key",
+              initialValue: settings.settings["lastfm_api_key"],
+              title: _lm.settings_server_lastfm_api_key_title,
+              description: _lm.settings_server_lastfm_api_key_description,
               icon: Icons.key,
               isPassword: true,
             ),
