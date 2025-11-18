@@ -116,6 +116,8 @@
   "playlist_actions_disable_shuffling": "Disable Shuffling",
   "playlist_actions_add_collaborators": "Add Collaborators",
 
+  "playlist_actions_update_collaborators_failed": "An error occurred while updating collaborators.",
+
   "playlist_reorder_tracks_error": "An error occurred while reordering tracks in the playlist.",
   "playlist_added_by_at": "Added by {username} at {date}",
   "playlist_added_via_vibedef": "Added via Vibe-def",

@@ -1,26 +1,34 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/auth/auth_state.dart';
+import 'package:vibin_app/dialogs/playlist_collaborator_dialog.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/playlist/playlist_data.dart';
+import 'package:vibin_app/dtos/playlist/playlist_edit_data.dart';
 import 'package:vibin_app/dtos/shuffle_state.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/widgets/play_button.dart';
 
+import '../../api/api_manager.dart';
 import '../../audio/audio_type.dart';
 import '../../main.dart';
 
 class PlaylistActionBar extends StatefulWidget {
   final PlaylistData playlistData;
   final ShuffleState? shuffleState;
+  final void Function(PlaylistData) onUpdate;
 
   const PlaylistActionBar({
     super.key,
     required this.playlistData,
     this.shuffleState,
+    required this.onUpdate,
   });
 
   @override
@@ -31,12 +39,16 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
 
   final _audioManager = getIt<AudioManager>();
   final _authState = getIt<AuthState>();
+  final _apiManager = getIt<ApiManager>();
+
   bool _isCurrent = false;
   late bool _isPlaying = _audioManager.isPlaying;
   late bool _isShuffleEnabled = _audioManager.isShuffling;
   final List<StreamSubscription> _subscriptions = [];
 
-  _PlaylistActionBarState() {
+  @override
+  void initState() {
+    super.initState();
     _subscriptions.add(_audioManager.currentMediaItemStream.listen((mediaItem) {
       if (!mounted) return;
       setState(() {
@@ -122,7 +134,29 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
         if (_authState.hasPermission(PermissionType.managePlaylists) && widget.playlistData.playlist.owner.id == _authState.user?.id) ... [
           IconButton(
             tooltip: lm.playlist_actions_add_collaborators,
-            onPressed: () {},
+            onPressed: () {
+              PlaylistCollaboratorDialog.show(
+                context,
+                initialCollaborators: widget.playlistData.playlist.collaborators,
+                onCollaboratorsUpdated: (collaborators) async {
+                  try {
+                    final updated = await _apiManager.service.updatePlaylist(
+                      widget.playlistData.playlist.id,
+                      PlaylistEditData(
+                        name: widget.playlistData.playlist.name,
+                        collaboratorIds: collaborators.map((e) => e.id).toList(),
+                      )
+                    );
+                    widget.onUpdate(widget.playlistData.copyWith(playlist: updated));
+                  }
+                  catch (e, st) {
+                    log("Failed to update playlist collaborators", error: e, stackTrace: st, level: Level.error.value);
+                    if (!mounted || !context.mounted) return;
+                    ErrorHandler.showErrorDialog(context, lm.playlist_actions_update_collaborators_failed, error: e, stackTrace: st);
+                  }
+                },
+              );
+            },
             icon: const Icon(Icons.group_add, size: 32),
           )
         ],

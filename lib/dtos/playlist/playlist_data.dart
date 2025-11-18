@@ -20,4 +20,14 @@ class PlaylistData {
           .toList(),
     );
   }
+
+  PlaylistData copyWith({
+    Playlist? playlist,
+    List<PlaylistTrack>? tracks,
+  }) {
+    return PlaylistData(
+      playlist: playlist ?? this.playlist,
+      tracks: tracks ?? this.tracks,
+    );
+  }
 }

@@ -19,14 +19,20 @@ import '../../auth/auth_state.dart';
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 
-class PlaylistInfoPage extends StatelessWidget {
+class PlaylistInfoPage extends StatefulWidget {
 
   final int playlistId;
 
-  PlaylistInfoPage({
+  const PlaylistInfoPage({
     super.key,
     required this.playlistId
   });
+
+  @override
+  State<PlaylistInfoPage> createState() => _PlaylistInfoPageState();
+}
+
+class _PlaylistInfoPageState extends State<PlaylistInfoPage> {
 
   Widget _playlistInfo(BuildContext context, Future<PlaylistData> playlistDataFuture) {
 
@@ -106,7 +112,7 @@ class PlaylistInfoPage extends StatelessWidget {
 
   final _apiManager = getIt<ApiManager>();
   final _audioManager = getIt<AudioManager>();
-  late final _playlistDataFuture = _apiManager.service.getPlaylist(playlistId);
+  late Future<PlaylistData> _playlistDataFuture = _apiManager.service.getPlaylist(widget.playlistId);
   final _shuffleState = ShuffleState(isShuffling: false);
 
   @override
@@ -120,7 +126,7 @@ class PlaylistInfoPage extends StatelessWidget {
           columnBuilder: (context, constraints) {
             return [
               NetworkImageWidget(
-                url: "/api/playlists/$playlistId/image",
+                url: "/api/playlists/${widget.playlistId}/image",
                 width: constraints.maxWidth * 0.75,
                 height: constraints.maxWidth * 0.75
               ),
@@ -133,7 +139,7 @@ class PlaylistInfoPage extends StatelessWidget {
           rowBuilder: (context, constraints) {
             return [
               NetworkImageWidget(
-                url: "/api/playlists/$playlistId/image?quality=256",
+                url: "/api/playlists/${widget.playlistId}/image?quality=256",
                 width: 200,
                 height: 200
               ),
@@ -146,7 +152,15 @@ class PlaylistInfoPage extends StatelessWidget {
         FutureContent(
           future: _playlistDataFuture,
           builder: (context, data) {
-            return PlaylistActionBar(playlistData: data, shuffleState: _shuffleState);
+            return PlaylistActionBar(
+              playlistData: data,
+              shuffleState: _shuffleState,
+              onUpdate: (data) {
+                setState(() {
+                  _playlistDataFuture = Future.value(data);
+                });
+              }
+            );
           }
         ),
 
@@ -155,7 +169,7 @@ class PlaylistInfoPage extends StatelessWidget {
           builder: (context, data) {
             return PlaylistTrackList(
               tracks: data.tracks,
-              playlistId: playlistId,
+              playlistId: widget.playlistId,
               onTrackTapped: (track) {
                 _audioManager.playPlaylistData(
                   data,
