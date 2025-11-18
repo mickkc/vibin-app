@@ -92,8 +92,11 @@ class ThemeGenerator {
         color: spec.foregroundColor,
       ),
       fontFamily: TextThemes.defaultFontFamily,
-      textTheme: TextThemes.defaultTextTheme
-
+      textTheme: TextThemes.defaultTextTheme,
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: spec.highestSurfaceColor,
+        contentTextStyle: TextStyle(color: spec.foregroundColor)
+      )
     );
 
     return base;
