@@ -131,7 +131,11 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
             )
           )
         ],
-        if (_authState.hasPermission(PermissionType.managePlaylists) && widget.playlistData.playlist.owner.id == _authState.user?.id) ... [
+
+        if (
+          _authState.hasPermissions([PermissionType.managePlaylists, PermissionType.viewUsers])
+          && widget.playlistData.playlist.owner.id == _authState.user?.id
+        )
           IconButton(
             tooltip: lm.playlist_actions_add_collaborators,
             onPressed: () {
@@ -158,9 +162,9 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
               );
             },
             icon: const Icon(Icons.group_add, size: 32),
-          )
-        ],
-        if (_allowEdit()) ... [
+          ),
+
+        if (_allowEdit())
           IconButton(
             tooltip: lm.playlist_actions_edit,
             onPressed: () {
@@ -168,7 +172,6 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
             },
             icon: const Icon(Icons.edit, size: 32),
           )
-        ]
       ],
     );
   }
