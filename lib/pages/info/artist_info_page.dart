@@ -16,6 +16,8 @@ import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/tracklist/track_list.dart';
 
 import '../../auth/auth_state.dart';
+import '../../widgets/entity_card.dart';
+import '../../widgets/favorite_icon_button.dart';
 
 class ArtistInfoPage extends StatelessWidget {
   final int artistId;
@@ -140,16 +142,23 @@ class ArtistInfoPage extends StatelessWidget {
             artist.description,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
-        Wrap(
+        Row(
           spacing: 8,
-          runSpacing: 8,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            if (_authState.hasPermission(PermissionType.manageOwnUser))
+              FavoriteIconButton(
+                type: EntityCardType.artist,
+                entityId: artist.id,
+              ),
+
             if (_authState.hasPermission(PermissionType.manageArtists))
               ElevatedButton.icon(
                 onPressed: () => GoRouter.of(context).push("/artists/${artist.id}/edit"),
                 label: Text(AppLocalizations.of(context)!.artists_edit),
                 icon: Icon(Icons.edit),
-              )
+              ),
           ]
         )
       ],
