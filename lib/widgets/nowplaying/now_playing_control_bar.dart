@@ -1,5 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/colored_icon_button.dart';
@@ -14,10 +15,14 @@ import 'controls/speed_slider.dart';
 import 'controls/volume_slider.dart';
 
 class NowPlayingControlBar extends StatefulWidget {
+
   final MediaItem mediaItem;
+  final VoidCallback? onNavigate;
+
   const NowPlayingControlBar({
     super.key,
     required this.mediaItem,
+    this.onNavigate
   });
 
   @override
@@ -49,6 +54,11 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
 
   void _showQueue() {
     NowPlayingQueue.show(context);
+  }
+
+  void _openCurrentTrack() {
+    widget.onNavigate?.call();
+    GoRouter.of(context).push('/tracks/${widget.mediaItem.id}');
   }
 
   @override
@@ -100,12 +110,17 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
                 ElevatedButton.icon(
                   onPressed: _showMobileDialog,
                   label: Text(lm.now_plying_advanced_controls),
-                  icon: Icon(Icons.settings)
+                  icon: const Icon(Icons.settings)
                 ),
                 ElevatedButton.icon(
                   onPressed: _showQueue,
                   label: Text(lm.now_playing_queue),
-                  icon: Icon(Icons.queue_music)
+                  icon: const Icon(Icons.queue_music)
+                ),
+                ElevatedButton.icon(
+                  onPressed: _openCurrentTrack,
+                  label: Text(lm.track_actions_goto_track),
+                  icon: const Icon(Icons.open_in_new)
                 ),
               ],
             )
@@ -122,7 +137,12 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
               ElevatedButton.icon(
                 onPressed: _showQueue,
                 label: Text(lm.now_playing_queue),
-                icon: Icon(Icons.queue_music)
+                icon: const Icon(Icons.queue_music)
+              ),
+              ElevatedButton.icon(
+                onPressed: _openCurrentTrack,
+                label: Text(lm.track_actions_goto_track),
+                icon: const Icon(Icons.open_in_new)
               ),
               Expanded(
                 child: const SpeedSlider()

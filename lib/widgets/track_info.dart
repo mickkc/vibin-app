@@ -11,19 +11,23 @@ import 'icon_text.dart';
 class TrackInfoView extends StatelessWidget {
   final int trackId;
   final bool showMetadata;
+  final VoidCallback? onNavigate;
 
   TrackInfoView({
     super.key,
     required this.trackId,
-    this.showMetadata = true
+    this.showMetadata = true,
+    this.onNavigate,
   });
 
   void _openArtistPage(BuildContext context, int artistId) {
     GoRouter.of(context).push("/artists/$artistId");
+    onNavigate?.call();
   }
 
   void _openAlbumPage(BuildContext context, int albumId) {
     GoRouter.of(context).push('/albums/$albumId');
+    onNavigate?.call();
   }
 
   final _apiManager = getIt<ApiManager>();

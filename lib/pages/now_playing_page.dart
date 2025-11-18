@@ -56,6 +56,12 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
     super.dispose();
   }
 
+  void _close() {
+    if (Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -95,8 +101,9 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
                       TrackInfoView(
                         trackId: int.parse(_currentMediaItem!.id),
                         showMetadata: false,
+                        onNavigate: _close,
                       ),
-                      NowPlayingControlBar(mediaItem: _currentMediaItem!),
+                      NowPlayingControlBar(mediaItem: _currentMediaItem!, onNavigate: _close),
                       Card(
                         clipBehavior: Clip.hardEdge,
                         shadowColor: Colors.black,
@@ -131,12 +138,13 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
                     Expanded(
                       child: TrackInfoView(
                         trackId: int.parse(_currentMediaItem!.id),
-                        showMetadata: true
+                        showMetadata: true,
+                        onNavigate: _close,
                       ),
                     ),
                   ],
                 ),
-                NowPlayingControlBar(mediaItem: _currentMediaItem!),
+                NowPlayingControlBar(mediaItem: _currentMediaItem!, onNavigate: _close),
               ],
             ),
           );
