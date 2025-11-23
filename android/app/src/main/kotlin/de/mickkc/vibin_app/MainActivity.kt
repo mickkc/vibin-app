@@ -1,4 +1,4 @@
-package com.example.vibin_app
+package de.mickkc.vibin_app
 
 import io.flutter.embedding.android.FlutterActivity
 

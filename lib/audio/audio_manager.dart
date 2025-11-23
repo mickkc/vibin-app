@@ -148,7 +148,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     return await AudioService.init(
       builder: () => AudioManager(),
       config: AudioServiceConfig(
-        androidNotificationChannelId: 'wtf.ndu.vibin.channel.audio',
+        androidNotificationChannelId: 'de.mickkc.channel.audio',
         androidNotificationChannelName: 'Vibin Audio Playback',
         androidStopForegroundOnPause: false,
         androidNotificationIcon: "mipmap/ic_launcher_monochrome",
