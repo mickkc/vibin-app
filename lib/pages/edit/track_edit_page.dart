@@ -12,10 +12,10 @@ import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/dtos/track/track_edit_data.dart';
 import 'package:vibin_app/dtos/uploads/pending_upload.dart';
-import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/edit/search_lyrics_dialog.dart';
 import 'package:vibin_app/pages/edit/search_track_metadata_dialog.dart';
+import 'package:vibin_app/utils/dialogs.dart';
 import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/utils/lrc_parser.dart';
 import 'package:vibin_app/widgets/edit/image_edit_field.dart';
@@ -281,7 +281,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
 
     if (widget.trackId == null) return;
 
-    final confirmed = await showConfirmDialog(context, _lm.delete_track_confirmation, _lm.delete_track_confirmation_warning);
+    final confirmed = await Dialogs.showConfirmDialog(context, _lm.delete_track_confirmation, _lm.delete_track_confirmation_warning);
     if (!confirmed) return;
 
     try {
@@ -507,7 +507,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
             ),
             ElevatedButton.icon(
               onPressed: () async {
-                final strAmount = await showInputDialog(
+                final strAmount = await Dialogs.showInputDialog(
                   context,
                   lm.edit_track_lyrics_shift_title,
                   lm.edit_track_lyrics_shift_amount,

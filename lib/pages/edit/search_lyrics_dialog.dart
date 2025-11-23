@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/lyrics_metadata.dart';
-import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/edit/base_metadata_dialog.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
+import 'package:vibin_app/utils/dialogs.dart';
 
 import '../../l10n/app_localizations.dart';
 
@@ -42,7 +42,7 @@ class SearchLyricsDialog extends StatelessWidget {
           onTap: onTap,
           trailing: IconButton(
             onPressed: () {
-              showMessageDialog(context, lm.edit_track_lyrics, item.content);
+              Dialogs.showMessageDialog(context, lm.edit_track_lyrics, item.content);
             },
             icon: Icon(Icons.read_more),
           tooltip: lm.edit_track_lyrics_open,

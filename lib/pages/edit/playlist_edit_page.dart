@@ -7,8 +7,8 @@ import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/playlist/playlist_edit_data.dart';
-import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/utils/dialogs.dart';
 import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/widgets/edit/image_edit_field.dart';
 import 'package:vibin_app/widgets/edit/responsive_edit_view.dart';
@@ -112,7 +112,7 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
 
   Future<void> _delete() async {
 
-    if (!await showConfirmDialog(context, lm.delete_playlist_confirmation, lm.delete_playlist_confirmation_warning)) {
+    if (!await Dialogs.showConfirmDialog(context, lm.delete_playlist_confirmation, lm.delete_playlist_confirmation_warning)) {
       return;
     }
 

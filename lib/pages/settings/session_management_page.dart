@@ -10,6 +10,7 @@ import 'package:vibin_app/dtos/sessions/sessions_response.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/utils/datetime_utils.dart';
+import 'package:vibin_app/utils/dialogs.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/settings/settings_title.dart';
 
@@ -41,7 +42,7 @@ class _SessionManagementPageState extends State<SessionManagementPage> {
   }
 
   Future<void> _revokeCurrentSession(Session session) async {
-    final confirmed = await showConfirmDialog(context, _lm.settings_sessions_revoke, _lm.settings_sessions_revoke_warning_current);
+    final confirmed = await Dialogs.showConfirmDialog(context, _lm.settings_sessions_revoke, _lm.settings_sessions_revoke_warning_current);
     if (!confirmed) return;
     _authState.logout();
   }
@@ -49,7 +50,7 @@ class _SessionManagementPageState extends State<SessionManagementPage> {
   Future<void> _revokeAllSessions() async {
     try {
       final clientData = getIt<ClientData>();
-      final confirmed = await showConfirmDialog(context, _lm.settings_sessions_revoke_all, _lm.settings_sessions_revoke_all_confirmation);
+      final confirmed = await Dialogs.showConfirmDialog(context, _lm.settings_sessions_revoke_all, _lm.settings_sessions_revoke_all_confirmation);
       if (!confirmed) return;
       await _apiManager.service.deleteAllSessions(clientData.deviceId);
       _refreshSessions();

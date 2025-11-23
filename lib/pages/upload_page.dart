@@ -17,6 +17,7 @@ import '../api/api_manager.dart';
 import '../extensions.dart';
 import '../l10n/app_localizations.dart';
 import '../main.dart';
+import '../utils/dialogs.dart';
 
 class UploadPage extends StatefulWidget {
   const UploadPage({super.key});
@@ -191,7 +192,7 @@ class _UploadPageState extends State<UploadPage> {
   }
 
   Future<void> _deleteUpload(PendingUpload upload) async {
-    final confirmed = await showConfirmDialog(context, _lm.uploads_delete_confirm_title, _lm.uploads_delete_confirm_message);
+    final confirmed = await Dialogs.showConfirmDialog(context, _lm.uploads_delete_confirm_title, _lm.uploads_delete_confirm_message);
     if (!confirmed) return;
 
     if (mounted) _loadingOverlay.show(context);

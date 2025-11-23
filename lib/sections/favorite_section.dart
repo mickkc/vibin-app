@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/dtos/favorites.dart';
 import 'package:vibin_app/sections/section_header.dart';

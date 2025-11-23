@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
-import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/pages/settings/app_user_settings_view.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
@@ -22,6 +21,7 @@ import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 import '../../settings/enums/metadata_image_size.dart';
 import '../../themes/color_scheme_list.dart';
+import '../../utils/dialogs.dart';
 
 class AppSettingsPage extends StatefulWidget {
 
@@ -232,7 +232,7 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
             leading: const Icon(Icons.info_outline),
             title: Text(_lm.settings_app_about_title),
             subtitle: Text(_lm.settings_app_about_description),
-            onTap: () => showAboutAppDialog(context),
+            onTap: () => Dialogs.showAboutAppDialog(context),
           )
         ],
       ),

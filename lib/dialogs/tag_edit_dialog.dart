@@ -6,9 +6,9 @@ import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/dtos/tags/tag_edit_data.dart';
-import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/utils/dialogs.dart';
 
 import '../dtos/permission_type.dart';
 import '../utils/error_handler.dart';
@@ -79,7 +79,7 @@ class _TagEditDialogState extends State<TagEditDialog> {
       if (exists) {
         // Tag with this name already exists
         if (mounted) {
-          showInfoDialog(context, _lm.edit_tag_name_validation_already_exists);
+          Dialogs.showInfoDialog(context, _lm.edit_tag_name_validation_already_exists);
         }
         return;
       }
@@ -106,7 +106,7 @@ class _TagEditDialogState extends State<TagEditDialog> {
   }
 
   Future<void> _delete() async {
-    if (!await showConfirmDialog(context, _lm.edit_tag_delete_confirmation, _lm.edit_tag_delete_confirmation_warning)) {
+    if (!await Dialogs.showConfirmDialog(context, _lm.edit_tag_delete_confirmation, _lm.edit_tag_delete_confirmation_warning)) {
       return;
     }
     if (widget.tagId != null) {

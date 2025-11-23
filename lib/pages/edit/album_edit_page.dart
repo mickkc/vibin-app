@@ -5,9 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:vibin_app/dtos/album/album_edit_data.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
-import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/pages/edit/search_album_metadata_dialog.dart';
+import 'package:vibin_app/utils/dialogs.dart';
 import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/widgets/edit/image_edit_field.dart';
 import 'package:vibin_app/widgets/edit/responsive_edit_view.dart';
@@ -110,7 +110,7 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
   }
 
   Future<void> _delete() async {
-    final confirmed = await showConfirmDialog(context, _lm.delete_album_confirmation, _lm.delete_album_confirmation_warning);
+    final confirmed = await Dialogs.showConfirmDialog(context, _lm.delete_album_confirmation, _lm.delete_album_confirmation_warning);
     if (!confirmed) return;
 
     try {
