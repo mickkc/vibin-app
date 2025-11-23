@@ -43,6 +43,7 @@ dependencies:
   just_audio_web: any
 
   share_plus: ^12.0.1
+  url_launcher: ^6.3.2
 
   dbus: ^0.7.11
 

@@ -410,6 +410,16 @@
 
   "settings_app_save_changes_error": "An error occurred while saving app settings.",
 
+  "settings_app_about_title": "About Vibin''",
+  "settings_app_about_description": "Information about the Vibin'' application.",
+
+  "settings_app_about_legalese": "Copyleft 2025 The Vibin'' Authors. This application is licensed under the GNU General Public License v3.0.",
+
+  "settings_app_about_report_issue": "Report an Issue",
+
+  "settings_app_about_credits": "Credits",
+  "settings_app_about_credits_developer": "Developer",
+
 
 
   "settings_task_fetch_error": "An error occurred while fetching tasks.",

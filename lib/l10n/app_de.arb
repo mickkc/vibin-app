@@ -412,6 +412,17 @@
 
   "settings_app_save_changes_error": "Beim Speichern der App-Einstellungen ist ein Fehler aufgetreten.",
 
+  "settings_app_about_title": "Über Vibin''",
+  "settings_app_about_description": "Informationen über die Vibin''-App.",
+
+  "settings_app_about_legalese": "Copyleft 2025 die Vibin''-Entwickler. Vibin'' ist freie Software, die unter der GNU General Public License Version 3 veröffentlicht wird.",
+
+  "settings_app_about_report_issue": "Problem melden",
+
+  "settings_app_about_credits": "Mitwirkende",
+  "settings_app_about_credits_developer": "Entwickler",
+
+
   "settings_task_fetch_error": "Beim Laden der Aufgaben ist ein Fehler aufgetreten.",
 
   "settings_task_last_run": "Letzte Ausführung:",

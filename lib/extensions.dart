@@ -1,8 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vibin_app/dtos/track/base_track.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/widgets/network_image.dart';
 
 extension HexColor on Color {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
@@ -207,4 +210,58 @@ Future<String?> showInputDialog(BuildContext context, String title, String label
 
 bool isEmbeddedMode() {
   return const bool.fromEnvironment("VIBIN_EMBEDDED_MODE", defaultValue: false);
+}
+
+Future<void> showAboutAppDialog(BuildContext context) async {
+  final lm = AppLocalizations.of(context)!;
+
+  final packageInfo = await PackageInfo.fromPlatform();
+
+  await showDialog(
+    context: context,
+    builder: (context) => AboutDialog(
+      applicationName: lm.app_name,
+      applicationVersion: packageInfo.version,
+      applicationIcon: const Icon(Icons.library_music, size: 64),
+      children: [
+
+        SizedBox(
+          width: 300,
+          height: 200,
+          child: ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+
+              ListTile(
+                leading: NetworkImageWidget(
+                  url: "https://avatars.githubusercontent.com/u/67842588",
+                  width: 48,
+                  height: 48,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                title: Text("MickKC"),
+                subtitle: Text(lm.settings_app_about_credits_developer),
+                onTap: () => launchUrl(Uri.parse("https://github.com/mickkc")),
+              ),
+
+              const Divider(),
+
+              ListTile(
+                leading: const Icon(Icons.code),
+                title: const Text("GitHub"),
+                onTap: () => launchUrl(Uri.parse("https://github.com/mickkc/vibin")),
+              ),
+
+              ListTile(
+                leading: const Icon(Icons.bug_report),
+                title: Text(lm.settings_app_about_report_issue),
+                onTap: () => launchUrl(Uri.parse("https://github.com/mickkc/vibin/issues")),
+              ),
+            ],
+          ),
+        )
+      ],
+    )
+  );
 }
