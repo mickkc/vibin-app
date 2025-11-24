@@ -42,11 +42,13 @@ import 'package:vibin_app/dtos/uploads/upload_result.dart';
 import 'package:vibin_app/dtos/user/user.dart';
 import 'package:vibin_app/dtos/user/user_edit_data.dart';
 import 'package:vibin_app/dtos/user_activity.dart';
+import 'package:vibin_app/dtos/widgets/create_widget.dart';
 
 import '../dtos/artist/artist_edit_data.dart';
 import '../dtos/create_metadata.dart';
 import '../dtos/task_dto.dart';
 import '../dtos/uploads/pending_upload.dart';
+import '../dtos/widgets/shared_widget.dart';
 
 part 'rest_api.g.dart';
 
@@ -398,6 +400,17 @@ abstract class ApiService {
 
   @GET("/api/users/username/{username}/exists")
   Future<Success> checkUsernameExists(@Path("username") String username);
+
+  // Widgets
+
+  @GET("/api/widgets")
+  Future<List<SharedWidget>> getSharedWidgets();
+
+  @POST("/api/widgets")
+  Future<SharedWidget> createSharedWidget(@Body() CreateWidget widget);
+
+  @DELETE("/api/widgets/{id}")
+  Future<Success> deleteSharedWidget(@Path("id") String id);
 
   // Miscellaneous
 

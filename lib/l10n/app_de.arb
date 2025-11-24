@@ -422,6 +422,9 @@
   "settings_app_about_credits": "Mitwirkende",
   "settings_app_about_credits_developer": "Entwickler",
 
+  "settings_app_manage_widgets_title": "Widgets verwalten",
+  "settings_app_manage_widgets_description": "Verwalte Widgets, die auf anderen Webseiten eingebettet werden können.",
+
 
   "settings_task_fetch_error": "Beim Laden der Aufgaben ist ein Fehler aufgetreten.",
 
@@ -448,6 +451,47 @@
   "settings_sessions_copy_token": "Token in die Zwischenablage kopieren",
   "settings_sessions_token_copied": "Der Sitzungstoken wurde in die Zwischenablage kopiert.",
   "settings_sessions_revoke_failed": "Fehler beim Beenden der Sitzung.",
+
+  "settings_widgets_create_title": "Widget erstellen",
+
+  "settings_widgets_selected": "Ausgewählt:",
+  "settings_widgets_select": "Verfügbar:",
+  "settings_widgets_colors": "Farben:",
+
+  "settings_widgets_color_background": "Hintergrund",
+  "settings_widgets_color_foreground": "Vordergrund",
+  "settings_widgets_color_accent": "Akzent",
+  "settings_widgets_color_clear": "Standardfarbe wählen",
+
+  "settings_widgets_preview_title": "Vorschau",
+  "settings_widgets_preview_subtitle": "Dies ist eine Vorschau, wie das Widget aussehen wird.",
+  "settings_widgets_preview_button": "Beispiel-Button",
+
+  "settings_widgets_type_user": "Dein Profil",
+  "settings_widgets_type_activity": "Aktivität",
+  "settings_widgets_type_simple_activity": "Aktivität ohne Statistiken",
+  "settings_widgets_type_favorite_tracks": "Lieblings-Titel",
+  "settings_widgets_type_favorite_albums": "Lieblings-Alben",
+  "settings_widgets_type_favorite_artists": "Lieblings-Künstler",
+  "settings_widgets_type_joined_favorites": "Lieblings-Titel, -Alben und -Künstler",
+  "settings_widgets_type_server_stats": "Server Statistiken",
+
+  "settings_widgets_error_no_types_selected": "Bitte wähle mindestens einen Widget-Typ aus.",
+  "settings_widgets_create_error": "Beim Erstellen des Widgets ist ein Fehler aufgetreten.",
+
+  "settings_widgets_info_title": "Widget Informationen",
+
+  "settings_widgets_id_title": "Widget ID",
+  "settings_widgets_id_copied": "Die Widget-ID wurde in die Zwischenablage kopiert.",
+
+  "settings_widgets_types_title": "Widget Typen",
+
+  "settings_widgets_embed_code_title": "Einbettungscode",
+  "settings_widgets_embed_code_copy": "Code in die Zwischenablage kopieren",
+  "settings_widgets_embed_code_copied": "Der Einbettungscode wurde in die Zwischenablage kopiert.",
+
+  "settings_widgets_open_in_browser": "Im Browser öffnen",
+
 
   "settings_server_update_error": "Beim Aktualisieren der Server-Einstellungen ist ein Fehler aufgetreten.",
 
@@ -562,6 +606,7 @@
 
   "permissions_manage_sessions": "Eigene Sitzungen verwalten",
   "permissions_manage_tasks": "Hintergrundaufgaben verwalten",
+  "permissions_manage_widgets": "Widgets verwalten",
 
   "permissions_change_error": "Beim Ändern der Berechtigungen ist ein Fehler aufgetreten.",
 

@@ -41,7 +41,8 @@ enum PermissionType {
   createTags("create_tags"),
 
   manageSessions("manage_sessions"),
-  manageTasks("manage_tasks");
+  manageTasks("manage_tasks"),
+  manageWidgets("manage_widgets");
 
   final String value;
   const PermissionType(this.value);

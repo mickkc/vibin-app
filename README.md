@@ -77,8 +77,8 @@ Please note that this project, just like the server, is still in its early stage
     - [x] Albums
     - [x] Artists
     - [x] Tags
-- [ ] Upload tracks
-- [ ] Download tracks
+- [x] Upload tracks
+- [x] Download tracks
 - [ ] Settings
   - [ ] App settings
     - [x] Theme (dark/light)
@@ -88,7 +88,8 @@ Please note that this project, just like the server, is still in its early stage
     - [x] Hide singles in albums by default
     - [x] Enable/disable/reorder homepage sections
     - [x] Preferred metadata provider
-    - [ ] Blocked tags
+    - [x] Blocked tags
+    - [x] Blocked artists
     - [ ] Block explicit content
     - [x] Accent color
     - [x] Lyric design
@@ -98,22 +99,22 @@ Please note that this project, just like the server, is still in its early stage
     - [ ] ...
   - [ ] Server settings
     - [ ] ...
-- [ ] Playlist collaboration
+- [x] Playlist collaboration
 - [x] User management
   - [x] View users
   - [x] Edit users
   - [x] Create users
   - [x] Delete users
 - [ ] User view
-  - [ ] Top tracks (when permitted by user)
-  - [ ] Top artists (when permitted by user)
-  - [ ] Recent activity (when permitted by user)
+  - [x] Top tracks (when permitted by user)
+  - [x] Top artists (when permitted by user)
+  - [x] Recent activity (when permitted by user)
   - [x] Playlists (only publicly shared)
-  - [ ] Uploaded tracks (when permitted by user)
+  - [x] Uploaded tracks (when permitted by user)
 - [x] Sessions management
 - [x] Permissions management
 - [x] Lyrics
-- [ ] HTML Widgets for embedding
+- [x] HTML Widgets for embedding
 - [x] Embed web version into server
 - [ ] Clean up Code
 - [ ] Better error handling

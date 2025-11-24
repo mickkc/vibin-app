@@ -48,6 +48,7 @@ dependencies:
   dbus: ^0.7.11
 
   file_picker: ^10.3.3
+  flutter_colorpicker: ^1.1.0
 
   scrollable_positioned_list: ^0.3.8
 
@@ -73,3 +74,4 @@ flutter:
   assets:
     - assets/icons/icon.png
     - assets/icons/app_icon.ico
+    - assets/images/checkerboard.png

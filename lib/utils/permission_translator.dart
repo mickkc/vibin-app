@@ -47,6 +47,7 @@ extension PermissionsTranslator on AppLocalizations {
 
       PermissionType.manageSessions => permissions_manage_sessions,
       PermissionType.manageTasks => permissions_manage_tasks,
+      PermissionType.manageWidgets => permissions_manage_widgets,
 
       _ => type.value
     };

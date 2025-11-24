@@ -420,6 +420,9 @@
   "settings_app_about_credits": "Credits",
   "settings_app_about_credits_developer": "Developer",
 
+  "settings_app_manage_widgets_title": "Widget Management",
+  "settings_app_manage_widgets_description": "View and manage all active widgets for your user account on this server.",
+
 
 
   "settings_task_fetch_error": "An error occurred while fetching tasks.",
@@ -447,6 +450,46 @@
   "settings_sessions_copy_token": "Copy Token to Clipboard",
   "settings_sessions_token_copied": "The session token has been copied to the clipboard.",
   "settings_sessions_revoke_failed": "An error occurred while revoking the session.",
+
+  "settings_widgets_create_title": "Create Widget",
+
+  "settings_widgets_selected": "Selected:",
+  "settings_widgets_select": "Select Widget Types:",
+  "settings_widgets_colors": "Colors:",
+
+  "settings_widgets_color_background": "Background",
+  "settings_widgets_color_foreground": "Foreground",
+  "settings_widgets_color_accent": "Accent",
+  "settings_widgets_color_clear": "Pick default",
+
+  "settings_widgets_preview_title": "Preview",
+  "settings_widgets_preview_subtitle": "This is a preview of how your widget will look like.",
+  "settings_widgets_preview_button": "Example Button",
+
+  "settings_widgets_type_user": "Your Profile",
+  "settings_widgets_type_activity": "Activity",
+  "settings_widgets_type_simple_activity": "Activity without Statistics",
+  "settings_widgets_type_favorite_tracks": "Favorite Tracks",
+  "settings_widgets_type_favorite_albums": "Favorite Albums",
+  "settings_widgets_type_favorite_artists": "Favorite Artists",
+  "settings_widgets_type_joined_favorites": "Favorite Tracks, Albums, and Artists",
+  "settings_widgets_type_server_stats": "Server Statistics",
+
+  "settings_widgets_error_no_types_selected": "Please select at least one widget type.",
+  "settings_widgets_create_error": "An error occurred while creating the widget.",
+
+  "settings_widgets_info_title": "Widget Information",
+
+  "settings_widgets_id_title": "Widget ID",
+  "settings_widgets_id_copied": "The widget ID has been copied to the clipboard.",
+
+  "settings_widgets_types_title": "Widget Types",
+
+  "settings_widgets_embed_code_title": "Embed Code",
+  "settings_widgets_embed_code_copy": "Copy Embed Code",
+  "settings_widgets_embed_code_copied": "The embed code has been copied to the clipboard.",
+
+  "settings_widgets_open_in_browser": "Open Widget in Browser",
 
 
   "settings_server_update_error": "An error occurred while updating server settings.",
@@ -562,6 +605,7 @@
 
   "permissions_manage_sessions": "Manage Own Sessions",
   "permissions_manage_tasks": "Manage Background Tasks",
+  "permissions_manage_widgets": "Manage Widgets",
 
   "permissions_change_error": "An error occurred while changing permissions.",
 
