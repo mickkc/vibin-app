@@ -9,17 +9,17 @@ import '../api/api_manager.dart';
 import '../l10n/app_localizations.dart';
 import '../main.dart';
 
-class RelatedSection extends StatelessWidget {
+class SimilarTracksSection extends StatelessWidget {
 
   final int trackId;
 
-  RelatedSection({
+  SimilarTracksSection({
     super.key,
     required this.trackId
   });
 
   final _apiManager = getIt<ApiManager>();
-  late final _tracks = _apiManager.service.getRelatedTracks(trackId, 20);
+  late final _tracks = _apiManager.service.getSimilarTracks(trackId, 20);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class RelatedSection extends StatelessWidget {
       spacing: 8,
       children: [
         SectionHeader(
-          title: AppLocalizations.of(context)!.section_related_tracks
+          title: AppLocalizations.of(context)!.section_similar_tracks
         ),
         FutureContent(
           future: _tracks,

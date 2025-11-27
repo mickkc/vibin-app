@@ -339,8 +339,8 @@ abstract class ApiService {
   @GET("/api/tracks/random")
   Future<List<MinimalTrack>> getRandomTracks(@Query("limit") int limit);
 
-  @GET("/api/tracks/{trackId}/related")
-  Future<List<MinimalTrack>> getRelatedTracks(@Path("trackId") int trackId, @Query("limit") int limit);
+  @GET("/api/tracks/{trackId}/similar")
+  Future<List<MinimalTrack>> getSimilarTracks(@Path("trackId") int trackId, @Query("limit") int limit);
 
   @GET("/api/tracks/newest")
   Future<List<MinimalTrack>> getNewestTracks(@Query("limit") int limit);

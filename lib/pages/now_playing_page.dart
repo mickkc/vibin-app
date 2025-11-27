@@ -6,7 +6,7 @@ import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/dialogs/lyrics_dialog.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
-import 'package:vibin_app/sections/related_section.dart';
+import 'package:vibin_app/sections/similar_tracks_section.dart';
 import 'package:vibin_app/widgets/nowplaying/now_playing_control_bar.dart';
 import 'package:vibin_app/widgets/track_info.dart';
 
@@ -113,7 +113,7 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
                           child: LyricsDialog(),
                         ),
                       ),
-                      RelatedSection(trackId: int.parse(_currentMediaItem!.id)),
+                      SimilarTracksSection(trackId: int.parse(_currentMediaItem!.id)),
                     ],
                   ),
                 ),
