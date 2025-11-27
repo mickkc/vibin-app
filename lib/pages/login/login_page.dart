@@ -45,51 +45,49 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        spacing: 8,
-        children: [
-          Text(
-            _lm.login_title,
-            style: _theme.textTheme.headlineMedium,
-          ),
-          Text(
-            _lm.login_description,
-            style: _theme.textTheme.bodyMedium,
-          ),
-          SizedBox(
-            width: 300,
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: _lm.login_placeholder_username
-              ),
-              keyboardType: TextInputType.url,
-              textInputAction: TextInputAction.done,
-              controller: _usernameController,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      spacing: 8,
+      children: [
+        Text(
+          _lm.login_title,
+          style: _theme.textTheme.headlineMedium,
+        ),
+        Text(
+          _lm.login_description,
+          style: _theme.textTheme.bodyMedium,
+        ),
+        SizedBox(
+          width: 300,
+          child: TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: _lm.login_placeholder_username
             ),
+            keyboardType: TextInputType.url,
+            textInputAction: TextInputAction.done,
+            controller: _usernameController,
           ),
-          SizedBox(
-            width: 300,
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: _lm.login_placeholder_password
-              ),
-              obscureText: true,
-              textInputAction: TextInputAction.done,
-              onSubmitted: (_) => _login(),
-              controller: _passwordController,
+        ),
+        SizedBox(
+          width: 300,
+          child: TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: _lm.login_placeholder_password
             ),
+            obscureText: true,
+            textInputAction: TextInputAction.done,
+            onSubmitted: (_) => _login(),
+            controller: _passwordController,
           ),
-          ElevatedButton(
-            onPressed: _login,
-            child: Text(_lm.login_button_login),
-          )
-        ],
-      ),
+        ),
+        ElevatedButton(
+          onPressed: _login,
+          child: Text(_lm.login_button_login),
+        )
+      ],
     );
   }
 }
