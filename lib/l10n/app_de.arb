@@ -58,12 +58,15 @@
   "section_popular_items": "Beliebt",
   "section_playlists": "Deine Playlists",
   "section_global_stats": "Statistiken",
+  "section_related_tracks": "Verwandte Titel",
 
   "stats_total_tracks_duration": "Gesamtdauer",
   "stats_total_plays": "Wiedergaben",
 
   "section_view_all": "Alle anzeigen",
   "section_no_data": "Keine Daten verfügbar",
+
+  "section_related_no_data": "Mit diesem Titel sind noch keine verwandten Titel verknüpft.",
 
   "drawer_title": "Vibin''",
   "drawer_home": "Startseite",
@@ -262,6 +265,16 @@
   "edit_track_lyrics_shift_amount_hint": "z.B. -2,5 oder +3",
   "edit_track_no_tags": "Es sind keine Tags angewendet. Suche nach Tags und klicke auf einen Tag, um es hinzuzufügen.",
   "edit_track_apply_metadata_error": "Beim Anwenden der Metadaten ist ein Fehler aufgetreten.",
+
+  "edit_related_tracks_title": "Verwandte Titel bearbeiten",
+  "edit_related_tracks_remove": "Entfernen",
+  "edit_related_tracks_add": "Titel hinzufügen",
+
+  "edit_related_tracks_relation_description": "Relationstyp",
+  "edit_related_tracks_relation_description_required": "Ein Relationstyp ist erforderlich.",
+  "edit_related_tracks_reverse_description": "Umgekehrte Relation hinzufügen",
+  "edit_related_tracks_add_error": "Beim Hinzufügen des verwandten Titels ist ein Fehler aufgetreten.",
+  "edit_related_tracks_remove_error": "Beim Entfernen des verwandten Titels ist ein Fehler aufgetreten.",
 
   "delete_track_confirmation": "Möchtest du diesen Titel wirklich löschen?",
   "delete_track_confirmation_warning": "Diese Aktion kann nicht rückgängig gemacht werden. Der Titel wird von allen Playlists und Alben entfernt.",

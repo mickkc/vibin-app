@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/pages/column_page.dart';
+import 'package:vibin_app/sections/related_tracks_section.dart';
 import 'package:vibin_app/sections/similar_tracks_section.dart';
 import 'package:vibin_app/widgets/bars/track_action_bar.dart';
 import 'package:vibin_app/widgets/network_image.dart';
@@ -45,11 +46,8 @@ class TrackInfoPage extends StatelessWidget {
           ],
         ),
         TrackActionBar(trackId: trackId),
-        Column(
-          children: [
-            SimilarTracksSection(trackId: trackId)
-          ],
-        )
+        SimilarTracksSection(trackId: trackId),
+        RelatedTracksSection(trackId: trackId)
       ],
     );
   }

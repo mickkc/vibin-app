@@ -8,12 +8,14 @@ class SectionHeader extends StatelessWidget {
   final String? viewAllRoute;
   final String title;
   final int? maxLines;
+  final Widget? trailing;
 
   const SectionHeader({
     super.key,
     required this.title,
     this.viewAllRoute,
     this.maxLines = 1,
+    this.trailing,
   });
 
   @override
@@ -32,8 +34,8 @@ class SectionHeader extends StatelessWidget {
         ),
 
         Visibility(
-          visible: viewAllRoute != null,
-          child: TextButton(
+          visible: viewAllRoute != null || trailing != null,
+          child: trailing ?? TextButton(
             onPressed: () {
               if (viewAllRoute != null) {
                 GoRouter.of(context).push(viewAllRoute!);

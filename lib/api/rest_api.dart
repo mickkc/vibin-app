@@ -35,6 +35,7 @@ import 'package:vibin_app/dtos/success.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/dtos/tags/tag_edit_data.dart';
 import 'package:vibin_app/dtos/track/minimal_track.dart';
+import 'package:vibin_app/dtos/track/related_track.dart';
 import 'package:vibin_app/dtos/track/track.dart';
 import 'package:vibin_app/dtos/track/track_edit_data.dart';
 import 'package:vibin_app/dtos/track/track_info_metadata.dart';
@@ -357,6 +358,21 @@ abstract class ApiService {
   @GET("/api/tracks/{id}/download")
   @DioResponseType(ResponseType.bytes)
   Future<HttpResponse<List<int>>> downloadTrack(@Path("id") int id);
+
+  @GET("/api/tracks/{id}/related")
+  Future<List<RelatedTrack>> getRelatedTracks(@Path("id") int trackId);
+
+  @POST("/api/tracks/{id}/related")
+  Future<Success> addRelatedTrack(
+    @Path("id") int trackId,
+    @Query("relatedTrackId") int relatedTrackId,
+    @Query("description") String description,
+    @Query("mutual") bool? mutual,
+    @Query("reverseDescription") String? reverseDescription
+  );
+
+  @DELETE("/api/tracks/{id}/related")
+  Future<Success> removeRelatedTrack(@Path("id") int trackId, @Query("relatedTrackId") int relatedTrackId);
 
   // Uploads
 

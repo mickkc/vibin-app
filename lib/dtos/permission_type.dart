@@ -42,7 +42,10 @@ enum PermissionType {
 
   manageSessions("manage_sessions"),
   manageTasks("manage_tasks"),
-  manageWidgets("manage_widgets");
+  manageWidgets("manage_widgets"),
+
+  createTrackRelations("create_track_relations"),
+  deleteTrackRelations("delete_track_relations");
 
   final String value;
   const PermissionType(this.value);

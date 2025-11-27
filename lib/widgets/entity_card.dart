@@ -17,6 +17,8 @@ class EntityCard extends StatelessWidget {
   final bool showActions;
   final Widget? badge;
   final Function? onTap;
+  final String? overrideTitle;
+  final String? overrideDescription;
 
   const EntityCard({
     super.key,
@@ -26,9 +28,16 @@ class EntityCard extends StatelessWidget {
     this.showActions = true,
     this.badge,
     this.onTap,
+    this.overrideTitle,
+    this.overrideDescription,
   });
 
   String _getTitle() {
+
+    if (overrideTitle != null) {
+      return overrideTitle!;
+    }
+
     switch (type) {
       case EntityCardType.track:
       case EntityCardType.album:
@@ -42,6 +51,11 @@ class EntityCard extends StatelessWidget {
   }
 
   String _getDescription(BuildContext context) {
+
+    if (overrideDescription != null) {
+      return overrideDescription!;
+    }
+
     switch (type) {
       case EntityCardType.track:
       case EntityCardType.album:
