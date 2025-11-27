@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
@@ -32,11 +33,31 @@ class ErrorDialog extends StatelessWidget {
   });
 
   String _formatErrorDetails() {
-    return "Error Message: $errorMessage\n\n"
+    String message = "Error Message: $errorMessage\n\n"
         "Platform: ${Platform.operatingSystem} - ${Platform.operatingSystemVersion}\n"
         "Timestamp: ${DateTime.now().toIso8601String()}\n\n"
-        "Error Details:\n${error.toString()}\n\n"
-        "Stack Trace:\n$stackTrace";
+        "Error Details:\n${error.toString()}\n\n";
+
+    if (error is DioException) {
+      final dioError = error as DioException;
+      message += "Dio Exception Details:\n"
+          "Type: ${dioError.type}\n"
+          "Path: ${dioError.requestOptions.path}\n"
+          "Method: ${dioError.requestOptions.method}\n"
+          "Query Parameters: ${dioError.requestOptions.queryParameters}\n"
+          "Data: ${dioError.requestOptions.data}\n";
+      if (dioError.response != null) {
+        message += "Response Data: ${dioError.response?.data}\n"
+            "Response Status Message: ${dioError.response?.statusMessage}\n"
+            "Response Status Code: ${dioError.response?.statusCode}\n\n"
+            "Response Headers:\n${dioError.response?.headers}\n";
+      }
+      message += "\n";
+    }
+
+
+    message += "Stack Trace:\n$stackTrace";
+    return message;
   }
 
   Future<void> _copyErrorDetails(BuildContext context) async {
