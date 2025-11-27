@@ -1,11 +1,11 @@
 class AutoLoginResult {
   final bool successful;
-  final String message;
+  final Object? error;
   final bool configured;
 
-  const AutoLoginResult(this.successful, this.message, this.configured);
+  const AutoLoginResult(this.successful, this.error, this.configured);
 
-  static const AutoLoginResult success = AutoLoginResult(true, "Auto-login successful", true);
+  static const AutoLoginResult success = AutoLoginResult(true, null, true);
 
-  bool isError() => !successful &&configured;
+  bool isError() => !successful && configured;
 }

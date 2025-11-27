@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibin_app/api/exceptions/version_mismatch_exception.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
@@ -45,6 +46,21 @@ class _AutoLoginErrorPageState extends State<AutoLoginErrorPage> {
     });
   }
 
+  String getErrorMessage(BuildContext context) {
+    if (_autoLoginResult == null || _autoLoginResult!.error == null) return '';
+
+    final lm = AppLocalizations.of(context)!;
+
+    if (_autoLoginResult!.error! is VersionMismatchException) {
+      return lm.connect_version_mismatch(
+        (_autoLoginResult!.error! as VersionMismatchException).appVersion,
+        (_autoLoginResult!.error! as VersionMismatchException).serverVersion,
+      );
+    }
+
+    return _autoLoginResult!.error!.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -65,7 +81,7 @@ class _AutoLoginErrorPageState extends State<AutoLoginErrorPage> {
           ),
           if (_autoLoginResult != null && _autoLoginResult!.isError()) ...[
             Text(
-              _autoLoginResult!.message,
+              getErrorMessage(context),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).colorScheme.error,

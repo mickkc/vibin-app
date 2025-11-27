@@ -40,6 +40,7 @@
   "connect_placeholder_instance": "http://localhost:8080",
   "connect_button_connect": "Connect",
   "connect_error": "Could not connect to the instance. Please check the URL and your internet connection.",
+  "connect_version_mismatch": "Version mismatch: The app version ({appVersion}) is not compatible with the server version ({serverVersion}). Please update the app or contact the server administrator.",
 
   "login_title": "Login",
   "login_description": "Log in to your Vibin'' instance.",

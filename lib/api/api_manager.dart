@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:vibin_app/api/exceptions/version_mismatch_exception.dart';
 import 'package:vibin_app/api/rest_api.dart';
+import 'package:vibin_app/main.dart';
 
 class ApiManager {
   static final ApiManager _instance = ApiManager._internal();
@@ -46,8 +48,11 @@ class ApiManager {
     final packageInfo = await PackageInfo.fromPlatform();
     final appVersion = packageInfo.version;
 
-    if (serverVersion != appVersion) {
-      throw Exception('Version mismatch: Server version $serverVersion, App version $appVersion');
+    final supportsServerVersion = supportedServerVersions.contains(serverVersion);
+    final supportsAppVersion = response.supportedAppVersions.contains(appVersion);
+
+    if (!supportsServerVersion && !supportsAppVersion) {
+      throw VersionMismatchException(appVersion: appVersion, serverVersion: serverVersion);
     }
 
     if (response.status != 'ok') {

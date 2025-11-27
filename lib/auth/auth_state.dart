@@ -31,11 +31,13 @@ class AuthState extends ChangeNotifier {
       final apiManager = getIt<ApiManager>();
 
       if (_serverAddress == null || _accessToken == null) {
-        return AutoLoginResult(false, "Not configured.", false);
+        return AutoLoginResult(false, null, false);
       }
 
       apiManager.setBaseUrl(_serverAddress!);
       apiManager.setToken(_accessToken!);
+
+      await apiManager.checkConnection();
 
       final validation = await apiManager.service.validateAuthorization();
       if (validation.success) {
@@ -45,11 +47,11 @@ class AuthState extends ChangeNotifier {
         notifyListeners();
         return AutoLoginResult.success;
       } else {
-        return AutoLoginResult(false, "Auto-login failed.", true);
+        return AutoLoginResult(false, Exception("Token validation failed"), false);
       }
     }
     catch (e) {
-      return AutoLoginResult(false, "$e", true);
+      return AutoLoginResult(false, e, true);
     }
   }
 

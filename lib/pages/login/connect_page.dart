@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibin_app/api/exceptions/version_mismatch_exception.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/utils/error_handler.dart';
 
 import '../../api/api_manager.dart';
 import '../../main.dart';
@@ -29,7 +31,13 @@ class _ConnectPageState extends State<ConnectPage> {
       if (mounted) _router.replace("/login");
     }
     catch (e) {
-      if (mounted) showSnackBar(context, _lm.connect_error);
+      if (mounted) {
+        if (e is VersionMismatchException) {
+          ErrorHandler.showErrorDialog(context, _lm.connect_version_mismatch(e.appVersion, e.serverVersion));
+          return;
+        }
+        showSnackBar(context, _lm.connect_error);
+      }
     }
   }
 
