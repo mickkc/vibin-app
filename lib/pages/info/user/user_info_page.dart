@@ -38,7 +38,7 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
     PermissionType.viewArtists,
   ]);
   late final _showUploads = _authState.hasPermission(PermissionType.viewTracks);
-  late final _showEdit = _authState.hasPermission(PermissionType.manageUsers);
+  late final _showEdit = (_authState.user?.id == widget.userId && _authState.hasPermission(PermissionType.manageOwnUser)) || _authState.hasPermission(PermissionType.manageUsers);
   late final _showPermissions = _authState.hasPermission(PermissionType.managePermissions);
 
   late Future<User> _userFuture = _apiManager.service.getUserById(widget.userId);
