@@ -168,15 +168,13 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
                   UserUploadsTab(userId: widget.userId),
 
                 if (_showEdit)
-                  Expanded(
-                    child: UserEditPage(
-                      userId: widget.userId,
-                      onSave: (user) {
-                        setState(() {
-                          _userFuture = Future.value(user);
-                        });
-                      },
-                    )
+                  UserEditPage(
+                    userId: widget.userId,
+                    onSave: (user) {
+                      setState(() {
+                        _userFuture = Future.value(user);
+                      });
+                    },
                   ),
 
                 if (_showPermissions)
