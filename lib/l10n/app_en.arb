@@ -103,6 +103,7 @@
   "track_actions_pause": "Pause",
   "track_actions_edit": "Edit",
 
+  "track_actions_downloading": "Downloading...",
   "track_actions_download_success": "Track downloaded successfully.",
   "track_actions_download_error": "An error occurred while downloading the track.",
 

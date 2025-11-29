@@ -103,6 +103,7 @@
   "track_actions_pause": "Pause",
   "track_actions_edit": "Bearbeiten",
 
+  "track_actions_downloading": "Wird heruntergeladen...",
   "track_actions_download_success": "Der Titel wurde erfolgreich heruntergeladen.",
   "track_actions_download_error": "Beim Herunterladen des Titels ist ein Fehler aufgetreten.",
 

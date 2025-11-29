@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
+import 'package:vibin_app/pages/loading_overlay.dart';
 
 import '../api/api_manager.dart';
 import '../extensions.dart';
@@ -17,8 +18,11 @@ class TrackDownloader {
 
     final lm = AppLocalizations.of(context)!;
     final apiManager = getIt<ApiManager>();
+    final loadingOverlay = getIt<LoadingOverlay>();
 
     try {
+      loadingOverlay.show(context, message: lm.track_actions_downloading);
+
       final track = await apiManager.service.getTrack(trackId);
       final bytes = await apiManager.service.downloadTrack(trackId);
 
@@ -47,6 +51,9 @@ class TrackDownloader {
       if (context.mounted) {
         showSnackBar(context, lm.track_actions_download_error);
       }
+    }
+    finally {
+      loadingOverlay.hide();
     }
   }
 
