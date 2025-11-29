@@ -165,7 +165,7 @@ class _TagEditDialogState extends State<TagEditDialog> {
                 Text(_lm.edit_tag_importance),
                 Expanded(
                   child: Slider(
-                    value: _importance.toDouble(),
+                    value: _importance.toDouble().clamp(1, 10),
                     min: 1,
                     max: 10,
                     divisions: 9,
