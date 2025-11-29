@@ -3,7 +3,7 @@ description: "Cross-platform app for the self-hosted music streaming server Vibi
 
 publish_to: 'none'
 
-version: 0.0.1-beta.1+1
+version: 0.0.1-beta.2+1
 
 environment:
   sdk: ^3.9.2
