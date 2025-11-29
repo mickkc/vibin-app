@@ -110,23 +110,19 @@ class _TagEditDialogState extends State<TagEditDialog> {
       return;
     }
     if (widget.tagId != null) {
-      late bool success;
       try {
         final response = await _apiManager.service.deleteTag(widget.tagId!);
         if (response.success && widget.onDelete != null) {
           widget.onDelete!();
         }
-        success = response.success;
-      }
-      catch (e) {
-        log("An error occurred while deleting the tag: $e", error: e, level: Level.error.value);
-        success = false;
-      }
-
-      if (success) {
+        if (!response.success) {
+          throw Exception("Failed to delete tag: success was false");
+        }
         if (mounted && context.mounted) Navigator.pop(context);
-      } else {
-        if (mounted && context.mounted) ErrorHandler.showErrorDialog(context, _lm.edit_tag_delete_error);
+      }
+      catch (e, st) {
+        log("An error occurred while deleting the tag: $e", error: e, stackTrace: st, level: Level.error.value);
+        if (mounted) ErrorHandler.showErrorDialog(context, _lm.edit_tag_delete_error, error: e, stackTrace: st);
       }
     }
   }
