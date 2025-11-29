@@ -23,9 +23,12 @@ class UserUploadsTab extends StatelessWidget {
       future: uploadsFuture,
       hasData: (u) => u.isNotEmpty,
       builder: (context, tracks) {
-        return EntityCardGrid(
-          items: tracks,
-          type: EntityCardType.track,
+        return SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: EntityCardGrid(
+            items: tracks,
+            type: EntityCardType.track,
+          ),
         );
       }
     );
