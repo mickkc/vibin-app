@@ -77,12 +77,24 @@ class _PaginatedOverviewState extends State<PaginatedOverview> {
             _updateSearch(value);
           }
         ),
-        if (widget.actions != null) Row(
-          spacing: 8,
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: widget.actions!,
-        ),
+        if (widget.actions != null)
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return constraints.maxWidth > 600
+                ? Row(
+                    spacing: 8,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: widget.actions!
+                )
+                : Column(
+                    spacing: 8,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: widget.actions!,
+                );
+            }
+          ),
+
         FutureContent(
           future: _currentPagination,
           hasData: (data) => data.items.isNotEmpty,

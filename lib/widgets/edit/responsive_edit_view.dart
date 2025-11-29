@@ -20,11 +20,14 @@ class ResponsiveEditView extends StatelessWidget {
   });
 
   Widget _actionsRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      spacing: 16,
-      children: actions,
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Wrap(
+        spacing: 16,
+        runSpacing: 8,
+        alignment: WrapAlignment.end,
+        children: actions,
+      ),
     );
   }
   
