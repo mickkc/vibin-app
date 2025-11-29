@@ -331,12 +331,12 @@
 
   "pick_artist_title": "Select Artist",
   "pick_artists_title": "Select Artists",
-  "pick_artist_create_new": "Create New Artist '{name}'",
+  "pick_artist_create_new": "Create New Artist ''{name}''",
   "pick_artist_new": "new",
   "pick_artist_create_error": "An error occurred while creating the artist.",
 
   "pick_album_title": "Select Album",
-  "pick_album_create_new": "Create New Album '{name}'",
+  "pick_album_create_new": "Create New Album ''{name}''",
   "pick_album_create_error": "An error occurred while creating the album.",
 
 
