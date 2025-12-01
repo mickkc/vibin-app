@@ -507,6 +507,10 @@
 
   "settings_widgets_open_in_browser": "Im Browser öffnen",
 
+  "settings_widgets_delete": "Widget löschen",
+  "settings_widgets_delete_confirmation": "Möchtest du dieses Widget wirklich löschen?",
+  "settings_widgets_delete_error": "Beim Löschen des Widgets ist ein Fehler aufgetreten.",
+
 
   "settings_server_update_error": "Beim Aktualisieren der Server-Einstellungen ist ein Fehler aufgetreten.",
 

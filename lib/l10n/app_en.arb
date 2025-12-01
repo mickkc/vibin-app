@@ -506,6 +506,10 @@
 
   "settings_widgets_open_in_browser": "Open Widget in Browser",
 
+  "settings_widgets_delete": "Delete Widget",
+  "settings_widgets_delete_confirmation": "Are you sure you want to delete this widget?",
+  "settings_widgets_delete_error": "An error occurred while deleting the widget.",
+
 
   "settings_server_update_error": "An error occurred while updating server settings.",
 
