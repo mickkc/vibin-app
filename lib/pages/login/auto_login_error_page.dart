@@ -5,6 +5,7 @@ import 'package:vibin_app/api/exceptions/version_mismatch_exception.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/pages/column_page.dart';
 
 import '../../auth/auto_login_result.dart';
 
@@ -63,36 +64,34 @@ class _AutoLoginErrorPageState extends State<AutoLoginErrorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        spacing: 16,
-        children: [
+    return ColumnPage(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      spacing: 16,
+      children: [
+        Text(
+          _lm.autologin_failed_title,
+          style: Theme.of(context).textTheme.headlineMedium,
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          _lm.autologin_failed_message,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        if (_autoLoginResult != null && _autoLoginResult!.isError()) ...[
           Text(
-            _lm.autologin_failed_title,
-            style: Theme.of(context).textTheme.headlineMedium,
+            getErrorMessage(context),
             textAlign: TextAlign.center,
-          ),
-          Text(
-            _lm.autologin_failed_message,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          if (_autoLoginResult != null && _autoLoginResult!.isError()) ...[
-            Text(
-              getErrorMessage(context),
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.error,
-              ),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Theme.of(context).colorScheme.error,
             ),
-          ],
-          ElevatedButton(onPressed: _retry, child: Text(_lm.autologin_retry)),
-          ElevatedButton(onPressed: _reconnect, child: Text(_lm.autologin_reconnect)),
-          ElevatedButton(onPressed: _quit, child: Text(_lm.autologin_quit)),
+          ),
         ],
-      ),
+        ElevatedButton(onPressed: _retry, child: Text(_lm.autologin_retry)),
+        ElevatedButton(onPressed: _reconnect, child: Text(_lm.autologin_reconnect)),
+        ElevatedButton(onPressed: _quit, child: Text(_lm.autologin_quit)),
+      ],
     );
   }
 }
