@@ -100,17 +100,17 @@ class _UploadPageState extends State<UploadPage> {
 
     if (result == null || result.files.isEmpty) return;
 
-    if (mounted) _loadingOverlay.show(context, message: _lm.uploads_tracks_uploading);
-
     try {
       List<PendingUpload> newPendingUploads = [];
 
       for (final file in result.files) {
         try {
+          if (mounted) _loadingOverlay.show(context, message: _lm.uploads_tracks_uploading);
           final fileContentBytes = file.bytes;
 
           if (fileContentBytes == null) {
             log("File bytes are null for file: ${file.name}", level: Level.error.value);
+            _loadingOverlay.hide();
             if (mounted) await ErrorHandler.showErrorDialog(context, _lm.uploads_upload_error(file.name));
             continue;
           }
@@ -122,6 +122,7 @@ class _UploadPageState extends State<UploadPage> {
           newPendingUploads.add(pendingUpload);
         }
         catch (e, st) {
+          _loadingOverlay.hide();
           if (e is DioException) {
             if (e.response?.statusCode == 409 && mounted) {
               await ErrorHandler.showErrorDialog(context, _lm.uploads_upload_error_file_exists);
