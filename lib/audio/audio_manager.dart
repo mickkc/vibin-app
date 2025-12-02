@@ -42,6 +42,9 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   // Track the currently loaded track ID to detect when we need to reload
   int? _currentlyLoadedTrackId;
 
+  // Prevent concurrent track completion handling
+  bool _isHandlingCompletion = false;
+
   // region Init
 
   AudioManager() {
@@ -127,16 +130,24 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   /// Handles what happens when a track finishes playing
   Future<void> _handleTrackCompletion() async {
-    if (_loopMode == LoopMode.one) {
-      // Replay current track
-      await audioPlayer.seek(Duration.zero);
-      await audioPlayer.play();
-    } else if (hasNext) {
-      // Play next track
-      await skipToNext();
-    } else if (_loopMode == LoopMode.all && _queue.isNotEmpty) {
-      // Loop back to beginning
-      await _playTrackAtIndex(0);
+    // Prevent concurrent completion handling (prevents skipping multiple tracks)
+    if (_isHandlingCompletion) return;
+    _isHandlingCompletion = true;
+
+    try {
+      if (_loopMode == LoopMode.one) {
+        // Replay current track
+        await audioPlayer.seek(Duration.zero);
+        await audioPlayer.play();
+      } else if (hasNext) {
+        // Play next track
+        await skipToNext();
+      } else if (_loopMode == LoopMode.all && _queue.isNotEmpty) {
+        // Loop back to beginning
+        await _playTrackAtIndex(0);
+      }
+    } finally {
+      _isHandlingCompletion = false;
     }
   }
 
