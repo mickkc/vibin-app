@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -61,7 +62,7 @@ GoRouter configureRouter(AuthState authState) {
     poppedRoutes.clear();
   });
 
-  final enableMouseNavigation = (Platform.isWindows || Platform.isLinux || Platform.isMacOS);
+  final enableMouseNavigation = !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS);
 
 
   final router = GoRouter(
