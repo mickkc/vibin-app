@@ -82,13 +82,19 @@ GoRouter configureRouter(AuthState authState) {
               title: Text('Vibin\''),
               backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
               actions: [
-                NetworkImageWidget(
-                  url: "/api/users/${authState.user?.id}/pfp?quality=64",
-                  fit: BoxFit.contain,
-                  width: 32,
-                  height: 32,
-                  padding: EdgeInsets.all(8),
-                  borderRadius: BorderRadius.circular(16),
+                InkWell(
+                  onTap: () {
+                    if (authState.user == null) return;
+                    GoRouter.of(context).push("/users/${authState.user?.id}");
+                  },
+                  child: NetworkImageWidget(
+                    url: "/api/users/${authState.user?.id}/pfp?quality=64",
+                    fit: BoxFit.contain,
+                    width: 32,
+                    height: 32,
+                    padding: EdgeInsets.all(8),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                 ),
               ],
             ) : null,
