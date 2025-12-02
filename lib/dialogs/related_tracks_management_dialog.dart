@@ -96,7 +96,7 @@ class _RelatedTracksManagementDialogState extends State<RelatedTracksManagementD
           Expanded(
             child: SizedBox(
               width: width > 600 ? 600 : width * 0.9,
-              child: ListView.builder(
+              child: _relatedTracks.isNotEmpty ? ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount: _relatedTracks.length,
                 itemBuilder: (context, index) {
@@ -115,6 +115,12 @@ class _RelatedTracksManagementDialogState extends State<RelatedTracksManagementD
                     ) : null,
                   );
                 }
+              ) : Center(
+                child: Text(
+                  _lm.section_related_no_data,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)
+                ),
               ),
             ),
           ),

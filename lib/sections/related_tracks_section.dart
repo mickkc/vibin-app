@@ -34,6 +34,21 @@ class _RelatedTracksSectionState extends State<RelatedTracksSection> {
     _relatedTracksFuture = _apiManager.service.getRelatedTracks(widget.trackId);
   }
 
+  Future<void> _showManageRelatedTracksDialog() async {
+    final relatedTracks = await _relatedTracksFuture;
+    if (!mounted) return;
+    await RelatedTracksManagementDialog.show(
+      context,
+      widget.trackId,
+      relatedTracks,
+      (updatedRelatedTracks) {
+        setState(() {
+          _relatedTracksFuture = Future.value(updatedRelatedTracks);
+        });
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -50,48 +65,48 @@ class _RelatedTracksSectionState extends State<RelatedTracksSection> {
           title: lm.section_related_tracks,
           trailing: authState.hasAnyPermission([PermissionType.createTrackRelations, PermissionType.deleteTrackRelations])
           ? IconButton(
-              onPressed: () async {
-                await RelatedTracksManagementDialog.show(
-                  context,
-                  widget.trackId,
-                  await _relatedTracksFuture,
-                  (updatedRelatedTracks) {
-                    setState(() {
-                      _relatedTracksFuture = Future.value(updatedRelatedTracks);
-                    });
-                  }
-                );
-              },
+              onPressed: _showManageRelatedTracksDialog,
               icon: const Icon(Icons.edit)
           )
           : null,
         ),
         FutureContent(
           future: _relatedTracksFuture,
-          height: 210,
           builder: (context, relatedTracks) {
 
             if (relatedTracks.isEmpty) {
-              return Center(
-                child: Text(lm.section_related_no_data),
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                spacing: 16,
+                children: [
+                  Text(
+                    lm.section_related_no_data,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)
+                  ),
+                ],
               );
             }
 
-            return ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: relatedTracks.length,
-              itemBuilder: (context, index) {
-                final track = relatedTracks[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: EntityCard(
-                    entity: track.track,
-                    overrideDescription: track.relationDescription,
-                    coverSize: 128,
-                    type: EntityCardType.track,
-                  ),
-                );
-              }
+            return SizedBox(
+              height: 210,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: relatedTracks.length,
+                itemBuilder: (context, index) {
+                  final track = relatedTracks[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: EntityCard(
+                      entity: track.track,
+                      overrideDescription: track.relationDescription,
+                      coverSize: 128,
+                      type: EntityCardType.track,
+                    ),
+                  );
+                }
+              ),
             );
           }
         )
