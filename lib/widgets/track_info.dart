@@ -50,7 +50,7 @@ class TrackInfoView extends StatelessWidget {
               track.title,
               style: Theme.of(context).textTheme.headlineMedium,
               overflow: TextOverflow.ellipsis,
-              maxLines: 1,
+              maxLines: 2,
             ),
             Wrap(
               runAlignment: WrapAlignment.center,
