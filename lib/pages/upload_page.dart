@@ -239,13 +239,13 @@ class _UploadPageState extends State<UploadPage> {
             itemBuilder: (context, index) {
               final upload = _pendingUploads[index];
               return ListTile(
-                leading: upload.coverUrl != null ? NetworkImageWidget(
-                  url: upload.coverUrl!,
+                leading: NetworkImageWidget(
+                  url: "/api/uploads/${upload.id}/cover",
                   width: 44,
                   height: 44,
                   fit: BoxFit.cover,
                   borderRadius: BorderRadius.circular(4),
-                ) : const Icon(Icons.upload_file),
+                ),
                 title: Text(upload.title),
                 subtitle: Text("${upload.album?.title} - ${upload.artists.map((a) => a.name).join(", ")}"),
                 onTap: () => _openEditDialog(upload),

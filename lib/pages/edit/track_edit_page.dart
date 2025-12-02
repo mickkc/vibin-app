@@ -55,6 +55,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
   late int? _discCount;
   late int? _year;
   late String? _imageUrl;
+  late String? _fallbackImageUrl;
 
   late int? _trackDuration;
 
@@ -87,7 +88,8 @@ class _TrackEditPageState extends State<TrackEditPage> {
         _discNumber = widget.pendingUpload?.discNumber;
         _discCount = widget.pendingUpload?.discCount;
         _year = widget.pendingUpload?.year;
-        _imageUrl = widget.pendingUpload?.coverUrl;
+        _imageUrl = null;
+        _fallbackImageUrl = "/api/uploads/${widget.pendingUpload?.id}/cover";
         _commentController.text = widget.pendingUpload?.comment ?? "";
         _lyricsController.text = widget.pendingUpload?.lyrics ?? "";
 
@@ -113,6 +115,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
         _year = data.year;
         _commentController.text = data.comment ?? "";
         _imageUrl = null;
+        _fallbackImageUrl = "/api/tracks/${widget.trackId}/cover";
 
         _album = data.album;
         _artists = data.artists;
@@ -342,7 +345,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
                 _imageUrl = imageUrl;
               });
             },
-            fallbackImageUrl: "/api/tracks/${widget.trackId}/cover",
+            fallbackImageUrl: _fallbackImageUrl,
             size: 256,
             label: lm.edit_track_cover,
           ),

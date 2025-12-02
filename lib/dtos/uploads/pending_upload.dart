@@ -17,7 +17,6 @@ class PendingUpload {
   final int? discCount;
   final int? year;
   final String comment;
-  final String? coverUrl;
   final int uploaderId;
   final int? lastUpdated;
 
@@ -35,7 +34,6 @@ class PendingUpload {
     this.discCount,
     this.year,
     required this.comment,
-    this.coverUrl,
     required this.uploaderId,
     required this.tags,
     this.lastUpdated,
@@ -61,7 +59,6 @@ class PendingUpload {
       year: json['year'],
       comment: json['comment'],
       lyrics: json['lyrics'],
-      coverUrl: json['coverUrl'],
       uploaderId: json['uploaderId'],
       lastUpdated: json['lastUpdated'],
     );
