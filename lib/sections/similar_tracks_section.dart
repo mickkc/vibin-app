@@ -12,10 +12,12 @@ import '../main.dart';
 class SimilarTracksSection extends StatelessWidget {
 
   final int trackId;
+  final VoidCallback? onNavigate;
 
   SimilarTracksSection({
     super.key,
-    required this.trackId
+    required this.trackId,
+    this.onNavigate,
   });
 
   final _apiManager = getIt<ApiManager>();
@@ -37,6 +39,7 @@ class SimilarTracksSection extends StatelessWidget {
             return EntityCardRow(
               entities: tracks,
               type: EntityCardType.track,
+              onNavigate: onNavigate,
             );
           }
         )

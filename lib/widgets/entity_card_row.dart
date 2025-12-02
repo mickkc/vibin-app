@@ -11,11 +11,13 @@ import '../dtos/track/track.dart';
 class EntityCardRow extends StatelessWidget {
   final List<dynamic> entities;
   final EntityCardType type;
+  final VoidCallback? onNavigate;
 
   const EntityCardRow({
     super.key,
     required this.entities,
     required this.type,
+    this.onNavigate,
   });
 
   @override
@@ -30,6 +32,7 @@ class EntityCardRow extends StatelessWidget {
           child: EntityCard(
             entity: entity,
             type: type,
+            onNavigate: onNavigate,
           ),
         );
       },

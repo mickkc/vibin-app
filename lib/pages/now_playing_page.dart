@@ -113,7 +113,10 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
                           child: LyricsDialog(),
                         ),
                       ),
-                      SimilarTracksSection(trackId: int.parse(_currentMediaItem!.id)),
+                      SimilarTracksSection(
+                        trackId: int.parse(_currentMediaItem!.id),
+                        onNavigate: _close,
+                      ),
                     ],
                   ),
                 ),

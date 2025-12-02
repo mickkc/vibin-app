@@ -19,6 +19,7 @@ class EntityCard extends StatelessWidget {
   final Function? onTap;
   final String? overrideTitle;
   final String? overrideDescription;
+  final VoidCallback? onNavigate;
 
   const EntityCard({
     super.key,
@@ -30,6 +31,7 @@ class EntityCard extends StatelessWidget {
     this.onTap,
     this.overrideTitle,
     this.overrideDescription,
+    this.onNavigate,
   });
 
   String _getTitle() {
@@ -98,6 +100,7 @@ class EntityCard extends StatelessWidget {
       EntityCardType.user => "/users/${entity.id}"
     };
     GoRouter.of(context).push(route);
+    onNavigate?.call();
   }
 
   Future<void> _showContextMenu(BuildContext context, Offset position) async {
