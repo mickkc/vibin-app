@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -59,6 +61,8 @@ GoRouter configureRouter(AuthState authState) {
     poppedRoutes.clear();
   });
 
+  final enableMouseNavigation = (Platform.isWindows || Platform.isLinux || Platform.isMacOS);
+
 
   final router = GoRouter(
     refreshListenable: authState,
@@ -104,7 +108,7 @@ GoRouter configureRouter(AuthState authState) {
             bottomNavigationBar: loggedIn ? NowPlayingBar() : null,
             body: !authState.loggedIn ? child : MainLayoutView(
               mainContent: Listener(
-                onPointerDown: (PointerDownEvent event) async {
+                onPointerDown: enableMouseNavigation ? (PointerDownEvent event) async {
                   final router = GoRouter.of(context);
                   if (event.kind == PointerDeviceKind.mouse) {
                     if (event.buttons == kBackMouseButton && router.canPop()) {
@@ -118,7 +122,7 @@ GoRouter configureRouter(AuthState authState) {
                       pushedPreviousPage = false;
                     }
                   }
-                },
+                } : null,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   child: child,
