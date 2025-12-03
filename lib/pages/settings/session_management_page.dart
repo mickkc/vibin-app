@@ -9,6 +9,7 @@ import 'package:vibin_app/dtos/sessions/session.dart';
 import 'package:vibin_app/dtos/sessions/sessions_response.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/utils/datetime_utils.dart';
 import 'package:vibin_app/utils/dialogs.dart';
 import 'package:vibin_app/widgets/future_content.dart';
@@ -63,9 +64,8 @@ class _SessionManagementPageState extends State<SessionManagementPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ColumnPage(
       spacing: 32,
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SettingsTitle(
           title: _lm.settings_app_manage_sessions_title,
