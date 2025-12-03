@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
+import 'package:vibin_app/extensions.dart';
 
 import '../main.dart';
 
@@ -36,7 +37,7 @@ class NetworkImageWidget extends StatelessWidget {
     } else {
       ApiManager apiManager = getIt<ApiManager>();
 
-      if (kIsWeb) {
+      if (kIsWeb && isEmbeddedMode()) {
         final currentUri = Uri.base;
         return "${currentUri.scheme}://${currentUri.host}:${currentUri.port}/$url";
       }
