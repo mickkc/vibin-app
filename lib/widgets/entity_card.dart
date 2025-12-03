@@ -196,6 +196,11 @@ class EntityCard extends StatelessWidget {
     return InkWell(
       onTap: onTap != null ? () => onTap!() : () => _onTap(context),
       onSecondaryTapDown: onTap != null ? null : (details) => _showContextMenu(context, details.globalPosition),
+      onLongPress: onTap != null ? null : () {
+        final box = context.findRenderObject() as RenderBox;
+        final position = box.localToGlobal(Offset(box.size.width / 2, box.size.height / 2));
+        _showContextMenu(context, position);
+      },
       child: Ink(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
