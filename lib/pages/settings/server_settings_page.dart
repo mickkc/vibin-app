@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/metadata_fetch_type.dart';
 import 'package:vibin_app/main.dart';
@@ -10,6 +11,8 @@ import 'package:vibin_app/widgets/settings/server/settings_string_dropdown_field
 import 'package:vibin_app/widgets/settings/server/string_list_setting.dart';
 import 'package:vibin_app/widgets/settings/settings_title.dart';
 
+import '../../auth/auth_state.dart';
+import '../../dtos/permission_type.dart';
 import '../../l10n/app_localizations.dart';
 
 class ServerSettingsPage extends StatefulWidget {
@@ -22,6 +25,8 @@ class ServerSettingsPage extends StatefulWidget {
 class _ServerSettingsPageState extends State<ServerSettingsPage> {
 
   final _apiManager = getIt<ApiManager>();
+  final _authState = getIt<AuthState>();
+
   late final _settingsFuture = _apiManager.service.getServerSettings();
   late final _lm = AppLocalizations.of(context)!;
 
@@ -211,6 +216,16 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
             const Divider(),
 
             SettingsTitle(title: _lm.settings_server_misc_title),
+
+            if (_authState.hasPermission(PermissionType.manageTasks))
+              ListTile(
+                leading: const Icon(Icons.refresh),
+                title: Text(_lm.settings_app_manage_tasks_title),
+                subtitle: Text(_lm.settings_app_manage_tasks_description),
+                onTap: () {
+                  GoRouter.of(context).push("/tasks");
+                },
+              ),
 
             StringListSetting(
               settingKey: "welcome_texts",

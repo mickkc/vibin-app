@@ -50,11 +50,6 @@ class DrawerComponent extends StatelessWidget {
           title: Text(lm.drawer_home),
           onTap: () => _goTo(context, '/'),
         ),
-        ListTile(
-          leading: Icon(Icons.search),
-          title: Text(lm.drawer_search),
-          onTap: () => _goTo(context, '/search'),
-        ),
         const Divider(),
         if (authState.hasPermission(PermissionType.viewTracks))
           ListTile(
