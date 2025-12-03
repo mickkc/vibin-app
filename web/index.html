@@ -35,8 +35,14 @@
 
   <title>Vibin'</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+      /* Override with default green material theme colors and move loader to bottom */
+      .flutter-loader { background-color: #191D17 !important; top: unset !important; bottom: 0 !important; }
+      .indeterminate::before, .indeterminate::after { background-color: #272B25 !important; }
+  </style>
 </head>
-<body style="background: black" oncontextmenu="return false;">
+<body style="background: #10140F" oncontextmenu="return false;">
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
