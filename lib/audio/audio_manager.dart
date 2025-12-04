@@ -73,7 +73,6 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     _initPlaybackEvents();
     _initPlayerCompletionListener();
-    _initWebSocket();
   }
 
   /// Initializes playback event listeners to update the playback state accordingly.
@@ -105,10 +104,6 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
         queueIndex: _currentIndex,
       ));
     });
-  }
-
-  void _initWebSocket() {
-    _ensureWebSocketConnected();
   }
 
   void _startWebSocketReconnectTimer() {
@@ -257,6 +252,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
       if (_socketChannel == null || _socketChannel!.closeCode != null) {
         _webSocketMessageQueue.add(message);
+        _ensureWebSocketConnected();
         return;
       }
 
@@ -270,7 +266,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   String _getWsUrl() {
     final baseUrl = _apiManager.baseUrl.replaceAll(RegExp(r'^http'), 'ws').replaceAll(RegExp(r'/+$'), '');
     log(baseUrl);
-    return "$baseUrl/ws/playback";
+    return "$baseUrl/ws/playback?token=${_apiManager.accessToken}";
   }
 
   // region Playback Controls
@@ -481,7 +477,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       await audioPlayer.setAudioSource(source);
       _currentlyLoadedTrackId = trackId;
       _sendWebSocket("started_track", data: {
-        'trackId': item.id,
+        'trackId': trackId
       });
       await audioPlayer.play();
     } catch (e) {
