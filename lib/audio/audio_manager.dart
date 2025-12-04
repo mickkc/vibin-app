@@ -170,6 +170,10 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
         // Loop back to beginning
         await _playTrackAtIndex(0);
       }
+      else {
+        // No more tracks, stop playback
+        await stop();
+      }
     } finally {
       _isHandlingCompletion = false;
     }
