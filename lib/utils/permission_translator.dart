@@ -26,6 +26,7 @@ extension PermissionsTranslator on AppLocalizations {
 
       PermissionType.viewPlaylists => permissions_view_playlists,
       PermissionType.managePlaylists => permissions_manage_playlists,
+      PermissionType.managePlaylistTracks => permissions_manage_playlist_tracks,
       PermissionType.createPrivatePlaylists => permissions_create_private_playlists,
       PermissionType.createPublicPlaylists => permissions_create_public_playlists,
       PermissionType.deleteOwnPlaylists => permissions_delete_own_playlists,

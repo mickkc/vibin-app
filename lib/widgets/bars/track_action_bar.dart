@@ -95,7 +95,7 @@ class _TrackActionBarState extends State<TrackActionBar> {
             tooltip: lm.track_actions_add_to_queue,
           )
         ],
-        if (_authState.hasPermission(PermissionType.managePlaylists)) ... [
+        if (_authState.hasPermission(PermissionType.managePlaylistTracks)) ... [
           IconButton(
             onPressed: () => AddTrackToPlaylistDialog.show(context, widget.trackId),
             icon: const Icon(Icons.playlist_add, size: 32),

@@ -609,6 +609,7 @@
 
   "permissions_view_playlists": "Playlists ansehen",
   "permissions_manage_playlists": "Eigene Playlists bearbeiten",
+  "permissions_manage_playlist_tracks": "Titel in Playlists verwalten",
   "permissions_create_private_playlists": "Private Playlists erstellen",
   "permissions_create_public_playlists": "Öffentliche Playlists erstellen",
   "permissions_delete_own_playlists": "Eigene Playlists löschen",

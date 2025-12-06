@@ -80,7 +80,7 @@ class TrackListActionView extends StatelessWidget {
         useRootNavigator: true,
         icon: Icon(Icons.more_vert),
         itemBuilder: (context) => <PopupMenuEntry>[
-          if (as.hasPermission(PermissionType.managePlaylists)) ... [
+          if (as.hasPermission(PermissionType.managePlaylistTracks)) ... [
             PopupMenuItem(
               child: IconText(icon: Icons.add_outlined, text: lm.track_actions_add_to_playlist),
               onTap: () => _addTrackToPlaylist(track.id, context),

@@ -21,6 +21,7 @@ enum PermissionType {
 
   viewPlaylists("view_playlists"),
   managePlaylists("manage_playlists"),
+  managePlaylistTracks("manage_playlist_tracks"),
   createPrivatePlaylists("create_private_playlists"),
   createPublicPlaylists("create_public_playlists"),
   deleteOwnPlaylists("delete_own_playlists"),

@@ -608,6 +608,7 @@
 
   "permissions_view_playlists": "View Playlists",
   "permissions_manage_playlists": "Manage own Playlists",
+  "permissions_manage_playlist_tracks": "Manage Tracks in Playlists",
   "permissions_create_private_playlists": "Create Private Playlists",
   "permissions_create_public_playlists": "Create Public Playlists",
   "permissions_delete_own_playlists": "Delete own Playlists",
