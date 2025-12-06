@@ -339,6 +339,11 @@
   "pick_album_create_new": "Create New Album ''{name}''",
   "pick_album_create_error": "An error occurred while creating the album.",
 
+  "pick_playlist_create_new": "Create New Playlist ''{name}''",
+  "pick_playlist_create_error": "An error occurred while creating the playlist.",
+  "pick_playlist_track_add_error": "An error occurred while adding the track to the playlist.",
+  "pick_playlist_track_remove_error": "An error occurred while removing the track from the playlist.",
+
 
   "settings_app_appearance_title": "Appearance",
 

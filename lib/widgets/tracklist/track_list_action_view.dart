@@ -46,11 +46,15 @@ class TrackListActionView extends StatelessWidget {
   }
 
   Future<void> _addTrackToPlaylist(int trackId, BuildContext context) async {
-    final modifiedPlaylistIds = await AddTrackToPlaylistDialog.show(trackId, context);
-    if (playlistId != null && modifiedPlaylistIds.contains(playlistId)) {
-      // If the current playlist was modified, the track must have been removed. Update the UI.
-      onTrackRemoved?.call(trackId);
-    }
+    await AddTrackToPlaylistDialog.show(
+      context, trackId,
+      onPlaylistsModified: (modifiedPlaylistIds) {
+        if (modifiedPlaylistIds.contains(playlistId)) {
+          // If the current playlist was modified, the track must have been removed. Update the UI.
+          onTrackRemoved?.call(trackId);
+        }
+      }
+    );
   }
 
   void _openArtist(BuildContext context) {

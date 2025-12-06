@@ -340,6 +340,11 @@
   "pick_album_create_new": "Neues Album ''{name}'' erstellen",
   "pick_album_create_error": "Beim Erstellen des Albums ist ein Fehler aufgetreten.",
 
+  "pick_playlist_create_new": "Neue Playlist ''{name}'' erstellen",
+  "pick_playlist_create_error": "Beim Erstellen der Playlist ist ein Fehler aufgetreten.",
+  "pick_playlist_track_add_error": "Beim Hinzufügen des Titels zur Playlist ist ein Fehler aufgetreten.",
+  "pick_playlist_track_remove_error": "Beim Entfernen des Titels aus der Playlist ist ein Fehler aufgetreten.",
+
 
   "settings_app_appearance_title": "Erscheinungsbild",
 

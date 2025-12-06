@@ -166,7 +166,7 @@ class _EntityCardState extends State<EntityCard> {
         await _addToQueue(false);
         break;
       case EntityCardAction.addToPlaylist:
-        AddTrackToPlaylistDialog.show(widget.entity.id, context);
+        AddTrackToPlaylistDialog.show(context, widget.entity.id);
         break;
       case EntityCardAction.viewInfo:
         _onTap(context);
