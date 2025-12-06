@@ -633,6 +633,9 @@
   "permissions_manage_tasks": "Hintergrundaufgaben verwalten",
   "permissions_manage_widgets": "Widgets verwalten",
 
+  "permissions_create_track_relations": "Verwandte Titel hinzufügen",
+  "permissions_delete_track_relations": "Verwandte Titel entfernen",
+
   "permissions_change_error": "Beim Ändern der Berechtigungen ist ein Fehler aufgetreten.",
 
 

@@ -632,6 +632,9 @@
   "permissions_manage_tasks": "Manage Background Tasks",
   "permissions_manage_widgets": "Manage Widgets",
 
+  "permissions_create_track_relations": "Add Track Relations",
+  "permissions_delete_track_relations": "Remove Track Relations",
+
   "permissions_change_error": "An error occurred while changing permissions.",
 
 

@@ -50,6 +50,9 @@ extension PermissionsTranslator on AppLocalizations {
       PermissionType.manageTasks => permissions_manage_tasks,
       PermissionType.manageWidgets => permissions_manage_widgets,
 
+      PermissionType.createTrackRelations => permissions_create_track_relations,
+      PermissionType.deleteTrackRelations => permissions_delete_track_relations,
+
       _ => type.value
     };
   }
