@@ -4,10 +4,10 @@ import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/playlist/playlist_data.dart';
 import 'package:vibin_app/dtos/shuffle_state.dart';
 import 'package:vibin_app/extensions.dart';
-import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/widgets/bars/playlist_action_bar.dart';
 import 'package:vibin_app/widgets/date_footer.dart';
 import 'package:vibin_app/widgets/future_content.dart';
+import 'package:vibin_app/widgets/sliver_future_content.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/row_small_column.dart';
@@ -118,81 +118,100 @@ class _PlaylistInfoPageState extends State<PlaylistInfoPage> {
   @override
   Widget build(BuildContext context) {
 
-    return ColumnPage(
-      children: [
-        RowSmallColumnBuilder(
-          spacing: 32,
-          mainAxisAlignment: MainAxisAlignment.start,
-          columnBuilder: (context, constraints) {
-            return [
-              NetworkImageWidget(
-                url: "/api/playlists/${widget.playlistId}/image",
-                width: constraints.maxWidth * 0.75,
-                height: constraints.maxWidth * 0.75
+    return Material(
+      child: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.all(0.0),
+            sliver: SliverToBoxAdapter(
+              child: RowSmallColumnBuilder(
+                spacing: 32,
+                mainAxisAlignment: MainAxisAlignment.start,
+                columnBuilder: (context, constraints) {
+                  return [
+                    NetworkImageWidget(
+                      url: "/api/playlists/${widget.playlistId}/image",
+                      width: constraints.maxWidth * 0.75,
+                      height: constraints.maxWidth * 0.75
+                    ),
+                    SizedBox(
+                      width: constraints.maxWidth,
+                      child: _playlistInfo(context, _playlistDataFuture)
+                    )
+                  ];
+                },
+                rowBuilder: (context, constraints) {
+                  return [
+                    NetworkImageWidget(
+                      url: "/api/playlists/${widget.playlistId}/image?quality=256",
+                      width: 200,
+                      height: 200
+                    ),
+                    Expanded(
+                      child: _playlistInfo(context, _playlistDataFuture)
+                    )
+                  ];
+                },
               ),
-              SizedBox(
-                width: constraints.maxWidth,
-                child: _playlistInfo(context, _playlistDataFuture)
-              )
-            ];
-          },
-          rowBuilder: (context, constraints) {
-            return [
-              NetworkImageWidget(
-                url: "/api/playlists/${widget.playlistId}/image?quality=256",
-                width: 200,
-                height: 200
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            sliver: SliverToBoxAdapter(
+              child: FutureContent(
+                future: _playlistDataFuture,
+                builder: (context, data) {
+                  return PlaylistActionBar(
+                    playlistData: data,
+                    shuffleState: _shuffleState,
+                    onUpdate: (data) {
+                      setState(() {
+                        _playlistDataFuture = Future.value(data);
+                      });
+                    }
+                  );
+                }
               ),
-              Expanded(
-                child: _playlistInfo(context, _playlistDataFuture)
-              )
-            ];
-          },
-        ),
-        FutureContent(
-          future: _playlistDataFuture,
-          builder: (context, data) {
-            return PlaylistActionBar(
-              playlistData: data,
-              shuffleState: _shuffleState,
-              onUpdate: (data) {
-                setState(() {
-                  _playlistDataFuture = Future.value(data);
-                });
-              }
-            );
-          }
-        ),
+            ),
+          ),
 
-        FutureContent(
-          future: _playlistDataFuture,
-          builder: (context, data) {
-            return PlaylistTrackList(
-              tracks: data.tracks,
-              playlistId: widget.playlistId,
-              onTrackTapped: (track) {
-                _audioManager.playPlaylistData(
-                  data,
-                  preferredTrackId: track.id,
-                  shuffle: _shuffleState.isShuffling
+          SliverFutureContent(
+            future: _playlistDataFuture,
+            builder: (context, data) {
+              return PlaylistTrackList(
+                tracks: data.tracks,
+                playlistId: widget.playlistId,
+                onTrackTapped: (track) {
+                  _audioManager.playPlaylistData(
+                    data,
+                    preferredTrackId: track.id,
+                    shuffle: _shuffleState.isShuffling
+                  );
+                }
+              );
+            }
+          ),
+
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
+              child: Divider(),
+            ),
+          ),
+
+          SliverToBoxAdapter(
+            child: FutureContent(
+              future: _playlistDataFuture,
+              builder: (context, data) {
+                return DateFooter(
+                  createdAt: data.playlist.createdAt,
+                  updatedAt: data.playlist.updatedAt,
                 );
               }
-            );
-          }
-        ),
-
-        const Divider(),
-
-        FutureContent(
-          future: _playlistDataFuture,
-          builder: (context, data) {
-            return DateFooter(
-              createdAt: data.playlist.createdAt,
-              updatedAt: data.playlist.updatedAt,
-            );
-          }
-        )
-      ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
