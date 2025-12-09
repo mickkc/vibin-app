@@ -124,7 +124,7 @@ class _PlaylistTrackListState extends State<PlaylistTrackList> {
         final firstVibedefIndex = _tracks.indexWhere((t) => t.addedBy == null);
 
         // Prevent moving user tracks to or below vibedef tracks
-        if (firstVibedefIndex != -1 && newIndex >= firstVibedefIndex) {
+        if (firstVibedefIndex != -1 && newIndex > firstVibedefIndex) {
           return;
         }
 
