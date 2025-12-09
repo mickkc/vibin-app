@@ -164,14 +164,20 @@ class _PlaylistTrackListState extends State<PlaylistTrackList> {
       },
       onReorder: (int oldIndex, int newIndex) async {
 
-        if (newIndex > oldIndex) {
-          newIndex -= 1;
-        }
-
         final before = _tracks.toList();
 
         PlaylistTrack item = _tracks[oldIndex];
-        PlaylistTrack? beforeNewIndex = newIndex - 1 >= 0 ? _tracks[newIndex - 1] : null;
+
+        // Null = first position
+        PlaylistTrack? afterItem;
+        if (newIndex > 0) {
+          if (newIndex > oldIndex) {
+            afterItem = _tracks[newIndex - 1];
+          }
+          else {
+            afterItem = _tracks[newIndex - 1];
+          }
+        }
 
         // Prevent moving vibedef tracks (addedBy == null)
         if (item.addedBy == null) {
@@ -188,14 +194,14 @@ class _PlaylistTrackListState extends State<PlaylistTrackList> {
 
         setState(() {
           _tracks.removeAt(oldIndex);
-          _tracks.insert(newIndex, item);
+          _tracks.insert(newIndex > oldIndex ? newIndex - 1 : newIndex, item);
         });
 
         try {
           final newTracks = await apiManager.service.reorderPlaylistTracks(
             widget.playlistId,
             item.track.id,
-            beforeNewIndex?.track.id
+            afterItem?.track.id
           );
           setState(() {
             _tracks = newTracks;
