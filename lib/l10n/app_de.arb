@@ -497,6 +497,7 @@
   "settings_widgets_type_server_stats": "Server Statistiken",
 
   "settings_widgets_error_no_types_selected": "Bitte wähle mindestens einen Widget-Typ aus.",
+  "settings_widgets_error_incomplete_colors": "Bitte wähle entweder alle Farben aus, oder keine, um die Standardfarben zu verwenden.",
   "settings_widgets_create_error": "Beim Erstellen des Widgets ist ein Fehler aufgetreten.",
 
   "settings_widgets_info_title": "Widget Informationen",

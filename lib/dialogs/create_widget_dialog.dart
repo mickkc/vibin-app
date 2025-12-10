@@ -44,8 +44,20 @@ class _CreateWidgetDialogState extends State<CreateWidgetDialog> {
   Color? _backgroundColor;
   Color? _foregroundColor;
   Color? _accentColor;
-
-
+  
+  String? _getColorString(Color? color) {
+    if (color == null) return null;
+    final hexColor = color.toHex(leadingHashSign: false);
+    if (hexColor.length == 6) {
+      return hexColor;
+    }
+    else if (hexColor.length == 8) {
+      // FFRRGGBB -> RRGGBB
+      return hexColor.substring(2);
+    }
+    log("Invalid color length: ${hexColor.length}, Color: $color", level: Level.warning.value);
+    return null;
+  }
 
   Future<void> _save() async {
 
@@ -56,12 +68,22 @@ class _CreateWidgetDialogState extends State<CreateWidgetDialog> {
       return;
     }
 
+    final bgColor = _getColorString(_backgroundColor);
+    final fgColor = _getColorString(_foregroundColor);
+    final accentColor = _getColorString(_accentColor);
+
+    final colors = [bgColor, fgColor, accentColor].whereType<String>().toList();
+    if (colors.isNotEmpty && colors.length != 3) {
+      await Dialogs.showInfoDialog(context, lm.settings_widgets_error_incomplete_colors);
+      return;
+    }
+
     try {
       final newWidget = CreateWidget(
         types: _selectedTypes.map((e) => e.value).toList(),
-        bgColor: _backgroundColor?.toHex(leadingHashSign: false),
-        fgColor: _foregroundColor?.toHex(leadingHashSign: false),
-        accentColor: _accentColor?.toHex(leadingHashSign: false)
+        bgColor: bgColor,
+        fgColor: fgColor,
+        accentColor: accentColor
       );
 
       final created = await _apiManager.service.createSharedWidget(newWidget);
