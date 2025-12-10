@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
@@ -34,7 +35,7 @@ class ErrorDialog extends StatelessWidget {
 
   String _formatErrorDetails() {
     String message = "Error Message: $errorMessage\n\n"
-        "Platform: ${Platform.operatingSystem} - ${Platform.operatingSystemVersion}\n"
+        "Platform: ${kIsWeb ? "Web" : Platform.operatingSystem} - ${kIsWeb ? "Web" : Platform.operatingSystemVersion}\n"
         "Timestamp: ${DateTime.now().toIso8601String()}\n\n"
         "Error Details:\n${error.toString()}\n\n";
 
