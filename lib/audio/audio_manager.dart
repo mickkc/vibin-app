@@ -9,6 +9,7 @@ import 'package:logger/logger.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/api/client_data.dart';
 import 'package:vibin_app/audio/audio_type.dart';
+import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/album/album_data.dart';
 import 'package:vibin_app/dtos/playlist/playlist.dart';
@@ -23,15 +24,21 @@ import '../settings/settings_manager.dart';
 
 class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
-  late final ApiManager _apiManager;
-  late final AudioPlayer audioPlayer;
-  late final ClientData _clientData;
-  late final SettingsManager _settingsManager;
+  late final AuthState _authState = getIt<AuthState>();
+  late final ApiManager _apiManager = getIt<ApiManager>();
+  late AudioPlayer audioPlayer;
+  late final ClientData _clientData = getIt<ClientData>();
+  late final SettingsManager _settingsManager = getIt<SettingsManager>();
   
   WebSocketChannel? _socketChannel;
   Timer? _webSocketPingTimer;
   Timer? _reconnectTimer;
   List<dynamic> _webSocketMessageQueue = [];
+
+  // Stream subscriptions that need to be cancelled on dispose
+  StreamSubscription<PlaybackEvent>? _playbackEventSubscription;
+  StreamSubscription<PlayerState>? _playerStateSubscription;
+  StreamSubscription<dynamic>? _webSocketSubscription;
 
   CurrentAudioType? _currentAudioType;
   CurrentAudioType? get currentAudioType => _currentAudioType;
@@ -52,13 +59,23 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   // Prevent concurrent track completion handling
   bool _isHandlingCompletion = false;
 
+  bool _isInitialized = false;
+
   // region Init
 
   AudioManager() {
-    _apiManager = getIt<ApiManager>();
-    _clientData = getIt<ClientData>();
-    _settingsManager = getIt<SettingsManager>();
+    init();
+  }
 
+  void init() {
+    if (_isInitialized) return;
+    _initAudioPlayer();
+    _initPlaybackEvents();
+    _initPlayerCompletionListener();
+    _isInitialized = true;
+  }
+
+  void _initAudioPlayer() {
     audioPlayer = AudioPlayer(
       audioLoadConfiguration: AudioLoadConfiguration(
         androidLoadControl: AndroidLoadControl(
@@ -70,14 +87,11 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
         )
       )
     );
-
-    _initPlaybackEvents();
-    _initPlayerCompletionListener();
   }
 
   /// Initializes playback event listeners to update the playback state accordingly.
   void _initPlaybackEvents() {
-    audioPlayer.playbackEventStream.listen((event) {
+    _playbackEventSubscription = audioPlayer.playbackEventStream.listen((event) {
       playbackState.add(playbackState.value.copyWith(
         controls: [
           MediaControl.skipToPrevious,
@@ -140,7 +154,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   /// Listens for track completion to advance to next track
   void _initPlayerCompletionListener() {
-    audioPlayer.playerStateStream.listen((state) {
+    _playerStateSubscription = audioPlayer.playerStateStream.listen((state) {
       if (state.processingState == ProcessingState.completed) {
         _handleTrackCompletion();
       }
@@ -196,6 +210,41 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     );
   }
 
+  /// Cleans up all resources and cancels all subscriptions.
+  /// Should be called when logging out or disposing of the AudioManager.
+  Future<void> cleanup() async {
+    try {
+      // Stop and clear queue
+      await audioPlayer.stop();
+      _queue.clear();
+      _currentIndex = 0;
+      _shuffleIndices.clear();
+      _shufflePosition = 0;
+      _updateMediaItem();
+      sequenceStreamController.add([]);
+
+      // Cancel stream subscriptions to prevent callbacks after disposal
+      await _playbackEventSubscription?.cancel();
+      _playbackEventSubscription = null;
+
+      await _playerStateSubscription?.cancel();
+      _playerStateSubscription = null;
+
+      await _webSocketSubscription?.cancel();
+      _webSocketSubscription = null;
+
+      // Disconnect WebSocket and cancel timers
+      await disconnectWebSocket();
+
+      // Dispose player
+      await audioPlayer.dispose();
+
+      _isInitialized = false;
+    } catch (e, st) {
+      log("Error during cleanup: $e", error: e, level: Level.error.value , stackTrace: st);
+    }
+  }
+
   // endregion
 
   // region WebSockets
@@ -206,13 +255,17 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
         return;
       }
 
+      if (!_authState.loggedIn) {
+        return;
+      }
+
       _socketChannel = WebSocketChannel.connect(
         Uri.parse(_getWsUrl()),
       );
 
       await _socketChannel!.ready;
 
-      _socketChannel!.stream.listen((msg) {
+      _webSocketSubscription = _socketChannel!.stream.listen((msg) {
         log("WebSocket message received: $msg");
       }, onError: (error) {
         log("WebSocket error: $error", error: error, level: Level.error.value);
@@ -245,6 +298,22 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     }
   }
 
+  Future<void> disconnectWebSocket() async {
+    try {
+      await _socketChannel?.sink.close();
+    }
+    catch (e) {
+      log("Error disconnecting WebSocket: $e", error: e, level: Level.error.value);
+    }
+    finally {
+      _socketChannel = null;
+      _webSocketPingTimer?.cancel();
+      _webSocketPingTimer = null;
+      _reconnectTimer?.cancel();
+      _reconnectTimer = null;
+    }
+  }
+
   void _sendWebSocket(String type, { dynamic data }) {
 
     try {
@@ -269,7 +338,6 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   String _getWsUrl() {
     final baseUrl = _apiManager.baseUrl.replaceAll(RegExp(r'^http'), 'ws').replaceAll(RegExp(r'/+$'), '');
-    log(baseUrl);
     return "$baseUrl/ws/playback?token=${_apiManager.accessToken}";
   }
 

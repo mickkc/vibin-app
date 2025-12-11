@@ -7,6 +7,7 @@ import 'package:vibin_app/dtos/user/user.dart';
 import 'package:vibin_app/main.dart';
 
 import '../api/api_manager.dart';
+import '../audio/audio_manager.dart';
 
 class AuthState extends ChangeNotifier {
   bool _loggedIn = false;
@@ -66,10 +67,16 @@ class AuthState extends ChangeNotifier {
     await prefs.write(key: 'serverAddress', value: serverAddress);
     await prefs.write(key: 'accessToken', value: loginResult.token);
 
+    final audioManager = getIt<AudioManager>();
+    audioManager.init();
+
     notifyListeners();
   }
 
   Future<void> logout() async {
+    final audioManager = getIt<AudioManager>();
+    await audioManager.cleanup();
+
     _loggedIn = false;
     _serverAddress = null;
     _accessToken = null;
