@@ -43,6 +43,7 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _yearController = TextEditingController();
+  late bool _isSingle;
 
   final _yearRegexp = RegExp(r'^\d{4}$');
 
@@ -56,6 +57,7 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
         _yearController.text = value.album.year?.toString() ?? "";
         _albumCoverUrl = null;
         _initialized = true;
+        _isSingle = value.album.single ?? false;
       });
       return;
     });
@@ -94,7 +96,8 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
         title: _titleController.text,
         description: _descriptionController.text,
         year: _yearController.text.isEmpty ? null : int.tryParse(_yearController.text),
-        coverUrl: _albumCoverUrl
+        coverUrl: _albumCoverUrl,
+        isSingle: _isSingle,
       );
       await _apiManager.service.updateAlbum(widget.albumId, editData);
       imageCache.clear();
@@ -219,6 +222,16 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
                 }
                 return null;
               }
+            ),
+            CheckboxListTile(
+              title: Text(_lm.edit_album_is_single),
+              value: _isSingle,
+              onChanged: (value) {
+                if (value == null) return;
+                setState(() {
+                  _isSingle = value;
+                });
+              },
             )
           ],
         ),

@@ -195,6 +195,7 @@
   "edit_album_search_metadata": "Search Metadata",
   "edit_album_metadata_no_description": "No description available.",
   "edit_album_metadata_has_description": "Description available.",
+  "edit_album_is_single": "Is Single",
 
   "delete_album_confirmation": "Are you sure you want to delete this album?",
   "delete_album_confirmation_warning": "This action cannot be undone. All tracks in the album will also be deleted.",

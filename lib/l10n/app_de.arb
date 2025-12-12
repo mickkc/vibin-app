@@ -195,6 +195,7 @@
   "edit_album_search_metadata": "Metadaten suchen",
   "edit_album_metadata_no_description": "Keine Beschreibung verfügbar.",
   "edit_album_metadata_has_description": "Beschreibung verfügbar.",
+  "edit_album_is_single": "Single",
 
   "delete_album_confirmation": "Möchtest du dieses Album wirklich löschen?",
   "delete_album_confirmation_warning": "Diese Aktion kann nicht rückgängig gemacht werden. Alle Titel in diesem Album werden gelöscht.",

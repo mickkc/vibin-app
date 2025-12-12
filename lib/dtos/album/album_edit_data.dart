@@ -6,12 +6,14 @@ class AlbumEditData {
   final String? description;
   final int? year;
   final String? coverUrl;
+  final bool? isSingle;
 
   AlbumEditData({
     this.title,
     this.coverUrl,
     this.description,
     this.year,
+    this.isSingle,
   });
 
   factory AlbumEditData.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class AlbumEditData {
       coverUrl: json['coverUrl'] as String?,
       description: json['description'] as String?,
       year: json['year'] as int?,
+      isSingle: json['isSingle'] as bool?,
     );
   }
 
@@ -29,6 +32,7 @@ class AlbumEditData {
       'coverUrl': coverUrl,
       'description': description,
       'year': year,
+      'isSingle': isSingle,
     };
   }
 }
