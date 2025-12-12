@@ -787,20 +787,33 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final mediaToken = await _clientData.getMediaToken();
     _queue = await Future.wait(tracks.map((track) => _buildMediaItemFromMinimal(track, mediaToken)));
 
-    final initialIndex = preferredTrackId != null
-        ? _queue.indexWhere((item) => item.id == preferredTrackId.toString())
-        : 0;
-
-    if (_isShuffling) {
-      _createShuffleOrder();
-    }
-
     _sendWebSocket("listen", data: {
       'type': 'playlist',
       'id': data.playlist.id,
     });
 
-    await _playTrackAtIndex(initialIndex.clamp(0, _queue.length - 1));
+    if (_isShuffling && preferredTrackId == null) {
+      // Let shuffle order determine the starting track
+      _shuffleIndices = List.generate(_queue.length, (i) => i);
+      _shuffleIndices.shuffle();
+      _shufflePosition = 0;
+      await _playTrackAtIndex(_shuffleIndices[0]);
+    } else {
+      // Either not shuffling, or have a preferred track
+      final initialIndex = preferredTrackId != null
+          ? _queue.indexWhere((item) => item.id == preferredTrackId.toString())
+          : 0;
+
+      if (_isShuffling) {
+        // Set current index before creating shuffle order
+        // so the preferred track is moved to the front
+        _currentIndex = initialIndex.clamp(0, _queue.length - 1);
+        _createShuffleOrder();
+      }
+
+      await _playTrackAtIndex(initialIndex.clamp(0, _queue.length - 1));
+    }
+
     _updateQueue();
   }
 
@@ -834,20 +847,33 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final mediaToken = await _clientData.getMediaToken();
     _queue = await Future.wait(tracks.map((track) => _buildMediaItem(track, mediaToken)));
 
-    final initialIndex = preferredTrackId != null
-        ? _queue.indexWhere((item) => item.id == preferredTrackId.toString())
-        : 0;
-
-    if (_isShuffling) {
-      _createShuffleOrder();
-    }
-
     _sendWebSocket("listen", data: {
       'type': 'album',
       'id': data.album.id,
     });
 
-    await _playTrackAtIndex(initialIndex.clamp(0, _queue.length - 1));
+    if (_isShuffling && preferredTrackId == null) {
+      // Let shuffle order determine the starting track
+      _shuffleIndices = List.generate(_queue.length, (i) => i);
+      _shuffleIndices.shuffle();
+      _shufflePosition = 0;
+      await _playTrackAtIndex(_shuffleIndices[0]);
+    } else {
+      // Either not shuffling, or have a preferred track
+      final initialIndex = preferredTrackId != null
+          ? _queue.indexWhere((item) => item.id == preferredTrackId.toString())
+          : 0;
+
+      if (_isShuffling) {
+        // Set current index before creating shuffle order
+        // so the preferred track is moved to the front
+        _currentIndex = initialIndex.clamp(0, _queue.length - 1);
+        _createShuffleOrder();
+      }
+
+      await _playTrackAtIndex(initialIndex.clamp(0, _queue.length - 1));
+    }
+
     _updateQueue();
   }
 
