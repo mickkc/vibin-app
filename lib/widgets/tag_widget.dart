@@ -7,16 +7,19 @@ class TagWidget extends StatelessWidget {
   final Tag tag;
   final void Function()? onTap;
   final void Function()? onContextMenu;
+  final VoidCallback? onNavigate;
 
   const TagWidget({
     super.key,
     required this.tag,
     this.onTap,
-    this.onContextMenu
+    this.onContextMenu,
+    this.onNavigate,
   });
 
-  static Future<void> openTag(Tag tag, BuildContext context) async {
-    await GoRouter.of(context).push("/tracks?advanced=true&search=%2B%22${tag.name}%22");
+  void openTag(Tag tag, BuildContext context) {
+    GoRouter.of(context).push("/tracks?advanced=true&search=%2B%22${tag.name}%22");
+    onNavigate?.call();
   }
 
   @override

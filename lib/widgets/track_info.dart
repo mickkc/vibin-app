@@ -121,7 +121,7 @@ class TrackInfoView extends StatelessWidget {
                   alignment: WrapAlignment.start,
                   children: [
                     for (var tag in track.tags)
-                      TagWidget(tag: tag)
+                      TagWidget(tag: tag, onNavigate: onNavigate)
                   ],
                 )
             ]
