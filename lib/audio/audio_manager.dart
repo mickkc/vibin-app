@@ -43,6 +43,9 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   CurrentAudioType? _currentAudioType;
   CurrentAudioType? get currentAudioType => _currentAudioType;
 
+  final _currentAudioTypeController = StreamController<CurrentAudioType?>.broadcast();
+  Stream<CurrentAudioType?> get currentAudioTypeStream => _currentAudioTypeController.stream;
+
   // Manual queue management
   List<MediaItem> _queue = [];
   int _currentIndex = 0;
@@ -182,7 +185,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
         await skipToNext(notify: false);
       } else if (_loopMode == LoopMode.all && _queue.isNotEmpty) {
         // Loop back to beginning
-        await _playTrackAtIndex(0);
+        await playTrackAtIndex(0);
       }
       else {
         // No more tracks, stop playback
@@ -387,19 +390,19 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       if (_shufflePosition < _shuffleIndices.length - 1) {
         _shufflePosition++;
         final nextIndex = _shuffleIndices[_shufflePosition];
-        await _playTrackAtIndex(nextIndex);
+        await playTrackAtIndex(nextIndex);
       } else if (_loopMode == LoopMode.all) {
         // Loop back to beginning in shuffle mode
         _shufflePosition = 0;
         final nextIndex = _shuffleIndices[_shufflePosition];
-        await _playTrackAtIndex(nextIndex);
+        await playTrackAtIndex(nextIndex);
       }
     } else {
       if (_currentIndex < _queue.length - 1) {
-        await _playTrackAtIndex(_currentIndex + 1);
+        await playTrackAtIndex(_currentIndex + 1);
       } else if (_loopMode == LoopMode.all) {
         // Loop back to beginning
-        await _playTrackAtIndex(0);
+        await playTrackAtIndex(0);
       }
     }
   }
@@ -429,19 +432,19 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       if (_shufflePosition > 0) {
         _shufflePosition--;
         final prevIndex = _shuffleIndices[_shufflePosition];
-        await _playTrackAtIndex(prevIndex);
+        await playTrackAtIndex(prevIndex);
       } else if (_loopMode == LoopMode.all) {
         // Loop to end in shuffle mode
         _shufflePosition = _shuffleIndices.length - 1;
         final prevIndex = _shuffleIndices[_shufflePosition];
-        await _playTrackAtIndex(prevIndex);
+        await playTrackAtIndex(prevIndex);
       }
     } else {
       if (_currentIndex > 0) {
-        await _playTrackAtIndex(_currentIndex - 1);
+        await playTrackAtIndex(_currentIndex - 1);
       } else if (_loopMode == LoopMode.all) {
         // Loop to end
-        await _playTrackAtIndex(_queue.length - 1);
+        await playTrackAtIndex(_queue.length - 1);
       }
     }
   }
@@ -455,7 +458,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       _shufflePosition = _shuffleIndices.indexOf(index);
     }
 
-    await _playTrackAtIndex(index);
+    await playTrackAtIndex(index);
   }
 
   @override Future<void> seek(Duration position) => audioPlayer.seek(position);
@@ -517,7 +520,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   }
 
   /// Plays the track at the specified index
-  Future<void> _playTrackAtIndex(int index) async {
+  Future<void> playTrackAtIndex(int index) async {
     if (index < 0 || index >= _queue.length) return;
 
     _currentIndex = index;
@@ -681,7 +684,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       // Current item removed
       if (_queue.isNotEmpty) {
         _currentIndex = _currentIndex.clamp(0, _queue.length - 1);
-        await _playTrackAtIndex(_currentIndex);
+        await playTrackAtIndex(_currentIndex);
       } else {
         await audioPlayer.stop();
       }
@@ -797,7 +800,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       _shuffleIndices = List.generate(_queue.length, (i) => i);
       _shuffleIndices.shuffle();
       _shufflePosition = 0;
-      await _playTrackAtIndex(_shuffleIndices[0]);
+      await playTrackAtIndex(_shuffleIndices[0]);
     } else {
       // Either not shuffling, or have a preferred track
       final initialIndex = preferredTrackId != null
@@ -811,7 +814,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
         _createShuffleOrder();
       }
 
-      await _playTrackAtIndex(initialIndex.clamp(0, _queue.length - 1));
+      await playTrackAtIndex(initialIndex.clamp(0, _queue.length - 1));
     }
 
     _updateQueue();
@@ -857,7 +860,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       _shuffleIndices = List.generate(_queue.length, (i) => i);
       _shuffleIndices.shuffle();
       _shufflePosition = 0;
-      await _playTrackAtIndex(_shuffleIndices[0]);
+      await playTrackAtIndex(_shuffleIndices[0]);
     } else {
       // Either not shuffling, or have a preferred track
       final initialIndex = preferredTrackId != null
@@ -871,7 +874,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
         _createShuffleOrder();
       }
 
-      await _playTrackAtIndex(initialIndex.clamp(0, _queue.length - 1));
+      await playTrackAtIndex(initialIndex.clamp(0, _queue.length - 1));
     }
 
     _updateQueue();
@@ -891,7 +894,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     _queue = [await _buildMediaItemFromMinimal(track, mediaToken)];
     _isShuffling = false;
 
-    await _playTrackAtIndex(0);
+    await playTrackAtIndex(0);
     _updateQueue();
   }
 
@@ -910,7 +913,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       _createShuffleOrder();
     }
 
-    await _playTrackAtIndex(initialIndex.clamp(0, _queue.length - 1));
+    await playTrackAtIndex(initialIndex.clamp(0, _queue.length - 1));
     _updateQueue();
   }
 
@@ -928,7 +931,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     _queue = [await _buildMediaItem(track, mediaToken)];
     _isShuffling = false;
 
-    await _playTrackAtIndex(0);
+    await playTrackAtIndex(0);
     _updateQueue();
   }
 
@@ -966,7 +969,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     _updateQueue();
 
     if (wasEmpty) {
-      await _playTrackAtIndex(0);
+      await playTrackAtIndex(0);
     }
   }
 
@@ -992,7 +995,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     _updateQueue();
 
     if (wasEmpty) {
-      await _playTrackAtIndex(0);
+      await playTrackAtIndex(0);
     }
   }
 
@@ -1028,7 +1031,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     if (wasEmpty) {
       setAudioType(AudioType.album, album.id);
-      await _playTrackAtIndex(0);
+      await playTrackAtIndex(0);
     }
   }
 
@@ -1064,7 +1067,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     if (wasEmpty) {
       setAudioType(AudioType.playlist, playlist.id);
-      await _playTrackAtIndex(0);
+      await playTrackAtIndex(0);
     }
 
   }
@@ -1075,6 +1078,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   void setAudioType(AudioType type, int? id) {
     _currentAudioType = CurrentAudioType(audioType: type, id: id);
+    _currentAudioTypeController.add(_currentAudioType);
   }
 
   /// Gets the current media item being played, or null if there is none.
@@ -1083,6 +1087,17 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       return null;
     }
     return _queue[_currentIndex];
+  }
+
+  MediaItem? getNextMediaItem() {
+    if (!hasNext) return null;
+
+    if (_isShuffling) {
+      final nextIndex = _shuffleIndices[_shufflePosition + 1];
+      return _queue[nextIndex];
+    } else {
+      return _queue[_currentIndex + 1];
+    }
   }
 
   /// Gets the entire queue

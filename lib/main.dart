@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dbus/dbus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fullscreen/flutter_fullscreen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:get_it/get_it.dart';
@@ -33,6 +34,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await setupDependencyInjection();
+  await FullScreen.ensureInitialized();
 
   JustAudioMediaKit.ensureInitialized();
 

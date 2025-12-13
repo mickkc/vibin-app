@@ -56,6 +56,9 @@ dependencies:
 
   web_socket_channel: ^3.0.3
 
+  carousel_slider: ^5.1.1
+  flutter_fullscreen: ^1.2.0
+
 dependency_overrides:
   analyzer: ^8.2.0
 

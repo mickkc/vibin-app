@@ -13,6 +13,7 @@ import 'package:vibin_app/pages/edit/artist_edit_page.dart';
 import 'package:vibin_app/pages/edit/playlist_edit_page.dart';
 import 'package:vibin_app/pages/edit/track_edit_page.dart';
 import 'package:vibin_app/pages/edit/user_edit_page.dart';
+import 'package:vibin_app/pages/glance_page.dart';
 import 'package:vibin_app/pages/home_page.dart';
 import 'package:vibin_app/pages/info/album_info_page.dart';
 import 'package:vibin_app/pages/info/artist_info_page.dart';
@@ -160,6 +161,7 @@ GoRouter configureRouter(AuthState authState) {
           GoRoute(path: '/tasks', builder: (context, state) => const TaskManagementPage()),
           GoRoute(path: '/widgets', builder: (context, state) => const WidgetManagementPage()),
           GoRoute(path: '/uploads', builder: (context, state) => const UploadPage()),
+          GoRoute(path: '/glance', builder: (context, state) => const GlancePage()),
         ],
       )
     ],

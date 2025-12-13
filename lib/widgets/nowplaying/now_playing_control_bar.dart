@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/pages/glance_page.dart';
 import 'package:vibin_app/widgets/colored_icon_button.dart';
 import 'package:vibin_app/widgets/nowplaying/audio_progress_slider.dart';
 import 'package:vibin_app/widgets/nowplaying/controls/play_pause_toggle.dart';
@@ -59,6 +60,10 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
   void _openCurrentTrack() {
     widget.onNavigate?.call();
     GoRouter.of(context).push('/tracks/${widget.mediaItem.id}');
+  }
+
+  void _openGlanceView() {
+    GlancePage.show(context);
   }
 
   @override
@@ -143,6 +148,11 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
                 onPressed: _openCurrentTrack,
                 label: Text(lm.track_actions_goto_track),
                 icon: const Icon(Icons.open_in_new)
+              ),
+              ElevatedButton.icon(
+                onPressed: _openGlanceView,
+                label: Text(lm.track_actions_glance_view),
+                icon: const Icon(Icons.remove_red_eye)
               ),
               Expanded(
                 child: const SpeedSlider()

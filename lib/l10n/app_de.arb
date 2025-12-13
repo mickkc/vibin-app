@@ -98,6 +98,7 @@
   "track_actions_goto_track": "Titel anzeigen",
   "track_actions_goto_album": "Album anzeigen",
   "track_actions_goto_artist": "Künstler anzeigen",
+  "track_actions_glance_view": "Schnellansicht",
   "track_actions_download": "Herunterladen",
   "track_actions_play": "Abspielen",
   "track_actions_pause": "Pause",
