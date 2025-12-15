@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dialogs/create_widget_dialog.dart';
 import 'package:vibin_app/dtos/widgets/shared_widget.dart';
@@ -85,7 +86,7 @@ class _WidgetManagementPageState extends State<WidgetManagementPage> {
         FutureContent(
           future: _sharedWidgetsFuture,
           builder: (context, sharedWidgets) {
-            return ListView.builder(
+            return SuperListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: sharedWidgets.length,

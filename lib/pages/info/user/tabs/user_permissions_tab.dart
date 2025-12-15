@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/main.dart';
@@ -20,7 +21,7 @@ class UserPermissionsTab extends StatelessWidget {
     return FutureContent(
       future: _currentPermissionsFuture,
       builder: (context, grantedPermissions) {
-        return ListView.builder(
+        return SuperListView.builder(
           itemCount: PermissionType.values.length,
           itemBuilder: (context, index) {
 

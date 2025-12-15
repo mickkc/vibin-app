@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/metadata_fetch_type.dart';
 import 'package:vibin_app/main.dart';
@@ -37,7 +38,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
     return FutureContent(
       future: _settingsFuture,
       builder: (context, settings) {
-        return ListView(
+        return SuperListView(
           children: [
             StringListSetting(
               settingKey: "artist_name_delimiters",

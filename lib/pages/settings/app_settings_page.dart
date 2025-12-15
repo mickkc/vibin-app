@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/pages/settings/app_user_settings_view.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
@@ -39,7 +40,7 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return SuperListView(
       children: [
 
         SettingsTitle(

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/dtos/non_track_listen.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
 
@@ -22,7 +23,7 @@ class EntityCardRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return SuperListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: entities.length,
       itemBuilder: (context, index) {
@@ -50,7 +51,7 @@ class NonTrackEntityCardRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return SuperListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: entities.length,
       itemBuilder: (context, index) {

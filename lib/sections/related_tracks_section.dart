@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dialogs/related_tracks_management_dialog.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
@@ -91,7 +92,7 @@ class _RelatedTracksSectionState extends State<RelatedTracksSection> {
 
             return SizedBox(
               height: 210,
-              child: ListView.builder(
+              child: SuperListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: relatedTracks.length,
                 itemBuilder: (context, index) {

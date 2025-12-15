@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/metadata_sources.dart';
 import 'package:vibin_app/main.dart';
@@ -149,7 +150,7 @@ class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
                 future: _searchFuture,
                 hasData: (data) => data.isNotEmpty,
                 builder: (context, results) {
-                  return ListView.builder(
+                  return SuperListView.builder(
                     shrinkWrap: true,
                     itemCount: results.length,
                     itemBuilder: (context, index) {

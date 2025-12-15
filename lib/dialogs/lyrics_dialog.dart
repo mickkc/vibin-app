@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart' hide ColorScheme;
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/dtos/lyrics.dart';
@@ -52,7 +52,9 @@ class _LyricsDialogState extends State<LyricsDialog> {
 
   StreamSubscription? _currentMediaItemSubscription;
   StreamSubscription? _positionSubscription;
-  final _scrollController = ItemScrollController();
+
+  final _listController = ListController();
+  final _scrollController = ScrollController();
 
   int? _currentLyricIndex;
   int? _lastPositionMs;
@@ -134,11 +136,12 @@ class _LyricsDialogState extends State<LyricsDialog> {
         });
 
         // Scroll to the current lyric line
-        if (newIndex != null && _scrollController.isAttached) {
-          _scrollController.scrollTo(
+        if (newIndex != null && _scrollController.hasClients && _listController.isAttached) {
+          _listController.animateToItem(
             index: newIndex,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
+            scrollController: _scrollController,
+            duration: (_) => const Duration(milliseconds: 300),
+            curve: (_) => Curves.easeInOut,
             alignment: 0.5
           );
         }
@@ -220,7 +223,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
 
               return Container(
                 color: backgroundColor,
-                child: ListView.builder(
+                child: SuperListView.builder(
                   padding: const EdgeInsets.all(16.0),
                   itemCount: _parsedLyrics!.lines.length,
                   itemBuilder: (context, index) {
@@ -243,10 +246,11 @@ class _LyricsDialogState extends State<LyricsDialog> {
               child: ScrollConfiguration(
                 behavior: const ScrollBehavior()
                     .copyWith(overscroll: false, scrollbars: false),
-                child: ScrollablePositionedList.builder(
+                child: SuperListView.builder(
                   physics: const ClampingScrollPhysics(),
                   itemCount: _parsedLyrics!.lines.length,
-                  itemScrollController: _scrollController,
+                  controller: _scrollController,
+                  listController: _listController,
                   itemBuilder: (context, index) {
                     final line = _parsedLyrics!.lines.elementAt(index);
                     final isCurrent = index == _currentLyricIndex;

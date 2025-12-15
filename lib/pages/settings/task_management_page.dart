@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/dtos/task_dto.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
@@ -84,7 +85,7 @@ class _TaskManagementPageState extends State<TaskManagementPage> {
 
         const Divider(),
 
-        ListView.builder(
+        SuperListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: _tasks.length,

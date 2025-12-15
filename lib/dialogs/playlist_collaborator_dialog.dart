@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/pagination/user_pagination.dart';
 import 'package:vibin_app/dtos/user/user.dart';
@@ -148,7 +149,7 @@ class _PlaylistCollaboratorDialogState extends State<PlaylistCollaboratorDialog>
                 return Expanded(
                   child: SizedBox(
                     width: 400,
-                    child: ListView.builder(
+                    child: SuperListView.builder(
                       itemCount: users.items.length,
                       itemBuilder: (context, index) {
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/dtos/album/album.dart';
@@ -87,7 +88,7 @@ class ArtistInfoPage extends StatelessWidget {
   }
 
   Widget _albumTrackList(BuildContext context, List<MinimalTrack> tracks) {
-    return ListView(
+    return SuperListView(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       children: [

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/pagination/minimal_track_pagination.dart';
 import 'package:vibin_app/dtos/track/minimal_track.dart';
@@ -160,7 +161,7 @@ class _AddRelatedTrackDialogState extends State<AddRelatedTrackDialog> {
               child: FutureContent(
                 future: _searchResults,
                 builder: (context, tracks) {
-                  return ListView.builder(
+                  return SuperListView.builder(
                     scrollDirection: Axis.vertical,
                     itemCount: tracks.items.length,
                     itemBuilder: (context, index) {

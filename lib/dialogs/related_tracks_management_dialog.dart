@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/dialogs/add_related_track_dialog.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/track/related_track.dart';
@@ -96,7 +97,7 @@ class _RelatedTracksManagementDialogState extends State<RelatedTracksManagementD
           Expanded(
             child: SizedBox(
               width: width > 600 ? 600 : width * 0.9,
-              child: _relatedTracks.isNotEmpty ? ListView.builder(
+              child: _relatedTracks.isNotEmpty ? SuperListView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount: _relatedTracks.length,
                 itemBuilder: (context, index) {

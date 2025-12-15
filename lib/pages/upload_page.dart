@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/dtos/uploads/pending_upload.dart';
 import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/pages/edit/track_edit_page.dart';
@@ -232,7 +233,7 @@ class _UploadPageState extends State<UploadPage> {
             child: Text(_lm.uploads_no_uploads),
           )
         else
-          ListView.builder(
+          SuperListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: _pendingUploads.length,

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
@@ -91,7 +92,7 @@ abstract class BaseSearchDialogState<T, W extends BaseSearchDialog<T>> extends S
               ? Center(child: CircularProgressIndicator())
               : SizedBox(
                   width: width > 600 ? 600 : width * 0.9,
-                  child: ListView.builder(
+                  child: SuperListView.builder(
                     itemCount: searchResultPagination!.items.length,
                     itemBuilder: (context, index) {
                       final item = searchResultPagination!.items[index] as T;

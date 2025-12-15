@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/api/client_data.dart';
 import 'package:vibin_app/auth/auth_state.dart';
@@ -84,7 +85,7 @@ class _SessionManagementPageState extends State<SessionManagementPage> {
           future: _sessionsFuture,
           hasData: (r) => r.sessions.isNotEmpty,
           builder: (context, response) {
-            return ListView.builder(
+            return SuperListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: response.sessions.length,
