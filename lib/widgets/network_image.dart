@@ -5,7 +5,7 @@ import 'package:vibin_app/extensions.dart';
 
 import '../main.dart';
 
-class NetworkImageWidget extends StatelessWidget {
+class NetworkImageWidget extends StatefulWidget {
   final String url;
   final double width;
   final double height;
@@ -23,26 +23,32 @@ class NetworkImageWidget extends StatelessWidget {
     this.borderRadius = BorderRadius.zero,
   });
 
+  @override
+  State<NetworkImageWidget> createState() => _NetworkImageWidgetState();
+}
+
+class _NetworkImageWidgetState extends State<NetworkImageWidget> {
+
   bool _isAbsoluteUrl() {
-    return url.startsWith("http://") || url.startsWith("https://");
+    return widget.url.startsWith("http://") || widget.url.startsWith("https://");
   }
 
   bool _isBase64Url() {
-    return url.startsWith("data:image/");
+    return widget.url.startsWith("data:image/");
   }
 
   String _getUrl() {
     if (_isAbsoluteUrl()) {
-      return url;
+      return widget.url;
     } else {
       ApiManager apiManager = getIt<ApiManager>();
 
       if (kIsWeb && isEmbeddedMode()) {
         final currentUri = Uri.base;
-        return "${currentUri.scheme}://${currentUri.host}:${currentUri.port}/$url";
+        return "${currentUri.scheme}://${currentUri.host}:${currentUri.port}/${widget.url}";
       }
 
-      return "${apiManager.baseUrl}/$url";
+      return "${apiManager.baseUrl}/${widget.url}";
     }
   }
 
@@ -56,56 +62,66 @@ class NetworkImageWidget extends StatelessWidget {
     };
   }
 
-  Widget _base64Image() {
-    return Image.memory(
-      Uri.parse(url).data!.contentAsBytes(),
-      width: width,
-      height: height,
-      fit: fit,
-      errorBuilder: (context, error, stackTrace) {
-        return SizedBox(
-          width: width,
-          height: height,
-          child: const Center(child: Icon(Icons.error)),
-        );
-      }
-    );
+  late final String? _url;
+  late final Uint8List? _base64Data;
+  late final Map<String, String> _headers;
+
+  @override
+  void initState() {
+    super.initState();
+    _url = _isBase64Url() ? null : _getUrl();
+    _base64Data = _isBase64Url() ? Uri.parse(widget.url).data!.contentAsBytes() : null;
+    _headers = _getHeaders();
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding,
+      padding: widget.padding,
       child: ClipRRect(
-        borderRadius: borderRadius,
-        child: _isBase64Url() ? _base64Image() : Image.network(
-          _getUrl(),
-          width: width,
-          height: height,
-          fit: fit,
-          headers: _getHeaders(),
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
-            return SizedBox(
-              width: width,
-              height: height,
-              child: Center(
-                child: CircularProgressIndicator(
-                  value: loadingProgress.expectedTotalBytes != null
-                      ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
-                      : null,
-                ),
-              ),
-            );
-          },
-          errorBuilder: (context, error, stackTrace) {
-            return SizedBox(
-              width: width,
-              height: height,
-              child: const Center(child: Icon(Icons.error)),
-            );
-          },
-        )
+        borderRadius: widget.borderRadius,
+        child: _base64Data != null
+          ? Image.memory(
+              _base64Data,
+              width: widget.width,
+              height: widget.height,
+              fit: widget.fit,
+              errorBuilder: (context, error, stackTrace) {
+                return SizedBox(
+                  width: widget.width,
+                  height: widget.height,
+                  child: const Center(child: Icon(Icons.error)),
+                );
+              }
+            )
+          : Image.network(
+              _url!,
+              width: widget.width,
+              height: widget.height,
+              fit: widget.fit,
+              headers: _headers,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return SizedBox(
+                  width: widget.width,
+                  height: widget.height,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                          : null,
+                    ),
+                  ),
+                );
+              },
+              errorBuilder: (context, error, stackTrace) {
+                return SizedBox(
+                  width: widget.width,
+                  height: widget.height,
+                  child: const Center(child: Icon(Icons.error)),
+                );
+              },
+            )
       ),
     );
   }
