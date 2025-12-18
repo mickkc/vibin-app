@@ -2,6 +2,7 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
+import 'package:vibin_app/audio/media_item_parser.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/glance_page.dart';
 import 'package:vibin_app/widgets/colored_icon_button.dart';
@@ -59,7 +60,7 @@ class _NowPlayingControlBarState extends State<NowPlayingControlBar> {
 
   void _openCurrentTrack() {
     widget.onNavigate?.call();
-    GoRouter.of(context).push('/tracks/${widget.mediaItem.id}');
+    GoRouter.of(context).push('/tracks/${widget.mediaItem.trackId}');
   }
 
   void _openGlanceView() {

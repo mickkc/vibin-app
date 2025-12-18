@@ -6,9 +6,11 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:just_audio/just_audio.dart';
 import 'package:logger/logger.dart';
+import 'package:uuid/uuid.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/api/client_data.dart';
 import 'package:vibin_app/audio/audio_type.dart';
+import 'package:vibin_app/audio/media_item_parser.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/album/album_data.dart';
@@ -526,7 +528,9 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     _currentIndex = index;
     final item = _queue[index];
 
-    final trackId = int.parse(item.id);
+    final trackId = item.trackId;
+    if (trackId == null) return;
+
     final mediaToken = await _clientData.getMediaToken();
     final trackUri = _getStreamUrl(trackId, mediaToken);
 
@@ -714,7 +718,9 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     if (_queue.isEmpty || _currentIndex < 0 || _currentIndex >= _queue.length) return;
 
     final item = _queue[_currentIndex];
-    final trackId = int.parse(item.id);
+
+    final trackId = item.trackId;
+    if (trackId == null) return;
 
     // Check if we actually need to reload (track ID changed)
     if (_currentlyLoadedTrackId == trackId && !kIsWeb) {
@@ -804,7 +810,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     } else {
       // Either not shuffling, or have a preferred track
       final initialIndex = preferredTrackId != null
-          ? _queue.indexWhere((item) => item.id == preferredTrackId.toString())
+          ? _queue.indexWhere((item) => item.trackId == preferredTrackId)
           : 0;
 
       if (_isShuffling) {
@@ -864,7 +870,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     } else {
       // Either not shuffling, or have a preferred track
       final initialIndex = preferredTrackId != null
-          ? _queue.indexWhere((item) => item.id == preferredTrackId.toString())
+          ? _queue.indexWhere((item) => item.trackId == preferredTrackId)
           : 0;
 
       if (_isShuffling) {
@@ -907,7 +913,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final mediaToken = await _clientData.getMediaToken();
     _queue = await Future.wait(queue.map((t) => _buildMediaItemFromMinimal(t, mediaToken)));
 
-    final initialIndex = _queue.indexWhere((item) => item.id == track.id.toString());
+    final initialIndex = _queue.indexWhere((item) => item.trackId == track.id);
 
     if (_isShuffling) {
       _createShuffleOrder();
@@ -1148,7 +1154,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final artUri = await _getCoverUri(track.id, mediaToken);
 
     return MediaItem(
-      id: track.id.toString(),
+      id: "${track.id}-${Uuid().v4()}",
       title: track.title,
       album: track.album.title,
       artist: track.artists.map((a) => a.name).join(", "),

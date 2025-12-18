@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibin_app/audio/media_item_parser.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dialogs/add_track_to_playlist_dialog.dart';
 import 'package:vibin_app/extensions.dart';
@@ -49,7 +50,7 @@ class _TrackActionBarState extends State<TrackActionBar> {
     });
     _sequenceSubscription = _audioManager.currentMediaItemStream.listen((mediaItem) {
       setState(() {
-        _isCurrentTrack = mediaItem?.id == widget.trackId.toString();
+        _isCurrentTrack = mediaItem?.trackId == widget.trackId;
       });
     });
   }

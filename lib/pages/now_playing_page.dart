@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
+import 'package:vibin_app/audio/media_item_parser.dart';
 import 'package:vibin_app/dialogs/lyrics_dialog.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
@@ -68,8 +69,9 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isMobile = constraints.maxWidth < 600;
+        final trackId = _currentMediaItem?.trackId;
 
-        if (_currentMediaItem == null) {
+        if (_currentMediaItem == null || trackId == null) {
           return Padding(
             padding: const EdgeInsets.all(32.0),
             child: Text(AppLocalizations.of(context)!.now_playing_nothing),
@@ -94,12 +96,12 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       NetworkImageWidget(
-                        url: "/api/tracks/${_currentMediaItem!.id}/cover",
+                        url: "/api/tracks/$trackId/cover",
                         width: (constraints.maxWidth - 32) * 0.9,
                         height: (constraints.maxWidth - 32) * 0.9,
                       ),
                       TrackInfoView(
-                        trackId: int.parse(_currentMediaItem!.id),
+                        trackId: trackId,
                         showMetadata: false,
                         onNavigate: _close,
                       ),
@@ -114,7 +116,7 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
                         ),
                       ),
                       SimilarTracksSection(
-                        trackId: int.parse(_currentMediaItem!.id),
+                        trackId: trackId,
                         onNavigate: _close,
                       ),
                     ],
@@ -134,13 +136,13 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
                   spacing: 32,
                   children: [
                     NetworkImageWidget(
-                      url: "/api/tracks/${_currentMediaItem!.id}/cover?quality=256",
+                      url: "/api/tracks/$trackId/cover?quality=256",
                       width: 200,
                       height: 200,
                     ),
                     Expanded(
                       child: TrackInfoView(
-                        trackId: int.parse(_currentMediaItem!.id),
+                        trackId: trackId,
                         showMetadata: true,
                         onNavigate: _close,
                       ),

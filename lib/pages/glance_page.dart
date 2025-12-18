@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fullscreen/flutter_fullscreen.dart';
+import 'package:vibin_app/audio/media_item_parser.dart';
 import 'package:vibin_app/widgets/clock_widget.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/now_playing_source_widget.dart';
@@ -133,7 +134,7 @@ class _GlancePageState extends State<GlancePage> {
                               AspectRatio(
                                 aspectRatio: 1,
                                 child: NetworkImageWidget(
-                                  url: "/api/tracks/${item.id}/cover",
+                                  url: "/api/tracks/${item.trackId}/cover",
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
@@ -206,7 +207,7 @@ class _GlancePageState extends State<GlancePage> {
                     ],
                   ),
                   NetworkImageWidget(
-                    url: "/api/tracks/${_nextMediaItem!.id}/cover?quality=64",
+                    url: "/api/tracks/${_nextMediaItem!.trackId}/cover?quality=64",
                     width: 44,
                     height: 44,
                     borderRadius: BorderRadius.circular(4),

@@ -94,7 +94,7 @@ class MprisPlayer extends DBusObject {
           final DBusObjectPath trackIdPath = methodCall.values[0].asObjectPath();
           final int position = methodCall.values[1].asInt64();
           final currentMediaItem = _audioManager.getCurrentMediaItem();
-          if (currentMediaItem != null && currentMediaItem.id == (trackIdPath.value.split("/").last)) {
+          if (currentMediaItem != null && currentMediaItem.id == (trackIdPath.value.replaceAll("_", "-").split("/").last)) {
             await _audioManager.seek(Duration(microseconds: position));
             return DBusMethodSuccessResponse();
           } else {
@@ -205,7 +205,7 @@ class MprisPlayer extends DBusObject {
     final currentMediaItem = _audioManager.getCurrentMediaItem();
     if (currentMediaItem != null) {
       return DBusDict.stringVariant({
-        "mpris:trackid": DBusObjectPath("/org/mpris/MediaPlayer2/Track/${currentMediaItem.id}"),
+        "mpris:trackid": DBusObjectPath("/org/mpris/MediaPlayer2/Track/${currentMediaItem.id.replaceAll("-", "_")}"),
         "mpris:length": DBusInt64(_audioManager.audioPlayer.duration?.inMicroseconds ?? 0),
         "mpris:artUrl": DBusString(currentMediaItem.artUri.toString()),
         "mpris:album": DBusString(currentMediaItem.album ?? ""),

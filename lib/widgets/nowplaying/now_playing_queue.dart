@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
+import 'package:vibin_app/audio/media_item_parser.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/animated_spectrogram_icon.dart';
@@ -118,7 +119,7 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
                 },
                 child: ListTile(
                   leading: NetworkImageWidget(
-                    url: "/api/tracks/${item.id}/cover?quality=64",
+                    url: "/api/tracks/${item.trackId}/cover?quality=64",
                     width: 48,
                     height: 48
                   ),

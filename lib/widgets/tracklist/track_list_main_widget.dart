@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
+import 'package:vibin_app/audio/media_item_parser.dart';
 import 'package:vibin_app/dtos/track/base_track.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/tracklist/track_list_artist_view.dart';
@@ -24,7 +25,7 @@ class TrackListMainWidget extends StatelessWidget {
       stream: audioManager.currentMediaItemStream,
       builder: (context, currentMediaItem) {
 
-        final isCurrentlyPlaying = currentMediaItem.data?.id == track.id.toString();
+        final isCurrentlyPlaying = currentMediaItem.data?.trackId == track.id;
 
         return InkWell(
           onTap: onTrackTapped == null ? null : () { onTrackTapped!(track); },
