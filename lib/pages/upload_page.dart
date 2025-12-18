@@ -64,6 +64,7 @@ class _UploadPageState extends State<UploadPage> {
       context: context,
       builder: (context) {
         return Dialog(
+          backgroundColor: Theme.of(context).colorScheme.surface,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: TrackEditPage(
