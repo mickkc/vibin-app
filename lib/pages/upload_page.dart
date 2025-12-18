@@ -68,6 +68,7 @@ class _UploadPageState extends State<UploadPage> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: TrackEditPage(
+              onClose: () => Navigator.of(context).pop(),
               pendingUpload: upload,
               onSave: (data) async {
 

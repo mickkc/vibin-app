@@ -158,15 +158,6 @@ class _AlbumEditPageState extends State<AlbumEditPage> {
                 ),
               ),
             ElevatedButton.icon(
-              onPressed: () { Navigator.pop(context); },
-              icon: const Icon(Icons.cancel),
-              label: Text(_lm.dialog_cancel),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: _theme.colorScheme.secondaryContainer,
-                foregroundColor: _theme.colorScheme.onSecondaryContainer,
-              ),
-            ),
-            ElevatedButton.icon(
               onPressed: _showMetadataDialog,
               icon: const Icon(Icons.search),
               label: Text(_lm.edit_album_search_metadata),

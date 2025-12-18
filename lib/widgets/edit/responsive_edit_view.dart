@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/pages/column_page.dart';
+import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/row_small_column.dart';
 
 class ResponsiveEditView extends StatelessWidget {
@@ -9,6 +10,7 @@ class ResponsiveEditView extends StatelessWidget {
   final List<Widget> actions;
   final Widget? imageEditWidget;
   final double imageEditWidgetWidth;
+  final VoidCallback? onClose;
   
   const ResponsiveEditView({
     super.key,
@@ -17,6 +19,7 @@ class ResponsiveEditView extends StatelessWidget {
     required this.actions,
     this.imageEditWidget,
     this.imageEditWidgetWidth = 256,
+    this.onClose
   });
 
   Widget _actionsRow() {
@@ -33,14 +36,16 @@ class ResponsiveEditView extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final width = MediaQuery.of(context).size.width;
 
     return ColumnPage(
       children: [
-        Text(
-          title,
-          style: theme.textTheme.headlineMedium,
+        SectionHeader(
+          title: title,
+          trailing: onClose != null ? IconButton(
+            icon: Icon(Icons.close),
+            onPressed: onClose,
+          ) : null,
         ),
         RowSmallColumn(
           spacing: 16,

@@ -33,12 +33,14 @@ class TrackEditPage extends StatefulWidget {
   final PendingUpload? pendingUpload;
 
   final Function(TrackEditData)? onSave;
+  final VoidCallback? onClose;
 
   const TrackEditPage({
     super.key,
     this.trackId,
     this.pendingUpload,
-    this.onSave
+    this.onSave,
+    this.onClose,
   });
 
   @override
@@ -307,6 +309,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
         key: _formKey,
         child: ResponsiveEditView(
           title: lm.edit_track_title,
+          onClose: widget.onClose,
           actions: [
             if (_authState.hasPermission(PermissionType.deleteTracks) && widget.trackId != null)
               ElevatedButton.icon(
