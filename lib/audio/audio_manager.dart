@@ -8,7 +8,6 @@ import 'package:just_audio/just_audio.dart';
 import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vibin_app/api/api_manager.dart';
-import 'package:vibin_app/api/client_data.dart';
 import 'package:vibin_app/audio/audio_type.dart';
 import 'package:vibin_app/audio/media_item_parser.dart';
 import 'package:vibin_app/auth/auth_state.dart';
@@ -16,6 +15,7 @@ import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/album/album_data.dart';
 import 'package:vibin_app/dtos/playlist/playlist.dart';
 import 'package:vibin_app/dtos/playlist/playlist_data.dart';
+import 'package:vibin_app/dtos/streamable.dart';
 import 'package:vibin_app/dtos/track/minimal_track.dart';
 import 'package:vibin_app/dtos/track/track.dart';
 import 'package:vibin_app/main.dart';
@@ -29,7 +29,6 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   late final AuthState _authState = getIt<AuthState>();
   late final ApiManager _apiManager = getIt<ApiManager>();
   late AudioPlayer audioPlayer;
-  late final ClientData _clientData = getIt<ClientData>();
   late final SettingsManager _settingsManager = getIt<SettingsManager>();
   
   WebSocketChannel? _socketChannel;
@@ -531,8 +530,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final trackId = item.trackId;
     if (trackId == null) return;
 
-    final mediaToken = await _clientData.getMediaToken();
-    final trackUri = _getStreamUrl(trackId, mediaToken);
+    final streamable = await _getStreamablesFromIds([trackId]);
+    final trackUri = _getStreamUrl(trackId, streamable.single);
 
     // Update media item BEFORE loading the source (especially important for web)
     _updateMediaItem();
@@ -729,9 +728,10 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       return;
     }
 
-    final mediaToken = await _clientData.getMediaToken();
+    final streamable = await _getStreamablesFromIds([trackId]);
+    if (streamable.isEmpty) return;
     // Use cache busting on web to force reload
-    final trackUri = _getStreamUrl(trackId, mediaToken, bustCache: true);
+    final trackUri = _getStreamUrl(trackId, streamable.single, bustCache: true);
 
     _updateMediaItem();
 
@@ -793,8 +793,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     if (shuffle != null) _isShuffling = shuffle;
     setAudioType(AudioType.playlist, data.playlist.id);
 
-    final mediaToken = await _clientData.getMediaToken();
-    _queue = await Future.wait(tracks.map((track) => _buildMediaItemFromMinimal(track, mediaToken)));
+    final streamables = await _getStreamablesFromIds(tracks.map((t) => t.id).toList());
+    _queue = await Future.wait(streamables.map((track) => _buildMediaItem(track)));
 
     _sendWebSocket("listen", data: {
       'type': 'playlist',
@@ -853,8 +853,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     if (shuffle != null) _isShuffling = shuffle;
     setAudioType(AudioType.album, data.album.id);
 
-    final mediaToken = await _clientData.getMediaToken();
-    _queue = await Future.wait(tracks.map((track) => _buildMediaItem(track, mediaToken)));
+    final streamables = await _getStreamablesFromIds(tracks.map((t) => t.id).toList());
+    _queue = await Future.wait(streamables.map((track) => _buildMediaItem(track)));
 
     _sendWebSocket("listen", data: {
       'type': 'album',
@@ -896,8 +896,10 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     setAudioType(AudioType.tracks, null);
 
-    final mediaToken = await _clientData.getMediaToken();
-    _queue = [await _buildMediaItemFromMinimal(track, mediaToken)];
+    final streamable = await _getStreamablesFromIds([track.id]);
+    if (streamable.isEmpty) return;
+
+    _queue = [await _buildMediaItem(streamable.single)];
     _isShuffling = false;
 
     await playTrackAtIndex(0);
@@ -910,8 +912,10 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     setAudioType(AudioType.tracks, null);
 
-    final mediaToken = await _clientData.getMediaToken();
-    _queue = await Future.wait(queue.map((t) => _buildMediaItemFromMinimal(t, mediaToken)));
+    final streamables = await _getStreamablesFromIds(queue.map((t) => t.id).toList());
+    if (streamables.isEmpty) return;
+
+    _queue = await Future.wait(streamables.map((track) => _buildMediaItem(track)));
 
     final initialIndex = _queue.indexWhere((item) => item.trackId == track.id);
 
@@ -933,8 +937,10 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     setAudioType(AudioType.tracks, null);
 
-    final mediaToken = await _clientData.getMediaToken();
-    _queue = [await _buildMediaItem(track, mediaToken)];
+    final streamable = await _getStreamablesFromIds([track.id]);
+    if (streamable.isEmpty) return;
+
+    _queue = [await _buildMediaItem(streamable.single)];
     _isShuffling = false;
 
     await playTrackAtIndex(0);
@@ -955,8 +961,10 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   /// Adds the specified track to the queue.
   Future<void> addTrackToQueue(Track track, bool next) async {
-    final mediaToken = await _clientData.getMediaToken();
-    final item = await _buildMediaItem(track, mediaToken);
+    final streamable = await _getStreamablesFromIds([track.id]);
+    if (streamable.isEmpty) return;
+
+    final item = await _buildMediaItem(streamable.single);
 
     final wasEmpty = _queue.isEmpty;
 
@@ -979,10 +987,22 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     }
   }
 
+  Future<List<Streamable>> _getStreamablesFromIds(List<int> ids) async {
+    try {
+      return _apiManager.service.getStreams(ids.join(","));
+    }
+    catch (e) {
+      log("Error fetching streamables for IDs: $e", error: e, level: Level.error.value);
+      return [];
+    }
+  }
+
   /// Adds the specified minimal track to the queue.
   Future<void> addMinimalTrackToQueue(MinimalTrack track, bool next) async {
-    final mediaToken = await _clientData.getMediaToken();
-    final item = await _buildMediaItemFromMinimal(track, mediaToken);
+    final streamable = await _getStreamablesFromIds([track.id]);
+    if (streamable.isEmpty) return;
+
+    final item = await _buildMediaItem(streamable.single);
 
     final wasEmpty = _queue.isEmpty;
 
@@ -1015,8 +1035,12 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     final wasEmpty = _queue.isEmpty;
 
-    final mediaToken = await _clientData.getMediaToken();
-    final items = await Future.wait(albumData.tracks.map((track) => _buildMediaItem(track, mediaToken)));
+    final streamables = await _getStreamablesFromIds(albumData.tracks.map((t) => t.id).toList());
+    final items = await Future.wait(streamables.map((track) => _buildMediaItem(track)));
+
+    if (items.isEmpty) {
+      return;
+    }
 
     if (next && _queue.isNotEmpty) {
       _queue.insertAll(_currentIndex + 1, items);
@@ -1051,8 +1075,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     final wasEmpty = _queue.isEmpty;
 
-    final mediaToken = await _clientData.getMediaToken();
-    final items = await Future.wait(playlistData.tracks.map((track) => _buildMediaItemFromMinimal(track.track, mediaToken)));
+    final streamables = await _getStreamablesFromIds(playlistData.tracks.map((t) => t.track.id).toList());
+    final items = await Future.wait(streamables.map((track) => _buildMediaItem(track)));
 
     if (next && _queue.isNotEmpty) {
       _queue.insertAll(_currentIndex + 1, items);
@@ -1132,33 +1156,16 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   // region MediaItem Builders
 
-  /// Creates a MediaItem from a MinimalTrack
-  Future<MediaItem> _buildMediaItemFromMinimal(MinimalTrack track, String mediaToken) async {
-    final artUri = await _getCoverUri(track.id, mediaToken);
-
-    return MediaItem(
-      id: track.id.toString(),
-      title: track.title,
-      album: track.album.name,
-      artist: track.artists.map((a) => a.name).join(", "),
-      duration: track.duration == null ? null : Duration(milliseconds: track.duration!),
-      artUri: artUri,
-      artHeaders: {
-        'Authorization': 'Bearer ${_apiManager.accessToken}',
-      }
-    );
-  }
-
   /// Creates a MediaItem from a Track
-  Future<MediaItem> _buildMediaItem(Track track, String mediaToken) async {
-    final artUri = await _getCoverUri(track.id, mediaToken);
+  Future<MediaItem> _buildMediaItem(Streamable streamable) async {
+    final artUri = await _getCoverUri(streamable);
 
     return MediaItem(
-      id: "${track.id}-${Uuid().v4()}",
-      title: track.title,
-      album: track.album.title,
-      artist: track.artists.map((a) => a.name).join(", "),
-      duration: track.duration == null ? null : Duration(milliseconds: track.duration!),
+      id: "${streamable.trackId}-${Uuid().v4()}",
+      title: streamable.title,
+      album: streamable.album,
+      artist: streamable.artist,
+      duration: streamable.duration == null ? null : Duration(milliseconds: streamable.duration!),
       artUri: artUri,
       artHeaders: {
         'Authorization': 'Bearer ${_apiManager.accessToken}',
@@ -1167,35 +1174,39 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   }
 
   /// Gets the cover URI for the specified track, embedding as base64 if configured.
-  Future<Uri> _getCoverUri(int trackId, String mediaToken) async {
+  Future<Uri> _getCoverUri(Streamable streamable) async {
 
     if (_settingsManager.get(Settings.embedImagesAsBase64)) {
       try {
         final bytes = await _apiManager.service.getTrackCover(
-            trackId, _settingsManager.get(Settings.metadataImageSize).pixelSize
+            streamable.trackId, _settingsManager.get(Settings.metadataImageSize).pixelSize
         );
         if (bytes.data.isNotEmpty) {
           return Uri.dataFromBytes(bytes.data, mimeType: "image/jpeg");
         }
       }
       catch (e) {
-        log("Failed to fetch and embed cover image for track $trackId: $e", error: e, level: Level.error.value);
+        log("Failed to fetch and embed cover image for track ${streamable.title}: $e", error: e, level: Level.error.value);
       }
     }
 
+    // TODO: Check if coverChecksum is null or expired, and return a default image URI if so.
+
     return Uri.parse(
         "${_apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}"
-            "/api/tracks/$trackId/cover"
-            "?mediaToken=$mediaToken"
+            "/api/images/by-checksum/${streamable.coverChecksum}"
+            "?sig=${streamable.coverSignature}"
+            "&exp=${streamable.coverExpiration}"
             "&quality=${_settingsManager.get(Settings.metadataImageSize).pixelSize}");
   }
 
   /// Constructs the stream URL for the specified track ID and media token.
   /// If [bustCache] is true and running on web, adds a cache buster parameter.
-  Uri _getStreamUrl(int trackId, String mediaToken, {bool bustCache = false}) {
+  Uri _getStreamUrl(int trackId, Streamable streamable, {bool bustCache = false}) {
     final baseUrl = "${_apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}"
-            "/api/tracks/$trackId/stream"
-            "?mediaToken=$mediaToken";
+            "/api/streams/$trackId"
+            "?sig=${streamable.streamSignature}"
+            "&exp=${streamable.streamExpiration}";
 
         // Add cache buster for web to force reload
     if (bustCache && kIsWeb) {

@@ -31,6 +31,7 @@ import 'package:vibin_app/dtos/server_check.dart';
 import 'package:vibin_app/dtos/sessions/sessions_response.dart';
 import 'package:vibin_app/dtos/settings/setting_key_value.dart';
 import 'package:vibin_app/dtos/settings/settings_map.dart';
+import 'package:vibin_app/dtos/streamable.dart';
 import 'package:vibin_app/dtos/success.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/dtos/tags/tag_edit_data.dart';
@@ -274,6 +275,11 @@ abstract class ApiService {
 
   @GET("/api/stats/global")
   Future<GlobalStats> getGlobalStats();
+
+  // Streams
+
+  @GET("/api/streams")
+  Future<List<Streamable>> getStreams(@Query("ids") String ids);
 
   // Tags
 
