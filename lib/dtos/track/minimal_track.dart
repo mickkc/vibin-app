@@ -9,6 +9,7 @@ class MinimalTrack implements BaseTrack {
   final String title;
   final List<IdName> artists;
   final IdName album;
+  final int? coverId;
   final int? duration;
   final IdName? uploader;
 
@@ -17,6 +18,7 @@ class MinimalTrack implements BaseTrack {
     required this.title,
     required this.artists,
     required this.album,
+    this.coverId,
     this.duration,
     this.uploader,
   });
@@ -29,6 +31,7 @@ class MinimalTrack implements BaseTrack {
           .map((artistJson) => IdName.fromJson(artistJson))
           .toList(),
       album: IdName.fromJson(json['album']),
+      coverId: json['coverId'],
       duration: json['duration'],
       uploader: json['uploader'] != null ? IdName.fromJson(json['uploader']) : null,
     );
@@ -42,6 +45,9 @@ class MinimalTrack implements BaseTrack {
 
   @override
   List<IdName> getArtists() => artists;
+
+  @override
+  int? getCoverId() => coverId;
 
   @override
   int? getTrackNumber() => null;

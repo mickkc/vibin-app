@@ -12,6 +12,7 @@ import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/utils/error_handler.dart';
+import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/network_image.dart';
@@ -171,7 +172,7 @@ class _AddRelatedTrackDialogState extends State<AddRelatedTrackDialog> {
                       final isSelected = _selectedTrack?.id == searchResult.id;
                       return ListTile(
                         leading: NetworkImageWidget(
-                          url: "/api/tracks/${searchResult.id}/cover?size=64",
+                          url: ImageUtils.buildUrl(searchResult.coverId, ImageType.track, 64),
                           width: 48,
                           height: 48,
                         ),

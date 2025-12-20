@@ -6,6 +6,7 @@ import 'package:vibin_app/dtos/shuffle_state.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/column_page.dart';
+import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/bars/album_action_bar.dart';
 import 'package:vibin_app/widgets/date_footer.dart';
 import 'package:vibin_app/widgets/future_content.dart';
@@ -97,7 +98,7 @@ class AlbumInfoPage extends StatelessWidget {
                   rowBuilder: (context, constraints) {
                     return [
                       NetworkImageWidget(
-                        url: "/api/albums/$albumId/cover?quality=256",
+                        url: ImageUtils.buildUrl(data.album.coverId, ImageType.album, 256),
                         width: 200,
                         height: 200
                       ),
@@ -107,13 +108,13 @@ class AlbumInfoPage extends StatelessWidget {
                   columnBuilder: (context, constraints) {
                     return [
                       NetworkImageWidget(
-                          url: "/api/albums/$albumId/cover",
-                          width: constraints.maxWidth * 0.75,
-                          height: constraints.maxWidth * 0.75
+                        url: ImageUtils.buildUrl(data.album.coverId, ImageType.album, null),
+                        width: constraints.maxWidth * 0.75,
+                        height: constraints.maxWidth * 0.75
                       ),
                       SizedBox(
-                          width: constraints.maxWidth,
-                          child: _albumInfo(context, data)
+                        width: constraints.maxWidth,
+                        child: _albumInfo(context, data)
                       )
                     ];
                   },

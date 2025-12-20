@@ -9,6 +9,7 @@ import 'package:vibin_app/pages/info/user/tabs/user_info_tab.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_permissions_tab.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_playlists_tab.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_uploads_tab.dart';
+import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
@@ -92,7 +93,7 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   NetworkImageWidget(
-                    url: "/api/users/${user.id}/pfp?quality=128",
+                    url: ImageUtils.buildUrl(user.imageId, ImageType.user, 128),
                     width: 100,
                     height: 100,
                     borderRadius: BorderRadius.circular(50)

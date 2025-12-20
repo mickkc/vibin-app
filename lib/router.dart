@@ -35,6 +35,7 @@ import 'package:vibin_app/pages/settings/session_management_page.dart';
 import 'package:vibin_app/pages/settings/task_management_page.dart';
 import 'package:vibin_app/pages/settings/widget_management_page.dart';
 import 'package:vibin_app/pages/upload_page.dart';
+import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/nowplaying/now_playing_bar.dart';
 
@@ -94,7 +95,7 @@ GoRouter configureRouter(AuthState authState) {
                     GoRouter.of(context).push("/users/${authState.user?.id}");
                   },
                   child: NetworkImageWidget(
-                    url: "/api/users/${authState.user?.id}/pfp?quality=64",
+                    url: ImageUtils.buildUrl(authState.user?.imageId, ImageType.user, 64),
                     fit: BoxFit.contain,
                     width: 32,
                     height: 32,

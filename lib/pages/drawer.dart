@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
 import '../api/api_manager.dart';
@@ -35,7 +36,7 @@ class DrawerComponent extends StatelessWidget {
         if (authState.user != null) ... [
           ListTile(
             leading: NetworkImageWidget(
-              url: "/api/users/${authState.user!.id}/pfp?quality=64",
+              url: ImageUtils.buildUrl(authState.user?.imageId, ImageType.user, 64),
               width: 40,
               height: 40,
               borderRadius: BorderRadius.circular(20),

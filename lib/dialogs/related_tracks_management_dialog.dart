@@ -7,6 +7,7 @@ import 'package:vibin_app/dialogs/add_related_track_dialog.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/track/related_track.dart';
 import 'package:vibin_app/utils/error_handler.dart';
+import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
 import '../api/api_manager.dart';
@@ -104,7 +105,7 @@ class _RelatedTracksManagementDialogState extends State<RelatedTracksManagementD
                   final relatedTrack = _relatedTracks[index];
                   return ListTile(
                     leading: NetworkImageWidget(
-                      url: "/api/tracks/${relatedTrack.track.id}/cover?size=64",
+                      url: ImageUtils.buildUrl(relatedTrack.track.coverId, ImageType.track, 64),
                       width: 48,
                       height: 48,
                     ),

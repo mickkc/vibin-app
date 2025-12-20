@@ -10,7 +10,10 @@ abstract interface class BaseTrack {
 
   IdName getAlbum();
 
+  int? getCoverId();
+
   int? getTrackNumber() => null;
 
   int? getDuration() => null;
+
 }

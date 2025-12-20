@@ -6,6 +6,7 @@ class User {
   final String username;
   final String? displayName;
   final String description;
+  final int? imageId;
   final String? email;
   final bool isActive;
   final bool isAdmin;
@@ -18,6 +19,7 @@ class User {
     this.username,
     this.displayName,
     this.description,
+    this.imageId,
     this.email,
     this.isActive,
     this.isAdmin,
@@ -32,6 +34,7 @@ class User {
       json['username'],
       json['displayName'],
       json['description'],
+      json['imageId'],
       json['email'],
       json['isActive'],
       json['isAdmin'],

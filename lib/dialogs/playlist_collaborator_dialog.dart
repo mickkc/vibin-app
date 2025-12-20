@@ -7,6 +7,7 @@ import 'package:vibin_app/dtos/pagination/user_pagination.dart';
 import 'package:vibin_app/dtos/user/user.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
+import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/pagination_footer.dart';
@@ -160,7 +161,7 @@ class _PlaylistCollaboratorDialogState extends State<PlaylistCollaboratorDialog>
                         return ListTile(
                           title: Text(user.displayName ?? user.username),
                           leading: NetworkImageWidget(
-                            url: "/api/users/${user.id}/pfp",
+                            url: ImageUtils.buildUrl(user.imageId, ImageType.user, null),
                             width: 44,
                             height: 44,
                             borderRadius: BorderRadius.circular(22),

@@ -5,6 +5,7 @@ class Artist {
   final int id;
   final String name;
   final String description;
+  final int? imageId;
   final int createdAt;
   final int? updatedAt;
 
@@ -12,6 +13,7 @@ class Artist {
     required this.id,
     required this.name,
     required this.description,
+    this.imageId,
     required this.createdAt,
     this.updatedAt,
   });
@@ -21,6 +23,7 @@ class Artist {
       id: json['id'],
       name: json['name'],
       description: json['description'],
+      imageId: json['imageId'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
     );

@@ -6,6 +6,7 @@ import 'package:vibin_app/dialogs/base_search_dialog.dart';
 import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/album/album_edit_data.dart';
 import 'package:vibin_app/utils/error_handler.dart';
+import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
 class AlbumPicker extends BaseSearchDialog<Album> {
@@ -61,7 +62,7 @@ class _AlbumPickerState extends BaseSearchDialogState<Album, AlbumPicker> {
     final isSelected = widget.selectedAlbum?.id == album.id;
     return ListTile(
       leading: NetworkImageWidget(
-        url: "/api/albums/${album.id}/cover?quality=64",
+        url: ImageUtils.buildUrl(album.coverId, ImageType.album, 64),
         width: 44,
         height: 44,
         fit: BoxFit.cover,

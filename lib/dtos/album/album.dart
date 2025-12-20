@@ -6,6 +6,7 @@ class Album {
   final int id;
   final String title;
   final String description;
+  final int? coverId;
   final int? year;
   final List<Artist> artists;
   final int trackCount;
@@ -17,6 +18,7 @@ class Album {
     required this.id,
     required this.title,
     required this.artists,
+    this.coverId,
     required this.trackCount,
     this.single,
     required this.createdAt,
@@ -34,6 +36,7 @@ class Album {
       artists: (json['artists'] as List<dynamic>)
           .map((artistJson) => Artist.fromJson(artistJson))
           .toList(),
+      coverId: json['coverId'],
       trackCount: json['trackCount'],
       single: json['single'],
       createdAt: json['createdAt'],

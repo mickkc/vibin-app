@@ -6,6 +6,7 @@ import 'package:vibin_app/dialogs/base_search_dialog.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/artist/artist_edit_data.dart';
 import 'package:vibin_app/utils/error_handler.dart';
+import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
 class ArtistPickerDialog extends BaseSearchDialog<Artist> {
@@ -112,7 +113,7 @@ class _ArtistPickerDialogState extends BaseSearchDialogState<Artist, ArtistPicke
 
     return ListTile(
       leading: NetworkImageWidget(
-        url: "/api/artists/${artist.id}/image?quality=64",
+        url: ImageUtils.buildUrl(artist.imageId, ImageType.artist, 64),
         width: 44,
         height: 44,
         fit: BoxFit.cover,

@@ -11,6 +11,7 @@ import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/sections/section_header.dart';
+import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/date_footer.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/network_image.dart';
@@ -51,7 +52,7 @@ class ArtistInfoPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         NetworkImageWidget(
-          url: "/api/albums/${album.id}/cover?quality=64",
+          url: ImageUtils.buildUrl(album.coverId, ImageType.album, 64),
           width: 64,
           height: 64,
           borderRadius: BorderRadius.circular(4),
@@ -95,7 +96,7 @@ class ArtistInfoPage extends StatelessWidget {
         for (var track in tracks)
           ListTile(
             leading: NetworkImageWidget(
-              url: "/api/tracks/${track.id}/cover?quality=64",
+              url: ImageUtils.buildUrl(track.coverId, ImageType.track, 64),
               width: 48,
               height: 48,
               borderRadius: BorderRadius.circular(4),
@@ -182,7 +183,7 @@ class ArtistInfoPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 NetworkImageWidget(
-                  url: "/api/artists/$artistId/image?quality=256",
+                  url: ImageUtils.buildUrl(artist.imageId, ImageType.artist, 256),
                   width: width > 600 ? 200 : width / 4,
                   height: width > 600 ? 200 : width / 4,
                   borderRadius: BorderRadius.circular(width * 0.375),

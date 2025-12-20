@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:vibin_app/dialogs/add_track_to_playlist_dialog.dart';
 import 'package:vibin_app/dtos/track/track.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
@@ -90,15 +91,15 @@ class _EntityCardState extends State<EntityCard> {
     final quality = _getImageQuality();
     switch (widget.type) {
       case EntityCardType.track:
-        return "/api/tracks/${widget.entity.id}/cover?quality=$quality";
+        return ImageUtils.buildUrl(widget.entity.coverId, ImageType.track, quality);
       case EntityCardType.album:
-        return "/api/albums/${widget.entity.id}/cover?quality=$quality";
+        return ImageUtils.buildUrl(widget.entity.coverId, ImageType.album, quality);
       case EntityCardType.artist:
-        return "/api/artists/${widget.entity.id}/image?quality=$quality";
+        return ImageUtils.buildUrl(widget.entity.imageId, ImageType.artist, quality);
       case EntityCardType.playlist:
         return "/api/playlists/${widget.entity.id}/image?quality=$quality";
       case EntityCardType.user:
-        return "/api/users/${widget.entity.id}/pfp?quality=$quality";
+        return ImageUtils.buildUrl(widget.entity.imageId, ImageType.user, quality);
     }
   }
 

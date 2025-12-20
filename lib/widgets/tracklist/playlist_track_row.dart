@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/tracklist/track_list_action_view.dart';
 import 'package:vibin_app/widgets/tracklist/track_list_album_view.dart';
 import 'package:vibin_app/widgets/tracklist/track_list_duration_view.dart';
@@ -48,7 +49,7 @@ class _PlaylistTrackRowState extends State<PlaylistTrackRow> with AutomaticKeepA
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           NetworkImageWidget(
-            url: "/api/tracks/${widget.playlistTrack.track.id}/cover?quality=64",
+            url: ImageUtils.buildUrl(widget.playlistTrack.track.coverId, ImageType.track, 64),
             width: 48,
             height: 48
           ),

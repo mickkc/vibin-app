@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/dtos/track/base_track.dart';
+import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/tracklist/track_list_action_view.dart';
 import 'package:vibin_app/widgets/tracklist/track_list_album_view.dart';
@@ -63,7 +64,7 @@ class _TrackListState extends State<TrackList> {
         return TableRow(
           children: [
             NetworkImageWidget(
-              url: "/api/tracks/${track.id}/cover?quality=64",
+              url: ImageUtils.buildUrl(track.getCoverId(), ImageType.track, 64),
               width: 48,
               height: 48
             ),

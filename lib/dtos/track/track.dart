@@ -12,6 +12,7 @@ class Track implements BaseTrack {
   final String title;
   final Album album;
   final List<Artist> artists;
+  final int? coverId;
   final bool explicit;
   final int? trackNumber;
   final int? trackCount;
@@ -34,6 +35,7 @@ class Track implements BaseTrack {
     required this.title,
     required this.album,
     required this.artists,
+    this.coverId,
     required this.explicit,
     this.trackNumber,
     this.trackCount,
@@ -60,6 +62,7 @@ class Track implements BaseTrack {
       artists: (json['artists'] as List<dynamic>)
           .map((artistJson) => Artist.fromJson(artistJson))
           .toList(),
+      coverId: json['coverId'],
       explicit: json['explicit'],
       trackNumber: json['trackNumber'],
       trackCount: json['trackCount'],
@@ -91,6 +94,9 @@ class Track implements BaseTrack {
   List<IdName> getArtists() {
     return artists.map((artist) => IdName(id: artist.id, name: artist.name)).toList();
   }
+
+  @override
+  int? getCoverId() => coverId;
 
   @override
   int? getTrackNumber() => trackNumber;
