@@ -405,6 +405,9 @@
   "settings_app_enable_linux_dbus_integration_title": "Linux D-Bus Integration",
   "settings_app_enable_linux_dbus_integration_description": "Allow Vibin'' to integrate with Linux desktop environments that support MPRIS (e.g., for media controls and displaying track info). App restart required.",
 
+  "settings_app_normalize_volume_title": "Normalize Volume",
+  "settings_app_normalize_volume_description": "Normalize the playback volume across all tracks to reduce volume differences between tracks.",
+
   "settings_app_embed_images_as_base64_title": "Embed Images as Base64",
   "settings_app_embed_images_as_base64_description": "When enabled, images in metadata will be embedded as Base64 strings instead of being loaded from URLs. This may improve compatibility but can increase memory usage.",
 

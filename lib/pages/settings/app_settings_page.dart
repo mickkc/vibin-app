@@ -204,13 +204,20 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
             icon: Icons.cable,
           ),
 
-        if (_authState.hasPermission(PermissionType.streamTracks))
+        if (_authState.hasPermission(PermissionType.streamTracks)) ... [
+          BoolSettingsField(
+            settingsKey: Settings.enableVolumeNormalization,
+            title: _lm.settings_app_normalize_volume_title,
+            description: _lm.settings_app_normalize_volume_description,
+            icon: Icons.volume_up,
+          ),
           BoolSettingsField(
             settingsKey: Settings.embedImagesAsBase64,
             title: _lm.settings_app_embed_images_as_base64_title,
             description: _lm.settings_app_embed_images_as_base64_description,
             icon: Icons.image,
           ),
+        ],
 
         EnumSettingsField(
           settingKey: Settings.metadataImageSize,

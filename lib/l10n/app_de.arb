@@ -406,6 +406,9 @@
   "settings_app_enable_linux_dbus_integration_title": "Linux D-Bus Integration aktivieren",
   "settings_app_enable_linux_dbus_integration_description": "Ermöglicht die Steuerung der Wiedergabe über D-Bus (z.B. für Desktop-Benachrichtigungen und Mediensteuerungen). App-Neustart erforderlich.",
 
+  "settings_app_normalize_volume_title": "Lautstärke normalisieren",
+  "settings_app_normalize_volume_description": "Die Lautstärke von Titeln normalisieren, um große Lautstärkeunterschiede zu vermeiden.",
+
   "settings_app_embed_images_as_base64_title": "Bilder als Base64 einbetten",
   "settings_app_embed_images_as_base64_description": "Bilder in Metadaten als Base64 einbetten, statt sie als urls zu laden. Dies kann die Kompatibilität mit einigen Geräten verbessern, ist aber speicherintensiver.",
 
