@@ -5,7 +5,7 @@ import 'package:vibin_app/extensions.dart';
 
 import '../main.dart';
 
-class NetworkImageWidget extends StatefulWidget {
+class NetworkImageWidget extends StatelessWidget {
   final String url;
   final double width;
   final double height;
@@ -23,32 +23,26 @@ class NetworkImageWidget extends StatefulWidget {
     this.borderRadius = BorderRadius.zero,
   });
 
-  @override
-  State<NetworkImageWidget> createState() => _NetworkImageWidgetState();
-}
-
-class _NetworkImageWidgetState extends State<NetworkImageWidget> {
-
   bool _isAbsoluteUrl() {
-    return widget.url.startsWith("http://") || widget.url.startsWith("https://");
+    return url.startsWith("http://") || url.startsWith("https://");
   }
 
   bool _isBase64Url() {
-    return widget.url.startsWith("data:image/");
+    return url.startsWith("data:image/");
   }
 
   String _getUrl() {
     if (_isAbsoluteUrl()) {
-      return widget.url;
+      return url;
     } else {
       ApiManager apiManager = getIt<ApiManager>();
 
       if (kIsWeb && isEmbeddedMode()) {
         final currentUri = Uri.base;
-        return "${currentUri.scheme}://${currentUri.host}:${currentUri.port}/${widget.url}";
+        return "${currentUri.scheme}://${currentUri.host}:${currentUri.port}/$url";
       }
 
-      return "${apiManager.baseUrl}/${widget.url}";
+      return "${apiManager.baseUrl}/$url";
     }
   }
 
@@ -62,49 +56,37 @@ class _NetworkImageWidgetState extends State<NetworkImageWidget> {
     };
   }
 
-  late final String? _url;
-  late final Uint8List? _base64Data;
-  late final Map<String, String> _headers;
-
-  @override
-  void initState() {
-    super.initState();
-    _url = _isBase64Url() ? null : _getUrl();
-    _base64Data = _isBase64Url() ? Uri.parse(widget.url).data!.contentAsBytes() : null;
-    _headers = _getHeaders();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: widget.padding,
+      padding: padding,
       child: ClipRRect(
-        borderRadius: widget.borderRadius,
-        child: _base64Data != null
+        borderRadius: borderRadius,
+        child: _isBase64Url()
           ? Image.memory(
-              _base64Data,
-              width: widget.width,
-              height: widget.height,
-              fit: widget.fit,
+              Uri.parse(url).data?.contentAsBytes() ?? Uint8List(0),
+              width: width,
+              height: height,
+              fit: fit,
               errorBuilder: (context, error, stackTrace) {
                 return SizedBox(
-                  width: widget.width,
-                  height: widget.height,
+                  width: width,
+                  height: height,
                   child: const Center(child: Icon(Icons.error)),
                 );
               }
             )
           : Image.network(
-              _url!,
-              width: widget.width,
-              height: widget.height,
-              fit: widget.fit,
-              headers: _headers,
+              _getUrl(),
+              width: width,
+              height: height,
+              fit: fit,
+              headers: _getHeaders(),
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) return child;
                 return SizedBox(
-                  width: widget.width,
-                  height: widget.height,
+                  width: width,
+                  height: height,
                   child: Center(
                     child: CircularProgressIndicator(
                       value: loadingProgress.expectedTotalBytes != null
@@ -116,8 +98,8 @@ class _NetworkImageWidgetState extends State<NetworkImageWidget> {
               },
               errorBuilder: (context, error, stackTrace) {
                 return SizedBox(
-                  width: widget.width,
-                  height: widget.height,
+                  width: width,
+                  height: height,
                   child: const Center(child: Icon(Icons.error)),
                 );
               },
