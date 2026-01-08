@@ -66,6 +66,12 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   bool _isInitialized = false;
 
+  double _volume = 1.0;
+  double get volume => _volume;
+
+  final _currentVolumeController = StreamController<double>.broadcast();
+  Stream<double> get currentVolumeStream => _currentVolumeController.stream;
+
   // region Init
 
   AudioManager() {
@@ -346,6 +352,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     return "$baseUrl/ws/playback?token=${_apiManager.accessToken}";
   }
 
+  // endregion
+
   // region Playback Controls
 
   @override Future<void> play() {
@@ -489,9 +497,6 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     _updatePlaybackState();
   }
 
-  double get volume => audioPlayer.volume;
-  set volume(double value) => audioPlayer.setVolume(value);
-
   double get speed => audioPlayer.speed;
   set speed(double value) => audioPlayer.setSpeed(value);
 
@@ -559,16 +564,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
         'trackId': trackId
       });
 
-      if (_settingsManager.get(Settings.enableVolumeNormalization) && item.extras != null && item.extras!.containsKey('volumeOffset')) {
-        final volOffset = item.extras!['volumeOffset'];
-        if (volOffset is double) {
-
-          final gainMultiplier = _dbToMultiplier(volOffset);
-          final finalVolume = gainMultiplier.clamp(0.0, 1.0);
-
-          await audioPlayer.setVolume(finalVolume);
-        }
-      }
+      _setActualVolume();
 
       await audioPlayer.play();
     } catch (e) {
@@ -643,6 +639,45 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
           ? AudioServiceRepeatMode.all
           : AudioServiceRepeatMode.none,
     ));
+  }
+
+  // endregion
+
+  // region Volume controls
+
+  /// Sets the volume to the specified level (0.0 to 1.0)
+  Future<void> setVolume(double newVolume) async {
+    _volume = newVolume.clamp(0.0, 1.0);
+    _currentVolumeController.add(volume);
+    _setActualVolume(newVolume: volume);
+  }
+
+  /// Sets the actual volume on the audio player, applying normalization if enabled
+  void _setActualVolume({double? newVolume}) {
+
+    if (!_settingsManager.get(Settings.enableVolumeNormalization)) {
+      audioPlayer.setVolume(newVolume ?? _volume);
+      return;
+    }
+
+    final c = getCurrentMediaItem();
+    if (c == null) {
+      audioPlayer.setVolume(newVolume ?? _volume);
+      return;
+    }
+
+    if (c.extras != null && c.extras!.containsKey('volumeOffset')) {
+      final volOffset = c.extras!['volumeOffset'];
+      if (volOffset is double) {
+        final gainMultiplier = _dbToMultiplier(volOffset);
+        final finalVolume = (newVolume ?? _volume) * gainMultiplier;
+        audioPlayer.setVolume(finalVolume.clamp(0.0, 1.0));
+      } else {
+        audioPlayer.setVolume(newVolume ?? _volume);
+      }
+    } else {
+      audioPlayer.setVolume(newVolume ?? _volume);
+    }
   }
 
   // endregion

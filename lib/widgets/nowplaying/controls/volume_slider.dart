@@ -16,7 +16,7 @@ class VolumeSlider extends StatelessWidget {
     final th = Theme.of(context);
 
     return StreamBuilder(
-      stream: audioManager.audioPlayer.volumeStream,
+      stream: audioManager.currentVolumeStream,
       initialData: audioManager.volume,
       builder: (context, snapshot) {
         final volume = snapshot.data ?? 0.5;
@@ -31,7 +31,7 @@ class VolumeSlider extends StatelessWidget {
                 max: 1,
                 label: "${(volume * 100).toStringAsFixed(0)}%",
                 onChanged: (value) {
-                  audioManager.volume = value;
+                  audioManager.setVolume(value);
                 },
                 activeColor: th.colorScheme.secondary
               ),

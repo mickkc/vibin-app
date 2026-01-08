@@ -194,7 +194,7 @@ class MprisPlayer extends DBusObject {
           return DBusMethodSuccessResponse();
         case "Volume":
           final volume = value.asDouble();
-          _audioManager.volume = volume;
+          _audioManager.setVolume(volume);
           return DBusMethodSuccessResponse();
       }
     }
@@ -259,7 +259,7 @@ class MprisPlayer extends DBusObject {
         "Rate": DBusDouble(rate),
       });
     });
-    _audioManager.audioPlayer.volumeStream.listen((volume) {
+    _audioManager.currentVolumeStream.listen((volume) {
       emitPropertiesChanged("org.mpris.MediaPlayer2.Player", changedProperties: {
         "Volume": DBusDouble(volume),
       });
