@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:math' hide log;
 
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -537,11 +538,11 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     _updateMediaItem();
 
     final source = AudioSource.uri(
-        trackUri,
-        tag: item,
-        headers: {
-          'Authorization': 'Bearer ${_apiManager.accessToken}',
-        }
+      trackUri,
+      tag: item,
+      headers: {
+        'Authorization': 'Bearer ${_apiManager.accessToken}',
+      }
     );
 
     try {
@@ -557,11 +558,25 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       _sendWebSocket("started_track", data: {
         'trackId': trackId
       });
+
+      if (_settingsManager.get(Settings.enableVolumeNormalization) && item.extras != null && item.extras!.containsKey('volumeOffset')) {
+        final volOffset = item.extras!['volumeOffset'];
+        if (volOffset is double) {
+
+          final gainMultiplier = _dbToMultiplier(volOffset);
+          final finalVolume = gainMultiplier.clamp(0.0, 1.0);
+
+          await audioPlayer.setVolume(finalVolume);
+        }
+      }
+
       await audioPlayer.play();
     } catch (e) {
       log("Error playing track at index $index: $e", error: e, level: Level.error.value);
     }
   }
+
+  double _dbToMultiplier(double db) => pow(10, db / 20).toDouble();
 
   /// Toggles between play and pause states.
   Future<void> playPause() async {
@@ -1169,6 +1184,14 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       artUri: artUri,
       artHeaders: {
         'Authorization': 'Bearer ${_apiManager.accessToken}',
+      },
+      extras: {
+        'coverChecksum': streamable.coverChecksum,
+        'coverSignature': streamable.coverSignature,
+        'coverExpiration': streamable.coverExpiration,
+        'trackSignature': streamable.streamSignature,
+        'trackExpiration': streamable.streamExpiration,
+        'volumeOffset': streamable.volumeOffset,
       }
     );
   }

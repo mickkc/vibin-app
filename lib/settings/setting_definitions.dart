@@ -27,4 +27,6 @@ class Settings {
   static final linuxEnableDbusMpris = BoolSettingsKey("linuxEnableDbusMpris", true);
   static final embedImagesAsBase64 = BoolSettingsKey("embedImagesAsBase64", false);
   static final metadataImageSize = EnumSettingsKey("metadataImageSize", MetadataImageSize.medium, MetadataImageSize.values);
+
+  static final enableVolumeNormalization = BoolSettingsKey("enableVolumeNormalization", true);
 }
