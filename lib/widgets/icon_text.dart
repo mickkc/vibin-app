@@ -4,12 +4,14 @@ class IconText extends StatelessWidget {
   final IconData icon;
   final String text;
   final void Function()? onTap;
+  final Color? color;
 
   const IconText({
     super.key,
     required this.icon,
     required this.text,
     this.onTap,
+    this.color,
   });
 
   @override
@@ -20,12 +22,16 @@ class IconText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       spacing: 8,
       children: [
-        Icon(icon),
+        Icon(
+          icon,
+          color: color,
+        ),
         Flexible(
           child: onTap == null ? Text(
             text,
             overflow: TextOverflow.ellipsis,
-            maxLines: 1
+            maxLines: 1,
+            style: color == null ? null : TextStyle(color: color),
           ) : InkWell(
             onTap: onTap,
             child: Text(
@@ -33,7 +39,7 @@ class IconText extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
+                color: color ?? Theme.of(context).colorScheme.primary,
               ),
             ),
           ),

@@ -184,6 +184,8 @@
   "dialog_share": "Share",
   "dialog_copy": "Copy",
 
+  "dialog_error_details": "Details",
+
   "edit_album_title": "Edit Album",
   "edit_album_name": "Album Name",
   "edit_album_cover": "Album Cover",

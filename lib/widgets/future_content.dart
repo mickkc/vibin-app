@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/utils/error_handler.dart';
+import 'package:vibin_app/widgets/icon_text.dart';
 
 class FutureContent<T> extends StatelessWidget {
   final Future<T> future;
@@ -39,11 +41,30 @@ class FutureContent<T> extends StatelessWidget {
 
           if (snapshot.hasError) {
             return errorWidget ??
-              Center(
-                child: Text(
-                  '${lm.dialog_error}: ${snapshot.error}',
-                  style: TextStyle(color: theme.colorScheme.error),
-                ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                spacing: 8,
+                children: [
+                  Icon(Icons.error, color: theme.colorScheme.error, size: 48),
+                  if (snapshot.error != null)
+                    Text(
+                      lm.dialog_error,
+                    ),
+                  TextButton(
+                    onPressed: () => ErrorHandler.showErrorDialog(
+                      context,
+                      lm.dialog_error,
+                      error: snapshot.error,
+                      stackTrace: snapshot.stackTrace
+                    ),
+                    child: IconText(
+                      icon: Icons.open_in_browser,
+                      text: lm.dialog_error_details,
+                      color: theme.colorScheme.error,
+                    )
+                  ),
+                ],
               );
           }
 
