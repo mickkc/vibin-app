@@ -470,6 +470,10 @@
   "settings_task_cancel_failed": "An error occurred while cancelling the task.",
   "settings_task_cancel_success": "The task will be cancelled shortly.",
 
+  "settings_task_ws_connection_failed": "WebSocket connection to the server failed.",
+  "settings_task_ws_connection_error": "An error occurred with the WebSocket connection.",
+  "settings_task_ws_message_error": "An error occurred while processing a WebSocket message.",
+
 
   "settings_sessions_last_used": "Last used:",
   "settings_sessions_created_at": "Created at:",

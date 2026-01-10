@@ -84,21 +84,25 @@ class _TaskManagementPageState extends State<TaskManagementPage> {
                   task.lastResult = taskAction.result;
                 });
               }
-              catch (e) {
+              catch (e, st) {
                 log("An error occurred while updating task on completion: $e", error: e, level: Level.error.value);
+                if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_task_ws_message_error, error: e, stackTrace: st);
               }
               break;
           }
         }
-        catch (e) {
+        catch (e, st) {
           log("An error occurred while parsing task progress message: $e", error: e, level: Level.error.value);
+          if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_task_ws_message_error, error: e, stackTrace: st);
         }
-      }, onError: (error) {
-        log("An error occurred in task progress WebSocket: $error", error: error, level: Level.error.value);
+      }, onError: (e, st) {
+        log("An error occurred in task progress WebSocket: $e", error: e, level: Level.error.value);
+        if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_task_ws_connection_error, error: e, stackTrace: st);
       });
     }
-    catch (e) {
+    catch (e, st) {
       log("An error occurred while connecting to task progress WebSocket: $e", error: e, level: Level.error.value);
+      if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_task_ws_connection_failed, error: e, stackTrace: st);
     }
 
     super.initState();
@@ -120,7 +124,7 @@ class _TaskManagementPageState extends State<TaskManagementPage> {
     }
     catch (e) {
       log("An error occurred while running task: $e", error: e, level: Level.error.value);
-      if (mounted) showSnackBar(context, _lm.settings_task_run_now_failed);
+      if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_task_run_now_failed, error: e);
     }
   }
 
@@ -134,9 +138,9 @@ class _TaskManagementPageState extends State<TaskManagementPage> {
         task.enabled = enabled;
       });
     }
-    catch (e) {
+    catch (e, st) {
       log("An error occurred while updating task enabled state: $e", error: e, level: Level.error.value);
-      if (mounted) showSnackBar(context, _lm.settings_task_toggle_failed);
+      if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_task_toggle_failed, error: e, stackTrace: st);
     }
   }
 
@@ -145,9 +149,9 @@ class _TaskManagementPageState extends State<TaskManagementPage> {
       await _apiManager.service.cancelTask(taskId);
       if (mounted) showSnackBar(context, _lm.settings_task_cancel_success);
     }
-    catch (e) {
+    catch (e, st) {
       log("An error occurred while cancelling task: $e", error: e, level: Level.error.value);
-      if (mounted) showSnackBar(context, _lm.settings_task_cancel_failed);
+      if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_task_cancel_failed, error: e, stackTrace: st);
     }
   }
 
@@ -217,10 +221,10 @@ class _TaskManagementPageState extends State<TaskManagementPage> {
             final task = _tasks[index];
             return ListTile(
               leading: task.lastResult != null
-                  ? Icon(
-                      task.lastResult!.success ? Icons.check_circle : Icons.error,
-                      color: task.lastResult!.success ? _theme.colorScheme.primary : _theme.colorScheme.error
-                  ) : null,
+                ? Icon(
+                  task.lastResult!.success ? Icons.check_circle : Icons.error,
+                  color: task.lastResult!.success ? _theme.colorScheme.primary : _theme.colorScheme.error
+                ) : null,
               title: Text(task.id),
               subtitle: Text(
                 "${_lm.settings_task_last_run} ${task.lastRun != null ? DateTimeUtils.convertUtcUnixToLocalTimeString(task.lastRun!, _lm.datetime_format_full) : _lm.settings_task_run_never}\n"

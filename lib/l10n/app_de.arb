@@ -471,6 +471,10 @@
   "settings_task_cancel_failed": "Beim Abbrechen der Aufgabe ist ein Fehler aufgetreten.",
   "settings_task_cancel_success": "Die Aufgabe wird schnellstmöglich abgebrochen.",
 
+  "settings_task_ws_connection_failed": "Die WebSocket-Verbindung zum Server konnte nicht hergestellt werden.",
+  "settings_task_ws_connection_error": "Beim Verbinden mit dem WebSocket ist ein Fehler aufgetreten.",
+  "settings_task_ws_message_error": "Beim Verarbeiten der WebSocket-Nachricht ist ein Fehler aufgetreten.",
+
 
   "settings_sessions_last_used": "Letzte Nutzung:",
   "settings_sessions_created_at": "Erstellt am:",
