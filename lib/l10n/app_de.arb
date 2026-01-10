@@ -468,6 +468,9 @@
   "settings_task_toggle_failed": "Beim Ändern des Aufgabenstatus ist ein Fehler aufgetreten.",
   "settings_task_run_now_failed": "Beim Ausführen der Aufgabe ist ein Fehler aufgetreten.",
 
+  "settings_task_cancel_failed": "Beim Abbrechen der Aufgabe ist ein Fehler aufgetreten.",
+  "settings_task_cancel_success": "Die Aufgabe wird schnellstmöglich abgebrochen.",
+
 
   "settings_sessions_last_used": "Letzte Nutzung:",
   "settings_sessions_created_at": "Erstellt am:",

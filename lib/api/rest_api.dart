@@ -48,7 +48,7 @@ import 'package:vibin_app/dtos/widgets/create_widget.dart';
 
 import '../dtos/artist/artist_edit_data.dart';
 import '../dtos/create_metadata.dart';
-import '../dtos/task_dto.dart';
+import '../dtos/tasks/task_dto.dart';
 import '../dtos/uploads/pending_upload.dart';
 import '../dtos/widgets/shared_widget.dart';
 
@@ -316,7 +316,10 @@ abstract class ApiService {
   Future<Success> setTaskEnabled(@Path("id") String id, @Query("enable") bool enable);
 
   @POST("/api/tasks/{id}/run")
-  Future<TaskResult> runTaskNow(@Path("id") String id);
+  Future<Success> runTaskNow(@Path("id") String id);
+
+  @DELETE("/api/tasks/{id}/run")
+  Future<Success> cancelTask(@Path("id") String id);
 
   // Tracks
 

@@ -633,11 +633,11 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     playbackState.add(playbackState.value.copyWith(
       queueIndex: _currentIndex,
       shuffleMode: _isShuffling ? AudioServiceShuffleMode.all : AudioServiceShuffleMode.none,
-      repeatMode: _loopMode == LoopMode.one
-          ? AudioServiceRepeatMode.one
-          : _loopMode == LoopMode.all
-          ? AudioServiceRepeatMode.all
-          : AudioServiceRepeatMode.none,
+      repeatMode: switch (_loopMode) {
+        LoopMode.off => AudioServiceRepeatMode.none,
+        LoopMode.all => AudioServiceRepeatMode.all,
+        LoopMode.one => AudioServiceRepeatMode.one,
+      },
     ));
   }
 
