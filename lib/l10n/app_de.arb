@@ -439,14 +439,25 @@
 
   "settings_app_save_changes_error": "Beim Speichern der App-Einstellungen ist ein Fehler aufgetreten.",
 
+  "settings_app_streaming_title": "Streaming",
+
+  "settings_app_preferred_streaming_bitrate_title": "Bitrate",
+  "settings_app_preferred_streaming_bitrate_description": "Bevorzugte Bitrate für das Streaming von Titeln. Niedrigere Bitraten sparen Datenvolumen, während höhere Bitraten eine bessere Audioqualität bieten.",
+
+  "settings_app_preferred_streaming_format_title": "Audioformat",
+  "settings_app_preferred_streaming_format_description": "Bevorzugtes Audioformat für das Streaming von Titeln.",
+
+  "settings_app_enable_transcoding_title": "Transcodierung aktivieren",
+  "settings_app_enable_transcoding_description": "Wenn diese Option deaktiviert ist, werden Titel im Originalformat gestreamt. Dies kann zu Kompatibilitätsproblemen führen.",
+
+
   "settings_app_about_title": "Über Vibin''",
   "settings_app_about_description": "Informationen über die Vibin''-App.",
 
   "settings_app_about_legalese": "Copyleft 2025 die Vibin''-Entwickler. Vibin'' ist freie Software, die unter der GNU General Public License Version 3 veröffentlicht wird.",
 
   "settings_app_about_report_issue": "Problem melden",
-
-  "settings_app_about_credits": "Mitwirkende",
+  "settings_app_about_source_code": "Quellcode",
   "settings_app_about_credits_developer": "Entwickler",
 
   "settings_app_manage_widgets_title": "Widgets verwalten",

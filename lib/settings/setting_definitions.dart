@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/dialogs/lyrics_dialog.dart';
+import 'package:vibin_app/dtos/stream_format.dart';
 import 'package:vibin_app/settings/enums/metadata_image_size.dart';
 import 'package:vibin_app/settings/settings_key.dart';
 import 'package:vibin_app/widgets/settings/homepage_sections_list.dart';
@@ -29,4 +30,8 @@ class Settings {
   static final metadataImageSize = EnumSettingsKey("metadataImageSize", MetadataImageSize.medium, MetadataImageSize.values);
 
   static final enableVolumeNormalization = BoolSettingsKey("enableVolumeNormalization", true);
+
+  static final enableTranscoding = BoolSettingsKey("enableTranscoding", true);
+  static final preferredStreamingFormat = EnumSettingsKey("preferredStreamingFormat", StreamFormat.mp3, StreamFormat.values);
+  static final preferredStreamingBitrate = IntSettingsKey("preferredStreamingBitrate", 320);
 }

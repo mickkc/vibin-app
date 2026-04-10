@@ -3,7 +3,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/app_localizations.dart';
-import '../widgets/network_image.dart';
 
 class Dialogs {
 
@@ -147,29 +146,24 @@ class Dialogs {
               children: [
 
                 ListTile(
-                  leading: NetworkImageWidget(
-                    url: "https://avatars.githubusercontent.com/u/67842588",
-                    width: 48,
-                    height: 48,
-                    borderRadius: BorderRadius.circular(24),
-                  ),
+                  leading: const Icon(Icons.account_circle_outlined, size: 48),
                   title: Text("MickKC"),
                   subtitle: Text(lm.settings_app_about_credits_developer),
-                  onTap: () => launchUrl(Uri.parse("https://github.com/mickkc")),
+                  onTap: () => launchUrl(Uri.parse("https://codeberg.org/mickkc")),
                 ),
 
                 const Divider(),
 
                 ListTile(
                   leading: const Icon(Icons.code),
-                  title: const Text("GitHub"),
-                  onTap: () => launchUrl(Uri.parse("https://github.com/mickkc/vibin")),
+                  title: Text(lm.settings_app_about_source_code),
+                  onTap: () => launchUrl(Uri.parse("https://codeberg.org/mickkc/vibin")),
                 ),
 
                 ListTile(
                   leading: const Icon(Icons.bug_report),
                   title: Text(lm.settings_app_about_report_issue),
-                  onTap: () => launchUrl(Uri.parse("https://github.com/mickkc/vibin/issues")),
+                  onTap: () => launchUrl(Uri.parse("https://codeberg.org/mickkc/vibin/issues")),
                 ),
               ],
             ),

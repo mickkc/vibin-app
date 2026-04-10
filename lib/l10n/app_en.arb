@@ -437,14 +437,24 @@
 
   "settings_app_save_changes_error": "An error occurred while saving app settings.",
 
+  "settings_app_streaming_title": "Streaming",
+
+  "settings_app_enable_transcoding_title": "Enable Transcoding",
+  "settings_app_enable_transcoding_description": "When disabled, tracks will be streamed in their original format. This may lead to compatibility issues with some devices.",
+
+  "settings_app_preferred_streaming_bitrate_title": "Bitrate",
+  "settings_app_preferred_streaming_bitrate_description": "Select your preferred streaming bitrate. Higher bitrates provide better audio quality but use more data.",
+
+  "settings_app_preferred_streaming_format_title": "Audio Format",
+  "settings_app_preferred_streaming_format_description": "Select your preferred audio format for streaming.",
+
   "settings_app_about_title": "About Vibin''",
   "settings_app_about_description": "Information about the Vibin'' application.",
 
   "settings_app_about_legalese": "Copyleft 2025 The Vibin'' Authors. This application is licensed under the GNU General Public License v3.0.",
 
   "settings_app_about_report_issue": "Report an Issue",
-
-  "settings_app_about_credits": "Credits",
+  "settings_app_about_source_code": "Source Code",
   "settings_app_about_credits_developer": "Developer",
 
   "settings_app_manage_widgets_title": "Widget Management",

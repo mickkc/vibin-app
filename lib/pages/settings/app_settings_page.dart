@@ -164,10 +164,41 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
 
         PreferredMetadataPickers(),
 
-
         if (_authState.hasPermission(PermissionType.changeOwnUserSettings)) ... [
           const Divider(),
           const AppUserSettingsView(),
+        ],
+
+        if (_authState.hasPermission(PermissionType.streamTracks)) ... [
+          const Divider(),
+
+          SettingsTitle(
+            title: _lm.settings_app_streaming_title
+          ),
+
+          BoolSettingsField(
+            settingsKey: Settings.enableTranscoding,
+            title: _lm.settings_app_enable_transcoding_title,
+            description: _lm.settings_app_enable_transcoding_description,
+            icon: Icons.sync_alt,
+          ),
+
+          EnumSettingsField(
+            settingKey: Settings.preferredStreamingFormat,
+            title: _lm.settings_app_preferred_streaming_format_title,
+            description: _lm.settings_app_preferred_streaming_format_description,
+            icon: Icons.audiotrack,
+            optionLabel: (option) => option.name,
+          ),
+
+          IntSettingsInputField(
+            settingsKey: Settings.preferredStreamingBitrate,
+            label: _lm.settings_app_preferred_streaming_bitrate_title,
+            description: _lm.settings_app_preferred_streaming_bitrate_description,
+            icon: Icons.speed,
+            min: 64,
+            max: 320,
+          ),
         ],
 
         const Divider(),
