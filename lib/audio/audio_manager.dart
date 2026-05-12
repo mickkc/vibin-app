@@ -196,7 +196,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       if (_loopMode == LoopMode.one) {
         // Replay current track
         await audioPlayer.seek(Duration.zero);
-        await audioPlayer.play();
+        play();
       } else if (hasNext) {
         // Play next track
         await skipToNext(notify: false);
@@ -370,7 +370,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   @override Future<void> play() async {
     _sendWebSocket('play');
-    return audioPlayer.play();
+    // Do not await - Will wait until stopped / paused
+    audioPlayer.play();
   }
 
   @override Future<void> pause() {
@@ -404,7 +405,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     // In loop one mode, restart current track
     if (_loopMode == LoopMode.one) {
       await audioPlayer.seek(Duration.zero);
-      await audioPlayer.play();
+      await play();
       return;
     }
 
@@ -440,7 +441,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     // In loop one mode, restart current track
     if (_loopMode == LoopMode.one) {
       await audioPlayer.seek(Duration.zero);
-      await audioPlayer.play();
+      await play();
       return;
     }
 
@@ -501,7 +502,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     try {
       if (kIsWeb) await audioPlayer.stop();
       await audioPlayer.setAudioSource(source);
-      if (wasPlaying) await audioPlayer.play();
+      if (wasPlaying) await play();
     } catch (e) {
       log("Error seeking to $position: $e", error: e, level: Level.error.value);
     }
@@ -597,6 +598,9 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
         await audioPlayer.pause();
       }
 
+      // Reset "completed" state
+      await audioPlayer.stop();
+
       await audioPlayer.setAudioSource(source);
       _sendWebSocket("started_track", data: {
         'trackId': trackId
@@ -604,7 +608,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
       _setActualVolume();
 
-      await audioPlayer.play();
+      await play();
     } catch (e) {
       log("Error playing track at index $index: $e", error: e, level: Level.error.value);
     }
@@ -846,7 +850,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       }
 
       if (wasPlaying) {
-        await audioPlayer.play();
+        await play();
       }
     } catch (e) {
       log("Error reloading current track: $e", error: e, level: Level.error.value);
