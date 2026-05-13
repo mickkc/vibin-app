@@ -150,7 +150,8 @@ class _LyricsDialogState extends State<LyricsDialog> {
   }
 
   void _fetchLyrics() {
-    final id = _currentMediaItem == null ? null : int.tryParse(_currentMediaItem!.id);
+    final idParts = _currentMediaItem?.id.split("-");
+    final id = idParts == null || idParts.isEmpty ? null : int.tryParse(idParts[0]);
     setState(() {
       if (id == null) {
         _lyricsFuture = Future.value(null);
