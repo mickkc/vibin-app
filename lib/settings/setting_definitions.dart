@@ -32,6 +32,6 @@ class Settings {
   static final enableVolumeNormalization = BoolSettingsKey("enableVolumeNormalization", true);
 
   static final enableTranscoding = BoolSettingsKey("enableTranscoding", true);
-  static final preferredStreamingFormat = EnumSettingsKey("preferredStreamingFormat", StreamFormat.mp3, StreamFormat.values);
+  static final preferredStreamingFormat = EnumSettingsKey("preferredStreamingFormat", StreamFormat.aac, StreamFormat.values);
   static final preferredStreamingBitrate = IntSettingsKey("preferredStreamingBitrate", 320);
 }
