@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/mock/mock_nontrack_listen.dart';
 import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/entity_card_row.dart';
 import 'package:vibin_app/widgets/future_content.dart';
@@ -24,6 +25,7 @@ class LastListenedToSection extends StatelessWidget {
           height: 205,
           future: future,
           hasData: (d) => d.isNotEmpty,
+          mockData: () { return getMockedNonTrackListenList(10); },
           builder: (context, items) {
             return NonTrackEntityCardRow(entities: items);
           }

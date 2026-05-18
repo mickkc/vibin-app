@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
@@ -7,6 +8,7 @@ class FutureContent<T> extends StatelessWidget {
   final Future<T> future;
   final double? height;
   final Widget Function(BuildContext context, T data) builder;
+  final T Function()? mockData;
   final bool Function(T data)? hasData;
   final Widget? emptyWidget;
   final Widget? loadingWidget;
@@ -17,6 +19,7 @@ class FutureContent<T> extends StatelessWidget {
     required this.future,
     required this.builder,
     this.height,
+    this.mockData,
     this.hasData,
     this.emptyWidget,
     this.loadingWidget,
@@ -35,6 +38,14 @@ class FutureContent<T> extends StatelessWidget {
         future: future,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
+
+            if (mockData != null) {
+              return Skeletonizer(
+                enabled: snapshot.connectionState == ConnectionState.waiting,
+                child: builder(context, mockData!()),
+              );
+            }
+
             return loadingWidget ??
                 const Center(child: CircularProgressIndicator());
           }

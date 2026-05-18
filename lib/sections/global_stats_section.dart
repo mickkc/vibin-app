@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/extensions.dart';
+import 'package:vibin_app/mock/mock_misc.dart';
 import 'package:vibin_app/sections/section_header.dart';
 
 import '../api/api_manager.dart';
@@ -51,6 +52,7 @@ class GlobalStatsSection extends StatelessWidget {
         ),
         FutureContent(
           future: statsFuture,
+          mockData: () { return getMockedGlobalStats(); },
           builder: (context, stats) {
             return SingleChildScrollView(
               scrollDirection: Axis.horizontal,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/mock/mock_nontrack_listen.dart';
 import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
@@ -28,11 +30,13 @@ class RecommendedStartSection extends StatelessWidget {
               title: message.isNotEmpty ? message : AppLocalizations.of(context)!.welcome_message,
               maxLines: 3,
             );
-          }
+          },
+          mockData: () { return BoneMock.title; },
         ),
         FutureContent(
           future: recommended,
           hasData: (d) => d.isNotEmpty,
+          mockData: () { return getMockedNonTrackListenList(8); },
           builder: (context, items) {
             final cols = (MediaQuery.sizeOf(context).width / 300.0).ceil().clamp(1, 4);
             return SizedBox(

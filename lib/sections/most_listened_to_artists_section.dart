@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/mock/mock_artists.dart';
 import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
 import 'package:vibin_app/widgets/entity_card_row.dart';
@@ -28,6 +29,7 @@ class MostListenedToArtistsSection extends StatelessWidget {
           height: 205,
           future: artists,
           hasData: (d) => d.isNotEmpty,
+          mockData: () { return getMockedArtistList(10); },
           builder: (context, artists) {
             return EntityCardRow(
               entities: artists,

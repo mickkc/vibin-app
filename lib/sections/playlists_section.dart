@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vibin_app/mock/mock_playlists.dart';
 import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
 import 'package:vibin_app/widgets/entity_card_row.dart';
@@ -29,6 +30,7 @@ class PlaylistsSection extends StatelessWidget {
           future: playlistFuture,
           height: 205,
           hasData: (data) => data.isNotEmpty,
+          mockData: () { return getMockedPlaylistList(20); },
           builder: (context, playlists) {
             return EntityCardRow(entities: playlists, type: EntityCardType.playlist);
           }

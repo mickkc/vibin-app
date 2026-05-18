@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vibin_app/mock/mock_nontrack_listen.dart';
 import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/entity_card_row.dart';
 import 'package:vibin_app/widgets/future_content.dart';
@@ -26,6 +27,7 @@ class PopularItemsSection extends StatelessWidget {
         FutureContent(
           height: 205,
           future: future,
+          mockData: () { return getMockedNonTrackListenList(20); },
           hasData: (d) => d.isNotEmpty,
           builder: (context, items) {
             return NonTrackEntityCardRow(entities: items);
