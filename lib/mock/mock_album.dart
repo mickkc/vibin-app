@@ -19,6 +19,10 @@ Album getMockedAlbum() {
   );
 }
 
+List<Album> getMockedAlbumList(int count) {
+  return List.filled(count, getMockedAlbum());
+}
+
 AlbumData getMockedAlbumData() {
   return AlbumData(
     album: getMockedAlbum(),

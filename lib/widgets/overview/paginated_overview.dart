@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/dtos/pagination/album_pagination.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/mock/mock_misc.dart';
 import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
@@ -98,6 +100,10 @@ class _PaginatedOverviewState extends State<PaginatedOverview> {
         FutureContent(
           future: _currentPagination,
           hasData: (data) => data.items.isNotEmpty,
+          mockData: () {
+            var pageSize = _settingsManager.get(Settings.pageSize);
+            return MockPagination(getMockedForType(widget.type, pageSize), pageSize, pageSize, 1);
+          },
           builder: (context, pagination) {
             return Column(
               children: [
