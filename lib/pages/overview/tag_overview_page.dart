@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vibin_app/dialogs/tag_edit_dialog.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/mock/mock_tags.dart';
 import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/overview/overview_header.dart';
@@ -93,6 +94,7 @@ class _TagOverviewPageState extends State<TagOverviewPage> {
           child: FutureContent(
             future: _tagsFuture,
             hasData: (d) => d.isNotEmpty,
+            mockData: () { return getMockedTagList(50); },
             builder: (context, tags) {
               return Wrap(
                 spacing: 8,
