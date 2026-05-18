@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vibin_app/mock/mock_tracks.dart';
 import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
 import 'package:vibin_app/widgets/entity_card_row.dart';
@@ -34,6 +35,7 @@ class SimilarTracksSection extends StatelessWidget {
         FutureContent(
           future: _tracks,
           height: 205,
+          mockData: () { return getMockedMinimalTrackList(20); },
           hasData: (tracks) => tracks.isNotEmpty,
           builder: (context, tracks) {
             return EntityCardRow(

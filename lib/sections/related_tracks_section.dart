@@ -4,6 +4,7 @@ import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dialogs/related_tracks_management_dialog.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/track/related_track.dart';
+import 'package:vibin_app/mock/mock_tracks.dart';
 import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
 import 'package:vibin_app/widgets/future_content.dart';
@@ -73,6 +74,7 @@ class _RelatedTracksSectionState extends State<RelatedTracksSection> {
         ),
         FutureContent(
           future: _relatedTracksFuture,
+          mockData: () { return getMockedRelatedTrackList(5); },
           builder: (context, relatedTracks) {
 
             if (relatedTracks.isEmpty) {

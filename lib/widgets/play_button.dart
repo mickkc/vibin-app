@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import 'colored_icon_button.dart';
 
@@ -14,12 +15,12 @@ class PlayButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredIconButton(
+    return Skeleton.keep(child: ColoredIconButton(
       icon: isPlaying ? Icons.pause : Icons.play_arrow,
       size: 48,
       backgroundColor: Theme.of(context).colorScheme.primary,
       iconColor: Theme.of(context).colorScheme.surface,
       onPressed: onTap
-    );
+    ));
   }
 }

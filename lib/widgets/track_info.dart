@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibin_app/mock/mock_tracks.dart';
 import 'package:vibin_app/widgets/tag_widget.dart';
 
 import '../api/api_manager.dart';
@@ -41,6 +42,7 @@ class TrackInfoView extends StatelessWidget {
 
     return FutureContent(
       future: _trackFuture,
+      mockData: () { return getMockedTrack(); },
       builder: (context, track) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

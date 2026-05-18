@@ -4,6 +4,7 @@ import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/playlist/playlist_data.dart';
 import 'package:vibin_app/dtos/shuffle_state.dart';
 import 'package:vibin_app/extensions.dart';
+import 'package:vibin_app/mock/mock_playlists.dart';
 import 'package:vibin_app/widgets/bars/playlist_action_bar.dart';
 import 'package:vibin_app/widgets/date_footer.dart';
 import 'package:vibin_app/widgets/future_content.dart';
@@ -41,6 +42,7 @@ class _PlaylistInfoPageState extends State<PlaylistInfoPage> {
 
     return FutureContent(
       future: playlistDataFuture,
+      mockData: () { return getMockedPlaylistData(); },
       builder: (context, data) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -160,6 +162,7 @@ class _PlaylistInfoPageState extends State<PlaylistInfoPage> {
             sliver: SliverToBoxAdapter(
               child: FutureContent(
                 future: _playlistDataFuture,
+                mockData: () { return getMockedPlaylistData(); },
                 builder: (context, data) {
                   return PlaylistActionBar(
                     playlistData: data,
@@ -177,6 +180,7 @@ class _PlaylistInfoPageState extends State<PlaylistInfoPage> {
 
           SliverFutureContent(
             future: _playlistDataFuture,
+            mockData: () { return getMockedPlaylistData(); },
             builder: (context, data) {
               return PlaylistTrackList(
                 tracks: data.tracks,
@@ -202,6 +206,7 @@ class _PlaylistInfoPageState extends State<PlaylistInfoPage> {
           SliverToBoxAdapter(
             child: FutureContent(
               future: _playlistDataFuture,
+              mockData: () { return getMockedPlaylistData(); },
               builder: (context, data) {
                 return DateFooter(
                   createdAt: data.playlist.createdAt,

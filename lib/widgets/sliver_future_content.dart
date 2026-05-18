@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 
 class SliverFutureContent<T> extends StatelessWidget {
   final Future<T> future;
   final Widget Function(BuildContext context, T data) builder;
   final bool Function(T data)? hasData;
+  final T Function()? mockData;
   final Widget? emptyWidget;
   final Widget? loadingWidget;
   final Widget? errorWidget;
@@ -14,6 +16,7 @@ class SliverFutureContent<T> extends StatelessWidget {
     required this.future,
     required this.builder,
     this.hasData,
+    this.mockData,
     this.emptyWidget,
     this.loadingWidget,
     this.errorWidget,
@@ -29,6 +32,13 @@ class SliverFutureContent<T> extends StatelessWidget {
       future: future,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
+
+          if (mockData != null) {
+            return SliverSkeletonizer(
+              child: builder(context, mockData!())
+            );
+          }
+
           return SliverToBoxAdapter(
             child: loadingWidget ??
                 const Center(child: CircularProgressIndicator()),
