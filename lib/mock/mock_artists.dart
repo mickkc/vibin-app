@@ -6,7 +6,6 @@ List<Artist> getMockedArtistList(int count) {
     id: 0,
     name: BoneMock.name,
     description: BoneMock.subtitle,
-    imageId: 0,
     createdAt: 1779115233,
     updatedAt: 1779115233
   ));

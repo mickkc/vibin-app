@@ -16,7 +16,7 @@ Playlist getMockedPlaylist() {
     collaborators: [
       User(
           0, BoneMock.name, BoneMock.name, BoneMock.subtitle,
-          0, BoneMock.email,
+          null, BoneMock.email,
           true, false,
           1779115233,
           1779115233, 1779115233
@@ -25,7 +25,7 @@ Playlist getMockedPlaylist() {
     vibedef: null,
     owner: User(
         0, BoneMock.name, BoneMock.name, BoneMock.subtitle,
-        0, BoneMock.email,
+        null, BoneMock.email,
         true, false,
         1779115233,
         1779115233, 1779115233

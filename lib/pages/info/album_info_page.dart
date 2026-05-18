@@ -5,6 +5,7 @@ import 'package:vibin_app/dtos/album/album_data.dart';
 import 'package:vibin_app/dtos/shuffle_state.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/mock/mock_album.dart';
 import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/bars/album_action_bar.dart';
@@ -90,6 +91,7 @@ class AlbumInfoPage extends StatelessWidget {
       children: [
         FutureContent(
           future: _albumFuture,
+          mockData: () { return getMockedAlbumData(); },
           builder: (context, data) {
             return LayoutBuilder(
               builder: (context, constraints) {
@@ -129,6 +131,7 @@ class AlbumInfoPage extends StatelessWidget {
         ),
         FutureContent(
           future: _albumFuture,
+          mockData: () { return getMockedAlbumData(); },
           builder: (context, data) {
             return TrackList(
               tracks: data.tracks,

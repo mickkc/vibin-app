@@ -20,7 +20,6 @@ Track getMockedTrack() {
     hasLyrics: true,
     bitrate: 320,
     channels: 2,
-    coverId: 0,
     discCount: 1,
     discNumber: 1,
     duration: 180000,
@@ -33,6 +32,10 @@ Track getMockedTrack() {
   );
 }
 
+List<Track> getMockedTrackList(int count) {
+  return List.filled(count, getMockedTrack());
+}
+
 MinimalTrack getMockedMinimalTrack() {
   return MinimalTrack(
       id: 0,
@@ -41,7 +44,6 @@ MinimalTrack getMockedMinimalTrack() {
         IdName(id: 0, name: BoneMock.name)
       ],
       album: IdName(id: 0, name: BoneMock.name),
-      coverId: 0,
       duration: 180000,
       uploader: IdName(id: 0, name: BoneMock.name)
   );
