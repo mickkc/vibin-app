@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:vibin_app/dialogs/add_track_to_playlist_dialog.dart';
 import 'package:vibin_app/dtos/track/track.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
@@ -242,7 +243,9 @@ class _EntityCardState extends State<EntityCard> {
                         Positioned(
                           top: 4,
                           right: 4,
-                          child: widget.badge!,
+                          child: Skeleton.keep(
+                            child: widget.badge!,
+                          ),
                         ),
                     ],
                   ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:vibin_app/dtos/favorites.dart';
+import 'package:vibin_app/mock/mock_misc.dart';
 import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
 
@@ -100,12 +102,13 @@ class FavoriteSection extends StatelessWidget {
     return Column(
       spacing: 16,
       children: [
-        SectionHeader(title: getSectionTitle(lm)),
+        Skeleton.keep(child: SectionHeader(title: getSectionTitle(lm))),
         FutureContent(
           future: favoritesFuture,
           height: 205,
           hasData: (f) => getFavoriteList(f).isNotEmpty,
           emptyWidget: _emptyWidget(context),
+          mockData: () { return getMockedFavorites(); },
           builder: (context, favorites) {
             return SingleChildScrollView(
               scrollDirection: Axis.horizontal,

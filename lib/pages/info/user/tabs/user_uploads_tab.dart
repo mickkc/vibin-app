@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/mock/mock_tracks.dart';
 import 'package:vibin_app/widgets/entity_card_grid.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 
@@ -22,6 +23,7 @@ class UserUploadsTab extends StatelessWidget {
     return FutureContent(
       future: uploadsFuture,
       hasData: (u) => u.isNotEmpty,
+      mockData: () { return getMockedMinimalTrackList(10); },
       builder: (context, tracks) {
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,

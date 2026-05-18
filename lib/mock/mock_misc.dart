@@ -1,3 +1,5 @@
+import 'package:vibin_app/dtos/favorites.dart';
+import 'package:vibin_app/dtos/user_activity.dart';
 import 'package:vibin_app/mock/mock_album.dart';
 import 'package:vibin_app/mock/mock_artists.dart';
 import 'package:vibin_app/mock/mock_playlists.dart';
@@ -43,4 +45,20 @@ class MockPagination {
   int currentPage;
 
   MockPagination(this.items, this.total, this.pageSize, this.currentPage);
+}
+
+Favorites getMockedFavorites() {
+  return Favorites(
+    tracks: getMockedMinimalTrackList(3),
+    artists: getMockedArtistList(3),
+    albums: getMockedAlbumList(3)
+  );
+}
+
+UserActivity getMockedUserActivity() {
+  return UserActivity(
+    recentTracks: getMockedMinimalTrackList(10),
+    topTracks: getMockedMinimalTrackList(10),
+    topArtists: getMockedArtistList(10)
+  );
 }

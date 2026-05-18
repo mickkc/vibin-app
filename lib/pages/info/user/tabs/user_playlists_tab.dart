@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/mock/mock_playlists.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
 import 'package:vibin_app/widgets/entity_card_grid.dart';
 import 'package:vibin_app/widgets/future_content.dart';
@@ -18,6 +19,7 @@ class UserPlaylistsTab extends StatelessWidget {
 
     return FutureContent(
       future: playlistsFuture,
+      mockData: () { return getMockedPlaylistList(10); },
       hasData: (d) => d.isNotEmpty,
       builder: (context, playlists) {
         return EntityCardGrid(

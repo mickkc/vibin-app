@@ -3,6 +3,7 @@ import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/user/user.dart';
+import 'package:vibin_app/mock/mock_user.dart';
 import 'package:vibin_app/pages/edit/user_edit_page.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_activity_tab.dart';
 import 'package:vibin_app/pages/info/user/tabs/user_info_tab.dart';
@@ -86,6 +87,7 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
         children: [
           FutureContent(
             future: _userFuture,
+            mockData: () { return getMockedUser(); },
             builder: (context, user) {
               return Row(
                 spacing: 16,
@@ -154,6 +156,7 @@ class _UserInfoPageState extends State<UserInfoPage> with SingleTickerProviderSt
               children: [
                 FutureContent(
                   future: _userFuture,
+                  mockData: () { return getMockedUser(); },
                   builder: (context, user) {
                     return UserInfoTab(user: user);
                   }

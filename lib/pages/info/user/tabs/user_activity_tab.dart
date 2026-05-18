@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:vibin_app/mock/mock_misc.dart';
 import 'package:vibin_app/sections/section_header.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
 import 'package:vibin_app/widgets/entity_card_row.dart';
@@ -24,6 +26,7 @@ class UserActivityTab extends StatelessWidget {
     return SingleChildScrollView(
       child: FutureContent(
         future: _activityFuture,
+        mockData: () { return getMockedUserActivity(); },
         hasData: (a) => a.recentTracks.isNotEmpty || a.topTracks.isNotEmpty || a.topArtists.isNotEmpty,
         errorWidget: Column(
           spacing: 16,
@@ -48,7 +51,7 @@ class UserActivityTab extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SectionHeader(title: lm.user_activity_last_tracks),
+              Skeleton.keep(child: SectionHeader(title: lm.user_activity_last_tracks)),
               SizedBox(
                 height: 205,
                 child: EntityCardRow(
@@ -57,7 +60,7 @@ class UserActivityTab extends StatelessWidget {
                 ),
               ),
 
-              SectionHeader(title: lm.user_activity_top_tracks),
+              Skeleton.keep(child: SectionHeader(title: lm.user_activity_top_tracks)),
               SizedBox(
                 height: 205,
                 child: EntityCardRow(
@@ -66,7 +69,7 @@ class UserActivityTab extends StatelessWidget {
                 ),
               ),
 
-              SectionHeader(title: lm.user_activity_top_artists),
+              Skeleton.keep(child: SectionHeader(title: lm.user_activity_top_artists)),
               SizedBox(
                 height: 205,
                 child: EntityCardRow(
