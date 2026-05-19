@@ -63,6 +63,7 @@
 
   "stats_total_tracks_duration": "Total Duration",
   "stats_total_plays": "Played Tracks",
+  "stats_total_listen_duration": "Total play time",
 
   "section_view_all": "View all",
   "section_no_data": "No data available",

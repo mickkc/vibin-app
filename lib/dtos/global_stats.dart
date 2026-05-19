@@ -6,6 +6,7 @@ class GlobalStats {
   final int totalPlaylists;
   final int totalUsers;
   final int totalPlays;
+  final int totalListenDuration;
 
   GlobalStats({
     required this.totalTracks,
@@ -15,6 +16,7 @@ class GlobalStats {
     required this.totalPlaylists,
     required this.totalUsers,
     required this.totalPlays,
+    required this.totalListenDuration
   });
 
   factory GlobalStats.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class GlobalStats {
       totalPlaylists: json['totalPlaylists'],
       totalUsers: json['totalUsers'],
       totalPlays: json['totalPlays'],
+      totalListenDuration: json['totalListenDuration']
     );
   }
 }

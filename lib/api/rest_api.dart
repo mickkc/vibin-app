@@ -11,6 +11,7 @@ import 'package:vibin_app/dtos/artist_dicography.dart';
 import 'package:vibin_app/dtos/favorite_check_response.dart';
 import 'package:vibin_app/dtos/favorites.dart';
 import 'package:vibin_app/dtos/global_stats.dart';
+import 'package:vibin_app/dtos/listen_duration.dart';
 import 'package:vibin_app/dtos/login_result.dart';
 import 'package:vibin_app/dtos/lyrics.dart';
 import 'package:vibin_app/dtos/lyrics_metadata.dart';
@@ -275,6 +276,9 @@ abstract class ApiService {
 
   @GET("/api/stats/global")
   Future<GlobalStats> getGlobalStats();
+
+  @GET("/api/stats/tracks/{trackId}/duration")
+  Future<ListenDuration> getUserListenDurationForTrack(@Path("trackId") int trackId);
 
   // Streams
 

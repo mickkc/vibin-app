@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/mock/mock_tracks.dart';
 import 'package:vibin_app/widgets/tag_widget.dart';
+import 'package:vibin_app/widgets/track_listen_duration.dart';
 
 import '../api/api_manager.dart';
 import '../l10n/app_localizations.dart';
@@ -93,6 +94,8 @@ class TrackInfoView extends StatelessWidget {
                 children: [
                   if (track.duration != null)
                     IconText(icon: Icons.schedule, text: "${(track.duration! / 1000 / 60).floor()}:${((track.duration! / 1000) % 60).round().toString().padLeft(2, '0')}"),
+
+                  TrackListenDuration(trackId),
 
                   if (track.year != null)
                     IconText(icon: Icons.date_range, text: track.year!.toString()),

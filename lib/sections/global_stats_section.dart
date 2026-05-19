@@ -67,6 +67,7 @@ class GlobalStatsSection extends StatelessWidget {
                   _statsCard(context, lm.playlists, stats.totalPlaylists.toString()),
                   _statsCard(context, lm.users, stats.totalUsers.toString()),
                   _statsCard(context, lm.stats_total_plays, stats.totalPlays.toString()),
+                  _statsCard(context, lm.stats_total_listen_duration, getDurationString(stats.totalListenDuration))
                 ],
               ),
             );

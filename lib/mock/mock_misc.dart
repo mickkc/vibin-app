@@ -17,7 +17,8 @@ GlobalStats getMockedGlobalStats() {
     totalAlbums: 999,
     totalPlaylists: 99,
     totalUsers: 99,
-    totalPlays: 99999
+    totalPlays: 99999,
+    totalListenDuration: 1753798
   );
 }
 
