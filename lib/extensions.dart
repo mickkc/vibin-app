@@ -18,6 +18,11 @@ extension HexColor on Color {
       '${((r * 255.0).round() & 0xff).toRadixString(16).padLeft(2, '0')}'
       '${((g * 255.0).round() & 0xff).toRadixString(16).padLeft(2, '0')}'
       '${((b * 255.0).round() & 0xff).toRadixString(16).padLeft(2, '0')}';
+
+  String toHexWithoutAlpha({bool leadingHashSign = true}) => '${leadingHashSign ? '#' : ''}'
+      '${((r * 255.0).round() & 0xff).toRadixString(16).padLeft(2, '0')}'
+      '${((g * 255.0).round() & 0xff).toRadixString(16).padLeft(2, '0')}'
+      '${((b * 255.0).round() & 0xff).toRadixString(16).padLeft(2, '0')}';
 }
 
 String formatDurationMs(int milliseconds) {

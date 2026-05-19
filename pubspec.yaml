@@ -63,6 +63,8 @@ dependencies:
 
   uuid: ^4.5.2
 
+  flutter_svg: ^2.3.0
+
 dependency_overrides:
   analyzer: ^8.2.0
 
@@ -86,3 +88,5 @@ flutter:
     - assets/icons/icon.png
     - assets/icons/app_icon.ico
     - assets/images/checkerboard.png
+    - assets/images/error.svg
+    - assets/images/search.svg

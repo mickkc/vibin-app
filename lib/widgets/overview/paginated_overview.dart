@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vibin_app/dtos/pagination/album_pagination.dart';
+import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/mock/mock_misc.dart';
 import 'package:vibin_app/pages/column_page.dart';
@@ -10,6 +10,7 @@ import 'package:vibin_app/widgets/entity_card_grid.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/overview/overview_header.dart';
 import 'package:vibin_app/widgets/pagination_footer.dart';
+import 'package:vibin_app/widgets/themed_svg.dart';
 
 class PaginatedOverview extends StatefulWidget {
   final Function(int page, int pageSize, String searchQuery) fetchFunction;
@@ -117,7 +118,22 @@ class _PaginatedOverviewState extends State<PaginatedOverview> {
                 )
               ],
             );
-          }
+          },
+          emptyWidget: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 8,
+              children: [
+                ThemedSvg(assetPath: "assets/images/search.svg", width: 256, height: 256),
+                Text(
+                  AppLocalizations.of(context)!.section_search_no_results,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
         )
       ],
     );
