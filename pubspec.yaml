@@ -88,5 +88,4 @@ flutter:
     - assets/icons/icon.png
     - assets/icons/app_icon.ico
     - assets/images/checkerboard.png
-    - assets/images/error.svg
     - assets/images/search.svg
