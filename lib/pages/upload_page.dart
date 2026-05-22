@@ -8,10 +8,10 @@ import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/dtos/uploads/pending_upload.dart';
-import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/pages/edit/track_edit_page.dart';
 import 'package:vibin_app/pages/loading_overlay.dart';
 import 'package:vibin_app/utils/error_handler.dart';
+import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
 import '../api/api_manager.dart';
@@ -30,33 +30,21 @@ class UploadPage extends StatefulWidget {
 class _UploadPageState extends State<UploadPage> {
 
   List<PendingUpload> _pendingUploads = [];
-
-  bool _initialized = false;
+  late final Future<List<PendingUpload>> _uploadsFuture;
 
   late final _lm = AppLocalizations.of(context)!;
+  late final _theme = Theme.of(context);
   final _apiManager = getIt<ApiManager>();
   final _loadingOverlay = getIt<LoadingOverlay>();
   final _encoder = Base64Encoder();
 
   @override
   void initState() {
-
     super.initState();
-
-    _apiManager.service.getPendingUploads()
-      .then((uploads) {
-        setState(() {
-          _pendingUploads = uploads;
-          _initialized = true;
-        });
-      })
-      .catchError((e, st) {
-        log("An error occurred while fetching pending uploads: $e", error: e, level: Level.error.value);
-        if (mounted) ErrorHandler.showErrorDialog(context, _lm.uploads_fetch_error, error: e, stackTrace: st);
-        setState(() {
-          _initialized = true;
-        });
-      });
+    _uploadsFuture = _apiManager.service.getPendingUploads().then((uploads) {
+      if (mounted) setState(() => _pendingUploads = uploads);
+      return uploads;
+    });
   }
 
   void _openEditDialog(PendingUpload upload) async {
@@ -71,7 +59,6 @@ class _UploadPageState extends State<UploadPage> {
               onClose: () => Navigator.of(context).pop(),
               pendingUpload: upload,
               onSave: (data) async {
-
                 try {
                   final updatedUpload = await _apiManager.service.updatePendingUpload(upload.id, data);
                   setState(() {
@@ -155,10 +142,7 @@ class _UploadPageState extends State<UploadPage> {
     }
   }
 
-  void _applyUpload(PendingUpload upload) async {
-
-    if (mounted) _loadingOverlay.show(context);
-
+  Future<void> _applyUploadedFile(PendingUpload upload, {bool showSnackbar = true}) async {
     try {
       final result = await _apiManager.service.applyPendingUpload(upload.id);
 
@@ -166,7 +150,7 @@ class _UploadPageState extends State<UploadPage> {
         setState(() {
           _pendingUploads.removeWhere((u) => u.id == upload.id);
         });
-        if (mounted) {
+        if (mounted && showSnackbar) {
           showActionSnackBar(
             context,
             _lm.uploads_apply_success(upload.title),
@@ -190,27 +174,74 @@ class _UploadPageState extends State<UploadPage> {
       log("An error occurred while applying pending upload: $e", error: e, level: Level.error.value);
       if (mounted) ErrorHandler.showErrorDialog(context, _lm.uploads_apply_error(upload.title), error: e, stackTrace: st);
     }
+  }
+
+  void _applyUpload(PendingUpload upload) async {
+
+    if (mounted) _loadingOverlay.show(context);
+
+    try {
+      await _applyUploadedFile(upload);
+    }
     finally {
       _loadingOverlay.hide();
     }
   }
 
-  Future<void> _deleteUpload(PendingUpload upload) async {
-    final confirmed = await Dialogs.showConfirmDialog(context, _lm.uploads_delete_confirm_title, _lm.uploads_delete_confirm_message);
-    if (!confirmed) return;
+  void _applyAll() async {
 
     if (mounted) _loadingOverlay.show(context);
 
+    try {
+      while (_pendingUploads.isNotEmpty) {
+        await _applyUploadedFile(_pendingUploads.first, showSnackbar: false);
+      }
+    }
+    finally {
+      _loadingOverlay.hide();
+    }
+  }
+
+  Future<void> _deleteUploadedFile(PendingUpload upload, { bool showSnackbar = true }) async {
     try {
       await _apiManager.service.deletePendingUpload(upload.id);
       setState(() {
         _pendingUploads.removeWhere((u) => u.id == upload.id);
       });
-      if (mounted) showSnackBar(context, _lm.uploads_delete_success);
+      if (mounted && showSnackbar) showSnackBar(context, _lm.uploads_delete_success);
     }
     catch (e, st) {
       log("An error occurred while deleting pending upload: $e", error: e, level: Level.error.value);
       if (mounted) ErrorHandler.showErrorDialog(context, _lm.uploads_delete_error, error: e, stackTrace: st);
+    }
+  }
+
+  void _deleteUpload(PendingUpload upload) async {
+    if (!await Dialogs.showConfirmDialog(context, _lm.uploads_delete_confirm_title, _lm.uploads_delete_confirm_message)) {
+      return;
+    }
+
+    if (mounted) _loadingOverlay.show(context);
+
+    try {
+      await _deleteUploadedFile(upload);
+    }
+    finally {
+      _loadingOverlay.hide();
+    }
+  }
+
+  void _deleteAll() async {
+    if (!await Dialogs.showConfirmDialog(context, _lm.uploads_delete_all_confirm_title, _lm.uploads_delete_all_confirm_message)) {
+      return;
+    }
+
+    if (mounted) _loadingOverlay.show(context);
+
+    try {
+      while (_pendingUploads.isNotEmpty) {
+        await _deleteUploadedFile(_pendingUploads.first, showSnackbar: false);
+      }
     }
     finally {
       _loadingOverlay.hide();
@@ -219,56 +250,104 @@ class _UploadPageState extends State<UploadPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ColumnPage(
+    return Column(
       children: [
-
-        ElevatedButton.icon(
-          onPressed: _uploadFiles,
-          label: Text(_lm.uploads_upload_file),
-          icon: const Icon(Icons.upload_file),
-        ),
-
-        if (!_initialized)
-          const Center(child: CircularProgressIndicator())
-        else if (_pendingUploads.isEmpty)
-          Center(
-            child: Text(_lm.uploads_no_uploads),
-          )
-        else
-          SuperListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: _pendingUploads.length,
-            itemBuilder: (context, index) {
-              final upload = _pendingUploads[index];
-              return ListTile(
-                leading: NetworkImageWidget(
-                  url: "/api/uploads/${upload.id}/cover",
-                  width: 44,
-                  height: 44,
-                  fit: BoxFit.cover,
-                  borderRadius: BorderRadius.circular(4),
+        Expanded(
+          child: FutureContent(
+            future: _uploadsFuture,
+            hasData: (_) => _pendingUploads.isNotEmpty,
+            emptyWidget: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              spacing: 16,
+              children: [
+                Text(_lm.uploads_no_uploads, style: Theme.of(context).textTheme.headlineSmall),
+                ElevatedButton.icon(
+                  onPressed: _uploadFiles,
+                  label: Text(_lm.uploads_upload_file),
+                  icon: const Icon(Icons.upload_file),
                 ),
-                title: Text(upload.title),
-                subtitle: Text("${upload.album?.title} - ${upload.artists.map((a) => a.name).join(", ")}"),
-                onTap: () => _openEditDialog(upload),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: 8,
-                  children: [
-                    IconButton(
-                      onPressed: () => _deleteUpload(upload),
-                      icon: const Icon(Icons.delete)
+              ],
+            ),
+            builder: (context, _) {
+              return SuperListView.builder(
+                itemCount: _pendingUploads.length,
+                itemBuilder: (context, index) {
+                  final upload = _pendingUploads[index];
+                  return ListTile(
+                    leading: NetworkImageWidget(
+                      url: "/api/uploads/${upload.id}/cover",
+                      width: 44,
+                      height: 44,
+                      fit: BoxFit.cover,
+                      borderRadius: BorderRadius.circular(4),
                     ),
-                    IconButton(
-                      onPressed: () => _applyUpload(upload),
-                      icon: const Icon(Icons.done)
+                    title: Text(upload.title),
+                    subtitle: Text("${upload.album?.title} - ${upload.artists.map((a) => a.name).join(", ")}"),
+                    onTap: () => _openEditDialog(upload),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      spacing: 8,
+                      children: [
+                        IconButton(
+                          onPressed: () => _deleteUpload(upload),
+                          icon: const Icon(Icons.delete)
+                        ),
+                        IconButton(
+                          onPressed: () => _applyUpload(upload),
+                          icon: const Icon(Icons.done)
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  );
+                },
               );
             },
-          )
+          ),
+        ),
+
+        if (_pendingUploads.isNotEmpty)
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                spacing: 8,
+                children: [
+                  if (constraints.maxWidth > 560)
+                    ElevatedButton.icon(
+                      onPressed: _applyAll,
+                      label: Text(_lm.uploads_apply_all),
+                      icon: const Icon(Icons.done_all),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _theme.colorScheme.secondaryContainer,
+                        foregroundColor: _theme.colorScheme.onSecondaryContainer,
+                      ),
+                    ),
+                  ElevatedButton.icon(
+                    onPressed: _uploadFiles,
+                    label: Text(_lm.uploads_upload_file, style: TextStyle(fontSize: _theme.textTheme.titleLarge?.fontSize),),
+                    icon: const Icon(Icons.upload_file),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _theme.colorScheme.primaryContainer,
+                      foregroundColor: _theme.colorScheme.onPrimaryContainer,
+                      iconSize: _theme.textTheme.titleLarge?.fontSize
+                    ),
+                  ),
+                  if (constraints.maxWidth > 560)
+                    ElevatedButton.icon(
+                      onPressed: _deleteAll,
+                      label: Text(_lm.uploads_delete_all),
+                      icon: const Icon(Icons.delete_forever),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _theme.colorScheme.errorContainer,
+                        foregroundColor: _theme.colorScheme.onErrorContainer,
+                      ),
+                    ),
+                ],
+              );
+            }
+          ),
       ]
     );
   }

@@ -676,6 +676,8 @@
   "uploads_no_uploads": "No pending uploads found.",
   "uploads_edit_save_error": "An error occurred while saving the upload.",
   "uploads_upload_file": "Upload File",
+  "uploads_apply_all": "Apply all",
+  "uploads_delete_all": "Delete all",
   "uploads_upload_error": "An error occurred while uploading the file {fileName}.",
   "uploads_upload_error_file_exists": "Upload failed: This file already exists.",
   "uploads_upload_error_invalid_file": "Upload failed: The selected file is not a valid audio file.",
@@ -688,6 +690,8 @@
 
   "uploads_delete_confirm_title": "Delete Upload",
   "uploads_delete_confirm_message": "Are you sure you want to delete this upload? This action cannot be undone.",
+  "uploads_delete_all_confirm_title": "Delete all uploads",
+  "uploads_delete_all_confirm_message": "Are you sure you want to delete all listed uploads? This action cannot be undone.",
   "uploads_delete_success": "Upload deleted successfully.",
   "uploads_delete_error": "An error occurred while deleting the upload."
 }

@@ -678,6 +678,8 @@
   "uploads_no_uploads": "Es wurden keine ausstehenden Uploads gefunden.",
   "uploads_edit_save_error": "Beim Speichern des Uploads ist ein Fehler aufgetreten.",
   "uploads_upload_file": "Datei hochladen",
+  "uploads_apply_all": "Alle anwenden",
+  "uploads_delete_all": "Alle löschen",
   "uploads_upload_error": "Beim Hochladen der Datei {fileName} ist ein Fehler aufgetreten.",
   "uploads_upload_error_file_exists": "Upload fehlgeschlagen: Diese Datei existiert bereits.",
   "uploads_upload_error_invalid_file": "Upload fehlgeschlagen: Ungültige Datei.",
@@ -690,6 +692,9 @@
 
   "uploads_delete_confirm_title": "Upload löschen",
   "uploads_delete_confirm_message": "Möchtest du diesen Upload wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "uploads_delete_all_confirm_title": "Alle uploads löschen",
+  "uploads_delete_all_confirm_message": "Möchtest du alle aufgelisteten Uploads wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
   "uploads_delete_success": "Der Upload wurde erfolgreich gelöscht.",
+  "uploads_delete_all_success": "Alle Uploads wurden gelöscht.",
   "uploads_delete_error": "Beim Löschen des Uploads ist ein Fehler aufgetreten."
 }
