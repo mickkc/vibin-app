@@ -730,5 +730,15 @@
   "batch_edit_actions_regenerate_file_metadata_description": "Regeneriert Metadaten wie Bitrate, Dauer, Sample-Rate, etc. für die gewählten Titel.",
 
   "batch_edit_run": "Starten",
-  "batch_edit_dry_run": "Testen"
+  "batch_edit_dry_run": "Testen",
+
+  "batch_edit_run_error": "Bei der Stapelverarbeitung ist ein Fehler aufgetreten.",
+
+  "batch_edit_report_title": "Ergebnisse",
+  "batch_edit_report_affected_tracks": "Betroffene Titel",
+  "batch_edit_report_affected_fields": "Betroffene Felder",
+  "batch_edit_report_written_to_database": "Datenbank verändert",
+  "batch_edit_report_field_listen_duration": "Hörzeit",
+  "batch_edit_report_field_file_metadata": "Datei-Metadaten",
+  "batch_edit_report_field_empty": "<leer>"
 }

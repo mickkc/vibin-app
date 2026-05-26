@@ -13,7 +13,7 @@ class ErrorHandler {
       context: context,
       builder: (context) => ErrorDialog(
         errorMessage: errorMessage,
-        error: (error != null && error is Exception) ? error : null,
+        error: (error != null && error is Error) ? error : null,
         stackTrace: stackTrace,
       ),
     );
@@ -23,7 +23,7 @@ class ErrorHandler {
 
 class ErrorDialog extends StatelessWidget {
   final String errorMessage;
-  final Exception? error;
+  final Error? error;
   final StackTrace? stackTrace;
 
   const ErrorDialog({

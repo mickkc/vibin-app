@@ -10,11 +10,13 @@ import 'package:vibin_app/batch/regenerate_file_metadata_action.dart';
 import 'package:vibin_app/batch/regex_replace_action.dart';
 import 'package:vibin_app/batch/reset_listening_duration_action.dart';
 import 'package:vibin_app/batch/tags_action.dart';
+import 'package:vibin_app/dtos/batch/batch_edit.dart';
 import 'package:vibin_app/dtos/track/minimal_track.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/utils/error_handler.dart';
+import 'package:vibin_app/widgets/batch_changes_dialog.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
 
 import '../sections/section_header.dart';
@@ -143,6 +145,25 @@ class _BatchEditPageState extends State<BatchEditPage> {
     setState(() {
       _actions.remove(action);
     });
+  }
+
+  void _run(bool dry) async {
+    final dto = BatchEdit(
+      _useAdvancedQuery ? null : _selectedTracks,
+      _useAdvancedQuery ? _searchQueryTextController.text : null,
+      _actions.map((a) => a.dataToJson()).toList(),
+      dry
+    );
+
+    try {
+      final result = await _api.service.batchEditTracks(dto);
+      if (mounted) BatchChangesDialog.show(context, result, dto);
+    }
+    catch (e, st) {
+      if (mounted) {
+        ErrorHandler.showErrorDialog(context, _lm.batch_edit_run_error, error: e, stackTrace: st);
+      }
+    }
   }
 
   @override
@@ -349,7 +370,7 @@ class _BatchEditPageState extends State<BatchEditPage> {
           spacing: 8,
           children: [
             ElevatedButton.icon(
-              onPressed: (){},
+              onPressed: (){ _run(true); },
               icon: const Icon(Icons.remove_red_eye),
               label: Text(_lm.batch_edit_dry_run),
               style: ElevatedButton.styleFrom(
@@ -358,7 +379,7 @@ class _BatchEditPageState extends State<BatchEditPage> {
               ),
             ),
             ElevatedButton.icon(
-              onPressed: (){},
+              onPressed: (){ _run(false); },
               label: Text(_lm.batch_edit_run),
               icon: const Icon(Icons.play_arrow),
             )

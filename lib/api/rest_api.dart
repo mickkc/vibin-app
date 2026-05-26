@@ -8,6 +8,7 @@ import 'package:vibin_app/dtos/album/album_info_metadata.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/artist/artist_metadata.dart';
 import 'package:vibin_app/dtos/artist_dicography.dart';
+import 'package:vibin_app/dtos/batch/batch_edit.dart';
 import 'package:vibin_app/dtos/favorite_check_response.dart';
 import 'package:vibin_app/dtos/favorites.dart';
 import 'package:vibin_app/dtos/global_stats.dart';
@@ -48,6 +49,7 @@ import 'package:vibin_app/dtos/user_activity.dart';
 import 'package:vibin_app/dtos/widgets/create_widget.dart';
 
 import '../dtos/artist/artist_edit_data.dart';
+import '../dtos/batch/batch_edit_result.dart';
 import '../dtos/create_metadata.dart';
 import '../dtos/tasks/task_dto.dart';
 import '../dtos/uploads/pending_upload.dart';
@@ -386,6 +388,9 @@ abstract class ApiService {
 
   @DELETE("/api/tracks/{id}/related")
   Future<Success> removeRelatedTrack(@Path("id") int trackId, @Query("relatedTrackId") int relatedTrackId);
+
+  @POST("/api/tracks/edit/batch")
+  Future<BatchEditResult> batchEditTracks(@Body() BatchEdit batchEdit);
 
   // Uploads
 

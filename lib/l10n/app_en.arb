@@ -727,5 +727,14 @@
   "batch_edit_actions_regenerate_file_metadata_description": "Regenerates metadata like bitrate, duration, sample rate, etc. for all selected tracks.",
 
   "batch_edit_run": "Run",
-  "batch_edit_dry_run": "Dry run"
+  "batch_edit_dry_run": "Dry run",
+  "batch_edit_run_error": "An error occurred while batch-editing tracks.",
+
+  "batch_edit_report_title": "Results",
+  "batch_edit_report_affected_tracks": "Affected tracks",
+  "batch_edit_report_affected_fields": "Affected fields",
+  "batch_edit_report_written_to_database": "Database modified",
+  "batch_edit_report_field_listen_duration": "Listening duration",
+  "batch_edit_report_field_file_metadata": "File metadata",
+  "batch_edit_report_field_empty": "<empty>"
 }
