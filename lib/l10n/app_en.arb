@@ -345,6 +345,7 @@
   "pick_album_create_new": "Create New Album ''{name}''",
   "pick_album_create_error": "An error occurred while creating the album.",
 
+  "pick_playlist_title": "Select Playlist",
   "pick_playlist_create_new": "Create New Playlist ''{name}''",
   "pick_playlist_create_error": "An error occurred while creating the playlist.",
   "pick_playlist_track_add_error": "An error occurred while adding the track to the playlist.",
@@ -693,5 +694,38 @@
   "uploads_delete_all_confirm_title": "Delete all uploads",
   "uploads_delete_all_confirm_message": "Are you sure you want to delete all listed uploads? This action cannot be undone.",
   "uploads_delete_success": "Upload deleted successfully.",
-  "uploads_delete_error": "An error occurred while deleting the upload."
+  "uploads_delete_error": "An error occurred while deleting the upload.",
+
+  "batch_edit_title": "Bulk edit",
+  "batch_edit_selection_source": "Tracks",
+  "batch_edit_selection_manual": "Select manually",
+  "batch_edit_selection_search_language": "Advanced search",
+  "batch_edit_search_language_open_wiki": "Open wiki",
+  "batch_edit_selected_track_amount": "{amount} titles selected.",
+  "batch_edit_found_track_amount": "Found {amount} tracks.",
+  "batch_edit_track_search_failed": "An error occurred while searching for tracks.",
+  "batch_edit_track_advanced_search_failed": "An error occurred while searching for tracks. Check your search and try again.",
+  "batch_edit_tracks_empty": "No tracks selected. Search and select the tracks you want to modify.",
+  "batch_edit_tracks_load_more": "Load more",
+  "batch_edit_actions_title": "Actions",
+  "batch_edit_actions_empty": "No actions selected. Click the + to add an action.",
+
+  "batch_edit_actions_add_tags": "Add tags",
+  "batch_edit_actions_remove_tags": "Remove tags",
+  "batch_edit_actions_add_to_playlist": "Add to playlist",
+  "batch_edit_actions_remove_from_playlist": "Remove from playlist",
+  "batch_edit_actions_change_title": "Change title",
+  "batch_edit_actions_change_comment": "Change comment",
+  "batch_edit_actions_remove_listen_duration": "Reset listening duration",
+  "batch_edit_actions_regenerate_file_metadata": "Regenerate file metadata",
+  "batch_edit_actions_change_album": "Change album",
+
+  "batch_edit_actions_regex_old": "Text to replace (RegEx)",
+  "batch_edit_actions_regex_new": "Replacement (Supports RegEx groups)",
+
+  "batch_edit_actions_remove_listen_duration_description": "The duration how long the selected tracks have been listened to will be reset to 0 seconds, for all users.",
+  "batch_edit_actions_regenerate_file_metadata_description": "Regenerates metadata like bitrate, duration, sample rate, etc. for all selected tracks.",
+
+  "batch_edit_run": "Run",
+  "batch_edit_dry_run": "Dry run"
 }

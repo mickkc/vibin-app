@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main_layout.dart';
+import 'package:vibin_app/pages/batch_edit_page.dart';
 import 'package:vibin_app/pages/drawer.dart';
 import 'package:vibin_app/pages/edit/album_edit_page.dart';
 import 'package:vibin_app/pages/edit/artist_edit_page.dart';
@@ -163,6 +164,7 @@ GoRouter configureRouter(AuthState authState) {
           GoRoute(path: '/widgets', builder: (context, state) => const WidgetManagementPage()),
           GoRoute(path: '/uploads', builder: (context, state) => const UploadPage()),
           GoRoute(path: '/glance', builder: (context, state) => const GlancePage()),
+          GoRoute(path: '/bulk', builder: (context, state) => const BatchEditPage()),
         ],
       )
     ],

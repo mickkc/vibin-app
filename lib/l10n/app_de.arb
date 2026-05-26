@@ -346,6 +346,7 @@
   "pick_album_create_new": "Neues Album ''{name}'' erstellen",
   "pick_album_create_error": "Beim Erstellen des Albums ist ein Fehler aufgetreten.",
 
+  "pick_playlist_title": "Playlist auswählen",
   "pick_playlist_create_new": "Neue Playlist ''{name}'' erstellen",
   "pick_playlist_create_error": "Beim Erstellen der Playlist ist ein Fehler aufgetreten.",
   "pick_playlist_track_add_error": "Beim Hinzufügen des Titels zur Playlist ist ein Fehler aufgetreten.",
@@ -696,5 +697,38 @@
   "uploads_delete_all_confirm_message": "Möchtest du alle aufgelisteten Uploads wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
   "uploads_delete_success": "Der Upload wurde erfolgreich gelöscht.",
   "uploads_delete_all_success": "Alle Uploads wurden gelöscht.",
-  "uploads_delete_error": "Beim Löschen des Uploads ist ein Fehler aufgetreten."
+  "uploads_delete_error": "Beim Löschen des Uploads ist ein Fehler aufgetreten.",
+
+  "batch_edit_title": "Stapelbearbeitung",
+  "batch_edit_selection_source": "Titel",
+  "batch_edit_selection_manual": "Manuell auswählen",
+  "batch_edit_selection_search_language": "Erweiterte Suche",
+  "batch_edit_search_language_open_wiki": "Wiki öffnen",
+  "batch_edit_selected_track_amount": "{amount} Titel ausgewählt.",
+  "batch_edit_found_track_amount": "{amount} Titel gefunden.",
+  "batch_edit_track_search_failed": "Beim Suchen nach Titel ist ein Fehler aufgetreten.",
+  "batch_edit_track_advanced_search_failed": "Beim Suchen nach Titel ist ein Fehler aufgetreten. Überprüfe den Suchbegriff und versuche es erneut.",
+  "batch_edit_tracks_empty": "Keine Titel ausgewählt. Suche nach Titeln und wähle die aus, die du bearbeiten möchtest.",
+  "batch_edit_tracks_load_more": "Mehr laden",
+  "batch_edit_actions_title": "Aktionen",
+  "batch_edit_actions_empty": "Keine Aktionen ausgewählt. Klicke auf das +, um eine Aktion hinzuzufügen.",
+
+  "batch_edit_actions_add_tags": "Tags hinzufügen",
+  "batch_edit_actions_remove_tags": "Tags entfernen",
+  "batch_edit_actions_add_to_playlist": "Zu Playlist hinzufügen",
+  "batch_edit_actions_remove_from_playlist": "Von Playlist entfernen",
+  "batch_edit_actions_change_title": "Titel aktualisieren",
+  "batch_edit_actions_change_comment": "Kommentar aktualisieren",
+  "batch_edit_actions_remove_listen_duration": "Hörzeit zurücksetzen",
+  "batch_edit_actions_regenerate_file_metadata": "Datei-Metadaten regenerieren",
+  "batch_edit_actions_change_album": "Album ändern",
+
+  "batch_edit_actions_regex_old": "Zu ersetzender Text (RegEx)",
+  "batch_edit_actions_regex_new": "Ersatz (Unterstützt RegEx Gruppen)",
+
+  "batch_edit_actions_remove_listen_duration_description": "Die Dauer, wie lange die gewählten Titel gehört wurden, wird für alle Nutzer auf 0 Sekunden zurückgesetzt.",
+  "batch_edit_actions_regenerate_file_metadata_description": "Regeneriert Metadaten wie Bitrate, Dauer, Sample-Rate, etc. für die gewählten Titel.",
+
+  "batch_edit_run": "Starten",
+  "batch_edit_dry_run": "Testen"
 }

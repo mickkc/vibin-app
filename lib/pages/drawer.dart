@@ -89,17 +89,26 @@ class DrawerComponent extends StatelessWidget {
             onTap: () => _goTo(context, '/users'),
           ),
         const Divider(),
+        if (authState.hasAnyPermission([PermissionType.uploadTracks, PermissionType.manageTracks])) ... [
+          if (authState.hasPermission(PermissionType.uploadTracks))
+            ListTile(
+              leading: Icon(Icons.file_upload),
+              title: Text(lm.drawer_uploads),
+              onTap: () => _goTo(context, '/uploads'),
+            ),
+          if (authState.hasPermission(PermissionType.manageTracks))
+            ListTile(
+              leading: Icon(Icons.edit_note),
+              title: Text(lm.batch_edit_title),
+              onTap: () => _goTo(context, '/bulk'),
+            ),
+          const Divider()
+        ],
         if (authState.user != null)
           ListTile(
             leading: Icon(Icons.person),
             title: Text(lm.drawer_profile),
             onTap: () => _goTo(context, '/users/${authState.user!.id}'),
-          ),
-        if (authState.hasPermission(PermissionType.uploadTracks))
-          ListTile(
-            leading: Icon(Icons.file_upload),
-            title: Text(lm.drawer_uploads),
-            onTap: () => _goTo(context, '/uploads'),
           ),
         ListTile(
           leading: Icon(Icons.settings),
