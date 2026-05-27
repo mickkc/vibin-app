@@ -27,8 +27,7 @@ import 'auth/auth_state.dart';
 final getIt = GetIt.instance;
 
 final supportedServerVersions = [
-  "0.0.1-beta.8",
-  "0.0.1-beta.9"
+  "0.0.1-beta.10"
 ];
 
 void main() async {
