@@ -1,13 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/widgets/shared_widget.dart';
 import 'package:vibin_app/dtos/widgets/widget_type.dart';
-import 'package:vibin_app/extensions.dart';
-import 'package:vibin_app/main.dart';
 import 'package:vibin_app/utils/dialogs.dart';
+import 'package:vibin_app/utils/url_utils.dart';
 
 import '../l10n/app_localizations.dart';
 
@@ -16,22 +13,7 @@ class WidgetInfoDialog extends StatelessWidget {
 
   const WidgetInfoDialog({super.key, required this.widget});
 
-  String _getUrl() {
-    final apiManager = getIt<ApiManager>();
-
-    var baseUrl = apiManager.baseUrl;
-    if (kIsWeb && isEmbeddedMode()) {
-      final currentUri = Uri.base;
-      baseUrl = "${currentUri.scheme}://${currentUri.host}";
-      if (currentUri.hasPort && currentUri.port != 80 && currentUri.port != 443) {
-        baseUrl += ":${currentUri.port}";
-      }
-    }
-
-    baseUrl = baseUrl.replaceAll(RegExp(r'(/api)?/*$'), '');
-
-    return "$baseUrl/api/widgets/${widget.id}";
-  }
+  String _getUrl() => UrlUtils.getUrl("api/widgets/${widget.id}");
 
   String _getEmbedCode() {
     return "<iframe\n"

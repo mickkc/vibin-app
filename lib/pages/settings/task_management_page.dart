@@ -13,6 +13,7 @@ import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/utils/datetime_utils.dart';
 import 'package:vibin_app/utils/error_handler.dart';
+import 'package:vibin_app/utils/url_utils.dart';
 import 'package:vibin_app/widgets/settings/settings_title.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -54,7 +55,7 @@ class _TaskManagementPageState extends State<TaskManagementPage> {
 
     try {
       _socketChannel = WebSocketChannel.connect(
-        Uri.parse("${_apiManager.baseUrl.replaceFirst("http", "ws")}/api/tasks/progress?token=${_apiManager.accessToken}"),
+        Uri.parse(UrlUtils.getWsUrl("api/tasks/progress?token=${_apiManager.accessToken}")),
       );
       _socketSubscription = _socketChannel?.stream.listen((message) {
         try {

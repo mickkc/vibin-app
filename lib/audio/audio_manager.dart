@@ -21,6 +21,7 @@ import 'package:vibin_app/dtos/track/minimal_track.dart';
 import 'package:vibin_app/dtos/track/track.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
+import 'package:vibin_app/utils/url_utils.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../settings/settings_manager.dart';
@@ -360,8 +361,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   }
 
   String _getWsUrl() {
-    final baseUrl = _apiManager.baseUrl.replaceAll(RegExp(r'^http'), 'ws').replaceAll(RegExp(r'/+$'), '');
-    return "$baseUrl/ws/playback?token=${_apiManager.accessToken}";
+    return UrlUtils.getWsUrl("api/ws/playback?token=${_apiManager.accessToken}");
   }
 
   // endregion
@@ -1295,20 +1295,20 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     // TODO: Check if coverChecksum is null or expired, and return a default image URI if so.
 
     return Uri.parse(
-        "${_apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}"
-            "/api/images/by-checksum/${streamable.coverChecksum}"
+        UrlUtils.getUrl(
+            "api/images/by-checksum/${streamable.coverChecksum}"
             "?sig=${streamable.coverSignature}"
             "&exp=${streamable.coverExpiration}"
-            "&quality=${_settingsManager.get(Settings.metadataImageSize).pixelSize}");
+            "&quality=${_settingsManager.get(Settings.metadataImageSize).pixelSize}"));
   }
 
   /// Constructs the stream URL for the specified track ID and media token.
   /// If [bustCache] is true and running on web, adds a cache buster parameter.
   Uri _getStreamUrl(int trackId, Streamable streamable, {bool bustCache = false, Duration position = Duration.zero}) {
-    var baseUrl = "${_apiManager.baseUrl.replaceAll(RegExp(r'/+$'), '')}"
-            "/api/streams/$trackId"
+    var baseUrl = UrlUtils.getUrl(
+            "api/streams/$trackId"
             "?sig=${streamable.streamSignature}"
-            "&exp=${streamable.streamExpiration}";
+            "&exp=${streamable.streamExpiration}");
 
     // Apply transcoding settings (if enabled)
     if (_settingsManager.get(Settings.enableTranscoding)) {
