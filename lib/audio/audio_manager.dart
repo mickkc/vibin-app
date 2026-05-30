@@ -361,7 +361,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   }
 
   String _getWsUrl() {
-    return UrlUtils.getWsUrl("api/ws/playback?token=${_apiManager.accessToken}");
+    return UrlUtils.getWsUrl("ws/playback?token=${_apiManager.accessToken}");
   }
 
   // endregion
