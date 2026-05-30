@@ -17,16 +17,18 @@ class UserPlaylistsTab extends StatelessWidget {
     final apiManager = getIt<ApiManager>();
     final playlistsFuture = apiManager.service.getPlaylistsForUser(userId);
 
-    return FutureContent(
-      future: playlistsFuture,
-      mockData: () { return getMockedPlaylistList(10); },
-      hasData: (d) => d.isNotEmpty,
-      builder: (context, playlists) {
-        return EntityCardGrid(
-          items: playlists,
-          type: EntityCardType.playlist
-        );
-      }
+    return SingleChildScrollView(
+      child: FutureContent(
+        future: playlistsFuture,
+        mockData: () { return getMockedPlaylistList(10); },
+        hasData: (d) => d.isNotEmpty,
+        builder: (context, playlists) {
+          return EntityCardGrid(
+            items: playlists,
+            type: EntityCardType.playlist
+          );
+        }
+      ),
     );
   }
 }
