@@ -24,7 +24,7 @@ class ColoredIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = this.size ?? IconTheme.of(context).size ?? 24.0;
     return ClipRRect(
-      borderRadius: BorderRadius.circular(size),
+      borderRadius: BorderRadius.circular(size * WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio),
       child: Container(
         color: backgroundColor,
         child: Padding(
