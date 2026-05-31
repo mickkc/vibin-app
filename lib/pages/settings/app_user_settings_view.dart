@@ -73,7 +73,7 @@ class _AppUserSettingsViewState extends State<AppUserSettingsView> {
               icon: Icons.visibility,
             ),
 
-            if (_blockedArtistsFuture != null)
+            if (_blockedArtistsFuture != null && _authState.hasPermission(PermissionType.viewArtists))
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: FutureContent(
@@ -105,7 +105,7 @@ class _AppUserSettingsViewState extends State<AppUserSettingsView> {
                 ),
               ),
 
-            if(_blockedTagsFuture != null)
+            if(_blockedTagsFuture != null && _authState.hasPermission(PermissionType.viewTags))
               Padding(
                 padding: const EdgeInsets.only(left: 16.0, bottom: 8.0),
                 child: FutureContent(
