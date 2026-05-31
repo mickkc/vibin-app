@@ -438,6 +438,23 @@
   "settings_app_blocked_tags_title": "Blocked Tags",
   "settings_app_blocked_tags_description": "Manage the list of tags you have blocked. Tracks with blocked tags will be hidden in overviews and search results.",
 
+
+  "settings_app_related_scores_title": "Recommendations",
+  "settings_app_related_scores_description": "Configure how similar tracks are determined and recommended. The score is calculated as: ('{Value}' × Artists) + Album + ('{Value}' × Matching Tags) - ('{Value}' × Non-matching Tags)",
+
+  "settings_app_related_scores_artists_title": "Artists",
+  "settings_app_related_scores_artists_description": "This value is added for every artist that appears in both tracks.",
+
+  "settings_app_related_scores_album_title": "Album",
+  "settings_app_related_scores_album_description": "This value is added if both tracks appear in the same album.",
+
+  "settings_app_related_scores_matching_tags_title": "Matching tags",
+  "settings_app_related_scores_matching_tags_description": "This value gets added for every tag that appears in both tracks.",
+
+  "settings_app_related_scores_not_matching_tags_title": "Non-matching tags",
+  "settings_app_related_scores_not_matching_tags_description": "This value is subtracted for every tag that appears in only one of the two tracks.",
+
+
   "settings_app_save_changes_error": "An error occurred while saving app settings.",
 
   "settings_app_streaming_title": "Streaming",

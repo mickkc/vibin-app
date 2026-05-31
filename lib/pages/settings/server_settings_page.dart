@@ -6,7 +6,7 @@ import 'package:vibin_app/dtos/metadata_fetch_type.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/settings/server/server_boolean_settings_field.dart';
-import 'package:vibin_app/widgets/settings/server/server_int_settings_field.dart';
+import 'package:vibin_app/widgets/settings/server/server_number_settings_field.dart';
 import 'package:vibin_app/widgets/settings/server/server_string_settings_field.dart';
 import 'package:vibin_app/widgets/settings/server/settings_string_dropdown_field.dart';
 import 'package:vibin_app/widgets/settings/server/string_list_setting.dart';
@@ -62,12 +62,13 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
               icon: Icons.translate,
             ),
 
-            ServerIntSettingsField(
+            ServerNumberSettingsField(
               settingKey: "metadata_limit",
               initialValue: settings.settings["metadata_limit"],
               title: _lm.settings_server_metadata_limit_title,
               description: _lm.settings_server_metadata_limit_description,
               icon: Icons.format_list_numbered,
+              parser: int.parse,
             ),
             
             ServerBooleanSettingsField(

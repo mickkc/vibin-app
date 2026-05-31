@@ -440,6 +440,23 @@
   "settings_app_blocked_tags_title": "Blockierte Tags",
   "settings_app_blocked_tags_description": "Verwalte die Liste der Tags, die du blockiert hast. Titel mit blockierten Tags werden in Übersichten und Suchergebnissen ausgeblendet.",
 
+
+  "settings_app_related_scores_title": "Empfehlungen",
+  "settings_app_related_scores_description": "Passe an, wie ähnliche Titel gesucht und empfohlen werden. Die gewichtung berechnet sich aus: ('{Wert}' × Künstler) + Album + ('{Wert}' × Übereinstimmende Tags) - ('{Wert}' × Nicht übereinstimmende Tags)",
+
+  "settings_app_related_scores_artists_title": "Künstler",
+  "settings_app_related_scores_artists_description": "Der Wert wird für jeden Künstler, der in beiden Titeln vorkommt, addiert.",
+
+  "settings_app_related_scores_album_title": "Album",
+  "settings_app_related_scores_album_description": "Der Wert wird addiert, wenn beide Titel im gleichen Album enthalten sind.",
+
+  "settings_app_related_scores_matching_tags_title": "Übereinstimmende Tags",
+  "settings_app_related_scores_matching_tags_description": "Der Wert wird für jedes Tag, das auf beide Titel zutrifft, addiert.",
+
+  "settings_app_related_scores_not_matching_tags_title": "Nicht übereinstimmende Tags",
+  "settings_app_related_scores_not_matching_tags_description": "Der Wert wird für jedes Tag, das nur auf einen der beiden Titel zutrifft, abgezogen.",
+
+
   "settings_app_save_changes_error": "Beim Speichern der App-Einstellungen ist ein Fehler aufgetreten.",
 
   "settings_app_streaming_title": "Streaming",

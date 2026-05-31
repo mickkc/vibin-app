@@ -1,11 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dialogs/artist_picker.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
+import 'package:vibin_app/dtos/permission_type.dart';
+import 'package:vibin_app/dtos/settings/settings_map.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/settings/server/server_boolean_settings_field.dart';
+import 'package:vibin_app/widgets/settings/server/server_number_settings_field.dart';
 import 'package:vibin_app/widgets/settings/server/server_multiple_selection_field.dart';
 import 'package:vibin_app/widgets/settings/server/server_tag_list_field.dart';
 import 'package:vibin_app/widgets/settings/settings_title.dart';
@@ -24,20 +28,27 @@ class AppUserSettingsView extends StatefulWidget {
 class _AppUserSettingsViewState extends State<AppUserSettingsView> {
 
   final _apiManager = getIt<ApiManager>();
-  late final _settingsFuture = _apiManager.service.getUserSettings().then((settings) {
-    _blockedArtistsFuture = _apiManager.service.getArtistsByIds(
-      (settings.settings["blocked_artists"] as List<dynamic>).cast<int>().join(",")
-    );
-    _blockedTagsFuture = _apiManager.service.getTagsByIds(
-      (settings.settings["blocked_tags"] as List<dynamic>).cast<int>().join(",")
-    );
-    return settings;
-  });
+  final _authState = getIt<AuthState>();
 
   Future<List<Artist>>? _blockedArtistsFuture;
   Future<List<Tag>>? _blockedTagsFuture;
+  late Future<SettingsMap> _settingsFuture;
 
   late final _lm = AppLocalizations.of(context)!;
+
+  @override
+  void initState() {
+    _settingsFuture = _apiManager.service.getUserSettings().then((settings) {
+      _blockedArtistsFuture = _apiManager.service.getArtistsByIds(
+          (settings.settings["blocked_artists"] as List<dynamic>).cast<int>().join(",")
+      );
+      _blockedTagsFuture = _apiManager.service.getTagsByIds(
+          (settings.settings["blocked_tags"] as List<dynamic>).cast<int>().join(",")
+      );
+      return settings;
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +107,7 @@ class _AppUserSettingsViewState extends State<AppUserSettingsView> {
 
             if(_blockedTagsFuture != null)
               Padding(
-                padding: const EdgeInsets.only(left: 16.0),
+                padding: const EdgeInsets.only(left: 16.0, bottom: 8.0),
                 child: FutureContent(
                   future: _blockedTagsFuture!,
                   builder: (context, tags) {
@@ -110,6 +121,50 @@ class _AppUserSettingsViewState extends State<AppUserSettingsView> {
                   }
                 ),
               ),
+
+            if (_authState.hasPermission(PermissionType.viewTracks)) ... [
+              const Divider(),
+              SettingsTitle(
+                title: _lm.settings_app_related_scores_title,
+                subtitle: _lm.settings_app_related_scores_description
+              ),
+
+              ServerNumberSettingsField(
+                settingKey: "related_artist_score_multiplier",
+                initialValue: settings.settings["related_artist_score_multiplier"],
+                title: _lm.settings_app_related_scores_artists_title,
+                description: _lm.settings_app_related_scores_artists_description,
+                icon: Icons.person,
+                parser: double.parse
+              ),
+
+              ServerNumberSettingsField(
+                settingKey: "related_album_score_multiplier",
+                initialValue: settings.settings["related_album_score_multiplier"],
+                title: _lm.settings_app_related_scores_album_title,
+                description: _lm.settings_app_related_scores_album_description,
+                icon: Icons.album,
+                parser: double.parse
+              ),
+
+              ServerNumberSettingsField(
+                settingKey: "related_tags_score_multiplier",
+                initialValue: settings.settings["related_tags_score_multiplier"],
+                title: _lm.settings_app_related_scores_matching_tags_title,
+                description: _lm.settings_app_related_scores_matching_tags_description,
+                icon: Icons.sell,
+                parser: double.parse
+              ),
+
+              ServerNumberSettingsField(
+                settingKey: "related_tags_negative_score_multiplier",
+                initialValue: settings.settings["related_tags_negative_score_multiplier"],
+                title: _lm.settings_app_related_scores_not_matching_tags_title,
+                description: _lm.settings_app_related_scores_not_matching_tags_description,
+                icon: Icons.label_off,
+                parser: double.parse
+              )
+            ]
           ],
         );
       },

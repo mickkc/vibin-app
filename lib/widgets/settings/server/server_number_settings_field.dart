@@ -8,38 +8,40 @@ import 'package:vibin_app/utils/error_handler.dart';
 import '../../../api/api_manager.dart';
 import '../../../main.dart';
 
-class ServerIntSettingsField extends StatefulWidget {
+class ServerNumberSettingsField<Number> extends StatefulWidget {
   final String settingKey;
-  final int initialValue;
+  final Number initialValue;
   final String title;
   final String? description;
   final IconData? icon;
+  final Number Function(String) parser;
 
-  const ServerIntSettingsField({
+  const ServerNumberSettingsField({
     super.key,
     required this.settingKey,
     required this.initialValue,
     required this.title,
     this.description,
     this.icon,
+    required this.parser
   });
 
   @override
-  State<ServerIntSettingsField> createState() => _ServerIntSettingsFieldState();
+  State<ServerNumberSettingsField> createState() => _ServerIntSettingsFieldState();
 }
 
-class _ServerIntSettingsFieldState extends State<ServerIntSettingsField> {
+class _ServerIntSettingsFieldState<Number> extends State<ServerNumberSettingsField<Number>> {
 
   final _apiManager = getIt<ApiManager>();
   late final _controller = TextEditingController(text: widget.initialValue.toString());
 
-  late int _currentValue = widget.initialValue;
-  late int _lastSavedValue = widget.initialValue;
+  late Number _currentValue = widget.initialValue;
+  late Number _lastSavedValue = widget.initialValue;
 
   Future<void> _save() async {
     try {
 
-      final parsedValue = int.tryParse(_controller.text);
+      final parsedValue = widget.parser(_controller.text);
 
       if (parsedValue == null) {
         return;
@@ -47,8 +49,8 @@ class _ServerIntSettingsFieldState extends State<ServerIntSettingsField> {
 
       final updated = await _apiManager.service.updateSetting(widget.settingKey, _controller.text);
       setState(() {
-        _controller.text = (updated.value as int).toString();
-        _lastSavedValue = updated.value as int;
+        _controller.text = (updated.value as Number).toString();
+        _lastSavedValue = updated.value as Number;
       });
     }
     catch (e, st) {
@@ -84,9 +86,14 @@ class _ServerIntSettingsFieldState extends State<ServerIntSettingsField> {
               keyboardType: TextInputType.number,
               onSubmitted: (_) => _save(),
               onChanged: (v) => setState(() {
-                final parsedValue = int.tryParse(v);
-                if (parsedValue != null) {
-                  _currentValue = parsedValue;
+                try {
+                  final parsedValue = widget.parser(v);
+                  if (parsedValue != null) {
+                    _currentValue = parsedValue;
+                  }
+                }
+                catch (e) {
+                  _currentValue = _lastSavedValue;
                 }
               })
             ),
