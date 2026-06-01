@@ -7,6 +7,38 @@ Please note that this project, just like the server, is still in its early stage
 > [!NOTE]
 > This is my first Flutter / Dart project, I am still learning the framework and the language.
 
+# Screenshots
+
+|                      **Track view**                       |            **Track view with lyrics sidebar**             |
+|:---------------------------------------------------------:|:---------------------------------------------------------:|
+|           ![Track view](screenshots/track.webp)           | ![Track view with lyrics](screenshots/track-lyrics.webp)  |
+|                      **Album view**                       |                      **Artist view**                      |
+|           ![Album view](screenshots/album.webp)           |          ![Artist view](screenshots/artist.webp)          |
+|                     **Playlist view**                     |           **Playlist collaboration selection**            |
+|       ![POlaylist view](screenshots/playlist.webp)        | ![Playlist Collaboration](screenshots/collaborators.webp) |
+|                    **Track overview**                     |                  **"Now playing" view**                   |
+|        ![Track overview](screenshots/tracks.webp)         |      ![Album overview](screenshots/now-playing.webp)      |
+|                 **Track metadata search**                 |                     **Lyrics search**                     |
+| ![Track metadata search](screenshots/metadata-track.webp) |    ![Lyrics search](screenshots/metadata-lyrics.webp)     |
+
+# Themes
+
+|                          **Material 3 Dark**                          |                      **Material 3 Light**                       |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------:|
+|      ![Material 3 Dark](screenshots/themes/material3-dark.webp)       |  ![Material 3 Light](screenshots/themes/material3-light.webp)   |
+|                           **Gruvbox Dark**                            |                        **Gruvbox Light**                        |
+|         ![Gruvbox Dark](screenshots/themes/gruvbox-dark.webp)         |     ![Gruvbox Light](screenshots/themes/gruvbox-light.webp)     |
+|                         **Catppuccin Latte**                          |                      **Catppuccin Frappé**                      |
+|     ![Catppuccin Latte](screenshots/themes/catppuccin-latte.webp)     | ![Catppuccin Frappé](screenshots/themes/catppuccin-frappe.webp) |
+|                       **Catppuccin Macchiato**                        |                      **Catppuccin Mocha**                       |
+| ![Catppuccin Macchiato](screenshots/themes/catppuccin-macchiato.webp) |  ![Catppuccin Mocha](screenshots/themes/catppuccin-mocha.webp)  |
+|                           **Dracular Dark**                           |                       **Dracular Light**                        |
+|        ![Dracular Dark](screenshots/themes/dracular-dark.webp)        |    ![Dracular Light](screenshots/themes/dracular-light.webp)    |
+|                             **Nord Dark**                             |                         **Nord Light**                          |
+|          ![Dracular Dark](screenshots/themes/nord-dark.webp)          |      ![Dracular Light](screenshots/themes/nord-light.webp)      |
+|                          **Solarized Dark**                           |                       **Solarized Light**                       |
+|       ![Solarized Dark](screenshots/themes/solarized-dark.webp)       |   ![Solarized Light](screenshots/themes/solarized-light.webp)   |
+
 # Feature Checklist
 
 - [x] Login / Logout
@@ -17,10 +49,10 @@ Please note that this project, just like the server, is still in its early stage
 - [ ] Test on Platforms
   - [x] Linux
   - [x] Android
-  - [x] iOS
-  - [x] macOS
+  - [ ] iOS
+  - [ ] macOS
   - [ ] Windows
-  - [ ] Web
+  - [x] Web
 - [x] Dark/Light mode
 - [x] ~~Dynamic color scheme~~ (Dropped in favor of manual color schemes due to complexity)
 - [x] Manual color schemes
@@ -105,7 +137,7 @@ Please note that this project, just like the server, is still in its early stage
   - [x] Edit users
   - [x] Create users
   - [x] Delete users
-- [ ] User view
+- [x] User view
   - [x] Top tracks (when permitted by user)
   - [x] Top artists (when permitted by user)
   - [x] Recent activity (when permitted by user)
@@ -117,5 +149,5 @@ Please note that this project, just like the server, is still in its early stage
 - [x] HTML Widgets for embedding
 - [x] Embed web version into server
 - [ ] Clean up Code
-- [ ] Better error handling
+- [x] Better error handling
 - [ ] Write tests
