@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/dtos/tasks/task_action.dart';
 import 'package:vibin_app/dtos/tasks/task_dto.dart';
@@ -12,7 +10,6 @@ import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/utils/datetime_utils.dart';
-import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/utils/url_utils.dart';
 import 'package:vibin_app/widgets/settings/settings_title.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -49,8 +46,7 @@ class _TaskManagementPageState extends State<TaskManagementPage> {
         });
       })
       .catchError((e, st) {
-        log("An error occurred while fetching tasks: $e", error: e, level: Level.error.value);
-        if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_task_fetch_error, error: e, stackTrace: st);
+        logger.handle(e, st, _lm.settings_task_fetch_error);
       });
 
     try {
@@ -86,24 +82,20 @@ class _TaskManagementPageState extends State<TaskManagementPage> {
                 });
               }
               catch (e, st) {
-                log("An error occurred while updating task on completion: $e", error: e, level: Level.error.value);
-                if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_task_ws_message_error, error: e, stackTrace: st);
+                logger.handle(e, st, _lm.settings_task_ws_message_error);
               }
               break;
           }
         }
         catch (e, st) {
-          log("An error occurred while parsing task progress message: $e", error: e, level: Level.error.value);
-          if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_task_ws_message_error, error: e, stackTrace: st);
+          logger.handle(e, st, _lm.settings_task_ws_message_error);
         }
       }, onError: (e, st) {
-        log("An error occurred in task progress WebSocket: $e", error: e, level: Level.error.value);
-        if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_task_ws_connection_error, error: e, stackTrace: st);
+        logger.handle(e, st, _lm.settings_task_ws_connection_error);
       });
     }
     catch (e, st) {
-      log("An error occurred while connecting to task progress WebSocket: $e", error: e, level: Level.error.value);
-      if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_task_ws_connection_failed, error: e, stackTrace: st);
+      logger.handle(e, st, _lm.settings_task_ws_connection_failed);
     }
 
     super.initState();
@@ -123,9 +115,8 @@ class _TaskManagementPageState extends State<TaskManagementPage> {
         task.lastRun = DateTimeUtils.getUtcNow();
       });
     }
-    catch (e) {
-      log("An error occurred while running task: $e", error: e, level: Level.error.value);
-      if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_task_run_now_failed, error: e);
+    catch (e, st) {
+      logger.handle(e, st, _lm.settings_task_run_now_failed);
     }
   }
 
@@ -140,8 +131,7 @@ class _TaskManagementPageState extends State<TaskManagementPage> {
       });
     }
     catch (e, st) {
-      log("An error occurred while updating task enabled state: $e", error: e, level: Level.error.value);
-      if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_task_toggle_failed, error: e, stackTrace: st);
+      logger.handle(e, st, _lm.settings_task_toggle_failed);
     }
   }
 
@@ -151,8 +141,7 @@ class _TaskManagementPageState extends State<TaskManagementPage> {
       if (mounted) showSnackBar(context, _lm.settings_task_cancel_success);
     }
     catch (e, st) {
-      log("An error occurred while cancelling task: $e", error: e, level: Level.error.value);
-      if (mounted) ErrorHandler.showErrorDialog(context, _lm.settings_task_cancel_failed, error: e, stackTrace: st);
+      logger.handle(e, st, _lm.settings_task_cancel_failed);
     }
   }
 

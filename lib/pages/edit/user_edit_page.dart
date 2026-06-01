@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/user/user.dart';
@@ -69,9 +66,7 @@ class _UserEditPageState extends State<UserEditPage> {
           _initialUsername = user.username;
         });
       }).catchError((error, st) {
-        log("An error occurred while loading user: $error", error: error, level: Level.error.value);
-        if (!mounted) return;
-        ErrorHandler.showErrorDialog(context, _lm.edit_user_load_error, error: error, stackTrace: st);
+        logger.handle(error, st, _lm.edit_user_load_error);
       });
     }
   }
@@ -119,9 +114,7 @@ class _UserEditPageState extends State<UserEditPage> {
       widget.onSave(savedUser);
     }
     catch (e, st) {
-      log("Failed to save user: $e", error: e, level: Level.error.value);
-      if (!mounted) return;
-      ErrorHandler.showErrorDialog(context, _lm.edit_user_save_error, error: e, stackTrace: st);
+      logger.handle(e, st, _lm.edit_user_save_error);
     }
   }
 
@@ -142,9 +135,7 @@ class _UserEditPageState extends State<UserEditPage> {
           GoRouter.of(context).replace("/users");
         }
         catch (e, st) {
-          log("Failed to delete user: $e", error: e, level: Level.error.value);
-          if (!mounted) return;
-          ErrorHandler.showErrorDialog(context, _lm.delete_user_error, error: e, stackTrace: st);
+          logger.handle(e, st, _lm.delete_user_error);
         }
       }
     );

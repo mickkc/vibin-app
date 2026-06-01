@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/api/client_data.dart';
@@ -57,8 +54,8 @@ class _SessionManagementPageState extends State<SessionManagementPage> {
       await _apiManager.service.deleteAllSessions(clientData.deviceId);
       _refreshSessions();
     }
-    catch (e) {
-      log("An error occurred while revoking all sessions: $e", error: e, level: Level.error.value);
+    catch (e, st) {
+      logger.handle(e, st, _lm.settings_sessions_revoke_failed);
       if (mounted) showSnackBar(context, _lm.settings_sessions_revoke_failed);
     }
   }
@@ -113,8 +110,8 @@ class _SessionManagementPageState extends State<SessionManagementPage> {
                               await _revokeSession(session);
                             }
                           }
-                          catch (e) {
-                            log("An error occurred while revoking session: $e", error: e, level: Level.error.value);
+                          catch (e, st) {
+                            logger.handle(e, st, _lm.settings_sessions_revoke_failed);
                             if (context.mounted) showSnackBar(context, _lm.settings_sessions_revoke_failed);
                           }
                         },

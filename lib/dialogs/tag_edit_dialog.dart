@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
@@ -11,7 +8,6 @@ import 'package:vibin_app/main.dart';
 import 'package:vibin_app/utils/dialogs.dart';
 
 import '../dtos/permission_type.dart';
-import '../utils/error_handler.dart';
 
 class TagEditDialog extends StatefulWidget {
   final int? tagId;
@@ -100,8 +96,7 @@ class _TagEditDialogState extends State<TagEditDialog> {
       if (mounted) Navigator.pop(context);
     }
     catch (e, st) {
-      log("An error occurred while saving the tag: $e", error: e, level: Level.error.value);
-      if (mounted) ErrorHandler.showErrorDialog(context, _lm.edit_tag_save_error, error: e, stackTrace: st);
+      logger.handle(e, st, _lm.edit_tag_save_error);
     }
   }
 
@@ -121,8 +116,7 @@ class _TagEditDialogState extends State<TagEditDialog> {
         if (mounted && context.mounted) Navigator.pop(context);
       }
       catch (e, st) {
-        log("An error occurred while deleting the tag: $e", error: e, stackTrace: st, level: Level.error.value);
-        if (mounted) ErrorHandler.showErrorDialog(context, _lm.edit_tag_delete_error, error: e, stackTrace: st);
+        logger.handle(e, st, _lm.edit_tag_delete_error);
       }
     }
   }

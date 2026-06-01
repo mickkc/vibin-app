@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dialogs/playlist_collaborator_dialog.dart';
@@ -12,7 +10,6 @@ import 'package:vibin_app/dtos/playlist/playlist_data.dart';
 import 'package:vibin_app/dtos/playlist/playlist_edit_data.dart';
 import 'package:vibin_app/dtos/shuffle_state.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
-import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/widgets/play_button.dart';
 
 import '../../api/api_manager.dart';
@@ -154,9 +151,7 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
                     widget.onUpdate(widget.playlistData.copyWith(playlist: updated));
                   }
                   catch (e, st) {
-                    log("Failed to update playlist collaborators", error: e, stackTrace: st, level: Level.error.value);
-                    if (!mounted || !context.mounted) return;
-                    ErrorHandler.showErrorDialog(context, lm.playlist_actions_update_collaborators_failed, error: e, stackTrace: st);
+                    logger.handle(e, st, lm.playlist_actions_update_collaborators_failed);
                   }
                 },
               );

@@ -1,14 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/artist/artist_edit_data.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/pages/edit/search_artist_metadata_dialog.dart';
 import 'package:vibin_app/utils/dialogs.dart';
-import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/widgets/edit/image_edit_field.dart';
 import 'package:vibin_app/widgets/edit/responsive_edit_view.dart';
 
@@ -51,9 +47,7 @@ class _ArtistEditPageState extends State<ArtistEditPage> {
         });
       })
       .catchError((error, st) {
-        if (!mounted) return;
-        log("An error occurred while loading artist: $error", error: error, level: Level.error.value);
-        ErrorHandler.showErrorDialog(context, _lm.edit_artist_load_error, error: error, stackTrace: st);
+        logger.handle(error, st, _lm.edit_artist_load_error);
       });
     }
   }
@@ -110,9 +104,7 @@ class _ArtistEditPageState extends State<ArtistEditPage> {
       }
     }
     catch (error, st) {
-      if (!mounted) return;
-      log("An error occurred while saving artist: $error", error: error, level: Level.error.value);
-      ErrorHandler.showErrorDialog(context, _lm.edit_artist_save_error, error: error, stackTrace: st);
+      logger.handle(error, st, _lm.edit_artist_save_error);
     }
   }
 
@@ -130,9 +122,7 @@ class _ArtistEditPageState extends State<ArtistEditPage> {
       }
     }
     catch (error, st) {
-      if (!mounted) return;
-      log("An error occurred while deleting artist: $error", error: error, level: Level.error.value);
-      ErrorHandler.showErrorDialog(context, _lm.delete_artist_error, error: error, stackTrace: st);
+      logger.handle(error, st, _lm.delete_artist_error);
     }
   }
 

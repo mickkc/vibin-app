@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
+import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/colored_icon_button.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
@@ -96,8 +95,8 @@ class ImageEditField extends StatelessWidget {
         return ImageUploadResult.noFileSelected;
       }
     }
-    catch (e) {
-      log("Error uploading image: $e", error: e, level: Level.error.value);
+    catch (e, st) {
+      logger.handle(e, st, "Error uploading image");
       return ImageUploadResult.error;
     }
   }

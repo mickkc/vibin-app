@@ -51,7 +51,8 @@ class AuthState extends ChangeNotifier {
         return AutoLoginResult(false, Exception("Token validation failed"), false);
       }
     }
-    catch (e) {
+    catch (e, st) {
+      logger.handle(e, st, "Error during automatic login.");
       return AutoLoginResult(false, e, true);
     }
   }

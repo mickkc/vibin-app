@@ -78,6 +78,7 @@
   "drawer_uploads": "Uploads",
   "drawer_app_settings": "App Settings",
   "drawer_server_settings": "Server Settings",
+  "drawer_logs": "Logs",
   "drawer_logout": "Logout",
 
   "now_playing_nothing": "Nothing is playing",
@@ -187,6 +188,7 @@
   "dialog_copy": "Copy",
 
   "dialog_error_details": "Details",
+  "dialog_error_generic_message": "An unknown error occurred.",
 
   "edit_album_title": "Edit Album",
   "edit_album_name": "Album Name",

@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:vibin_app/dialogs/base_search_dialog.dart';
 import 'package:vibin_app/dtos/playlist/playlist.dart';
 import 'package:vibin_app/dtos/playlist/playlist_edit_data.dart';
-import 'package:vibin_app/utils/error_handler.dart';
+import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
 class PlaylistPicker extends BaseSearchDialog<Playlist> {
@@ -48,9 +45,7 @@ class _PlaylistPickerState extends BaseSearchDialogState<Playlist, PlaylistPicke
           if (context.mounted) Navigator.pop(context);
         }
         catch (e, st) {
-          log("An error occurred while creating playlist: $e", error: e, level: Level.error.value);
-          if (context.mounted) ErrorHandler.showErrorDialog(context, lm.pick_playlist_create_error, error: e, stackTrace: st);
-          return;
+          logger.handle(e, st, lm.pick_playlist_create_error);
         }
       },
     );

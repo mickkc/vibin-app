@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:vibin_app/dialogs/base_search_dialog.dart';
 import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/album/album_edit_data.dart';
-import 'package:vibin_app/utils/error_handler.dart';
+import 'package:vibin_app/main.dart';
 import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
@@ -49,9 +46,7 @@ class _AlbumPickerState extends BaseSearchDialogState<Album, AlbumPicker> {
           if (context.mounted) Navigator.pop(context);
         }
         catch (e, st) {
-          log("An error occurred while creating album: $e", error: e, level: Level.error.value);
-          if (context.mounted) ErrorHandler.showErrorDialog(context, lm.pick_album_create_error, error: e, stackTrace: st);
-          return;
+          logger.handle(e, st, lm.pick_album_create_error);
         }
       },
     );

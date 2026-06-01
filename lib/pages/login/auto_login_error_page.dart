@@ -5,7 +5,6 @@ import 'package:vibin_app/api/exceptions/version_mismatch_exception.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
-import 'package:vibin_app/pages/column_page.dart';
 
 import '../../auth/auto_login_result.dart';
 
@@ -64,7 +63,7 @@ class _AutoLoginErrorPageState extends State<AutoLoginErrorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ColumnPage(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       spacing: 16,

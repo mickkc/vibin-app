@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dialogs/album_picker.dart';
 import 'package:vibin_app/dialogs/artist_picker.dart';
@@ -209,8 +206,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
               });
             }
             catch (e, st) {
-              log("Error applying metadata: $e", error: e, level: Level.error.value);
-              if (context.mounted) ErrorHandler.showErrorDialog(context, _lm.edit_track_apply_metadata_error, error: e, stackTrace: st);
+              logger.handle(e, st, _lm.edit_track_apply_metadata_error);
             }
             finally {
               _loadingOverlay.hide();
@@ -274,8 +270,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
       if (mounted) Navigator.pop(context);
     }
     catch (e, st) {
-      log("Error saving track: $e", error: e, level: Level.error.value);
-      if (mounted) ErrorHandler.showErrorDialog(context, _lm.edit_track_save_error, error: e, stackTrace: st);
+      logger.handle(e, st, _lm.edit_track_save_error);
     }
     finally {
       _loadingOverlay.hide();
@@ -294,8 +289,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
       if (mounted) Navigator.pop(context);
     }
     catch (e, st) {
-      log("Error deleting track: $e", error: e, level: Level.error.value);
-      if (mounted) ErrorHandler.showErrorDialog(context, _lm.delete_track_error, error: e, stackTrace: st);
+      logger.handle(e, st, _lm.delete_track_error);
     }
   }
 

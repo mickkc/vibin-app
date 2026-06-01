@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:vibin_app/dtos/playlist/playlist_edit_data.dart';
+import 'package:vibin_app/main.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
 import '../dtos/playlist/playlist.dart';
-import '../utils/error_handler.dart';
 import 'base_search_dialog.dart';
 
 class AddTrackToPlaylistDialog extends BaseSearchDialog<Playlist> {
@@ -79,8 +76,7 @@ class _AddTrackToPlaylistDialog extends BaseSearchDialogState<Playlist, AddTrack
           search();
         }
         catch (e, st) {
-          log("An error occurred while creating playlist: $e", error: e, level: Level.error.value);
-          if (context.mounted) ErrorHandler.showErrorDialog(context, lm.pick_playlist_create_error, error: e, stackTrace: st);
+          logger.handle(e, st, lm.pick_playlist_create_error);
         }
       },
     );
@@ -125,8 +121,7 @@ class _AddTrackToPlaylistDialog extends BaseSearchDialogState<Playlist, AddTrack
           }
         }
         catch (e, st) {
-          log("An error occurred while modifying playlist: $e", error: e, level: Level.error.value);
-          if (context.mounted) ErrorHandler.showErrorDialog(context, containsTrack ? lm.pick_playlist_track_remove_error : lm.pick_playlist_track_add_error, error: e, stackTrace: st);
+          logger.handle(e, st, containsTrack ? lm.pick_playlist_track_remove_error : lm.pick_playlist_track_add_error);
         }
       }
     );

@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:vibin_app/dtos/playlist/playlist_track.dart';
 import 'package:vibin_app/dtos/track/minimal_track.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
@@ -9,7 +6,6 @@ import 'package:vibin_app/widgets/tracklist/playlist_track_row.dart';
 
 import '../../api/api_manager.dart';
 import '../../main.dart';
-import '../../utils/error_handler.dart';
 
 class PlaylistTrackList extends StatefulWidget {
 
@@ -144,13 +140,10 @@ class _PlaylistTrackListState extends State<PlaylistTrackList> {
           });
         }
         catch (e, st) {
-          log("An error occurred while reordering playlist tracks: $e", error: e, level: Level.error.value);
-          if (context.mounted) {
-            ErrorHandler.showErrorDialog(context, lm.playlist_reorder_tracks_error, error: e, stackTrace: st);
-            setState(() {
-              _tracks = before;
-            }); // Reset to previous state
-          }
+          logger.handle(e, st, lm.playlist_reorder_tracks_error);
+          setState(() {
+            _tracks = before;
+          }); // Reset to previous state
         }
       },
     );

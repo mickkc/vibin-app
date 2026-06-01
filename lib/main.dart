@@ -10,6 +10,8 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:just_audio_media_kit/just_audio_media_kit.dart';
 import 'package:provider/provider.dart';
+import 'package:talker/talker.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:vibin_app/dbus/mpris_player.dart';
 import 'package:vibin_app/dependency_injection.dart';
@@ -25,6 +27,7 @@ import 'api/api_manager.dart';
 import 'auth/auth_state.dart';
 
 final getIt = GetIt.instance;
+final logger = Talker();
 
 final supportedServerVersions = [
   "0.0.1-beta.10"

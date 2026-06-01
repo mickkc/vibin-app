@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
@@ -11,7 +10,6 @@ import 'package:vibin_app/dtos/track/track.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
-import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
 import 'package:vibin_app/widgets/future_content.dart';
@@ -119,10 +117,7 @@ class _AddRelatedTrackDialogState extends State<AddRelatedTrackDialog> {
       }
     }
     catch (e, st) {
-      log("Error adding related track", error: e, stackTrace: st);
-      if (mounted) {
-        ErrorHandler.showErrorDialog(context, _lm.edit_related_tracks_add_error, error: e, stackTrace: st);
-      }
+      logger.handle(e, st, _lm.edit_related_tracks_add_error);
     }
   }
 

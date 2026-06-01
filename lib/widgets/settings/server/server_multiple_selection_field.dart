@@ -1,8 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
-import 'package:vibin_app/utils/error_handler.dart';
 
 import '../../../api/api_manager.dart';
 import '../../../l10n/app_localizations.dart';
@@ -47,8 +43,7 @@ class _ServerMultipleSelectionFieldState<T> extends State<ServerMultipleSelectio
       await apiManager.service.updateSetting(widget.settingKey, serverValue);
     }
     catch (e, st) {
-      log("Failed to save setting ${widget.settingKey}: $e", error: e, level: Level.error.value);
-      if (mounted) ErrorHandler.showErrorDialog(context, lm.settings_server_update_error, error: e, stackTrace: st);
+      logger.handle(e, st, lm.settings_server_update_error);
     }
   }
 

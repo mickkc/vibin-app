@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vibin_app/extensions.dart';
 
@@ -44,8 +41,8 @@ class ClientData {
         return mediaToken!;
       }
     }
-    catch (e) {
-      log("Failed to validate stored media token: $e", error: e, level: Level.error.value);
+    catch (e, st) {
+      logger.handle(e, st, "Failed to validate stored media token.");
     }
 
     try {
@@ -58,8 +55,8 @@ class ClientData {
 
       return mediaToken!;
     }
-    catch (e) {
-      log("Failed to get media token: $e", error: e, level: Level.error.value);
+    catch (e, st) {
+      logger.handle(e, st, "Failed to get media token");
       return "";
     }
   }
@@ -74,8 +71,8 @@ class ClientData {
       final validation = await apiManager.service.checkMediaToken(token);
       return validation.success;
     }
-    catch (e) {
-      log("Failed to validate media token: $e", error: e, level: Level.error.value);
+    catch (e, st) {
+      logger.handle(e, st, "Failed to validate media token");
       return false;
     }
   }

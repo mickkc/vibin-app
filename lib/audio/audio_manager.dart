@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:math' hide log;
 
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:just_audio/just_audio.dart';
-import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/audio/audio_type.dart';
@@ -265,7 +263,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
       _isInitialized = false;
     } catch (e, st) {
-      log("Error during cleanup: $e", error: e, level: Level.error.value , stackTrace: st);
+      logger.handle(e, st, "Error during audio manager cleanup");
     }
   }
 
@@ -290,15 +288,15 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       await _socketChannel!.ready;
 
       _webSocketSubscription = _socketChannel!.stream.listen((msg) {
-        log("WebSocket message received: $msg");
-      }, onError: (error) {
-        log("WebSocket error: $error", error: error, level: Level.error.value);
+        logger.info("WebSocket message received: $msg");
+      }, onError: (error, stackTrace) {
+        logger.handle(error, stackTrace, "Websocket error");
         _webSocketPingTimer?.cancel();
         _webSocketPingTimer = null;
         _socketChannel = null;
         _startWebSocketReconnectTimer();
       }, onDone: () {
-        log("WebSocket connection closed");
+        logger.warning("WebSocket connection closed");
         _webSocketPingTimer?.cancel();
         _webSocketPingTimer = null;
         _socketChannel = null;
@@ -316,8 +314,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       _reconnectTimer?.cancel();
       _reconnectTimer = null;
     }
-    catch (e) {
-      log("Error connecting to WebSocket: $e", error: e, level: Level.error.value);
+    catch (e, st) {
+      logger.handle(e, st, "Error connecting to websocket");
       _socketChannel = null;
     }
   }
@@ -326,8 +324,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     try {
       await _socketChannel?.sink.close();
     }
-    catch (e) {
-      log("Error disconnecting WebSocket: $e", error: e, level: Level.error.value);
+    catch (e, st) {
+      logger.handle(e, st, "Error disconnecting websocket");
     }
     finally {
       _socketChannel = null;
@@ -355,8 +353,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
       _socketChannel!.sink.add(jsonEncode(message));
     }
-    catch (e) {
-      log("Error sending WebSocket message: $e", error: e, level: Level.error.value);
+    catch (e, st) {
+      logger.handle(e, st, "Error sending websocket message");
     }
   }
 
@@ -503,8 +501,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       if (kIsWeb) await audioPlayer.stop();
       await audioPlayer.setAudioSource(source);
       if (wasPlaying) await play();
-    } catch (e) {
-      log("Error seeking to $position: $e", error: e, level: Level.error.value);
+    } catch (e, st) {
+      logger.handle(e, st, "Error seeking to $position");
     }
   }
 
@@ -609,8 +607,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       _setActualVolume();
 
       await play();
-    } catch (e) {
-      log("Error playing track at index $index: $e", error: e, level: Level.error.value);
+    } catch (e, st) {
+      logger.handle(e, st, "Error playing track at index $index");
     }
   }
 
@@ -852,8 +850,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       if (wasPlaying) {
         await play();
       }
-    } catch (e) {
-      log("Error reloading current track: $e", error: e, level: Level.error.value);
+    } catch (e, st) {
+      logger.handle(e, st, "Error reloading current track");
     }
   }
 
@@ -1085,8 +1083,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     try {
       return await _apiManager.service.getStreams(ids.join(","));
     }
-    catch (e) {
-      log("Error fetching streamables for IDs: $e", error: e, level: Level.error.value);
+    catch (e, st) {
+      logger.handle(e, st, "Error fetching streamables for IDs");
       return [];
     }
   }
@@ -1287,8 +1285,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
           return Uri.dataFromBytes(bytes.data, mimeType: "image/jpeg");
         }
       }
-      catch (e) {
-        log("Failed to fetch and embed cover image for track ${streamable.title}: $e", error: e, level: Level.error.value);
+      catch (e, st) {
+        logger.handle(e, st, "Failed to fetch and embed cover image for track ${streamable.title}");
       }
     }
 

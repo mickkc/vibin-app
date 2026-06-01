@@ -1,10 +1,8 @@
-import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:logger/logger.dart';
 import 'package:vibin_app/pages/loading_overlay.dart';
 
 import '../api/api_manager.dart';
@@ -46,8 +44,8 @@ class TrackDownloader {
         showSnackBar(context, lm.track_actions_download_success);
       }
     }
-    catch (e) {
-      log("Error downloading track: $e", error: e, level: Level.error.value);
+    catch (e, st) {
+      logger.handle(e, st, lm.track_actions_download_error);
       if (context.mounted) {
         showSnackBar(context, lm.track_actions_download_error);
       }

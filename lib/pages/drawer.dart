@@ -123,6 +123,11 @@ class DrawerComponent extends StatelessWidget {
           )
         ],
         ListTile(
+          leading: Icon(Icons.bug_report),
+          title: Text(lm.drawer_logs),
+          onTap: () => _goTo(context, '/logs'),
+        ),
+        ListTile(
           leading: Icon(Icons.logout),
           title: Text(lm.drawer_logout),
           onTap: () async {

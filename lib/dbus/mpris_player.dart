@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dbus/dbus.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
@@ -15,7 +13,7 @@ class MprisPlayer extends DBusObject {
 
   @override
   Future<DBusMethodResponse> getAllProperties(String interface) async {
-    log("DBus: GetAllProperties called for interface: $interface");
+    logger.debug("DBus: GetAllProperties called for interface: $interface");
     if (interface == "org.mpris.MediaPlayer2.Player") {
       return DBusGetAllPropertiesResponse({
         "PlaybackStatus": DBusString(_audioManager.isPlaying ? "Playing" : "Paused"),
@@ -51,7 +49,7 @@ class MprisPlayer extends DBusObject {
 
   @override
   Future<DBusMethodResponse> handleMethodCall(DBusMethodCall methodCall) async {
-    log("DBus: MethodCall received: ${methodCall.interface}.${methodCall.name} with values: ${methodCall.values}");
+    logger.debug("DBus: MethodCall received: ${methodCall.interface}.${methodCall.name} with values: ${methodCall.values}");
     if (methodCall.interface == "org.mpris.MediaPlayer2") {
       switch (methodCall.name) {
         case "Raise":
@@ -109,7 +107,7 @@ class MprisPlayer extends DBusObject {
 
   @override
   Future<DBusMethodResponse> getProperty(String interface, String name) async {
-    log("DBus: GetProperty called: $interface.$name");
+    logger.debug("DBus: GetProperty called: $interface.$name");
     if (interface == "org.mpris.MediaPlayer2") {
       switch (name) {
         case "CanQuit":
@@ -166,7 +164,7 @@ class MprisPlayer extends DBusObject {
 
   @override
   Future<DBusMethodResponse> setProperty(String interface, String name, DBusValue value) async {
-    log("DBus: SetProperty called: $interface.$name to value: $value");
+    logger.debug("DBus: SetProperty called: $interface.$name to value: $value");
     if (interface == "org.mpris.MediaPlayer2.Player") {
       switch (name) {
         case "LoopStatus":

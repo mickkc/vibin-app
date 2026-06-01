@@ -1,9 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
-import 'package:vibin_app/utils/error_handler.dart';
 
 import '../../../api/api_manager.dart';
 import '../../../main.dart';
@@ -32,6 +28,7 @@ class _ServerBooleanSettingsFieldState extends State<ServerBooleanSettingsField>
 
   late bool _currentValue = widget.initialValue;
   final _apiManager = getIt<ApiManager>();
+  late final _lm = AppLocalizations.of(context)!;
 
 
   Future<void> _save() async {
@@ -42,8 +39,7 @@ class _ServerBooleanSettingsFieldState extends State<ServerBooleanSettingsField>
       });
     }
     catch (e, st) {
-      log("Failed to save setting ${widget.settingKey}: $e", error: e, level: Level.error.value);
-      if (mounted) ErrorHandler.showErrorDialog(context, AppLocalizations.of(context)!.settings_server_update_error, error: e, stackTrace: st);
+      logger.handle(e, st, _lm.settings_server_update_error);
     }
   }
 

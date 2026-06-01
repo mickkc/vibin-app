@@ -94,6 +94,33 @@ void showActionSnackBar(BuildContext context, String message, String actionLabel
   );
 }
 
+void showErrorSnackBar(BuildContext context, String message, String actionLabel, VoidCallback onAction) {
+  if (!context.mounted) return;
+  final theme = Theme.of(context);
+
+  ScaffoldMessenger.of(context).removeCurrentSnackBar();
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      dismissDirection: DismissDirection.horizontal,
+      content: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: 8,
+        children: [
+          Icon(Icons.error, color: theme.colorScheme.onError),
+          Text(message, style: TextStyle(color: theme.colorScheme.onError)),
+        ],
+      ),
+      duration: const Duration(seconds: 4),
+      action: SnackBarAction(
+        label: actionLabel,
+        onPressed: onAction,
+        textColor: theme.colorScheme.onError,
+      ),
+      backgroundColor: theme.colorScheme.error,
+    ),
+  );
+}
 
 
 

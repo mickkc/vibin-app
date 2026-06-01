@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:vibin_app/api/exceptions/version_mismatch_exception.dart';
 import 'package:vibin_app/api/rest_api.dart';
 import 'package:vibin_app/main.dart';
@@ -19,6 +20,14 @@ class ApiManager {
 
   ApiManager._internal() {
     _dio = Dio();
+    _dio.interceptors.add(
+      TalkerDioLogger(
+        settings: const TalkerDioLoggerSettings(
+          printResponseTime: true,
+          hiddenHeaders: {"Authorization"}
+        )
+      )
+    );
   }
 
   String get baseUrl => _dio.options.baseUrl;

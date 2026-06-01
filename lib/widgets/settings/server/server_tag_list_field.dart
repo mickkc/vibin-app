@@ -1,15 +1,12 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/widgets/edit/tag_search_bar.dart';
 
 import '../../../api/api_manager.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../main.dart';
-import '../../../utils/error_handler.dart';
 
 class ServerTagListField extends StatefulWidget {
 
@@ -35,8 +32,9 @@ class ServerTagListField extends StatefulWidget {
 class _ServerTagListFieldState extends State<ServerTagListField> {
   
   late final List<Tag> _selectedTags = List.from(widget.initialValues);
-  
+
   final _apiManager = getIt<ApiManager>();
+  late final _lm = AppLocalizations.of(context)!;
 
   Future<void> _save() async {
     try {
@@ -44,10 +42,7 @@ class _ServerTagListFieldState extends State<ServerTagListField> {
       await _apiManager.service.updateSetting(widget.settingKey, jsonEncode(tagIds));
     }
     catch (e, st) {
-      log("Failed to save setting ${widget.settingKey}: $e", error: e, level: Level.error.value);
-      if (mounted) {
-        ErrorHandler.showErrorDialog(context, AppLocalizations.of(context)!.settings_server_update_error, error: e, stackTrace: st);
-      }
+      logger.handle(e, st, _lm.settings_server_update_error);
     }
   }
 

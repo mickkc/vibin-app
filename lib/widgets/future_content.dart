@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/main.dart';
 import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/widgets/icon_text.dart';
 
@@ -51,32 +52,41 @@ class FutureContent<T> extends StatelessWidget {
           }
 
           if (snapshot.hasError) {
-            return errorWidget ??
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                spacing: 8,
-                children: [
-                  Icon(Icons.error, color: theme.colorScheme.error, size: 48),
-                  if (snapshot.error != null)
-                    Text(
-                      lm.dialog_error,
+            final error = snapshot.error;
+            final stacktrace = snapshot.stackTrace;
+
+            if (error != null) {
+              logger.handle(error, stacktrace, "An unknown error occurred");
+            }
+
+            return Center(
+              child: errorWidget ??
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: 8,
+                  children: [
+                    Icon(Icons.error, color: theme.colorScheme.error, size: 48),
+                    if (snapshot.error != null)
+                      Text(
+                        lm.dialog_error,
+                      ),
+                    TextButton(
+                      onPressed: () => ErrorHandler.showErrorDialog(
+                        context,
+                        lm.dialog_error_generic_message,
+                        error: error,
+                        stackTrace: stacktrace
+                      ),
+                      child: IconText(
+                        icon: Icons.open_in_browser,
+                        text: lm.dialog_error_details,
+                        color: theme.colorScheme.error,
+                      )
                     ),
-                  TextButton(
-                    onPressed: () => ErrorHandler.showErrorDialog(
-                      context,
-                      lm.dialog_error,
-                      error: snapshot.error,
-                      stackTrace: snapshot.stackTrace
-                    ),
-                    child: IconText(
-                      icon: Icons.open_in_browser,
-                      text: lm.dialog_error_details,
-                      color: theme.colorScheme.error,
-                    )
-                  ),
-                ],
-              );
+                  ],
+                ),
+            );
           }
 
           if (snapshot.hasData) {

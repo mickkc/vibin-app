@@ -4,8 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/extensions.dart';
+import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/main.dart';
 import 'package:vibin_app/main_layout.dart';
 import 'package:vibin_app/pages/batch_edit_page.dart';
 import 'package:vibin_app/pages/drawer.dart';
@@ -36,6 +39,7 @@ import 'package:vibin_app/pages/settings/session_management_page.dart';
 import 'package:vibin_app/pages/settings/task_management_page.dart';
 import 'package:vibin_app/pages/settings/widget_management_page.dart';
 import 'package:vibin_app/pages/upload_page.dart';
+import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 import 'package:vibin_app/widgets/nowplaying/now_playing_bar.dart';
@@ -110,27 +114,35 @@ GoRouter configureRouter(AuthState authState) {
               child: DrawerComponent(),
             ) : null,
             bottomNavigationBar: loggedIn ? NowPlayingBar() : null,
-            body: !authState.loggedIn ? child : MainLayoutView(
-              mainContent: Listener(
-                onPointerDown: enableMouseNavigation ? (PointerDownEvent event) async {
-                  final router = GoRouter.of(context);
-                  if (event.kind == PointerDeviceKind.mouse) {
-                    if (event.buttons == kBackMouseButton && router.canPop()) {
-                      poppedRoutes.add(router.state.matchedLocation);
-                      router.pop();
+            body: TalkerListener(
+              talker: logger,
+              listener: (data) {
+                showErrorSnackBar(context, data.displayMessage, AppLocalizations.of(context)!.dialog_error_details, () {
+                  ErrorHandler.showErrorDialog(context, data.displayMessage, error: data.exception ?? data.error, stackTrace: data.stackTrace);
+                });
+              },
+              child: !authState.loggedIn ? child : MainLayoutView(
+                mainContent: Listener(
+                  onPointerDown: enableMouseNavigation ? (PointerDownEvent event) async {
+                    final router = GoRouter.of(context);
+                    if (event.kind == PointerDeviceKind.mouse) {
+                      if (event.buttons == kBackMouseButton && router.canPop()) {
+                        poppedRoutes.add(router.state.matchedLocation);
+                        router.pop();
+                      }
+                      else if (event.buttons == kForwardMouseButton && poppedRoutes.isNotEmpty) {
+                        final routeToPush = poppedRoutes.removeLast();
+                        pushedPreviousPage = true;
+                        await router.push(routeToPush, extra: 1);
+                        pushedPreviousPage = false;
+                      }
                     }
-                    else if (event.buttons == kForwardMouseButton && poppedRoutes.isNotEmpty) {
-                      final routeToPush = poppedRoutes.removeLast();
-                      pushedPreviousPage = true;
-                      await router.push(routeToPush, extra: 1);
-                      pushedPreviousPage = false;
-                    }
-                  }
-                } : null,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                  child: child,
-                ),
+                  } : null,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    child: child,
+                  ),
+                )
               )
             )
           );
@@ -165,6 +177,11 @@ GoRouter configureRouter(AuthState authState) {
           GoRoute(path: '/uploads', builder: (context, state) => const UploadPage()),
           GoRoute(path: '/glance', builder: (context, state) => const GlancePage()),
           GoRoute(path: '/bulk', builder: (context, state) => const BatchEditPage()),
+          GoRoute(path: '/logs', builder: (context, state) => TalkerScreen(talker: logger, appBarTitle: AppLocalizations.of(context)!.drawer_logs, theme: TalkerScreenTheme(
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            textColor: Theme.of(context).colorScheme.onSurface,
+            cardColor: Theme.of(context).colorScheme.surfaceContainer
+          ))),
         ],
       )
     ],

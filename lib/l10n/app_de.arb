@@ -78,6 +78,7 @@
   "drawer_profile": "Profil",
   "drawer_app_settings": "App-Einstellungen",
   "drawer_server_settings": "Server-Einstellungen",
+  "drawer_logs": "Logs",
   "drawer_logout": "Abmelden",
 
   "playlists_private": "Privat",
@@ -187,6 +188,7 @@
   "dialog_copy": "Kopieren",
 
   "dialog_error_details": "Details",
+  "dialog_error_generic_message": "Ein unbekannter Fehler ist aufgetreten.",
 
   "edit_album_title": "Album bearbeiten",
   "edit_album_name": "Albumname",

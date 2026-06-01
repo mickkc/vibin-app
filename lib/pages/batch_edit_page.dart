@@ -15,7 +15,6 @@ import 'package:vibin_app/dtos/track/minimal_track.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/column_page.dart';
-import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/widgets/batch_changes_dialog.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
 
@@ -78,9 +77,7 @@ class _BatchEditPageState extends State<BatchEditPage> {
       });
     }
     catch (e, st) {
-      if (mounted) {
-        ErrorHandler.showErrorDialog(context,  _useAdvancedQuery ? _lm.batch_edit_track_advanced_search_failed : _lm.batch_edit_track_search_failed, error: e, stackTrace: st);
-      }
+      logger.handle(e, st, _useAdvancedQuery ? _lm.batch_edit_track_advanced_search_failed : _lm.batch_edit_track_search_failed);
     }
   }
 
@@ -94,9 +91,7 @@ class _BatchEditPageState extends State<BatchEditPage> {
       });
     }
     catch (e, st) {
-      if (mounted) {
-        ErrorHandler.showErrorDialog(context,  _useAdvancedQuery ? _lm.batch_edit_track_advanced_search_failed : _lm.batch_edit_track_search_failed, error: e, stackTrace: st);
-      }
+      logger.handle(e, st, _useAdvancedQuery ? _lm.batch_edit_track_advanced_search_failed : _lm.batch_edit_track_search_failed);
     }
   }
 
@@ -160,9 +155,7 @@ class _BatchEditPageState extends State<BatchEditPage> {
       if (mounted) BatchChangesDialog.show(context, result, dto);
     }
     catch (e, st) {
-      if (mounted) {
-        ErrorHandler.showErrorDialog(context, _lm.batch_edit_run_error, error: e, stackTrace: st);
-      }
+      logger.handle(e, st, _lm.batch_edit_run_error);
     }
   }
 

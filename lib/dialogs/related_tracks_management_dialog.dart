@@ -1,12 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/dialogs/add_related_track_dialog.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/track/related_track.dart';
-import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
@@ -73,10 +69,7 @@ class _RelatedTracksManagementDialogState extends State<RelatedTracksManagementD
       widget.onUpdated(_relatedTracks);
     }
     catch (e, st) {
-      log("Error deleting related track: $e", error: e, stackTrace: st, level: Level.error.value);
-      if (mounted) {
-        ErrorHandler.showErrorDialog(context, _lm.edit_related_tracks_remove_error, error: e, stackTrace: st);
-      }
+      logger.handle(e, st, _lm.edit_related_tracks_remove_error);
     }
   }
 

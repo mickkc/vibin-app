@@ -1,15 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/playlist/playlist_edit_data.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/utils/dialogs.dart';
-import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/widgets/edit/image_edit_field.dart';
 import 'package:vibin_app/widgets/edit/responsive_edit_view.dart';
 
@@ -105,8 +101,7 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
       }
     }
     catch (e, st) {
-      log("Error saving playlist", error: e, level: Level.error.value);
-      if (mounted) ErrorHandler.showErrorDialog(context, lm.edit_playlist_save_error, error: e, stackTrace: st);
+      logger.handle(e, st, lm.edit_playlist_save_error);
     }
   }
 
@@ -121,7 +116,7 @@ class _PlaylistEditPageState extends State<PlaylistEditPage> {
       if (mounted) router.go("/");
     }
     catch (e, st) {
-      if (mounted) ErrorHandler.showErrorDialog(context, lm.delete_playlist_error, error: e, stackTrace: st);
+      logger.handle(e, st, lm.delete_playlist_error);
     }
   }
 

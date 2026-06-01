@@ -1,13 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:vibin_app/dtos/widgets/create_widget.dart';
 import 'package:vibin_app/dtos/widgets/shared_widget.dart';
 import 'package:vibin_app/dtos/widgets/widget_type.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/utils/dialogs.dart';
-import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/utils/theme_generator.dart';
 import 'package:vibin_app/widgets/color_picker_field.dart';
 
@@ -55,7 +51,7 @@ class _CreateWidgetDialogState extends State<CreateWidgetDialog> {
       // FFRRGGBB -> RRGGBB
       return hexColor.substring(2);
     }
-    log("Invalid color length: ${hexColor.length}, Color: $color", level: Level.warning.value);
+    logger.error("Invalid color length: ${hexColor.length}, Color: $color");
     return null;
   }
 
@@ -94,9 +90,7 @@ class _CreateWidgetDialogState extends State<CreateWidgetDialog> {
       }
     }
     catch (e, st) {
-      log("Error creating widget", error: e, stackTrace: st, level: Level.error.value);
-      if (!mounted) return;
-      await ErrorHandler.showErrorDialog(context, lm.settings_widgets_create_error, error: e, stackTrace: st);
+      logger.handle(e, st, lm.settings_widgets_create_error);
     }
   }
 

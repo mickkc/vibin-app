@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:vibin_app/dialogs/base_search_dialog.dart';
 import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/artist/artist_edit_data.dart';
-import 'package:vibin_app/utils/error_handler.dart';
+import 'package:vibin_app/main.dart';
 import 'package:vibin_app/utils/image_utils.dart';
 import 'package:vibin_app/widgets/network_image.dart';
 
@@ -100,8 +97,7 @@ class _ArtistPickerDialogState extends BaseSearchDialogState<Artist, ArtistPicke
           final newArtist = await apiManager.service.createArtist(ArtistEditData(name: searchController.text));
           _addArtist(newArtist);
         } catch (e, st) {
-          log("An error occurred while creating new artist: $e", error: e, level: Level.error.value);
-          if (context.mounted) ErrorHandler.showErrorDialog(context, lm.pick_artist_create_error, error: e, stackTrace: st);
+          logger.handle(e, st, lm.pick_artist_create_error);
         }
       },
     );

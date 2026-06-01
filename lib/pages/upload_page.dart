@@ -1,11 +1,9 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/dtos/uploads/pending_upload.dart';
 import 'package:vibin_app/pages/edit/track_edit_page.dart';
@@ -69,8 +67,7 @@ class _UploadPageState extends State<UploadPage> {
                   });
                 }
                 catch (e, st) {
-                  log("An error occurred while saving pending upload: $e", error: e, level: Level.error.value);
-                  if (context.mounted) ErrorHandler.showErrorDialog(context, _lm.uploads_edit_save_error, error: e, stackTrace: st);
+                  logger.handle(e, st, _lm.uploads_edit_save_error);
                 }
               },
             ),
@@ -99,9 +96,8 @@ class _UploadPageState extends State<UploadPage> {
           final fileContentBytes = file.bytes;
 
           if (fileContentBytes == null) {
-            log("File bytes are null for file: ${file.name}", level: Level.error.value);
+            logger.error(_lm.uploads_upload_error(file.name));
             _loadingOverlay.hide();
-            if (mounted) await ErrorHandler.showErrorDialog(context, _lm.uploads_upload_error(file.name));
             continue;
           }
 
@@ -115,16 +111,15 @@ class _UploadPageState extends State<UploadPage> {
           _loadingOverlay.hide();
           if (e is DioException) {
             if (e.response?.statusCode == 409 && mounted) {
-              await ErrorHandler.showErrorDialog(context, _lm.uploads_upload_error_file_exists);
+              logger.error(_lm.uploads_upload_error_file_exists);
             }
             else if (e.response?.statusCode == 400 && mounted) {
-              await ErrorHandler.showErrorDialog(context, _lm.uploads_upload_error_invalid_file);
+              logger.error(_lm.uploads_upload_error_invalid_file);
             }
             continue;
           }
 
-          log("An error occurred while uploading file: $e", error: e, level: Level.error.value);
-          if (mounted) ErrorHandler.showErrorDialog(context, _lm.uploads_upload_error(file.name), error: e, stackTrace: st);
+          logger.handle(e, st, _lm.uploads_upload_error(file.name));
         }
       }
 
@@ -171,8 +166,7 @@ class _UploadPageState extends State<UploadPage> {
       }
     }
     catch (e, st) {
-      log("An error occurred while applying pending upload: $e", error: e, level: Level.error.value);
-      if (mounted) ErrorHandler.showErrorDialog(context, _lm.uploads_apply_error(upload.title), error: e, stackTrace: st);
+      logger.handle(e, st, _lm.uploads_apply_error(upload.title));
     }
   }
 
@@ -211,8 +205,7 @@ class _UploadPageState extends State<UploadPage> {
       if (mounted && showSnackbar) showSnackBar(context, _lm.uploads_delete_success);
     }
     catch (e, st) {
-      log("An error occurred while deleting pending upload: $e", error: e, level: Level.error.value);
-      if (mounted) ErrorHandler.showErrorDialog(context, _lm.uploads_delete_error, error: e, stackTrace: st);
+      logger.handle(e, st, _lm.uploads_delete_error);
     }
   }
 
