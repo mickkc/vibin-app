@@ -148,167 +148,151 @@ class _UserEditPageState extends State<UserEditPage> {
 
     return Form(
       key: _formKey,
-      child: ResponsiveEditView(
-        title: _lm.users_edit,
-        imageEditWidget: ImageEditField(
-          fallbackImageUrl: "/api/users/${widget.userId}/pfp",
-          imageUrl: _profileImageUrl,
-          label: _lm.edit_user_profile_image,
-          size: 256,
-          onImageChanged: (image) {
-            setState(() {
-              _profileImageUrl = image;
-            });
-          },
-        ),
-        actions: [
-          if ((_authState.user?.id == widget.userId && _authState.hasPermission(PermissionType.deleteOwnUser)) ||
-            (_authState.user?.id != widget.userId && _authState.hasPermission(PermissionType.deleteUsers)))
-          ElevatedButton.icon(
-            onPressed: _delete,
-            icon: Icon(Icons.delete_forever),
-            label: Text(_lm.dialog_delete),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: theme.colorScheme.errorContainer,
-              foregroundColor: theme.colorScheme.onErrorContainer,
-            ),
-          ),
-          ElevatedButton.icon(
-            onPressed: _save,
-            icon: Icon(Icons.save),
-            label: Text(_lm.dialog_save),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: theme.colorScheme.primaryContainer,
-              foregroundColor: theme.colorScheme.onPrimaryContainer,
-            ),
-          )
-        ],
-        children: [
-          TextFormField(
-            controller: _usernameController,
-            decoration: InputDecoration(
-              labelText: _lm.edit_user_username,
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return _lm.edit_user_username_validation_empty;
-              }
-              if (value.length > 255) {
-                return _lm.edit_user_username_validation_length;
-              }
-              return null;
+      child: AutofillGroup(
+        child: ResponsiveEditView(
+          title: _lm.users_edit,
+          imageEditWidget: ImageEditField(
+            fallbackImageUrl: "/api/users/${widget.userId}/pfp",
+            imageUrl: _profileImageUrl,
+            label: _lm.edit_user_profile_image,
+            size: 256,
+            onImageChanged: (image) {
+              setState(() {
+                _profileImageUrl = image;
+              });
             },
           ),
-          TextFormField(
-            controller: _displayNameController,
-            decoration: InputDecoration(
-              labelText: _lm.edit_user_display_name,
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return null;
-              }
-              if (value.length > 255) {
-                return _lm.edit_user_display_name_validation_length;
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            controller: _descriptionController,
-            decoration: InputDecoration(
-              labelText: _lm.edit_user_description,
-            ),
-            maxLines: null,
-            minLines: 2,
-          ),
-          TextFormField(
-            controller: _emailController,
-            decoration: InputDecoration(
-              labelText: _lm.edit_user_email,
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return null;
-              }
-              if (value.length > 255) {
-                return _lm.edit_user_email_validation_length;
-              }
-              if (!_emailRegexp.hasMatch(value)) {
-                return _lm.edit_user_email_validation_invalid;
-              }
-              return null;
-            },
-          ),
-          if (_authState.user?.isAdmin ?? false) ... [
-            SwitchListTile(
-              title: Text(_lm.edit_user_admin),
-              value: _isAdmin,
-              onChanged: (value) {
-                setState(() {
-                  _isAdmin = value;
-                });
-              },
-            ),
-            SwitchListTile(
-              title: Text(_lm.edit_user_active),
-              value: _isActive,
-              onChanged: (value) {
-                setState(() {
-                  _isActive = value;
-                });
-              },
-            ),
-          ],
-
-          SectionHeader(title: _lm.edit_user_change_password),
-
-          TextFormField(
-            controller: _passwordController,
-            decoration: InputDecoration(
-              labelText: _lm.edit_user_password,
-            ),
-            obscureText: true,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                if (widget.userId == null) return _lm.edit_user_password_validation_empty_new_user;
-                return null;
-              }
-              if (value.length < 8) {
-                return _lm.edit_user_password_validation_length;
-              }
-              if (value != _confirmPasswordController.text) {
-                return _lm.edit_user_password_validation_mismatch;
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            controller: _confirmPasswordController,
-            decoration: InputDecoration(
-              labelText: _lm.edit_user_password_confirm,
-            ),
-            obscureText: true,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return null;
-              }
-              if (value.length < 8) {
-                return _lm.edit_user_password_validation_length;
-              }
-              if (value != _passwordController.text) {
-                return _lm.edit_user_password_validation_mismatch;
-              }
-              return null;
-            },
-          ),
-
-          if (!(_authState.user?.isAdmin ?? false))
-            TextFormField(
-              controller: _currentPasswordController,
-              decoration: InputDecoration(
-                labelText: _lm.edit_user_password_old,
+          actions: [
+            if ((_authState.user?.id == widget.userId && _authState.hasPermission(PermissionType.deleteOwnUser)) ||
+              (_authState.user?.id != widget.userId && _authState.hasPermission(PermissionType.deleteUsers)))
+            ElevatedButton.icon(
+              onPressed: _delete,
+              icon: Icon(Icons.delete_forever),
+              label: Text(_lm.dialog_delete),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: theme.colorScheme.errorContainer,
+                foregroundColor: theme.colorScheme.onErrorContainer,
               ),
+            ),
+            ElevatedButton.icon(
+              onPressed: _save,
+              icon: Icon(Icons.save),
+              label: Text(_lm.dialog_save),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: theme.colorScheme.primaryContainer,
+                foregroundColor: theme.colorScheme.onPrimaryContainer,
+              ),
+            )
+          ],
+          children: [
+            TextFormField(
+              controller: _usernameController,
+              decoration: InputDecoration(
+                labelText: _lm.edit_user_username,
+              ),
+              autofillHints: [AutofillHints.username, AutofillHints.newUsername],
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return _lm.edit_user_username_validation_empty;
+                }
+                if (value.length > 255) {
+                  return _lm.edit_user_username_validation_length;
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _displayNameController,
+              decoration: InputDecoration(
+                labelText: _lm.edit_user_display_name,
+              ),
+              autofillHints: [AutofillHints.nickname],
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return null;
+                }
+                if (value.length > 255) {
+                  return _lm.edit_user_display_name_validation_length;
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _descriptionController,
+              decoration: InputDecoration(
+                labelText: _lm.edit_user_description,
+              ),
+              maxLines: null,
+              minLines: 2,
+            ),
+            TextFormField(
+              controller: _emailController,
+              decoration: InputDecoration(
+                labelText: _lm.edit_user_email,
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return null;
+                }
+                if (value.length > 255) {
+                  return _lm.edit_user_email_validation_length;
+                }
+                if (!_emailRegexp.hasMatch(value)) {
+                  return _lm.edit_user_email_validation_invalid;
+                }
+                return null;
+              },
+            ),
+            if (_authState.user?.isAdmin ?? false) ... [
+              SwitchListTile(
+                title: Text(_lm.edit_user_admin),
+                value: _isAdmin,
+                onChanged: (value) {
+                  setState(() {
+                    _isAdmin = value;
+                  });
+                },
+              ),
+              SwitchListTile(
+                title: Text(_lm.edit_user_active),
+                value: _isActive,
+                onChanged: (value) {
+                  setState(() {
+                    _isActive = value;
+                  });
+                },
+              ),
+            ],
+
+            SectionHeader(title: _lm.edit_user_change_password),
+
+            TextFormField(
+              controller: _passwordController,
+              decoration: InputDecoration(
+                labelText: _lm.edit_user_password,
+              ),
+              autofillHints: [AutofillHints.newPassword],
+              obscureText: true,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  if (widget.userId == null) return _lm.edit_user_password_validation_empty_new_user;
+                  return null;
+                }
+                if (value.length < 8) {
+                  return _lm.edit_user_password_validation_length;
+                }
+                if (value != _confirmPasswordController.text) {
+                  return _lm.edit_user_password_validation_mismatch;
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _confirmPasswordController,
+              decoration: InputDecoration(
+                labelText: _lm.edit_user_password_confirm,
+              ),
+              autofillHints: [AutofillHints.newPassword],
               obscureText: true,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -317,10 +301,33 @@ class _UserEditPageState extends State<UserEditPage> {
                 if (value.length < 8) {
                   return _lm.edit_user_password_validation_length;
                 }
+                if (value != _passwordController.text) {
+                  return _lm.edit_user_password_validation_mismatch;
+                }
                 return null;
               },
             ),
-        ]
+
+            if (!(_authState.user?.isAdmin ?? false))
+              TextFormField(
+                controller: _currentPasswordController,
+                decoration: InputDecoration(
+                  labelText: _lm.edit_user_password_old,
+                ),
+                autofillHints: [AutofillHints.password],
+                obscureText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return null;
+                  }
+                  if (value.length < 8) {
+                    return _lm.edit_user_password_validation_length;
+                  }
+                  return null;
+                },
+              ),
+          ]
+        ),
       ),
     );
   }
