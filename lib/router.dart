@@ -117,9 +117,11 @@ GoRouter configureRouter(AuthState authState) {
             body: TalkerListener(
               talker: logger,
               listener: (data) {
-                showErrorSnackBar(context, data.displayMessage, AppLocalizations.of(context)!.dialog_error_details, () {
-                  ErrorHandler.showErrorDialog(context, data.displayMessage, error: data.exception ?? data.error, stackTrace: data.stackTrace);
-                });
+                if (data.logLevel == LogLevel.error || data.logLevel == LogLevel.critical) {
+                  showErrorSnackBar(context, data.displayMessage, AppLocalizations.of(context)!.dialog_error_details, () {
+                    ErrorHandler.showErrorDialog(context, data.displayMessage, error: data.exception ?? data.error, stackTrace: data.stackTrace);
+                  });
+                }
               },
               child: !authState.loggedIn ? child : MainLayoutView(
                 mainContent: Listener(
