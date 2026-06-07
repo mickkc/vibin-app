@@ -187,6 +187,10 @@
   "dialog_share": "Share",
   "dialog_copy": "Copy",
 
+  "sort_by": "Sort by...",
+  "sort_order_asc": "Ascending",
+  "sort_order_desc": "Descending",
+
   "dialog_error_details": "Details",
   "dialog_error_generic_message": "An unknown error occurred.",
 
@@ -274,6 +278,16 @@
   "edit_track_lyrics_shift_amount_hint": "e.g., -2.5 or +3",
   "edit_track_no_tags": "No tags applied. Search and click a tag to add it.",
   "edit_track_apply_metadata_error": "An error occurred while applying metadata to the track.",
+
+  "sort_tracks_title": "Title",
+  "sort_tracks_release_year": "Release year",
+  "sort_tracks_audio_quality": "Quality",
+  "sort_tracks_audio_duration": "Duration",
+  "sort_tracks_listen_duration": "Listening duration",
+  "sort_tracks_date_added": "Added",
+  "sort_tracks_date_modified": "Last modified",
+  "sort_tracks_last_listened_to": "Last listened to",
+  "sort_tracks_random": "Random",
 
   "edit_related_tracks_title": "Edit Related Tracks",
   "edit_related_tracks_remove": "Remove",

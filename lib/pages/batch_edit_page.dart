@@ -69,7 +69,7 @@ class _BatchEditPageState extends State<BatchEditPage> {
 
   void _search() async {
     try {
-      final tracks = await _api.service.searchTracks(_searchQueryTextController.text, _useAdvancedQuery, 1, 50);
+      final tracks = await _api.service.searchTracks(_searchQueryTextController.text, _useAdvancedQuery, 1, 50, null, null);
       setState(() {
         _currentTracks = tracks.items;
         _currentPage = tracks.currentPage;
@@ -83,7 +83,7 @@ class _BatchEditPageState extends State<BatchEditPage> {
 
   void _loadMore() async {
     try {
-      final tracks = await _api.service.searchTracks(_searchQueryTextController.text, _useAdvancedQuery, _currentPage + 1, 50);
+      final tracks = await _api.service.searchTracks(_searchQueryTextController.text, _useAdvancedQuery, _currentPage + 1, 50, null, null);
       setState(() {
         _currentTracks.addAll(tracks.items);
         _currentPage += 1;

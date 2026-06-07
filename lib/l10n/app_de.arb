@@ -187,6 +187,10 @@
   "dialog_share": "Teilen",
   "dialog_copy": "Kopieren",
 
+  "sort_by": "Sortieren nach...",
+  "sort_order_asc": "Aufsteigend",
+  "sort_order_desc": "Absteigend",
+
   "dialog_error_details": "Details",
   "dialog_error_generic_message": "Ein unbekannter Fehler ist aufgetreten.",
 
@@ -275,6 +279,16 @@
   "edit_track_lyrics_shift_amount_hint": "z.B. -2,5 oder +3",
   "edit_track_no_tags": "Es sind keine Tags angewendet. Suche nach Tags und klicke auf einen Tag, um es hinzuzufügen.",
   "edit_track_apply_metadata_error": "Beim Anwenden der Metadaten ist ein Fehler aufgetreten.",
+
+  "sort_tracks_title": "Titel",
+  "sort_tracks_release_year": "Jahr",
+  "sort_tracks_audio_quality": "Qualität",
+  "sort_tracks_audio_duration": "Dauer",
+  "sort_tracks_listen_duration": "Hörzeit",
+  "sort_tracks_date_added": "Hinzugefügt",
+  "sort_tracks_date_modified": "Zuletzt geändert",
+  "sort_tracks_last_listened_to": "Zuletzt gehört",
+  "sort_tracks_random": "Zufällig",
 
   "edit_related_tracks_title": "Verwandte Titel bearbeiten",
   "edit_related_tracks_remove": "Entfernen",

@@ -68,7 +68,9 @@ class _AddRelatedTrackDialogState extends State<AddRelatedTrackDialog> {
       _searchController.text,
       _settingsManager.get(Settings.advancedTrackSearch),
       page,
-      _settingsManager.get(Settings.pageSize)
+      _settingsManager.get(Settings.pageSize),
+      null,
+      null
     );
   }
 

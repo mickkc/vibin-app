@@ -342,7 +342,14 @@ abstract class ApiService {
   Future<Success> deleteTrack(@Path("id") int id);
 
   @GET("/api/tracks/search")
-  Future<MinimalTrackPagination> searchTracks(@Query("query") String query, @Query("advanced") bool advanced, @Query("page") int page, @Query("pageSize") int? pageSize);
+  Future<MinimalTrackPagination> searchTracks(
+    @Query("query") String query,
+    @Query("advanced") bool advanced,
+    @Query("page") int page,
+    @Query("pageSize") int? pageSize,
+    @Query("sort") String? sort,
+    @Query("dir") String? dir
+  );
 
   @GET("/api/tracks/{id}/stream")
   @DioResponseType(ResponseType.stream)
