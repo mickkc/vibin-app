@@ -500,6 +500,36 @@
   "settings_app_manage_widgets_description": "Verwalte Widgets, die auf anderen Webseiten eingebettet werden können.",
 
 
+  "settings_app_discord_rpc_title": "Discord presence",
+
+  "settings_app_discord_rpc_connected_title": "Mit Discord verbunden",
+  "settings_app_discord_rpc_connected_subtitle": "Deine Aktivtät sollte in deinem Discord-Profil angezeigt werden.",
+
+  "settings_app_discord_rpc_disconnected_title": "Nicht mit Discord verbunden.",
+  "settings_app_discord_rpc_disconnected_subtitle": "Entweder wurde die Funktion deaktiviert, oder es wurde kein Client gefunden.",
+
+  "settings_app_discord_rpc_enable_title": "Discord presence aktivieren",
+  "settings_app_discord_rpc_enable_description": "Zeige deinen Freunden, welche Musik du gerade hörst.",
+
+  "settings_app_discord_rpc_state_template_title": "Status Template",
+  "settings_app_discord_rpc_state_template_description": "Das Template für den oberen Text. Platzhalter: '{title}', '{album}', '{artists}', '{state}', '{queue}'",
+
+  "settings_app_discord_rpc_detail_template_title": "Detail Template",
+  "settings_app_discord_rpc_detail_template_description": "Das Template für den unteren Text. Gleiche Platzhalter verfügbar.",
+
+  "settings_app_discord_rpc_large_asset_template_title": "Cover Text Template",
+  "settings_app_discord_rpc_large_asset_template_description": "Das Template das angezeigt wird, wenn man über das Album-Cover hovert. Gleiche Platzhalter verfügbar.",
+
+  "settings_app_discord_rpc_small_asset_template_title": "Pausiert Text template",
+  "settings_app_discord_rpc_small_asset_template_description": "Das Template das angezeigt wird, wenn man über das Pause-Symbol hovert. Gleiche Platzhalter verfügbar.",
+
+  "settings_app_discord_rpc_display_type_title": "Primärer Status-Text",
+  "settings_app_discord_rpc_display_type_description": "Der Text, der in der Mitgliederliste unter deinem Namen angezeigt wird.",
+  "settings_app_discord_rpc_display_type_name": "Vibin''",
+  "settings_app_discord_rpc_display_type_state": "Status",
+  "settings_app_discord_rpc_display_type_details": "Details",
+
+
   "settings_task_fetch_error": "Beim Laden der Aufgaben ist ein Fehler aufgetreten.",
 
   "settings_task_last_run": "Letzte Ausführung:",

@@ -10,6 +10,7 @@ import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/audio/audio_type.dart';
 import 'package:vibin_app/audio/media_item_parser.dart';
 import 'package:vibin_app/auth/auth_state.dart';
+import 'package:vibin_app/discord/rpc_updater.dart';
 import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/album/album_data.dart';
 import 'package:vibin_app/dtos/playlist/playlist.dart';
@@ -46,6 +47,9 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   final _currentAudioTypeController = StreamController<CurrentAudioType?>.broadcast();
   Stream<CurrentAudioType?> get currentAudioTypeStream => _currentAudioTypeController.stream;
+
+  final _seekStreamController = StreamController<Duration>.broadcast();
+  Stream<Duration> get seekStream => _seekStreamController.stream;
 
   // Manual queue management
   List<MediaItem> _queue = [];
@@ -84,6 +88,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   AudioManager() {
     init();
+    RpcUpdater.instance.setAudioManager(this);
   }
 
   void init() {
@@ -503,7 +508,10 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       if (wasPlaying) await play();
     } catch (e, st) {
       logger.handle(e, st, "Error seeking to $position");
+      return;
     }
+
+    _seekStreamController.add(position);
   }
 
   bool get isPlaying => audioPlayer.playing;

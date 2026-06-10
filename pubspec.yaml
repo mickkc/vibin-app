@@ -69,6 +69,8 @@ dependencies:
   talker_dio_logger: ^5.1.17
   talker_flutter: ^5.1.16
 
+  dart_discord_presence: ^1.2.0
+
 dependency_overrides:
   analyzer: ^8.2.0
 
