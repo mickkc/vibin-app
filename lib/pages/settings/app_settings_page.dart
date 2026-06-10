@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:dart_discord_presence/dart_discord_presence.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
+import 'package:vibin_app/discord/rpc_updater.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/pages/settings/app_user_settings_view.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
@@ -15,6 +17,7 @@ import 'package:vibin_app/widgets/settings/homepage_sections_list.dart';
 import 'package:vibin_app/widgets/settings/int_settings_field.dart';
 import 'package:vibin_app/widgets/settings/preferred_metadata_pickers.dart';
 import 'package:vibin_app/widgets/settings/settings_title.dart';
+import 'package:vibin_app/widgets/settings/string_settings_field.dart';
 
 import '../../auth/auth_state.dart';
 import '../../dialogs/lyrics_dialog.dart';
@@ -199,6 +202,103 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
             min: 64,
             max: 320,
           ),
+        ],
+
+        if (DiscordRPC.isAvailable && _authState.hasPermission(PermissionType.streamTracks)) ... [
+
+          const Divider(),
+
+          SettingsTitle(
+            title: _lm.settings_app_discord_rpc_title,
+          ),
+
+
+          StreamBuilder(
+            stream: RpcUpdater.instance.connectedStream,
+            initialData: RpcUpdater.instance.connected,
+            builder: (context, snapshot) {
+              switch (snapshot.data) {
+                case true:
+                  return ListTile(
+                    leading: const Icon(Icons.check),
+                    title: Text(_lm.settings_app_discord_rpc_connected_title, style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+                    subtitle: Text(_lm.settings_app_discord_rpc_connected_subtitle),
+                  );
+                case false:
+                  return ListTile(
+                    leading: const Icon(Icons.close),
+                    title: Text(_lm.settings_app_discord_rpc_disconnected_title, style: TextStyle(color: Theme.of(context).colorScheme.error)),
+                    subtitle: Text(_lm.settings_app_discord_rpc_disconnected_subtitle),
+                  );
+                case null:
+                  return SizedBox.shrink();
+              }
+            }
+          ),
+
+          BoolSettingsField(
+            settingsKey: Settings.enableDiscordRpc,
+            title: _lm.settings_app_discord_rpc_enable_title,
+            description: _lm.settings_app_discord_rpc_enable_description,
+            icon: Icons.discord,
+            onChange: (enable) {
+              if (enable) {
+                RpcUpdater.instance.start();
+              }
+              else {
+                RpcUpdater.instance.stop();
+              }
+            },
+          ),
+
+          StringSettingsField(
+            settingsKey: Settings.stateTemplate,
+            label: _lm.settings_app_discord_rpc_state_template_title,
+            description: _lm.settings_app_discord_rpc_state_template_description,
+            fieldWidth: 200,
+            icon: Icons.title,
+          ),
+
+          StringSettingsField(
+            settingsKey: Settings.detailTemplate,
+            label:  _lm.settings_app_discord_rpc_detail_template_title,
+            description: _lm.settings_app_discord_rpc_detail_template_description,
+            fieldWidth: 200,
+            icon: Icons.info,
+          ),
+
+          StringSettingsField(
+            settingsKey: Settings.largeAssetTemplate,
+            label: _lm.settings_app_discord_rpc_large_asset_template_title,
+            description: _lm.settings_app_discord_rpc_large_asset_template_description,
+            fieldWidth: 200,
+            icon: Icons.image,
+          ),
+
+          StringSettingsField(
+            settingsKey: Settings.smallAssetTemplate,
+            label: _lm.settings_app_discord_rpc_small_asset_template_title,
+            description: _lm.settings_app_discord_rpc_small_asset_template_description,
+            fieldWidth: 200,
+            icon: Icons.pause,
+          ),
+
+          EnumSettingsField(
+            settingKey: Settings.displayType,
+            title: _lm.settings_app_discord_rpc_display_type_title,
+            description: _lm.settings_app_discord_rpc_display_type_description,
+            optionLabel: (type) {
+              switch (type) {
+                case DiscordStatusDisplayType.name:
+                  return _lm.settings_app_discord_rpc_display_type_name;
+                case DiscordStatusDisplayType.state:
+                  return _lm.settings_app_discord_rpc_display_type_state;
+                case DiscordStatusDisplayType.details:
+                  return _lm.settings_app_discord_rpc_display_type_details;
+              }
+            },
+            icon: Icons.label_important,
+          )
         ],
 
         const Divider(),

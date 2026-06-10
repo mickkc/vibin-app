@@ -67,6 +67,7 @@ Please note that this project, just like the server, is still in its early stage
     - [x] Volume control
     - [x] Playback speed
 - [x] Linux DBus media player integration
+- [x] Discord presence integration
 - [x] Currently playing view
 - [ ] Queue
     - [x] View queue

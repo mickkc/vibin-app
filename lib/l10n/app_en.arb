@@ -496,6 +496,36 @@
   "settings_app_manage_widgets_title": "Widget Management",
   "settings_app_manage_widgets_description": "View and manage all active widgets for your user account on this server.",
 
+  "settings_app_discord_rpc_title": "Discord presence",
+
+  "settings_app_discord_rpc_connected_title": "Connected to discord",
+  "settings_app_discord_rpc_connected_subtitle": "Your listening activity should appear on your Discord profile.",
+
+  "settings_app_discord_rpc_disconnected_title": "Not connected to Discord.",
+  "settings_app_discord_rpc_disconnected_subtitle": "Either Discord presence is disabled or no running client was found.",
+
+  "settings_app_discord_rpc_enable_title": "Enable Discord presence",
+  "settings_app_discord_rpc_enable_description": "Show your friends what music you are currently listening to.",
+
+  "settings_app_discord_rpc_state_template_title": "State template",
+  "settings_app_discord_rpc_state_template_description": "The template to show for the upper text. Placeholders: '{title}', '{album}', '{artists}', '{state}', '{queue}'",
+
+  "settings_app_discord_rpc_detail_template_title": "Detail template",
+  "settings_app_discord_rpc_detail_template_description": "The template to show for the lower text. Same placeholders apply.",
+
+  "settings_app_discord_rpc_large_asset_template_title": "Cover text template",
+  "settings_app_discord_rpc_large_asset_template_description": "The template to show when hovering the album cover. Same placeholders apply.",
+
+  "settings_app_discord_rpc_small_asset_template_title": "Paused text template",
+  "settings_app_discord_rpc_small_asset_template_description": "The template to show when hovering the pause icon. Same placeholders apply.",
+
+  "settings_app_discord_rpc_display_type_title": "Primary status text",
+  "settings_app_discord_rpc_display_type_description": "The text that should be displayed under your username in the member list.",
+  "settings_app_discord_rpc_display_type_name": "Vibin''",
+  "settings_app_discord_rpc_display_type_state": "State",
+  "settings_app_discord_rpc_display_type_details": "Details",
+
+
 
 
   "settings_task_fetch_error": "An error occurred while fetching tasks.",

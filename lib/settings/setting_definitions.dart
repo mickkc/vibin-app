@@ -1,3 +1,4 @@
+import 'package:dart_discord_presence/dart_discord_presence.dart';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/dialogs/lyrics_dialog.dart';
 import 'package:vibin_app/dtos/stream_format.dart';
@@ -34,4 +35,11 @@ class Settings {
   static final enableTranscoding = BoolSettingsKey("enableTranscoding", true);
   static final preferredStreamingFormat = EnumSettingsKey("preferredStreamingFormat", StreamFormat.aac, StreamFormat.values);
   static final preferredStreamingBitrate = IntSettingsKey("preferredStreamingBitrate", 320);
+
+  static final enableDiscordRpc = BoolSettingsKey("rpcEnableDiscordRpc", false);
+  static final stateTemplate = StringSettingsKey("rpcStateTemplate", "{artists}");
+  static final detailTemplate = StringSettingsKey("rpcDetailTemplate", "{title}");
+  static final largeAssetTemplate = StringSettingsKey("rpcLargeAssetTemplate", "{album}");
+  static final smallAssetTemplate = StringSettingsKey("rpcSmallAssetTemplate", "Paused");
+  static final displayType = EnumSettingsKey("rpcDisplayType", DiscordStatusDisplayType.name, DiscordStatusDisplayType.values);
 }

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dart_discord_presence/dart_discord_presence.dart';
 import 'package:dbus/dbus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:talker_flutter/talker_flutter.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:vibin_app/dbus/mpris_player.dart';
 import 'package:vibin_app/dependency_injection.dart';
+import 'package:vibin_app/discord/rpc_updater.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/router.dart';
@@ -40,6 +42,10 @@ void main() async {
   await FullScreen.ensureInitialized();
 
   JustAudioMediaKit.ensureInitialized();
+
+  if (DiscordRPC.isAvailable) {
+    RpcUpdater.instance.start();
+  }
 
   final settingsManager = getIt<SettingsManager>();
 

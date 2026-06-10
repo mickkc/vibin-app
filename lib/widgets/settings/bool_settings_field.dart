@@ -9,6 +9,7 @@ class BoolSettingsField extends StatefulWidget {
   final String title;
   final String? description;
   final IconData? icon;
+  final Function(bool)? onChange;
 
   const BoolSettingsField({
     super.key,
@@ -16,6 +17,7 @@ class BoolSettingsField extends StatefulWidget {
     required this.title,
     this.description,
     this.icon,
+    this.onChange
   });
 
   @override
@@ -39,6 +41,9 @@ class _BoolSettingsFieldState extends State<BoolSettingsField> {
         setState(() {
           value = newValue;
         });
+        if (widget.onChange != null) {
+          widget.onChange!(newValue);
+        }
       },
     );
   }
