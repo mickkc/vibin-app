@@ -1,4 +1,4 @@
-import 'package:dart_discord_presence/dart_discord_presence.dart';
+import 'package:vibin_app/discord/discord.dart';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/dialogs/lyrics_dialog.dart';
 import 'package:vibin_app/dtos/stream_format.dart';
