@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dart_discord_presence/dart_discord_presence.dart';
+import 'package:vibin_app/discord/discord.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
