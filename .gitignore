@@ -57,3 +57,4 @@ ios/Runner.xcworkspace/contents.xcworkspacedata
 # Auto-generated
 lib/l10n/app_localizations*.dart
 lib/api/rest_api.g.dart
+result/
