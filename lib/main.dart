@@ -32,7 +32,7 @@ final getIt = GetIt.instance;
 final logger = Talker();
 
 final supportedServerVersions = [
-  "0.0.1-beta.12"
+  "0.0.1-beta.12", "0.0.1-beta.13"
 ];
 
 void main() async {
