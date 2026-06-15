@@ -1,0 +1,19 @@
+Vibin' is a sleek client for your self-hosted music server, letting you stream your personal collection from anywhere without handing your library over to Big Streaming.
+Built for people who'd rather own their music than rent it.
+
+<big>Features:</big>
+
+<ul>
+    <li>Connect to your own, self-hosted server.</li>
+    <li>Listen to your music without restrictions.</li>
+    <li>Invite your friends to join your server.</li>
+    <li>Collaborate on playlists with other users.</li>
+    <li>Automatically fetch album covers, metadata and lyrics.</li>
+    <li>Upload new tracks directly from your device.</li>
+    <li>Manage your server from anywhere.</li>
+    <li>Bulk edit multiple tracks at once.</li>
+    <li>Generate embedable widgets (iframes & images).</li>
+    <li>Completely open source & private.</li>
+</ul>
+
+<b>Vibin' is currently in public beta</b> - I'm working on making it more stable, faster, and easier to set up & use.

@@ -4,10 +4,10 @@
 
 This is the client application for [Vibin'](https://github.com/mickkc/vibin), a self-hosted music streaming service.
 
-Please note that this project, just like the server, is still in its early stages of development and not yet usable for production.
+Please note that this project, just like the server, is currently in beta and still in development.
 
-> [!NOTE]
-> This is my first Flutter / Dart project, I am still learning the framework and the language.
+| ![1](fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg) | ![2](fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg) | ![3](fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg) | ![4](fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg) | ![5](fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg) |
+|---------------------------------------------------------------------|---------------------------------------------------------------------|---------------------------------------------------------------------|---------------------------------------------------------------------|---------------------------------------------------------------------|
 
 # Screenshots
 
