@@ -2,7 +2,7 @@
 
 [![Translation status](https://translate.codeberg.org/widget/vibin/vibin-app/svg-badge.svg)](https://translate.codeberg.org/engage/vibin/)
 
-This is the client application for [Vibin'](https://github.com/mickkc/vibin), a self-hosted music streaming service.
+This is the client application for [Vibin'](https://codeberg.org/mickkc/vibin), a self-hosted music streaming service.
 
 Please note that this project, just like the server, is currently in beta and still in development.
 
