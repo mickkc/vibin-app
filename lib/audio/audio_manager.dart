@@ -18,6 +18,7 @@ import 'package:vibin_app/dtos/playlist/playlist_data.dart';
 import 'package:vibin_app/dtos/streamable.dart';
 import 'package:vibin_app/dtos/track/minimal_track.dart';
 import 'package:vibin_app/dtos/track/track.dart';
+import 'package:vibin_app/dtos/ws_frame.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/utils/url_utils.dart';
@@ -292,8 +293,77 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
       await _socketChannel!.ready;
 
-      _webSocketSubscription = _socketChannel!.stream.listen((msg) {
-        logger.info("WebSocket message received: $msg");
+      _webSocketSubscription = _socketChannel!.stream.listen((msg) async {
+        final frame = WsFrame.fromJson(json.decode(msg));
+        switch (frame.type) {
+          case "state":
+            final state = frame.data["state"];
+            switch (state) {
+              case "PLAYING":
+                await play();
+                break;
+              case "PAUSED":
+                await pause();
+                break;
+              case "STOPPED":
+                await stop();
+                break;
+              default:
+                logger.warning("Invalid playback state: $state");
+                break;
+            }
+            break;
+          case "currentTrack":
+            if (frame.data.containsKey("id")) {
+              final trackId = frame.data["id"];
+              final track = await _apiManager.service.getTrack(trackId);
+              await playTrack(track);
+            }
+            else if (frame.data.containsKey("queueId")) {
+              final queueId = frame.data["queueId"];
+              await playTrackAtIndex(queueId);
+            }
+            else {
+              logger.warning("Websocket message of type currentTrack was send without a track id or index.");
+            }
+            break;
+          case "queue":
+            // TODO: Implement setting queue
+            break;
+          case "shuffle":
+            final shuffle = frame.data["state"];
+            setShuffleMode(shuffle ? AudioServiceShuffleMode.all : AudioServiceShuffleMode.none);
+            break;
+          case "repeat":
+            final repeat = frame.data["state"];
+            switch (repeat) {
+              case "OFF":
+                setRepeatMode(AudioServiceRepeatMode.none);
+                break;
+              case "CURRENT_TRACK":
+                setRepeatMode(AudioServiceRepeatMode.one);
+                break;
+              case "ALL":
+                setRepeatMode(AudioServiceRepeatMode.all);
+                break;
+              default:
+                logger.warning("Invalid repeat mode: $repeat.");
+                break;
+            }
+            break;
+          case "volume":
+            final volume = frame.data["volume"];
+            await setVolume(volume);
+            break;
+          case "speed":
+            final speed = frame.data["speed"];
+            await setSpeed(speed);
+            break;
+          default:
+            logger.warning("Invalid websocket message type: ${frame.type}");
+            break;
+        }
+
       }, onError: (error, stackTrace) {
         logger.handle(error, stackTrace, "Websocket error");
         _webSocketPingTimer?.cancel();
@@ -521,6 +591,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     _loopMode = mode;
     loopModeStreamController.add(mode);
     _updatePlaybackState();
+    _sendWebSocket("repeat", data: { "mode": mode.name });
   }
 
   bool get isShuffling => _isShuffling;
@@ -536,10 +607,11 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     shuffleModeStreamController.add(value);
     sequenceStreamController.add(getSequence());
     _updatePlaybackState();
+    _sendWebSocket("shuffle", data: { "shuffle": value });
   }
 
   double get speed => audioPlayer.speed;
-  set speed(double value) => audioPlayer.setSpeed(value);
+  set speed(double value) => setSpeed(value);
 
   Duration get position => correctedPosition;
 
@@ -698,6 +770,13 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     _volume = newVolume.clamp(0.0, 1.0);
     _currentVolumeController.add(volume);
     _setActualVolume(newVolume: volume);
+    _sendWebSocket("volume", data: { "volume": newVolume });
+  }
+
+  @override
+  Future<void> setSpeed(double speed) async {
+    await audioPlayer.setSpeed(speed);
+    _sendWebSocket("speed", data: { "speed": speed });
   }
 
   /// Sets the actual volume on the audio player, applying normalization if enabled
