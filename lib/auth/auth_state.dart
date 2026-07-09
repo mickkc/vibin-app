@@ -1,13 +1,15 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:vibin_app/auth/auto_login_result.dart';
 import 'package:vibin_app/dtos/login_result.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/user/user.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/storage/secure_storage_impl.dart';
+import 'package:vibin_app/storage/web_storage_fallback.dart';
 
 import '../api/api_manager.dart';
 import '../audio/audio_manager.dart';
+import '../storage/secure_storage.dart';
 
 class AuthState extends ChangeNotifier {
   bool _loggedIn = false;
@@ -17,7 +19,7 @@ class AuthState extends ChangeNotifier {
   List<String> _permissions = [];
   AutoLoginResult? autoLoginResult;
 
-  FlutterSecureStorage prefs = const FlutterSecureStorage();
+  SecureStorage storage = kIsWeb ? WebStorageFallback() : SecureStorageImpl();
 
   bool get loggedIn => _loggedIn;
   String? get accessToken => _accessToken;
@@ -65,8 +67,8 @@ class AuthState extends ChangeNotifier {
     _user = loginResult.user;
     _permissions = loginResult.permissions;
 
-    await prefs.write(key: 'serverAddress', value: serverAddress);
-    await prefs.write(key: 'accessToken', value: loginResult.token);
+    await storage.write('serverAddress', serverAddress);
+    await storage.write('accessToken', loginResult.token);
 
     final audioManager = getIt<AudioManager>();
     audioManager.init();
@@ -85,24 +87,24 @@ class AuthState extends ChangeNotifier {
     _user = null;
     _permissions = [];
 
-    await prefs.delete(key: 'serverAddress');
-    await prefs.delete(key: 'accessToken');
+    await storage.delete('serverAddress');
+    await storage.delete('accessToken');
 
     notifyListeners();
   }
 
   Future<void> writeToPrefs() async {
     if (_serverAddress != null) {
-      await prefs.write(key: 'serverAddress', value: _serverAddress);
+      await storage.write('serverAddress', _serverAddress!);
     }
     if (_accessToken != null) {
-      await prefs.write(key: 'accessToken', value: accessToken);
+      await storage.write('accessToken', accessToken!);
     }
   }
 
   Future<void> loadFromPrefs() async {
-    _serverAddress = await prefs.read(key: 'serverAddress');
-    _accessToken = await prefs.read(key: 'accessToken');
+    _serverAddress = await storage.read('serverAddress');
+    _accessToken = await storage.read('accessToken');
   }
 
   void clearAutoLoginResult() {
