@@ -31,6 +31,8 @@ dependencies:
   package_info_plus: ^9.0.0
   intl: any
 
+  web: ^1.1.1
+
   just_audio: ^0.10.5
   audio_service: ^0.18.18
   just_audio_media_kit: ^2.1.0
