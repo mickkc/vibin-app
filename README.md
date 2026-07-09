@@ -154,3 +154,19 @@ Please note that this project, just like the server, is currently in beta and st
 - [ ] Clean up Code
 - [x] Better error handling
 - [ ] Write tests
+
+---
+
+## License
+
+This project is licensed under the **[GNU General Public License v3.0](LICENSE)** (GPLv3).
+
+```
+Vibin - Self-hosted music streaming server
+Copyright (C) 2026 mickkc
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+```
