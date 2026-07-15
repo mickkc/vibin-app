@@ -267,6 +267,7 @@
   "edit_track_explicit": "Explizit",
   "edit_track_save_error": "Beim Speichern des Titels ist ein Fehler aufgetreten.",
   "edit_track_search_metadata": "Metadaten suchen",
+"edit_track_search_metadata_provider": "Metadaten-Quelle:",
   "edit_track_lyrics": "Liedtext",
   "edit_track_lyrics_hint": "Gib den Liedtext im .lrc-Format (synchronisiert) oder als reinen Text ein.",
   "edit_track_search_lyrics": "Liedtext suchen",
