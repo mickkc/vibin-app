@@ -39,6 +39,7 @@ class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
   String _selectedProvider = "";
 
   List<String> _providers = [];
+  bool _expanded = false;
 
   late Future<List<T>> _searchFuture;
 
@@ -120,29 +121,54 @@ class _BaseMetadataDialogState<T> extends State<BaseMetadataDialog<T>> {
                     _searchQuery = value;
                     _search();
                   },
-                ),
+                )
               ),
-              SizedBox(
-                width: 200,
-                child: DropdownButton<String>(
-                  value: _selectedProvider,
-                  items: _providers.map((provider) {
-                    return DropdownMenuItem<String>(
-                      value: provider,
-                      child: Text(provider),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    if (value == null) return;
-                    setState(() {
-                      _selectedProvider = value;
-                    });
-                    _search();
-                  },
-                ),
+              IconButton(
+                onPressed: () => setState(() {
+                  _expanded = !_expanded;
+                }),
+                icon: Icon(_expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down)
               )
             ],
           ),
+
+          Visibility(
+            visible: _expanded,
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
+                child: Row(
+                  spacing: 8,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(child: Text(_lm.edit_track_search_metadata_provider)),
+
+                    DropdownButton<String>(
+                      alignment: Alignment.center,
+                      underline: SizedBox.shrink(),
+                      isDense: true,
+                      value: _selectedProvider,
+                      items: _providers.map((provider) {
+                        return DropdownMenuItem<String>(
+                          value: provider,
+                          alignment: Alignment.center,
+                          child: Text(provider),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        if (value == null) return;
+                        setState(() {
+                          _selectedProvider = value;
+                        });
+                        _search();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ),
+
           Expanded(
             child: SizedBox(
               width: width > 600 ? 600 : width - 32,
