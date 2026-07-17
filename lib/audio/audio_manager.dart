@@ -328,7 +328,12 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
             }
             break;
           case "queue":
-            // TODO: Implement setting queue
+            await playFromQueueIds((frame.data["ids"] as List<dynamic>).map((i) => i as int).toList(),
+              startId: frame.data["startId"],
+              audioType: frame.data["audioType"],
+              audioTypeId: frame.data["audioTypeId"],
+              shuffle: frame.data["shuffle"]
+            );
             break;
           case "shuffle":
             final shuffle = frame.data["state"];
@@ -887,6 +892,14 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     if (_queue.isEmpty) {
       setAudioType(AudioType.unspecified, null);
     }
+
+    _sendWebSocket("queue", data: {
+      "queue": getSequence().indexed.map((entry) => {
+          "id": entry.$2.id,
+          "pos": entry.$1,
+          "trackId": int.tryParse(entry.$2.id.split("-").first)
+        }).toList()
+    });
   }
 
   /// Reloads the current track's audio source (used when queue changes affect current track)
@@ -945,6 +958,53 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   // endregion
 
   // region Play Methods
+
+  Future<void> playFromQueueIds(List<int> ids, { int? startId, int? audioTypeId, String? audioType, bool? shuffle }) async {
+
+    AudioType? parsedType;
+
+    if (shuffle != null) _isShuffling = shuffle;
+
+    if (audioType != null) {
+      parsedType = AudioType.values.firstWhere((at) => at.name.toLowerCase() == audioType.toLowerCase(), orElse: () => AudioType.unspecified);
+      setAudioType(parsedType, audioTypeId);
+    }
+
+    final streamables = await _getStreamablesFromIds(ids);
+    _queue = await Future.wait(streamables.map((track) => _buildMediaItem(track)));
+
+    if (parsedType != null && parsedType != AudioType.unspecified && parsedType != AudioType.tracks) {
+      _sendWebSocket("listen", data: {
+        'type': parsedType.name,
+        'id': audioTypeId
+      });
+    }
+
+    if (_isShuffling && startId == null) {
+      // Let shuffle order determine the starting track
+      _shuffleIndices = List.generate(_queue.length, (i) => i);
+      _shuffleIndices.shuffle();
+      _shufflePosition = 0;
+      await playTrackAtIndex(_shuffleIndices[0]);
+    }
+    else {
+      // Either not shuffling, or have a preferred track
+      final initialIndex = startId != null
+          ? _queue.indexWhere((item) => item.trackId == startId)
+          : 0;
+
+      if (_isShuffling) {
+        // Set current index before creating shuffle order
+        // so the preferred track is moved to the front
+        _currentIndex = initialIndex.clamp(0, _queue.length - 1);
+        _createShuffleOrder();
+      }
+
+      await playTrackAtIndex(initialIndex.clamp(0, _queue.length - 1));
+    }
+
+    _updateQueue();
+  }
 
   // region Playlists
 
