@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vibin_app/extensions.dart';
+import 'package:vibin_app/router.dart';
+import 'package:vibin_app/utils/theme_generator.dart';
 
 class ThemedSvg extends StatefulWidget {
   const ThemedSvg({
@@ -24,6 +26,8 @@ class ThemedSvg extends StatefulWidget {
 class _ThemedSvgState extends State<ThemedSvg> {
   late Future<String> _svgFuture;
 
+  static RegExp placeholderRegex = RegExp("{{.*}}");
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -35,22 +39,55 @@ class _ThemedSvgState extends State<ThemedSvg> {
     final cs = theme.colorScheme;
 
     final darkest = cs.brightness == Brightness.dark ? cs.surface : cs.onSurface;
-    final brightest = cs.brightness == Brightness.dark ? cs.onSurface : cs.surface;
-
-    final brightPrimary = cs.brightness == Brightness.dark ? cs.primary : cs.primaryContainer;
-    final darkPrimary = cs.brightness == Brightness.dark ? cs.primaryContainer : cs.primary;
-
-    final placeholders = {
-      '{{darkest}}': darkest.toHexWithoutAlpha(),
-      '{{brightest}}': brightest.toHexWithoutAlpha(),
-      '{{brightPrimary}}': brightPrimary.toHexWithoutAlpha(),
-      '{{darkPrimary}}': darkPrimary.toHexWithoutAlpha()
-    };
+    final lightest = cs.brightness == Brightness.dark ? cs.onSurface : cs.surface;
+    final primary = cs.brightness == Brightness.dark ? cs.primary : cs.primaryContainer;
 
     String svg = await rootBundle.loadString(widget.assetPath);
 
-    for (final entry in placeholders.entries) {
-      svg = svg.replaceAll(entry.key, entry.value);
+    for (final match in placeholderRegex.allMatches(svg)) {
+      String? g = match.group(0);
+      if (g == null) {
+        continue;
+      }
+      g = g.substring(2, g.length - 2);
+      final parts = g.split(":");
+      Color color;
+
+      switch (parts[0]) {
+        case "darkest":
+          color = darkest;
+          break;
+        case "lightest":
+          color = lightest;
+          break;
+        case "primary":
+          color = primary;
+          break;
+        case "onbackground":
+          color = cs.brightness == Brightness.light ? darkest : lightest;
+          break;
+        default:
+          continue;
+      }
+
+      String prefix = "";
+      double colorMod = 0;
+      if (parts.length > 1) {
+        prefix = parts[1][0];
+        colorMod = double.parse(parts[1].substring(1));
+      }
+
+      if (prefix == "-") {
+        color = ThemeGenerator.blendColors(color, darkest, colorMod.abs());
+      }
+      else if (prefix == "+") {
+        color = ThemeGenerator.blendColors(color, lightest, colorMod.abs());
+      }
+      else if (prefix == "?") {
+        color = ThemeGenerator.blendColors(color, cs.brightness == Brightness.light ? lightest : darkest, colorMod.abs());
+      }
+
+      svg = svg.replaceAll("{{$g}}", color.toHexWithoutAlpha());
     }
 
     return svg;

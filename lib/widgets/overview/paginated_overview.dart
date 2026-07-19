@@ -125,7 +125,7 @@ class _PaginatedOverviewState extends State<PaginatedOverview> {
               mainAxisAlignment: MainAxisAlignment.center,
               spacing: 8,
               children: [
-                ThemedSvg(assetPath: "assets/images/search.svg", width: 256, height: 256),
+                ThemedSvg(assetPath: "assets/images/Cat_Searching_Pose.svg", width: 256, height: 256),
                 Text(
                   AppLocalizations.of(context)!.section_search_no_results,
                   style: Theme.of(context).textTheme.headlineSmall,
