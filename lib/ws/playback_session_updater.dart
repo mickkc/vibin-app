@@ -166,6 +166,9 @@ class PlaybackSessionUpdater {
         final speed = frame.data["speed"];
         await _audioManager.setSpeed(speed);
         break;
+      case "update":
+        updateAll();
+        break;
       default:
         logger.warning("Invalid websocket message type: ${frame.type}");
         break;
@@ -242,12 +245,42 @@ class PlaybackSessionUpdater {
   void volumeChanged(double volume) => _sendWebSocket("volume", data: { "volume": volume });
   void speedChanged(double speed) => _sendWebSocket("speed", data: { "speed": speed });
 
-  void queueChanged(List<Map<String, dynamic>> queue) => _sendWebSocket("queue", data: {
-    "queue": queue
+  void queueChanged(List<MediaItem> sequence) => _sendWebSocket("queue", data: {
+    "queue": sequence.indexed.map((entry) => {
+      "id": entry.$2.id,
+      "pos": entry.$1,
+      "trackId": int.tryParse(entry.$2.id.split("-").first)
+    }).toList()
   });
 
   void recordListen(AudioType type, int? id) => _sendWebSocket("listen", data: {
     'type': type.name,
     'id': id
   });
+
+  void updateAll() {
+    queueChanged(_audioManager.getSequence());
+    final currentMediaItem = _audioManager.getCurrentMediaItem();
+    startedTrack(currentMediaItem != null ? _audioManager.getTrackIdFromMediaItem(currentMediaItem) : null);
+
+    if (_audioManager.playbackState.value.processingState == AudioProcessingState.buffering) {
+      buffering();
+    }
+    else if (_audioManager.playbackState.value.processingState == AudioProcessingState.idle) {
+      stopped();
+    }
+    else {
+      if (_audioManager.playbackState.value.playing) {
+        played();
+      }
+      else {
+        paused();
+      }
+    }
+
+    repeatModeChanged(_audioManager.loopMode);
+    shuffleModeChanged(_audioManager.isShuffling);
+    volumeChanged(_audioManager.volume);
+    speedChanged(_audioManager.speed);
+  }
 }

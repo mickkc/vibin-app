@@ -287,7 +287,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     return super.stop();
   }
 
-  int? _getTrackIdFromMediaItem(MediaItem mediaItem) {
+  int? getTrackIdFromMediaItem(MediaItem mediaItem) {
     final split = mediaItem.id.split("-");
     if (split.isEmpty) return null;
     return int.tryParse(split.first);
@@ -298,7 +298,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     if (_queue.isEmpty) return;
 
     if (notify) {
-      _updater.skippedNext(_getTrackIdFromMediaItem(_queue[_currentIndex]));
+      _updater.skippedNext(getTrackIdFromMediaItem(_queue[_currentIndex]));
     }
 
     // In loop one mode, restart current track
@@ -333,7 +333,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   Future<void> skipToPrevious() async {
     if (_queue.isEmpty) return;
 
-    _updater.skippedPrevious(_getTrackIdFromMediaItem(_queue[_currentIndex]));
+    _updater.skippedPrevious(getTrackIdFromMediaItem(_queue[_currentIndex]));
 
     // In loop one mode, restart current track
     if (_loopMode == LoopMode.one) {
@@ -710,11 +710,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       setAudioType(AudioType.unspecified, null);
     }
 
-    _updater.queueChanged(getSequence().indexed.map((entry) => {
-      "id": entry.$2.id,
-      "pos": entry.$1,
-      "trackId": int.tryParse(entry.$2.id.split("-").first)
-    }).toList());
+    _updater.queueChanged(getSequence());
   }
 
   /// Reloads the current track's audio source (used when queue changes affect current track)
