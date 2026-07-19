@@ -186,7 +186,9 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     _isHandlingCompletion = true;
 
     final trackId = _currentlyLoadedTrackId;
-    _updater.trackFinished(trackId);
+    if (trackId != null) {
+      _updater.trackFinished(trackId);
+    }
 
     try {
       if (_loopMode == LoopMode.one) {
@@ -298,7 +300,10 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     if (_queue.isEmpty) return;
 
     if (notify) {
-      _updater.skippedNext(getTrackIdFromMediaItem(_queue[_currentIndex]));
+      final skippedTrackId = getTrackIdFromMediaItem(_queue[_currentIndex]);
+      if (skippedTrackId != null) {
+        _updater.skippedNext(skippedTrackId);
+      }
     }
 
     // In loop one mode, restart current track
@@ -333,7 +338,10 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   Future<void> skipToPrevious() async {
     if (_queue.isEmpty) return;
 
-    _updater.skippedPrevious(getTrackIdFromMediaItem(_queue[_currentIndex]));
+    final skippedTrackId = getTrackIdFromMediaItem(_queue[_currentIndex]);
+    if (skippedTrackId != null) {
+      _updater.skippedNext(skippedTrackId);
+    }
 
     // In loop one mode, restart current track
     if (_loopMode == LoopMode.one) {

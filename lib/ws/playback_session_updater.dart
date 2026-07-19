@@ -63,8 +63,13 @@ class PlaybackSessionUpdater {
       await _socketChannel!.ready;
 
       _webSocketSubscription = _socketChannel!.stream.listen((msg) async {
-        final frame = WsFrame.fromJson(json.decode(msg));
-        await _handleFrame(frame);
+        try {
+          final frame = WsFrame.fromJson(json.decode(msg));
+          await _handleFrame(frame);
+        }
+        catch (e, st) {
+          logger.handle(e, st, "Invalid websocket message received.");
+        }
       }, onError: (error, stackTrace) {
         logger.handle(error, stackTrace, "Websocket error");
         _webSocketPingTimer?.cancel();
@@ -131,10 +136,10 @@ class PlaybackSessionUpdater {
         break;
       case "queue":
         await _audioManager.playFromQueueIds((frame.data["ids"] as List<dynamic>).map((i) => i as int).toList(),
-            startId: frame.data["startId"],
-            audioType: frame.data["audioType"],
-            audioTypeId: frame.data["audioTypeId"],
-            shuffle: frame.data["shuffle"]
+          startId: frame.data["startId"],
+          audioType: frame.data["audioType"],
+          audioTypeId: frame.data["audioTypeId"],
+          shuffle: frame.data["shuffle"]
         );
         break;
       case "shuffle":
@@ -219,19 +224,19 @@ class PlaybackSessionUpdater {
     return UrlUtils.getWsUrl("ws/playback?token=${_apiManager.accessToken}");
   }
 
-  void trackFinished(int? trackId) => _sendWebSocket("finished_track", data: {
+  void trackFinished(int trackId) => _sendWebSocket("finished_track", data: {
     'trackId': trackId,
   });
 
-  void skippedNext(int? skippedTrackId) => _sendWebSocket('skipped_next', data: {
+  void skippedNext(int skippedTrackId) => _sendWebSocket('skipped_next', data: {
     'trackId': skippedTrackId,
   });
 
-  void skippedPrevious(int? skippedTrackId) => _sendWebSocket('skipped_prev', data: {
+  void skippedPrevious(int skippedTrackId) => _sendWebSocket('skipped_prev', data: {
     'trackId': skippedTrackId,
   });
 
-  void startedTrack(int? trackId) => _sendWebSocket("started_track", data: {
+  void startedTrack(int trackId) => _sendWebSocket("started_track", data: {
     'trackId': trackId
   });
 
@@ -261,7 +266,10 @@ class PlaybackSessionUpdater {
   void updateAll() {
     queueChanged(_audioManager.getSequence());
     final currentMediaItem = _audioManager.getCurrentMediaItem();
-    startedTrack(currentMediaItem != null ? _audioManager.getTrackIdFromMediaItem(currentMediaItem) : null);
+    final currentTrackId = currentMediaItem != null ? _audioManager.getTrackIdFromMediaItem(currentMediaItem) : null;
+    if (currentTrackId != null) {
+      startedTrack(currentTrackId);
+    }
 
     if (_audioManager.playbackState.value.processingState == AudioProcessingState.buffering) {
       buffering();
