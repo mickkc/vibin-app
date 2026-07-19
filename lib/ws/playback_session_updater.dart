@@ -235,6 +235,7 @@ class PlaybackSessionUpdater {
   void played() => _sendWebSocket("play");
   void paused() => _sendWebSocket("pause");
   void stopped() => _sendWebSocket("stop");
+  void buffering() => _sendWebSocket("buffering");
 
   void repeatModeChanged(LoopMode mode) => _sendWebSocket("repeat", data: { "mode": mode.name });
   void shuffleModeChanged(bool mode) =>  _sendWebSocket("shuffle", data: { "shuffle": mode });

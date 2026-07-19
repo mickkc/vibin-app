@@ -163,6 +163,19 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       if (state.processingState == ProcessingState.completed) {
         _handleTrackCompletion();
       }
+      else if (state.processingState == ProcessingState.buffering) {
+        _updater.buffering();
+      }
+      else if (state.processingState == ProcessingState.idle) {
+        _updater.stopped();
+      }
+      else if (state.processingState == ProcessingState.ready) {
+        if (state.playing) {
+          _updater.played();
+        } else {
+          _updater.paused();
+        }
+      }
     });
   }
 
@@ -255,12 +268,10 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   @override Future<void> play() async {
     // Do not await - Will wait until stopped / paused
     audioPlayer.play();
-    _updater.played();
   }
 
   @override Future<void> pause() async {
     audioPlayer.pause();
-    _updater.paused();
   }
 
   @override
