@@ -86,6 +86,9 @@ class _ThemedSvgState extends State<ThemedSvg> {
       else if (prefix == "?") {
         color = ThemeGenerator.blendColors(color, cs.brightness == Brightness.light ? lightest : darkest, colorMod.abs());
       }
+      else if (prefix == "!") {
+        color = ThemeGenerator.blendColors(color, cs.brightness == Brightness.light ? Colors.white : Colors.black, colorMod.abs());
+      }
 
       svg = svg.replaceAll("{{$g}}", color.toHexWithoutAlpha());
     }
