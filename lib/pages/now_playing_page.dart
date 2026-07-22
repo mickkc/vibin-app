@@ -12,6 +12,7 @@ import 'package:vibin_app/widgets/nowplaying/now_playing_control_bar.dart';
 import 'package:vibin_app/widgets/track_info.dart';
 
 import '../widgets/network_image.dart';
+import '../widgets/themed_svg.dart';
 
 class NowPlayingPage extends StatefulWidget {
   const NowPlayingPage({super.key});
@@ -73,8 +74,16 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
 
         if (_currentMediaItem == null || trackId == null) {
           return Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Text(AppLocalizations.of(context)!.now_playing_nothing),
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 32.0),
+            child: Column(
+              spacing: 8,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ThemedSvg(assetPath: "assets/images/Error_State_Pose.svg", width: 526, height: 256),
+                Text(AppLocalizations.of(context)!.now_playing_nothing),
+              ],
+            ),
           );
         }
 

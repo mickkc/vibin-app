@@ -96,4 +96,5 @@ flutter:
     - assets/icons/icon.png
     - assets/icons/app_icon.ico
     - assets/images/checkerboard.png
-    - assets/images/search.svg
+    - assets/images/Cat_Searching_Pose.svg
+    - assets/images/Error_State_Pose.svg
