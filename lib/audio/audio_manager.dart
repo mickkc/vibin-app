@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math' hide log;
 
 import 'package:audio_service/audio_service.dart';
@@ -9,7 +8,6 @@ import 'package:uuid/uuid.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/audio/audio_type.dart';
 import 'package:vibin_app/audio/media_item_parser.dart';
-import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/discord/rpc_updater.dart';
 import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/album/album_data.dart';
@@ -21,26 +19,21 @@ import 'package:vibin_app/dtos/track/track.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/utils/url_utils.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:vibin_app/ws/playback_session_updater.dart';
 
 import '../settings/settings_manager.dart';
 
 class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
-  late final AuthState _authState = getIt<AuthState>();
   late final ApiManager _apiManager = getIt<ApiManager>();
   late AudioPlayer audioPlayer;
   late final SettingsManager _settingsManager = getIt<SettingsManager>();
-  
-  WebSocketChannel? _socketChannel;
-  Timer? _webSocketPingTimer;
-  Timer? _reconnectTimer;
-  List<dynamic> _webSocketMessageQueue = [];
+
+  late final PlaybackSessionUpdater _updater = PlaybackSessionUpdater(this);
 
   // Stream subscriptions that need to be cancelled on dispose
   StreamSubscription<PlaybackEvent>? _playbackEventSubscription;
   StreamSubscription<PlayerState>? _playerStateSubscription;
-  StreamSubscription<dynamic>? _webSocketSubscription;
 
   CurrentAudioType? _currentAudioType;
   CurrentAudioType? get currentAudioType => _currentAudioType;
@@ -144,18 +137,6 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     });
   }
 
-  void _startWebSocketReconnectTimer() {
-    _reconnectTimer ??= Timer.periodic(const Duration(seconds: 10), (_) {
-      _ensureWebSocketConnected();
-    });
-  }
-
-  void _startWebSocketPingTimer() {
-    _webSocketPingTimer ??= Timer.periodic(const Duration(seconds: 30), (_) {
-      _sendWebSocket('ping');
-    });
-  }
-
   final currentMediaItemStreamController = StreamController<MediaItem?>.broadcast();
 
   /// A stream that emits the current media item whenever it changes or null if there is no current item.
@@ -182,6 +163,19 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       if (state.processingState == ProcessingState.completed) {
         _handleTrackCompletion();
       }
+      else if (state.processingState == ProcessingState.buffering) {
+        _updater.buffering();
+      }
+      else if (state.processingState == ProcessingState.idle) {
+        _updater.stopped();
+      }
+      else if (state.processingState == ProcessingState.ready) {
+        if (state.playing) {
+          _updater.played();
+        } else {
+          _updater.paused();
+        }
+      }
     });
   }
 
@@ -192,9 +186,9 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     _isHandlingCompletion = true;
 
     final trackId = _currentlyLoadedTrackId;
-    _sendWebSocket("finished_track", data: {
-      'trackId': trackId,
-    });
+    if (trackId != null) {
+      _updater.trackFinished(trackId);
+    }
 
     try {
       if (_loopMode == LoopMode.one) {
@@ -257,11 +251,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       await _playerStateSubscription?.cancel();
       _playerStateSubscription = null;
 
-      await _webSocketSubscription?.cancel();
-      _webSocketSubscription = null;
-
       // Disconnect WebSocket and cancel timers
-      await disconnectWebSocket();
+      await _updater.disconnectWebSocket();
 
       // Dispose player
       await audioPlayer.dispose();
@@ -274,112 +265,15 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   // endregion
 
-  // region WebSockets
-
-  Future<void> _ensureWebSocketConnected() async {
-    try {
-      if (_socketChannel != null && _socketChannel!.closeCode == null) {
-        return;
-      }
-
-      if (!_authState.loggedIn) {
-        return;
-      }
-
-      _socketChannel = WebSocketChannel.connect(
-        Uri.parse(_getWsUrl()),
-      );
-
-      await _socketChannel!.ready;
-
-      _webSocketSubscription = _socketChannel!.stream.listen((msg) {
-        logger.info("WebSocket message received: $msg");
-      }, onError: (error, stackTrace) {
-        logger.handle(error, stackTrace, "Websocket error");
-        _webSocketPingTimer?.cancel();
-        _webSocketPingTimer = null;
-        _socketChannel = null;
-        _startWebSocketReconnectTimer();
-      }, onDone: () {
-        logger.warning("WebSocket connection closed");
-        _webSocketPingTimer?.cancel();
-        _webSocketPingTimer = null;
-        _socketChannel = null;
-        _startWebSocketReconnectTimer();
-      });
-
-      // Send any queued messages
-      for (var message in _webSocketMessageQueue) {
-        _socketChannel!.sink.add(jsonEncode(message));
-      }
-
-      _webSocketMessageQueue.clear();
-
-      _startWebSocketPingTimer();
-      _reconnectTimer?.cancel();
-      _reconnectTimer = null;
-    }
-    catch (e, st) {
-      logger.handle(e, st, "Error connecting to websocket");
-      _socketChannel = null;
-    }
-  }
-
-  Future<void> disconnectWebSocket() async {
-    try {
-      await _socketChannel?.sink.close();
-    }
-    catch (e, st) {
-      logger.handle(e, st, "Error disconnecting websocket");
-    }
-    finally {
-      _socketChannel = null;
-      _webSocketPingTimer?.cancel();
-      _webSocketPingTimer = null;
-      _reconnectTimer?.cancel();
-      _reconnectTimer = null;
-    }
-  }
-
-  void _sendWebSocket(String type, { dynamic data }) {
-
-    try {
-      final message = {
-        'type': type,
-        'data': data,
-        'timestamp': (DateTime.now().toUtc().millisecondsSinceEpoch / 1000).round(),
-      };
-
-      if (_socketChannel == null || _socketChannel!.closeCode != null) {
-        _webSocketMessageQueue.add(message);
-        _ensureWebSocketConnected();
-        return;
-      }
-
-      _socketChannel!.sink.add(jsonEncode(message));
-    }
-    catch (e, st) {
-      logger.handle(e, st, "Error sending websocket message");
-    }
-  }
-
-  String _getWsUrl() {
-    return UrlUtils.getWsUrl("ws/playback?token=${_apiManager.accessToken}");
-  }
-
-  // endregion
-
   // region Playback Controls
 
   @override Future<void> play() async {
-    _sendWebSocket('play');
     // Do not await - Will wait until stopped / paused
     audioPlayer.play();
   }
 
-  @override Future<void> pause() {
-    _sendWebSocket('pause');
-    return audioPlayer.pause();
+  @override Future<void> pause() async {
+    audioPlayer.pause();
   }
 
   @override
@@ -391,8 +285,14 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     _shufflePosition = 0;
     _updateMediaItem();
     sequenceStreamController.add([]);
-    _sendWebSocket('stop');
+    _updater.stopped();
     return super.stop();
+  }
+
+  int? getTrackIdFromMediaItem(MediaItem mediaItem) {
+    final split = mediaItem.id.split("-");
+    if (split.isEmpty) return null;
+    return int.tryParse(split.first);
   }
 
   @override
@@ -400,9 +300,10 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     if (_queue.isEmpty) return;
 
     if (notify) {
-      _sendWebSocket('skipped_next', data: {
-        'trackId': _queue[_currentIndex].id,
-      });
+      final skippedTrackId = getTrackIdFromMediaItem(_queue[_currentIndex]);
+      if (skippedTrackId != null) {
+        _updater.skippedNext(skippedTrackId);
+      }
     }
 
     // In loop one mode, restart current track
@@ -437,9 +338,10 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   Future<void> skipToPrevious() async {
     if (_queue.isEmpty) return;
 
-    _sendWebSocket('skipped_prev', data: {
-      'trackId': _queue[_currentIndex].id,
-    });
+    final skippedTrackId = getTrackIdFromMediaItem(_queue[_currentIndex]);
+    if (skippedTrackId != null) {
+      _updater.skippedNext(skippedTrackId);
+    }
 
     // In loop one mode, restart current track
     if (_loopMode == LoopMode.one) {
@@ -521,6 +423,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     _loopMode = mode;
     loopModeStreamController.add(mode);
     _updatePlaybackState();
+    _updater.repeatModeChanged(mode);
   }
 
   bool get isShuffling => _isShuffling;
@@ -536,10 +439,11 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     shuffleModeStreamController.add(value);
     sequenceStreamController.add(getSequence());
     _updatePlaybackState();
+    _updater.shuffleModeChanged(value);
   }
 
   double get speed => audioPlayer.speed;
-  set speed(double value) => audioPlayer.setSpeed(value);
+  set speed(double value) => setSpeed(value);
 
   Duration get position => correctedPosition;
 
@@ -608,9 +512,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       await audioPlayer.stop();
 
       await audioPlayer.setAudioSource(source);
-      _sendWebSocket("started_track", data: {
-        'trackId': trackId
-      });
+      _updater.startedTrack(trackId);
 
       _setActualVolume();
 
@@ -698,6 +600,13 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     _volume = newVolume.clamp(0.0, 1.0);
     _currentVolumeController.add(volume);
     _setActualVolume(newVolume: volume);
+    _updater.volumeChanged(_volume);
+  }
+
+  @override
+  Future<void> setSpeed(double speed) async {
+    await audioPlayer.setSpeed(speed);
+    _updater.speedChanged(speed);
   }
 
   /// Sets the actual volume on the audio player, applying normalization if enabled
@@ -808,6 +717,8 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     if (_queue.isEmpty) {
       setAudioType(AudioType.unspecified, null);
     }
+
+    _updater.queueChanged(getSequence());
   }
 
   /// Reloads the current track's audio source (used when queue changes affect current track)
@@ -867,6 +778,50 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   // region Play Methods
 
+  Future<void> playFromQueueIds(List<int> ids, { int? startId, int? audioTypeId, String? audioType, bool? shuffle }) async {
+
+    AudioType? parsedType;
+
+    if (shuffle != null) _isShuffling = shuffle;
+
+    if (audioType != null) {
+      parsedType = AudioType.values.firstWhere((at) => at.name.toLowerCase() == audioType.toLowerCase(), orElse: () => AudioType.unspecified);
+      setAudioType(parsedType, audioTypeId);
+    }
+
+    final streamables = await _getStreamablesFromIds(ids);
+    _queue = await Future.wait(streamables.map((track) => _buildMediaItem(track)));
+
+    if (parsedType != null && parsedType != AudioType.unspecified && parsedType != AudioType.tracks) {
+      _updater.recordListen(parsedType, audioTypeId);
+    }
+
+    if (_isShuffling && startId == null) {
+      // Let shuffle order determine the starting track
+      _shuffleIndices = List.generate(_queue.length, (i) => i);
+      _shuffleIndices.shuffle();
+      _shufflePosition = 0;
+      await playTrackAtIndex(_shuffleIndices[0]);
+    }
+    else {
+      // Either not shuffling, or have a preferred track
+      final initialIndex = startId != null
+          ? _queue.indexWhere((item) => item.trackId == startId)
+          : 0;
+
+      if (_isShuffling) {
+        // Set current index before creating shuffle order
+        // so the preferred track is moved to the front
+        _currentIndex = initialIndex.clamp(0, _queue.length - 1);
+        _createShuffleOrder();
+      }
+
+      await playTrackAtIndex(initialIndex.clamp(0, _queue.length - 1));
+    }
+
+    _updateQueue();
+  }
+
   // region Playlists
 
   /// Plays the specified playlist, optionally shuffling the tracks.
@@ -896,10 +851,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final streamables = await _getStreamablesFromIds(tracks.map((t) => t.id).toList());
     _queue = await Future.wait(streamables.map((track) => _buildMediaItem(track)));
 
-    _sendWebSocket("listen", data: {
-      'type': 'playlist',
-      'id': data.playlist.id,
-    });
+    _updater.recordListen(AudioType.playlist, data.playlist.id);
 
     if (_isShuffling && preferredTrackId == null) {
       // Let shuffle order determine the starting track
@@ -956,10 +908,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final streamables = await _getStreamablesFromIds(tracks.map((t) => t.id).toList());
     _queue = await Future.wait(streamables.map((track) => _buildMediaItem(track)));
 
-    _sendWebSocket("listen", data: {
-      'type': 'album',
-      'id': data.album.id,
-    });
+    _updater.recordListen(AudioType.album, data.album.id);
 
     if (_isShuffling && preferredTrackId == null) {
       // Let shuffle order determine the starting track
@@ -1154,10 +1103,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     _updateQueue();
 
-    _sendWebSocket("listen", data: {
-      'type': 'album',
-      'id': album.id,
-    });
+    _updater.recordListen(AudioType.album, album.id);
 
     if (wasEmpty) {
       setAudioType(AudioType.album, album.id);
@@ -1190,10 +1136,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     _updateQueue();
 
-    _sendWebSocket("listen", data: {
-      'type': 'playlist',
-      'id': playlist.id,
-    });
+    _updater.recordListen(AudioType.playlist, playlist.id);
 
     if (wasEmpty) {
       setAudioType(AudioType.playlist, playlist.id);
