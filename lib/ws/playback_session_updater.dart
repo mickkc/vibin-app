@@ -94,6 +94,8 @@ class PlaybackSessionUpdater {
       _startWebSocketPingTimer();
       _reconnectTimer?.cancel();
       _reconnectTimer = null;
+
+      updateAll();
     }
     catch (e, st) {
       logger.handle(e, st, "Error connecting to websocket");
