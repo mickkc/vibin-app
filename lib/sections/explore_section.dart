@@ -24,7 +24,7 @@ class ExploreSection extends StatelessWidget {
       children: [
         SectionHeader(
           title: AppLocalizations.of(context)!.section_random_tracks,
-          viewAllRoute: "/tracks",
+          viewAllRoute: "/tracks?sortingCriteria=RANDOM",
         ),
         FutureContent(
           future: tracks,
