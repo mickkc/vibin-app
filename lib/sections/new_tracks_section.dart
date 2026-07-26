@@ -24,7 +24,7 @@ class NewTracksSection extends StatelessWidget {
       children: [
         SectionHeader(
           title: AppLocalizations.of(context)!.section_newest_tracks,
-          viewAllRoute: "/tracks",
+          viewAllRoute: "/tracks?sortingCriteria=DATE_ADDED&sortingOrder=DESC",
         ),
         FutureContent(
           future: tracks,

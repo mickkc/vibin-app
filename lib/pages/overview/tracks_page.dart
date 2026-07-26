@@ -70,6 +70,19 @@ class _TrackPageState extends State<TrackPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final parameters = GoRouterState.of(context).uri.queryParameters;
+    _sortingCriteria = TrackSortingCriteria.values.firstWhere((sc) {
+      return sc.name.toLowerCase() == parameters["sortingCriteria"]?.toLowerCase();
+    }, orElse: () => TrackSortingCriteria.TITLE);
+    _sortingOrder = SortOrder.values.firstWhere((so) {
+      return so.name.toLowerCase() == parameters["sortingOrder"]?.toLowerCase();
+    }, orElse: () => SortOrder.ASC);
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     final settingsManager = getIt<SettingsManager>();
