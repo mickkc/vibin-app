@@ -2,6 +2,9 @@ import 'dart:ui';
 
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/themes/impl/catppuccin_themes.dart';
+import 'package:vibin_app/themes/impl/everforest/everforest_hard_theme.dart';
+import 'package:vibin_app/themes/impl/everforest/everforest_medium_theme.dart';
+import 'package:vibin_app/themes/impl/everforest/everforest_soft_theme.dart';
 
 import '../main.dart';
 import '../settings/settings_manager.dart';
@@ -23,6 +26,9 @@ enum ColorSchemeKey {
   nord,
   dracula,
   solarized,
+  everforestHard,
+  everforestMedium,
+  everforestSoft,
   pywal
 }
 
@@ -39,6 +45,9 @@ class ColorSchemeList {
     ColorSchemeKey.dracula: DraculaTheme(),
     ColorSchemeKey.solarized: SolarizedTheme(),
     ColorSchemeKey.pywal: PywalTheme(),
+    ColorSchemeKey.everforestHard: EverforestHardTheme(),
+    ColorSchemeKey.everforestMedium: EverforestMediumTheme(),
+    ColorSchemeKey.everforestSoft: EverforestSoftTheme()
   };
 
   static BaseColorSchemeProvider get(ColorSchemeKey key) {
