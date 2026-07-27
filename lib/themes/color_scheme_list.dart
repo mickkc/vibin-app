@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:vibin_app/settings/setting_definitions.dart';
+import 'package:vibin_app/themes/impl/black_white_theme.dart';
 import 'package:vibin_app/themes/impl/catppuccin_themes.dart';
 import 'package:vibin_app/themes/impl/everforest/everforest_hard_theme.dart';
 import 'package:vibin_app/themes/impl/everforest/everforest_medium_theme.dart';
@@ -43,6 +44,7 @@ enum ColorSchemeKey {
   rosePine,
   rosePineMoon,
   rosePineDawn,
+  blackWhite,
   pywal
 }
 
@@ -68,7 +70,8 @@ class ColorSchemeList {
     ColorSchemeKey.evergardenSummer: EvergardenSummerTheme(),
     ColorSchemeKey.rosePineMoon: RosePineMoonTheme(),
     ColorSchemeKey.rosePineDawn: RosePineDawnTheme(),
-    ColorSchemeKey.rosePine: RosePineTheme()
+    ColorSchemeKey.rosePine: RosePineTheme(),
+    ColorSchemeKey.blackWhite: BlackWhiteTheme()
   };
 
   static BaseColorSchemeProvider get(ColorSchemeKey key) {
