@@ -38,7 +38,7 @@ class EvergardenSummerTheme extends BaseColorSchemeProvider {
     lowestSurfaceColor: Color(0xFFede8dd),
     errorColor: Color(0xFFc58687),
     secondaryColor: Color(0xFF829084),
-    brightness: Brightness.dark,
+    brightness: Brightness.light,
     backgroundOnSecondary: true,
     backgroundOnError: true,
     backgroundOnPrimary: true

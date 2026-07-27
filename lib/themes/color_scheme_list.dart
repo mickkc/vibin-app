@@ -9,6 +9,9 @@ import 'package:vibin_app/themes/impl/evergarden/evergarden_fall_theme.dart';
 import 'package:vibin_app/themes/impl/evergarden/evergarden_spring_theme.dart';
 import 'package:vibin_app/themes/impl/evergarden/evergarden_summer_theme.dart';
 import 'package:vibin_app/themes/impl/evergarden/evergarden_winter_theme.dart';
+import 'package:vibin_app/themes/impl/rosepine/rose_pine_dawn_theme.dart';
+import 'package:vibin_app/themes/impl/rosepine/rose_pine_moon_theme.dart';
+import 'package:vibin_app/themes/impl/rosepine/rose_pine_theme.dart';
 
 import '../main.dart';
 import '../settings/settings_manager.dart';
@@ -37,6 +40,9 @@ enum ColorSchemeKey {
   evergardenFall,
   evergardenSpring,
   evergardenSummer,
+  rosePine,
+  rosePineMoon,
+  rosePineDawn,
   pywal
 }
 
@@ -59,7 +65,10 @@ class ColorSchemeList {
     ColorSchemeKey.evergardenWinter: EvergardenWinterTheme(),
     ColorSchemeKey.evergardenFall: EvergardenFallTheme(),
     ColorSchemeKey.evergardenSpring: EvergardenSpringTheme(),
-    ColorSchemeKey.evergardenSummer: EvergardenSummerTheme()
+    ColorSchemeKey.evergardenSummer: EvergardenSummerTheme(),
+    ColorSchemeKey.rosePineMoon: RosePineMoonTheme(),
+    ColorSchemeKey.rosePineDawn: RosePineDawnTheme(),
+    ColorSchemeKey.rosePine: RosePineTheme()
   };
 
   static BaseColorSchemeProvider get(ColorSchemeKey key) {
