@@ -10,6 +10,9 @@ import 'package:vibin_app/themes/impl/evergarden/evergarden_fall_theme.dart';
 import 'package:vibin_app/themes/impl/evergarden/evergarden_spring_theme.dart';
 import 'package:vibin_app/themes/impl/evergarden/evergarden_summer_theme.dart';
 import 'package:vibin_app/themes/impl/evergarden/evergarden_winter_theme.dart';
+import 'package:vibin_app/themes/impl/kanagawa/kanagawa_dragon_theme.dart';
+import 'package:vibin_app/themes/impl/kanagawa/kanagawa_lotus_theme.dart';
+import 'package:vibin_app/themes/impl/kanagawa/kanagawa_wave_theme.dart';
 import 'package:vibin_app/themes/impl/rosepine/rose_pine_dawn_theme.dart';
 import 'package:vibin_app/themes/impl/rosepine/rose_pine_moon_theme.dart';
 import 'package:vibin_app/themes/impl/rosepine/rose_pine_theme.dart';
@@ -45,6 +48,9 @@ enum ColorSchemeKey {
   rosePineMoon,
   rosePineDawn,
   blackWhite,
+  kanagawaDragon,
+  kanagawaLotus,
+  kanagawaWave,
   pywal
 }
 
@@ -71,7 +77,10 @@ class ColorSchemeList {
     ColorSchemeKey.rosePineMoon: RosePineMoonTheme(),
     ColorSchemeKey.rosePineDawn: RosePineDawnTheme(),
     ColorSchemeKey.rosePine: RosePineTheme(),
-    ColorSchemeKey.blackWhite: BlackWhiteTheme()
+    ColorSchemeKey.blackWhite: BlackWhiteTheme(),
+    ColorSchemeKey.kanagawaDragon: KanagawaDragonTheme(),
+    ColorSchemeKey.kanagawaLotus: KanagawaLotusTheme(),
+    ColorSchemeKey.kanagawaWave: KanagawaWaveTheme()
   };
 
   static BaseColorSchemeProvider get(ColorSchemeKey key) {
