@@ -38,25 +38,26 @@ class EverforestHardTheme extends BaseColorSchemeProvider {
   }
 
   static final _darkSpec = const CustomThemeSpec(
-      backgroundColor: Color(0xFF272E33),
-      foregroundColor: Color(0xFFD3C6AA),
-      highestSurfaceColor: Color(0xFF495156),
-      lowestSurfaceColor: Color(0xFF374145),
-      errorColor: Color(0xFFE67E80),
-      secondaryColor: Color(0xFF7A8478),
-      brightness: Brightness.dark
+    backgroundColor: Color(0xFF272E33),
+    foregroundColor: Color(0xFFD3C6AA),
+    highestSurfaceColor: Color(0xFF495156),
+    lowestSurfaceColor: Color(0xFF374145),
+    errorColor: Color(0xFFE67E80),
+    secondaryColor: Color(0xFF7A8478),
+    brightness: Brightness.dark
   );
 
   static final _lightSpec = const CustomThemeSpec(
-      backgroundColor: Color(0xFFFFFBEF),
-      foregroundColor: Color(0xFF5C6A72),
-      highestSurfaceColor: Color(0xFFE8E5D5),
-      lowestSurfaceColor: Color(0xFFF2EFDF),
-      errorColor: Color(0xFFF85552),
-      secondaryColor: Color(0xFF859289),
-      brightness: Brightness.light,
-      backgroundOnPrimary: true,
-      backgroundOnError: true
+    backgroundColor: Color(0xFFFFFBEF),
+    foregroundColor: Color(0xFF5C6A72),
+    highestSurfaceColor: Color(0xFFE8E5D5),
+    lowestSurfaceColor: Color(0xFFF2EFDF),
+    errorColor: Color(0xFFF85552),
+    secondaryColor: Color(0xFF859289),
+    brightness: Brightness.light,
+    backgroundOnPrimary: true,
+    backgroundOnError: true,
+    backgroundOnSecondary: true
   );
 
   @override

@@ -30,7 +30,8 @@ class EverforestSoftTheme extends EverforestHardTheme {
     secondaryColor: Color(0xFF859289),
     brightness: Brightness.light,
     backgroundOnPrimary: true,
-    backgroundOnError: true
+    backgroundOnError: true,
+    backgroundOnSecondary: true
   );
 
   @override
