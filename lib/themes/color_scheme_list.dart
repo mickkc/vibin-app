@@ -5,6 +5,10 @@ import 'package:vibin_app/themes/impl/catppuccin_themes.dart';
 import 'package:vibin_app/themes/impl/everforest/everforest_hard_theme.dart';
 import 'package:vibin_app/themes/impl/everforest/everforest_medium_theme.dart';
 import 'package:vibin_app/themes/impl/everforest/everforest_soft_theme.dart';
+import 'package:vibin_app/themes/impl/evergarden/evergarden_fall_theme.dart';
+import 'package:vibin_app/themes/impl/evergarden/evergarden_spring_theme.dart';
+import 'package:vibin_app/themes/impl/evergarden/evergarden_summer_theme.dart';
+import 'package:vibin_app/themes/impl/evergarden/evergarden_winter_theme.dart';
 
 import '../main.dart';
 import '../settings/settings_manager.dart';
@@ -29,6 +33,10 @@ enum ColorSchemeKey {
   everforestHard,
   everforestMedium,
   everforestSoft,
+  evergardenWinter,
+  evergardenFall,
+  evergardenSpring,
+  evergardenSummer,
   pywal
 }
 
@@ -47,7 +55,11 @@ class ColorSchemeList {
     ColorSchemeKey.pywal: PywalTheme(),
     ColorSchemeKey.everforestHard: EverforestHardTheme(),
     ColorSchemeKey.everforestMedium: EverforestMediumTheme(),
-    ColorSchemeKey.everforestSoft: EverforestSoftTheme()
+    ColorSchemeKey.everforestSoft: EverforestSoftTheme(),
+    ColorSchemeKey.evergardenWinter: EvergardenWinterTheme(),
+    ColorSchemeKey.evergardenFall: EvergardenFallTheme(),
+    ColorSchemeKey.evergardenSpring: EvergardenSpringTheme(),
+    ColorSchemeKey.evergardenSummer: EvergardenSummerTheme()
   };
 
   static BaseColorSchemeProvider get(ColorSchemeKey key) {
