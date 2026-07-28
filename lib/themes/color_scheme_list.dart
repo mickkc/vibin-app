@@ -10,6 +10,8 @@ import 'package:vibin_app/themes/impl/evergarden/evergarden_fall_theme.dart';
 import 'package:vibin_app/themes/impl/evergarden/evergarden_spring_theme.dart';
 import 'package:vibin_app/themes/impl/evergarden/evergarden_summer_theme.dart';
 import 'package:vibin_app/themes/impl/evergarden/evergarden_winter_theme.dart';
+import 'package:vibin_app/themes/impl/gruvbox/gruvbox_medium_theme.dart';
+import 'package:vibin_app/themes/impl/gruvbox/gruvbox_soft_theme.dart';
 import 'package:vibin_app/themes/impl/kanagawa/kanagawa_dragon_theme.dart';
 import 'package:vibin_app/themes/impl/kanagawa/kanagawa_lotus_theme.dart';
 import 'package:vibin_app/themes/impl/kanagawa/kanagawa_wave_theme.dart';
@@ -23,7 +25,7 @@ import '../main.dart';
 import '../settings/settings_manager.dart';
 import 'base_color_scheme_provider.dart';
 import 'impl/dracula_theme.dart';
-import 'impl/gruvbox_theme.dart';
+import 'impl/gruvbox/gruvbox_hard_theme.dart';
 import 'impl/material3_theme.dart';
 import 'impl/nord_theme.dart';
 import 'impl/pywal/pywal_theme.dart';
@@ -31,7 +33,9 @@ import 'impl/solarized_theme.dart';
 
 enum ColorSchemeKey {
   material3,
-  gruvbox,
+  gruvboxHard,
+  gruvboxMedium,
+  gruvboxSoft,
   catppuccinLatte,
   catppuccinFrappe,
   catppuccinMacchiato,
@@ -62,7 +66,9 @@ class ColorSchemeList {
 
   static final Map<ColorSchemeKey, BaseColorSchemeProvider> _allSchemes = {
     ColorSchemeKey.material3: Material3Theme(),
-    ColorSchemeKey.gruvbox: GruvboxTheme(),
+    ColorSchemeKey.gruvboxHard: GruvboxHardTheme(),
+    ColorSchemeKey.gruvboxMedium: GruvboxMediumTheme(),
+    ColorSchemeKey.gruvboxSoft: GruvboxSoftTheme(),
     ColorSchemeKey.catppuccinLatte: CatppuccinLatteTheme(),
     ColorSchemeKey.catppuccinFrappe: CatppuccinFrappeTheme(),
     ColorSchemeKey.catppuccinMacchiato: CatppuccinMacchiatoTheme(),

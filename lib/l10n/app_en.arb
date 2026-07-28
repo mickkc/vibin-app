@@ -378,7 +378,9 @@
 
   "settings_app_theme_title": "Theme",
 
-  "settings_app_theme_gruvbox_title": "Gruvbox",
+  "settings_app_theme_gruvbox_hard_title": "Gruvbox (Hard)",
+  "settings_app_theme_gruvbox_medium_title": "Gruvbox (Medium)",
+  "settings_app_theme_gruvbox_soft_title": "Gruvbox (Soft)",
   "settings_app_theme_material3_title": "Material 3",
   "settings_app_theme_catppuccin_latte_title": "Catppuccin Latte",
   "settings_app_theme_catppuccin_frappe_title": "Catppuccin Frappe",
