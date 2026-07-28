@@ -16,6 +16,8 @@ import 'package:vibin_app/themes/impl/kanagawa/kanagawa_wave_theme.dart';
 import 'package:vibin_app/themes/impl/rosepine/rose_pine_dawn_theme.dart';
 import 'package:vibin_app/themes/impl/rosepine/rose_pine_moon_theme.dart';
 import 'package:vibin_app/themes/impl/rosepine/rose_pine_theme.dart';
+import 'package:vibin_app/themes/impl/tokyonight/tokyo_night_storm_theme.dart';
+import 'package:vibin_app/themes/impl/tokyonight/tokyo_night_theme.dart';
 
 import '../main.dart';
 import '../settings/settings_manager.dart';
@@ -51,6 +53,8 @@ enum ColorSchemeKey {
   kanagawaDragon,
   kanagawaLotus,
   kanagawaWave,
+  tokyoNight,
+  tokyoNightStorm,
   pywal
 }
 
@@ -80,7 +84,9 @@ class ColorSchemeList {
     ColorSchemeKey.blackWhite: BlackWhiteTheme(),
     ColorSchemeKey.kanagawaDragon: KanagawaDragonTheme(),
     ColorSchemeKey.kanagawaLotus: KanagawaLotusTheme(),
-    ColorSchemeKey.kanagawaWave: KanagawaWaveTheme()
+    ColorSchemeKey.kanagawaWave: KanagawaWaveTheme(),
+    ColorSchemeKey.tokyoNight: TokyoNightTheme(),
+    ColorSchemeKey.tokyoNightStorm: TokyoNightStormTheme()
   };
 
   static BaseColorSchemeProvider get(ColorSchemeKey key) {
