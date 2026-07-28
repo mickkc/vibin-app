@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/utils/theme_generator.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../base_color_scheme_provider.dart';
+import '../../../l10n/app_localizations.dart';
+import '../../base_color_scheme_provider.dart';
 
-class GruvboxTheme extends BaseColorSchemeProvider {
+class GruvboxHardTheme extends BaseColorSchemeProvider {
 
   @override
   String getName(AppLocalizations lm) {
-    return lm.settings_app_theme_gruvbox_title;
+    return lm.settings_app_theme_gruvbox_hard_title;
   }
 
   @override
@@ -46,13 +46,15 @@ class GruvboxTheme extends BaseColorSchemeProvider {
   );
 
   static final _lightSpec = const CustomThemeSpec(
-      backgroundColor: Color(0xFFFBF1C7),
-      foregroundColor: Color(0xFF1D2021),
-      highestSurfaceColor: Color(0xFFEBDBB2),
-      lowestSurfaceColor: Color(0xFFD5C4A1),
-      errorColor: Color(0xFFCC241D),
-      secondaryColor: Color(0xFFBDAE93),
-      brightness: Brightness.light
+    backgroundColor: Color(0xFFF9F5D7),
+    foregroundColor: Color(0xFF1D2021),
+    highestSurfaceColor: Color(0xFFEBDBB2),
+    lowestSurfaceColor: Color(0xFFD5C4A1),
+    errorColor: Color(0xFFCC241D),
+    secondaryColor: Color(0xFFBDAE93),
+    brightness: Brightness.light,
+    backgroundOnPrimary: true,
+    backgroundOnError: true
   );
 
   @override

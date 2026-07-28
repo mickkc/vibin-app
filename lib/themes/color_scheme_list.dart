@@ -1,13 +1,31 @@
 import 'dart:ui';
 
 import 'package:vibin_app/settings/setting_definitions.dart';
+import 'package:vibin_app/themes/impl/black_white_theme.dart';
 import 'package:vibin_app/themes/impl/catppuccin_themes.dart';
+import 'package:vibin_app/themes/impl/everforest/everforest_hard_theme.dart';
+import 'package:vibin_app/themes/impl/everforest/everforest_medium_theme.dart';
+import 'package:vibin_app/themes/impl/everforest/everforest_soft_theme.dart';
+import 'package:vibin_app/themes/impl/evergarden/evergarden_fall_theme.dart';
+import 'package:vibin_app/themes/impl/evergarden/evergarden_spring_theme.dart';
+import 'package:vibin_app/themes/impl/evergarden/evergarden_summer_theme.dart';
+import 'package:vibin_app/themes/impl/evergarden/evergarden_winter_theme.dart';
+import 'package:vibin_app/themes/impl/gruvbox/gruvbox_medium_theme.dart';
+import 'package:vibin_app/themes/impl/gruvbox/gruvbox_soft_theme.dart';
+import 'package:vibin_app/themes/impl/kanagawa/kanagawa_dragon_theme.dart';
+import 'package:vibin_app/themes/impl/kanagawa/kanagawa_lotus_theme.dart';
+import 'package:vibin_app/themes/impl/kanagawa/kanagawa_wave_theme.dart';
+import 'package:vibin_app/themes/impl/rosepine/rose_pine_dawn_theme.dart';
+import 'package:vibin_app/themes/impl/rosepine/rose_pine_moon_theme.dart';
+import 'package:vibin_app/themes/impl/rosepine/rose_pine_theme.dart';
+import 'package:vibin_app/themes/impl/tokyonight/tokyo_night_storm_theme.dart';
+import 'package:vibin_app/themes/impl/tokyonight/tokyo_night_theme.dart';
 
 import '../main.dart';
 import '../settings/settings_manager.dart';
 import 'base_color_scheme_provider.dart';
 import 'impl/dracula_theme.dart';
-import 'impl/gruvbox_theme.dart';
+import 'impl/gruvbox/gruvbox_hard_theme.dart';
 import 'impl/material3_theme.dart';
 import 'impl/nord_theme.dart';
 import 'impl/pywal/pywal_theme.dart';
@@ -15,7 +33,9 @@ import 'impl/solarized_theme.dart';
 
 enum ColorSchemeKey {
   material3,
-  gruvbox,
+  gruvboxHard,
+  gruvboxMedium,
+  gruvboxSoft,
   catppuccinLatte,
   catppuccinFrappe,
   catppuccinMacchiato,
@@ -23,6 +43,22 @@ enum ColorSchemeKey {
   nord,
   dracula,
   solarized,
+  everforestHard,
+  everforestMedium,
+  everforestSoft,
+  evergardenWinter,
+  evergardenFall,
+  evergardenSpring,
+  evergardenSummer,
+  rosePine,
+  rosePineMoon,
+  rosePineDawn,
+  blackWhite,
+  kanagawaDragon,
+  kanagawaLotus,
+  kanagawaWave,
+  tokyoNight,
+  tokyoNightStorm,
   pywal
 }
 
@@ -30,7 +66,9 @@ class ColorSchemeList {
 
   static final Map<ColorSchemeKey, BaseColorSchemeProvider> _allSchemes = {
     ColorSchemeKey.material3: Material3Theme(),
-    ColorSchemeKey.gruvbox: GruvboxTheme(),
+    ColorSchemeKey.gruvboxHard: GruvboxHardTheme(),
+    ColorSchemeKey.gruvboxMedium: GruvboxMediumTheme(),
+    ColorSchemeKey.gruvboxSoft: GruvboxSoftTheme(),
     ColorSchemeKey.catppuccinLatte: CatppuccinLatteTheme(),
     ColorSchemeKey.catppuccinFrappe: CatppuccinFrappeTheme(),
     ColorSchemeKey.catppuccinMacchiato: CatppuccinMacchiatoTheme(),
@@ -39,6 +77,22 @@ class ColorSchemeList {
     ColorSchemeKey.dracula: DraculaTheme(),
     ColorSchemeKey.solarized: SolarizedTheme(),
     ColorSchemeKey.pywal: PywalTheme(),
+    ColorSchemeKey.everforestHard: EverforestHardTheme(),
+    ColorSchemeKey.everforestMedium: EverforestMediumTheme(),
+    ColorSchemeKey.everforestSoft: EverforestSoftTheme(),
+    ColorSchemeKey.evergardenWinter: EvergardenWinterTheme(),
+    ColorSchemeKey.evergardenFall: EvergardenFallTheme(),
+    ColorSchemeKey.evergardenSpring: EvergardenSpringTheme(),
+    ColorSchemeKey.evergardenSummer: EvergardenSummerTheme(),
+    ColorSchemeKey.rosePineMoon: RosePineMoonTheme(),
+    ColorSchemeKey.rosePineDawn: RosePineDawnTheme(),
+    ColorSchemeKey.rosePine: RosePineTheme(),
+    ColorSchemeKey.blackWhite: BlackWhiteTheme(),
+    ColorSchemeKey.kanagawaDragon: KanagawaDragonTheme(),
+    ColorSchemeKey.kanagawaLotus: KanagawaLotusTheme(),
+    ColorSchemeKey.kanagawaWave: KanagawaWaveTheme(),
+    ColorSchemeKey.tokyoNight: TokyoNightTheme(),
+    ColorSchemeKey.tokyoNightStorm: TokyoNightStormTheme()
   };
 
   static BaseColorSchemeProvider get(ColorSchemeKey key) {
