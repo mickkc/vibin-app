@@ -10,7 +10,8 @@ enum WidgetType {
   favoriteAlbums("FAVORITE_ALBUMS"),
   favoriteArtists("FAVORITE_ARTISTS"),
   joinedFavorites("JOINED_FAVORITES"),
-  serverStats("SERVER_STATS");
+  serverStats("SERVER_STATS"),
+  listeningTo("LISTENING_TO");
 
   final String value;
   const WidgetType(this.value);
@@ -33,6 +34,8 @@ enum WidgetType {
         return lm.settings_widgets_type_joined_favorites;
       case WidgetType.serverStats:
         return lm.settings_widgets_type_server_stats;
+      case WidgetType.listeningTo:
+        return lm.settings_widgets_type_listening_to;
     }
   }
 

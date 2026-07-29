@@ -94,6 +94,8 @@ class PlaybackSessionUpdater {
       _startWebSocketPingTimer();
       _reconnectTimer?.cancel();
       _reconnectTimer = null;
+
+      updateAll();
     }
     catch (e, st) {
       logger.handle(e, st, "Error connecting to websocket");
@@ -240,9 +242,9 @@ class PlaybackSessionUpdater {
     'trackId': trackId
   });
 
-  void played() => _sendWebSocket("play");
-  void paused() => _sendWebSocket("pause");
-  void stopped() => _sendWebSocket("stop");
+  void played() => _sendWebSocket("play", data: { "position": _audioManager.correctedPosition.inSeconds });
+  void paused() => _sendWebSocket("pause", data: { "position": _audioManager.correctedPosition.inSeconds });
+  void stopped() => _sendWebSocket("stop", data: { "position": _audioManager.correctedPosition.inSeconds });
   void buffering() => _sendWebSocket("buffering");
 
   void repeatModeChanged(LoopMode mode) => _sendWebSocket("repeat", data: { "mode": mode.name });

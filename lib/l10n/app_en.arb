@@ -603,6 +603,7 @@
   "settings_widgets_type_favorite_artists": "Favorite Artists",
   "settings_widgets_type_joined_favorites": "Favorite Tracks, Albums, and Artists",
   "settings_widgets_type_server_stats": "Server Statistics",
+  "settings_widgets_type_listening_to": "Listening to",
 
   "settings_widgets_error_no_types_selected": "Please select at least one widget type.",
   "settings_widgets_error_incomplete_colors": "Please select either all colors or none to use the default colors.",
