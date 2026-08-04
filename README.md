@@ -17,143 +17,70 @@ Please note that this project, just like the server, is currently in beta and st
 |                      **Album view**                       |                      **Artist view**                      |
 |           ![Album view](screenshots/album.webp)           |          ![Artist view](screenshots/artist.webp)          |
 |                     **Playlist view**                     |           **Playlist collaboration selection**            |
-|       ![POlaylist view](screenshots/playlist.webp)        | ![Playlist Collaboration](screenshots/collaborators.webp) |
+|        ![Playlist view](screenshots/playlist.webp)        | ![Playlist Collaboration](screenshots/collaborators.webp) |
 |                    **Track overview**                     |                  **"Now playing" view**                   |
-|        ![Track overview](screenshots/tracks.webp)         |      ![Album overview](screenshots/now-playing.webp)      |
+|        ![Track overview](screenshots/tracks.webp)         |    !["Now playing" view](screenshots/now-playing.webp)    |
 |                 **Track metadata search**                 |                     **Lyrics search**                     |
 | ![Track metadata search](screenshots/metadata-track.webp) |    ![Lyrics search](screenshots/metadata-lyrics.webp)     |
 
-# Themes
+# Getting started (Development)
 
-|                          **Material 3 Dark**                          |                      **Material 3 Light**                       |
-|:---------------------------------------------------------------------:|:---------------------------------------------------------------:|
-|      ![Material 3 Dark](screenshots/themes/material3-dark.webp)       |  ![Material 3 Light](screenshots/themes/material3-light.webp)   |
-|                           **Gruvbox Dark**                            |                        **Gruvbox Light**                        |
-|         ![Gruvbox Dark](screenshots/themes/gruvbox-dark.webp)         |     ![Gruvbox Light](screenshots/themes/gruvbox-light.webp)     |
-|                         **Catppuccin Latte**                          |                      **Catppuccin Frappé**                      |
-|     ![Catppuccin Latte](screenshots/themes/catppuccin-latte.webp)     | ![Catppuccin Frappé](screenshots/themes/catppuccin-frappe.webp) |
-|                       **Catppuccin Macchiato**                        |                      **Catppuccin Mocha**                       |
-| ![Catppuccin Macchiato](screenshots/themes/catppuccin-macchiato.webp) |  ![Catppuccin Mocha](screenshots/themes/catppuccin-mocha.webp)  |
-|                           **Dracular Dark**                           |                       **Dracular Light**                        |
-|        ![Dracular Dark](screenshots/themes/dracular-dark.webp)        |    ![Dracular Light](screenshots/themes/dracular-light.webp)    |
-|                             **Nord Dark**                             |                         **Nord Light**                          |
-|          ![Dracular Dark](screenshots/themes/nord-dark.webp)          |      ![Dracular Light](screenshots/themes/nord-light.webp)      |
-|                          **Solarized Dark**                           |                       **Solarized Light**                       |
-|       ![Solarized Dark](screenshots/themes/solarized-dark.webp)       |   ![Solarized Light](screenshots/themes/solarized-light.webp)   |
+<details open>
+<summary>🐧 (Arch) Linux</summary>
 
-# Feature Checklist
+> [!NOTE]
+> The following commands and package names are intended to be used on Arch Linux,
+> they may differ for other distributions.
 
-- [x] Login / Logout
-- [ ] Registration (?)
-- [x] Media Token for tracks & covers
-- [x] Streaming tracks
-- [ ] Verify background playback works everywhere
-- [ ] Test on Platforms
-  - [x] Linux
-  - [x] Android
-  - [ ] iOS
-  - [ ] macOS
-  - [ ] Windows
-  - [x] Web
-- [x] Dark/Light mode
-- [x] ~~Dynamic color scheme~~ (Dropped in favor of manual color schemes due to complexity)
-- [x] Manual color schemes
-- [x] Player controls
-    - [x] Play/Pause
-    - [x] Next/Previous track
-    - [x] Seek
-    - [x] Shuffle
-    - [x] Repeat
-    - [x] Volume control
-    - [x] Playback speed
-- [x] Linux DBus media player integration
-- [x] Discord presence integration
-- [x] Currently playing view
-- [ ] Queue
-    - [x] View queue
-    - [x] Reorder queue
-    - [x] Remove tracks from queue
-    - [ ] Add random / recommended tracks to queue
-    - [ ] Save queue as playlist
-- [x] Homepage
-  - [x] Recommended items
-  - [x] Recently played items
-  - [x] Newly added items
-  - [x] Popular items
-  - [x] Random tracks
-  - [x] Top monthly tracks
-  - [x] Top monthly artists
-  - [x] Random playlists
-- [x] Browse library
-  - [x] Albums
-  - [x] Artists
-  - [x] Playlists
-  - [x] Tracks
-  - [x] Tags
-- [ ] Search
-  - [x] Albums
-  - [x] Artists
-  - [x] Playlists
-  - [x] Tracks
-  - [x] Tags
-  - [ ] Global search
-- [x] Edit
-  - [x] Albums
-  - [x] Artists
-  - [x] Playlists
-  - [x] Tracks
-  - [x] Tags
-- [x] Create 
-  - [x] Playlists
-  - [x] Tags
-- [x] Delete
-    - [x] Playlists
-    - [x] Tracks
-    - [x] Albums
-    - [x] Artists
-    - [x] Tags
-- [x] Upload tracks
-- [x] Download tracks
-- [ ] Settings
-  - [ ] App settings
-    - [x] Theme (dark/light)
-    - [x] Page size
-    - [x] Advanced track search
-    - [x] Show own playlists by default
-    - [x] Hide singles in albums by default
-    - [x] Enable/disable/reorder homepage sections
-    - [x] Preferred metadata provider
-    - [x] Blocked tags
-    - [x] Blocked artists
-    - [ ] Block explicit content
-    - [x] Accent color
-    - [x] Lyric design
-    - [x] D-Bus settings
-    - [x] Embed images as base64
-    - [x] Image quality
-    - [ ] ...
-  - [ ] Server settings
-    - [ ] ...
-- [x] Playlist collaboration
-- [x] User management
-  - [x] View users
-  - [x] Edit users
-  - [x] Create users
-  - [x] Delete users
-- [x] User view
-  - [x] Top tracks (when permitted by user)
-  - [x] Top artists (when permitted by user)
-  - [x] Recent activity (when permitted by user)
-  - [x] Playlists (only publicly shared)
-  - [x] Uploaded tracks (when permitted by user)
-- [x] Sessions management
-- [x] Permissions management
-- [x] Lyrics
-- [x] HTML Widgets for embedding
-- [x] Embed web version into server
-- [ ] Clean up Code
-- [x] Better error handling
-- [ ] Write tests
+1. Install [fvm](https://fvm.app/):
+    ```bash
+    sudo pacman -S fvm
+    ```
+2. Install the dependencies `cmake`, `ninja`, `clang`, `pkgconf`, `gtk3` and `mpv`:
+    ```bash
+    sudo pacman -S cmake ninja clang pkgconf gtk3 mpv
+    ```
+3. Clone this repo:
+    ```bash
+    git clone https://codeberg.org/mickkc/vibin-app.git
+    cd vibin-app
+    ```
+4. Download packages:
+   ```bash
+   fvm flutter pub get
+   ```
+   > [!NOTE]
+   > This will automatically install the flutter version configured in [.fvmrc](.fvmrc).
+5. Generate the API client and serialization code:
+   ```bash
+   fvm flutter pub run build_runner build --delete-conflicting-outputs
+   ```
+6. Run the application:
+   ```bash
+   fvm flutter run -d linux
+   ```
+
+> [!TIP]
+> If you use IntelliJ IDEA or Android Studio with the [Flutter](https://plugins.jetbrains.com/plugin/9212-flutter) and
+> [Dart](https://plugins.jetbrains.com/plugin/6351-dart) plugins, the SDK paths should automatically be set.
+>
+> If not, you can set them manually:
+> 1. In `File | Settings | Languages & Frameworks | Flutter`: Set Flutter SDK Path to `/path/to/vibin-app/.fvm/flutter_sdk`.
+> 2. In `File | Settings | Languages & Frameworks | Dart`: Enable Dart support, check the "vibin-app" module (usually at
+>    the very bottom) and set the Dart SDK Path to `/path/to/vibin-app/.fvm/flutter_sdk/bin/cache/dart-sdk`.
+
+> [!NOTE]
+> If you get an error saying that the keyring couldn't be unlocked, you may need to install one:
+> ```bash
+> sudo pacman -S gnome-keyring
+> ```
+> This is just an example, you could also use `kwallet`, or others.
+   
+</details>
+
+<!-- TODO: Windows -->
+<!-- TODO: macOS -->
+
 
 ---
 
