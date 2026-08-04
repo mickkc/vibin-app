@@ -65,10 +65,9 @@ Please note that this project, just like the server, is currently in beta and st
 > [Dart](https://plugins.jetbrains.com/plugin/6351-dart) plugins, the SDK paths should automatically be set.
 >
 > If not, you can set them manually:
-> > In `File | Settings | Languages & Frameworks | Flutter`: Set Flutter SDK Path to `/path/to/vibin-app/.fvm/flutter_sdk`.
-> 
-> > In `File | Settings | Languages & Frameworks | Dart`: Enable Dart support, check the "vibin-app" module (usually at
-> > the very bottom) and set the Dart SDK Path to `/path/to/vibin-app/.fvm/flutter_sdk/bin/cache/dart-sdk`
+> 1. In `File | Settings | Languages & Frameworks | Flutter`: Set Flutter SDK Path to `/path/to/vibin-app/.fvm/flutter_sdk`.
+> 2. In `File | Settings | Languages & Frameworks | Dart`: Enable Dart support, check the "vibin-app" module (usually at
+>    the very bottom) and set the Dart SDK Path to `/path/to/vibin-app/.fvm/flutter_sdk/bin/cache/dart-sdk`.
 
 > [!NOTE]
 > If you get an error saying that the keyring couldn't be unlocked, you may need to install one:
