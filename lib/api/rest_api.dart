@@ -70,6 +70,7 @@ abstract class ApiService {
   Future<LoginResult> login(
     @Query("username") String username,
     @Query("password") String password,
+    @Query("deviceId") String deviceId
   );
 
   @POST("/api/auth/validate")
