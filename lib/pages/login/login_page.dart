@@ -28,7 +28,8 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _login() async {
     try {
-      final loginResult = await _apiManager.service.login(_usernameController.text, _passwordController.text);
+      await _authState.loadDeviceId();
+      final loginResult = await _apiManager.service.login(_usernameController.text, _passwordController.text, _authState.deviceId!);
       if (loginResult.success) {
         _apiManager.setToken(loginResult.token);
         _authState.login(_apiManager.baseUrl, loginResult);

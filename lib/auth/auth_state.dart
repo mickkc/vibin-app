@@ -3,6 +3,7 @@ import 'package:vibin_app/auth/auto_login_result.dart';
 import 'package:vibin_app/dtos/login_result.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/user/user.dart';
+import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/storage/secure_storage_impl.dart';
 import 'package:vibin_app/storage/web_storage_fallback.dart';
@@ -15,6 +16,7 @@ class AuthState extends ChangeNotifier {
   bool _loggedIn = false;
   String? _accessToken;
   String? _serverAddress;
+  String? _deviceId;
   User? _user;
   List<String> _permissions = [];
   AutoLoginResult? autoLoginResult;
@@ -26,11 +28,27 @@ class AuthState extends ChangeNotifier {
   String? get serverAddress => _serverAddress;
   User? get user => _user;
   List<String> get permissions => _permissions;
+  String? get deviceId => _deviceId;
+
+  Future<void> loadDeviceId() async {
+    if (_deviceId != null) return;
+
+    final loadedDeviceId = await storage.read("deviceId");
+    if (loadedDeviceId == null) {
+      final newDeviceId = randomString(32);
+      storage.write("deviceId", newDeviceId);
+      _deviceId = newDeviceId;
+    }
+    else {
+      _deviceId = loadedDeviceId;
+    }
+  }
 
   Future<AutoLoginResult> tryAutoLogin() async {
 
     try {
       await loadFromPrefs();
+      await loadDeviceId();
       final apiManager = getIt<ApiManager>();
 
       if (_serverAddress == null || _accessToken == null) {
