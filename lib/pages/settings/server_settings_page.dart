@@ -4,6 +4,7 @@ import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/dtos/metadata_fetch_type.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/utils/duration_converter.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/settings/server/server_boolean_settings_field.dart';
 import 'package:vibin_app/widgets/settings/server/server_number_settings_field.dart';
@@ -213,6 +214,32 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
               title: _lm.settings_server_uploads_path_template_title,
               description: _lm.settings_server_uploads_path_template_description,
               icon: Icons.upload_file,
+            ),
+
+            const Divider(),
+
+            SettingsTitle(title: _lm.settings_server_security_title),
+
+            ServerNumberSettingsField(
+              settingKey: "session_expiration_validity",
+              initialValue: settings.settings["session_expiration_validity"],
+              title: _lm.settings_server_security_session_expiration_title,
+              description: _lm.settings_server_security_session_expiration_description,
+              icon: Icons.security,
+              parser: (str) => DurationConverter.parseDuration(str),
+              formatter: (num) => DurationConverter.formatDurationFull(num),
+              errorMessage: _lm.settings_server_security_session_expiration_parsing_error,
+            ),
+
+            ServerNumberSettingsField(
+              settingKey: "login_notification_validity",
+              initialValue: settings.settings["login_notification_validity"],
+              title: _lm.settings_server_security_login_notification_validity_title,
+              description: _lm.settings_server_security_login_notification_validity_description,
+              icon: Icons.mail_lock,
+              parser: (str) => DurationConverter.parseDuration(str),
+              formatter: (num) => DurationConverter.formatDurationFull(num),
+              errorMessage: _lm.settings_server_security_login_notification_validity_parsing_error,
             ),
 
             const Divider(),
