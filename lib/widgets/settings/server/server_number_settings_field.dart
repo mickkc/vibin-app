@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/utils/error_handler.dart';
 
 import '../../../api/api_manager.dart';
 import '../../../main.dart';
@@ -10,7 +11,9 @@ class ServerNumberSettingsField<Number> extends StatefulWidget {
   final String title;
   final String? description;
   final IconData? icon;
-  final Number Function(String) parser;
+  final Number? Function(String) parser;
+  final String Function(Number)? formatter;
+  final String? errorMessage;
 
   const ServerNumberSettingsField({
     super.key,
@@ -19,7 +22,9 @@ class ServerNumberSettingsField<Number> extends StatefulWidget {
     required this.title,
     this.description,
     this.icon,
-    required this.parser
+    required this.parser,
+    this.formatter,
+    this.errorMessage
   });
 
   @override
@@ -30,23 +35,32 @@ class _ServerIntSettingsFieldState<Number> extends State<ServerNumberSettingsFie
 
   final _apiManager = getIt<ApiManager>();
   late final _lm = AppLocalizations.of(context)!;
-  late final _controller = TextEditingController(text: widget.initialValue.toString());
+  late final _controller = TextEditingController(text: _format(widget.initialValue));
 
   late Number _currentValue = widget.initialValue;
   late Number _lastSavedValue = widget.initialValue;
 
+  String _format(Number num) {
+    if (widget.formatter != null) {
+      return widget.formatter!(num);
+    }
+    return num.toString();
+  }
+
   Future<void> _save() async {
     try {
-
       final parsedValue = widget.parser(_controller.text);
 
       if (parsedValue == null) {
+        if (widget.errorMessage != null) {
+          ErrorHandler.showErrorDialog(context, widget.errorMessage!);
+        }
         return;
       }
 
-      final updated = await _apiManager.service.updateSetting(widget.settingKey, _controller.text);
+      final updated = await _apiManager.service.updateSetting(widget.settingKey, parsedValue.toString());
       setState(() {
-        _controller.text = (updated.value as Number).toString();
+        _controller.text = _format(updated.value as Number);
         _lastSavedValue = updated.value as Number;
       });
     }

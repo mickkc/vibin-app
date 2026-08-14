@@ -691,6 +691,16 @@
   "settings_server_uploads_path_template_title": "Uploads Path Template",
   "settings_server_uploads_path_template_description": "Template for the path where uploaded files are stored. Available placeholders: '{uploaderId}', '{album}', '{title}', '{artist}', '{name}', '{ext}' (file extension), '{sep}' (file system separator). The path must be relative to the music directory of the instance. (Only applied to new uploads)",
 
+  "settings_server_security_title": "Security",
+
+  "settings_server_security_session_expiration_title": "Session timeout duration",
+  "settings_server_security_session_expiration_description": "Time of inactivity after which a session will expire.",
+  "settings_server_security_session_expiration_parsing_error": "Failed to save this setting. Please ensure the duration is formatted correctly, e.g. \"6d 12h\"",
+
+  "settings_server_security_login_notification_validity_title": "Login notification expiration",
+  "settings_server_security_login_notification_validity_description": "Duration for which password reset and trust device links in emails remain valid.",
+  "settings_server_security_login_notification_validity_parsing_error": "Failed to save this setting. Please ensure the duration is formatted correctly, e.g. \"3h 30m\".",
+
   "settings_server_misc_title": "Miscellaneous",
 
   "settings_server_welcome_messages_title": "Welcome Messages",
