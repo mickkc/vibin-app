@@ -73,16 +73,19 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
         final trackId = _currentMediaItem?.trackId;
 
         if (_currentMediaItem == null || trackId == null) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 32.0),
-            child: Column(
-              spacing: 8,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ThemedSvg(assetPath: "assets/images/Error_State_Pose.svg", width: 526, height: 256),
-                Text(AppLocalizations.of(context)!.now_playing_nothing),
-              ],
+          return SafeArea(
+            top: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 32.0),
+              child: Column(
+                spacing: 8,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ThemedSvg(assetPath: "assets/images/Error_State_Pose.svg", width: 526, height: 256),
+                  Text(AppLocalizations.of(context)!.now_playing_nothing),
+                ],
+              ),
             ),
           );
         }
