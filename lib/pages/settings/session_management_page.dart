@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/api/api_manager.dart';
-import 'package:vibin_app/api/client_data.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dtos/sessions/session.dart';
 import 'package:vibin_app/dtos/sessions/sessions_response.dart';
@@ -48,10 +47,9 @@ class _SessionManagementPageState extends State<SessionManagementPage> {
 
   Future<void> _revokeAllSessions() async {
     try {
-      final clientData = getIt<ClientData>();
       final confirmed = await Dialogs.showConfirmDialog(context, _lm.settings_sessions_revoke_all, _lm.settings_sessions_revoke_all_confirmation);
       if (!confirmed) return;
-      await _apiManager.service.deleteAllSessions(clientData.deviceId);
+      await _apiManager.service.deleteAllSessions();
       _refreshSessions();
     }
     catch (e, st) {

@@ -16,7 +16,6 @@ import 'package:vibin_app/dtos/listen_duration.dart';
 import 'package:vibin_app/dtos/login_result.dart';
 import 'package:vibin_app/dtos/lyrics.dart';
 import 'package:vibin_app/dtos/lyrics_metadata.dart';
-import 'package:vibin_app/dtos/media_token_response.dart';
 import 'package:vibin_app/dtos/metadata_sources.dart';
 import 'package:vibin_app/dtos/non_track_listen.dart';
 import 'package:vibin_app/dtos/pagination/album_pagination.dart';
@@ -79,15 +78,6 @@ abstract class ApiService {
   @POST("/api/auth/logout")
   Future<Success> logout();
 
-  @POST("/api/auth/media/token")
-  Future<MediaTokenResponse> createMediaToken(@Query("deviceId") String deviceId);
-
-  @GET("/api/auth/media")
-  Future<Success> checkMediaToken(@Query("mediaToken") String mediaToken);
-
-  @DELETE("/api/auth/media/token")
-  Future<Success> invalidateMediaToken(@Query("deviceId") String deviceId);
-
   @GET("/api/auth/sessions")
   Future<SessionsResponse> getAllSessions();
 
@@ -95,7 +85,7 @@ abstract class ApiService {
   Future<Success> deleteSession(@Path("id") int id);
 
   @DELETE("/api/auth/sessions/all")
-  Future<Success> deleteAllSessions(@Query("excludeDeviceId") String excludeDeviceId);
+  Future<Success> deleteAllSessions();
 
   // Albums
 
