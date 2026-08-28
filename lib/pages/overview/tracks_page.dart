@@ -79,10 +79,10 @@ class _TrackPageState extends State<TrackPage> {
     final parameters = GoRouterState.of(context).uri.queryParameters;
     _sortingCriteria ??= TrackSortingCriteria.values.firstWhere((sc) {
       return sc.name.toLowerCase() == parameters["sortingCriteria"]?.toLowerCase();
-    }, orElse: () => TrackSortingCriteria.TITLE);
+    }, orElse: () => _defaultSortingCriteria);
     _sortingOrder ??= SortOrder.values.firstWhere((so) {
       return so.name.toLowerCase() == parameters["sortingOrder"]?.toLowerCase();
-    }, orElse: () => SortOrder.ASC);
+    }, orElse: () => _defaultSortingOrder);
   }
 
   @override
