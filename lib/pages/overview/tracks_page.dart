@@ -25,8 +25,11 @@ class TrackPage extends StatefulWidget {
 
 class _TrackPageState extends State<TrackPage> {
 
-  var _sortingCriteria = TrackSortingCriteria.TITLE;
-  var _sortingOrder = SortOrder.ASC;
+  TrackSortingCriteria? _sortingCriteria;
+  SortOrder? _sortingOrder;
+
+  final _defaultSortingCriteria = TrackSortingCriteria.TITLE;
+  final _defaultSortingOrder = SortOrder.ASC;
 
   late final _lm = AppLocalizations.of(context)!;
 
@@ -57,9 +60,9 @@ class _TrackPageState extends State<TrackPage> {
     SortingDialog.show<TrackSortingCriteria>(
       context,
       TrackSortingCriteria.values,
-      _sortingCriteria,
+      _sortingCriteria ?? _defaultSortingCriteria,
       getLabel,
-      _sortingOrder,
+      _sortingOrder ?? _defaultSortingOrder,
       (c, so) {
         setState(() {
           _sortingCriteria = c;
@@ -74,12 +77,12 @@ class _TrackPageState extends State<TrackPage> {
     super.didChangeDependencies();
 
     final parameters = GoRouterState.of(context).uri.queryParameters;
-    _sortingCriteria = TrackSortingCriteria.values.firstWhere((sc) {
+    _sortingCriteria ??= TrackSortingCriteria.values.firstWhere((sc) {
       return sc.name.toLowerCase() == parameters["sortingCriteria"]?.toLowerCase();
-    }, orElse: () => TrackSortingCriteria.TITLE);
-    _sortingOrder = SortOrder.values.firstWhere((so) {
+    }, orElse: () => _defaultSortingCriteria);
+    _sortingOrder ??= SortOrder.values.firstWhere((so) {
       return so.name.toLowerCase() == parameters["sortingOrder"]?.toLowerCase();
-    }, orElse: () => SortOrder.ASC);
+    }, orElse: () => _defaultSortingOrder);
   }
 
   @override
@@ -101,8 +104,8 @@ class _TrackPageState extends State<TrackPage> {
             : settingsManager.get(Settings.advancedTrackSearch),
           page,
           pageSize,
-          _sortingCriteria.name,
-          _sortingOrder.name
+          (_sortingCriteria ?? _defaultSortingCriteria).name,
+          (_sortingOrder ?? _defaultSortingOrder).name
         );
       },
       type: EntityCardType.track,
@@ -119,8 +122,8 @@ class _TrackPageState extends State<TrackPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               spacing: 8.0,
               children: [
-                Icon(getLabel(_sortingCriteria).$2),
-                Text(getLabel(_sortingCriteria).$1),
+                Icon(getLabel(_sortingCriteria ?? _defaultSortingCriteria).$2),
+                Text(getLabel(_sortingCriteria ?? _defaultSortingCriteria).$1),
                 const SizedBox(height: 20, child: VerticalDivider()),
                 Icon(
                   _sortingOrder == SortOrder.ASC ? Icons.arrow_upward : Icons.arrow_downward,
