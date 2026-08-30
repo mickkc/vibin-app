@@ -701,6 +701,13 @@
   "settings_server_security_login_notification_validity_description": "Duration for which password reset and trust device links in emails remain valid.",
   "settings_server_security_login_notification_validity_parsing_error": "Failed to save this setting. Please ensure the duration is formatted correctly, e.g. \"3h 30m\".",
 
+  "settings_server_security_ip_in_login_notification_title": "Show IP address in login notifications",
+  "settings_server_security_ip_in_login_notification_desc": "When enabled, the IP address of the client trying to log in is included in the notification email.",
+
+  "settings_server_security_location_in_login_notification_title": "Show location in login notifications",
+  "settings_server_security_location_in_login_notification_desc": "When enabled, the location of the client trying to log in is looked up using ifconfig.co, and gets included in the notification email.",
+
+
   "settings_server_misc_title": "Miscellaneous",
 
   "settings_server_welcome_messages_title": "Welcome Messages",

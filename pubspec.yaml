@@ -72,6 +72,7 @@ dependencies:
   talker_flutter: ^5.1.16
 
   dart_discord_presence: ^1.2.0
+  device_info_plus: ^12.4.0
 
 dependency_overrides:
   analyzer: ^8.2.0
