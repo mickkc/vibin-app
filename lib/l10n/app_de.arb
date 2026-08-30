@@ -704,6 +704,12 @@
   "settings_server_security_login_notification_validity_description": "Dauer, für die Passwort-Reset- und Gerät-Vertrauen-Links in E-Mails gültig bleiben.",
   "settings_server_security_login_notification_validity_parsing_error": "Diese Einstellung konnte nicht gespeichert werden. Bitte stelle sicher, dass die Dauer korrekt formatiert ist, z.B. \"3h 30m\"",
 
+  "settings_server_security_ip_in_login_notification_title": "IP-Adresse in Login E-Mails anzeigen",
+  "settings_server_security_ip_in_login_notification_desc": "Zeigt die IP Adresse des Gerätes, mit dem sich angemeldet wurde, in der Login-Benachrichtigungs-Mail.",
+
+  "settings_server_security_location_in_login_notification_title": "Standort in Login E-Mails anzeigen",
+  "settings_server_security_location_in_login_notification_desc": "Zeigt des Standort des Gerätes, mit dem sich angemeldet wird, in der Login-Benachrichtigungs-Mail. Verwendet die ifconfig.co API.",
+
 
   "settings_server_misc_title": "Sonstiges",
 

@@ -242,6 +242,22 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
               errorMessage: _lm.settings_server_security_login_notification_validity_parsing_error,
             ),
 
+            ServerBooleanSettingsField(
+              settingKey: "include_ip_in_login_notification",
+              initialValue: settings.settings["include_ip_in_login_notification"],
+              title: _lm.settings_server_security_ip_in_login_notification_title,
+              description: _lm.settings_server_security_ip_in_login_notification_desc,
+              icon: Icons.onetwothree
+            ),
+
+            ServerBooleanSettingsField(
+              settingKey: "include_location_in_login_notification",
+              initialValue: settings.settings["include_location_in_login_notification"],
+              title: _lm.settings_server_security_location_in_login_notification_title,
+              description: _lm.settings_server_security_location_in_login_notification_desc,
+              icon: Icons.location_pin
+            ),
+
             const Divider(),
 
             SettingsTitle(title: _lm.settings_server_misc_title),

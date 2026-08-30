@@ -69,7 +69,8 @@ abstract class ApiService {
   Future<LoginResult> login(
     @Query("username") String username,
     @Query("password") String password,
-    @Query("deviceId") String deviceId
+    @Query("deviceId") String deviceId,
+    @Query("deviceName") String deviceName
   );
 
   @POST("/api/auth/validate")

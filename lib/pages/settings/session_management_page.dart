@@ -88,11 +88,15 @@ class _SessionManagementPageState extends State<SessionManagementPage> {
                 final session = response.sessions[index];
                 final isCurrentSession = index == response.currentSessionIndex;
                 return ListTile(
+                  leading: const Icon(Icons.devices),
                   title: Text(
-                    '${_lm.settings_sessions_last_used} ${DateTimeUtils.convertUtcUnixToLocalTimeString(session.lastUsed, _lm.datetime_format_full)}',
+                    session.deviceName,
                     style: isCurrentSession ? TextStyle(color: Theme.of(context).colorScheme.primary) : null,
                   ),
-                  subtitle: Text('${_lm.settings_sessions_created_at} ${DateTimeUtils.convertUtcUnixToLocalTimeString(session.createdAt, _lm.datetime_format_full)}'),
+                  subtitle: Text(''
+                    '${_lm.settings_sessions_created_at} ${DateTimeUtils.convertUtcUnixToLocalTimeString(session.createdAt, _lm.datetime_format_full)}, '
+                    '${_lm.settings_sessions_last_used} ${DateTimeUtils.convertUtcUnixToLocalTimeString(session.lastUsed, _lm.datetime_format_full)}'
+                  ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     spacing: 8,

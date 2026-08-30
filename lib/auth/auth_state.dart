@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:vibin_app/auth/auto_login_result.dart';
 import 'package:vibin_app/dtos/login_result.dart';
@@ -42,6 +45,30 @@ class AuthState extends ChangeNotifier {
     else {
       _deviceId = loadedDeviceId;
     }
+  }
+
+  Future<String> loadDeviceName() async {
+    final deviceInfo = DeviceInfoPlugin();
+
+    if (kIsWeb) {
+      return (await deviceInfo.webBrowserInfo).browserName.name;
+    }
+    else if (Platform.isAndroid) {
+      return (await deviceInfo.androidInfo).name;
+    }
+    else  if (Platform.isIOS) {
+      return (await deviceInfo.iosInfo).name;
+    }
+    else if (Platform.isWindows) {
+      return (await deviceInfo.windowsInfo).computerName;
+    }
+    else if (Platform.isLinux) {
+      return Platform.localHostname;
+    }
+    else if (Platform.isMacOS) {
+      return (await deviceInfo.macOsInfo).computerName;
+    }
+    return Platform.operatingSystem;
   }
 
   Future<AutoLoginResult> tryAutoLogin() async {
