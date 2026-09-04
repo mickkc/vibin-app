@@ -24,7 +24,7 @@ pipeline {
                     string(credentialsId: 'android-key-password', variable: 'KEY_PASSWORD')
                 ]) {
                     sh '''
-                        cp "$KEYSTORE_FILE" android/app/release.jks
+                        cp "$KEYSTORE_FILE" android/release.jks
                         cat > android/key.properties <<EOF
 storePassword=$KEYSTORE_PASSWORD
 keyPassword=$KEY_PASSWORD
@@ -75,7 +75,7 @@ EOF
         always {
             sh '''
                 flutter clean || true
-                rm -f android/key.properties android/app/release.jks
+                rm -f android/key.properties android/release.jks
             '''
         }
         success {
