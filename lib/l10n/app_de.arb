@@ -548,11 +548,27 @@
   "settings_app_discord_rpc_display_type_state": "Status",
   "settings_app_discord_rpc_display_type_details": "Details",
 
+  "settings_app_security_title": "Sicherheit",
+
+  "settings_app_totp_title": "2-Faktor Authentifizierung",
+  "settings_app_totp_desc_mail": "Konfiguriert via E-Mail. Bitte beachte, dass dies nur funktioniert, wenn du eine gültige E-Mail Adresse in deinem Profil eingetragen hast und E-Mails vom Administrator dieser Instanz aktiviert wurden!",
+  "settings_app_totp_desc_totp": "Konfiguriert via Authenticator-App.",
+  "settings_app_totp_desc_none": "Nicht konfiguriert.",
+
+  "settings_app_totp_configure_mail": "E-Mail aktivieren",
+  "settings_app_totp_configure_totp": "Authenticator konfigurieren",
+  "settings_app_totp_disable": "2FA deaktivieren",
+
   "settings_app_totp_setup": "Scanne den QR-Code mit einer Authenticator-App (Google Authenticator, FreeOTP, etc.) und gib den Sechstelligen Code ein:",
   "settings_app_totp_setup_code": "Code",
   "settings_app_totp_setup_code_invalid": "Der eingegebene Code ist inkorrekt. Bitte versuche es erneut.",
   "settings_app_totp_setup_code_error": "Beim Validieren des Codes ist ein Fehler aufgetreten.",
   "settings_app_totp_setup_code_success": "TOTP wurde erfolgreich konfiguriert!",
+  "settings_app_totp_open_app": "In App öffnen",
+  "settings_app_totp_copy_secret": "Secret kopieren",
+  "settings_app_totp_copy_secret_success": "Secret wurde in die Zwischenablage kopiert",
+  "settings_app_totp_copy_secret_failed": "Secret konnte nicht kopiert werden.",
+  "settings_app_totp_open_app_failed": "Es wurde keine Authentication-App gefunden, die geöffnet werden kann. Bitte verwende den QR Code oder kopiere das Secret manuell in die App.",
 
 
   "settings_task_fetch_error": "Beim Laden der Aufgaben ist ein Fehler aufgetreten.",

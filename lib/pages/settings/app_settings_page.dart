@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:vibin_app/discord/discord.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
+import 'package:vibin_app/discord/discord.dart';
 import 'package:vibin_app/discord/rpc_updater.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/pages/settings/app_user_settings_view.dart';
@@ -18,6 +18,7 @@ import 'package:vibin_app/widgets/settings/int_settings_field.dart';
 import 'package:vibin_app/widgets/settings/preferred_metadata_pickers.dart';
 import 'package:vibin_app/widgets/settings/settings_title.dart';
 import 'package:vibin_app/widgets/settings/string_settings_field.dart';
+import 'package:vibin_app/widgets/settings/totp_settings_section.dart';
 
 import '../../auth/auth_state.dart';
 import '../../dialogs/lyrics_dialog.dart';
@@ -299,6 +300,16 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
             },
             icon: Icons.label_important,
           )
+        ],
+
+        if (_authState.hasPermission(PermissionType.manageOwn2fa)) ... [
+          const Divider(),
+
+          SettingsTitle(
+            title: _lm.settings_app_security_title,
+          ),
+
+          TotpSettingsSection()
         ],
 
         const Divider(),
