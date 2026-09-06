@@ -548,6 +548,12 @@
   "settings_app_discord_rpc_display_type_state": "Status",
   "settings_app_discord_rpc_display_type_details": "Details",
 
+  "settings_app_totp_setup": "Scanne den QR-Code mit einer Authenticator-App (Google Authenticator, FreeOTP, etc.) und gib den Sechstelligen Code ein:",
+  "settings_app_totp_setup_code": "Code",
+  "settings_app_totp_setup_code_invalid": "Der eingegebene Code ist inkorrekt. Bitte versuche es erneut.",
+  "settings_app_totp_setup_code_error": "Beim Validieren des Codes ist ein Fehler aufgetreten.",
+  "settings_app_totp_setup_code_success": "TOTP wurde erfolgreich konfiguriert!",
+
 
   "settings_task_fetch_error": "Beim Laden der Aufgaben ist ein Fehler aufgetreten.",
 
@@ -709,6 +715,9 @@
 
   "settings_server_security_location_in_login_notification_title": "Standort in Login E-Mails anzeigen",
   "settings_server_security_location_in_login_notification_desc": "Zeigt des Standort des Gerätes, mit dem sich angemeldet wird, in der Login-Benachrichtigungs-Mail. Verwendet die ifconfig.co API.",
+
+  "settings_server_security_totp_mail_validity_title": "Gültigkeit von TOTP-E-Mails",
+  "settings_server_security_totp_mail_validity_desc": "Dauer, wie lange der Code zur Zwei-Faktor-Authentifizierung in E-Mails gültig ist.",
 
 
   "settings_server_misc_title": "Sonstiges",

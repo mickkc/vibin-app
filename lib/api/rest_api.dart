@@ -216,6 +216,14 @@ abstract class ApiService {
   @GET("/api/playlists/containing/{trackId}")
   Future<List<Playlist>> getPlaylistsContainingTrack(@Path("trackId") int trackId);
 
+  // Security
+
+  @PUT("/api/auth/totp")
+  Future<Success> updateTotp(@Query("type") String type, @Query("code") String? code);
+
+  @POST("/api/auth/totp")
+  Future<Success> authenticateTotp(@Query("token") String token, @Query("code") String code);
+
   // Settings
 
   @GET("/api/settings/server")

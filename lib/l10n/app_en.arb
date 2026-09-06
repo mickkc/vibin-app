@@ -544,6 +544,11 @@
   "settings_app_discord_rpc_display_type_state": "State",
   "settings_app_discord_rpc_display_type_details": "Details",
 
+  "settings_app_totp_setup": "Scan the above QR code using an authenticator app (Google Authenticator, FreeOTP, etc.) and enter the 6-digit code below:",
+  "settings_app_totp_setup_code": "Code",
+  "settings_app_totp_setup_code_invalid": "The code you provided is invalid. Please try again.",
+  "settings_app_totp_setup_code_error": "An error occurred while validating the code.",
+  "settings_app_totp_setup_code_success": "TOTP has been configured successfully!",
 
 
 
@@ -706,6 +711,9 @@
 
   "settings_server_security_location_in_login_notification_title": "Show location in login notifications",
   "settings_server_security_location_in_login_notification_desc": "When enabled, the location of the client trying to log in is looked up using ifconfig.co, and gets included in the notification email.",
+
+  "settings_server_security_totp_mail_validity_title": "TOTP-Mail expiration",
+  "settings_server_security_totp_mail_validity_desc": "How long two-factor authentication codes sent via mail remain valid.",
 
 
   "settings_server_misc_title": "Miscellaneous",

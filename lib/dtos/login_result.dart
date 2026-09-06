@@ -7,12 +7,14 @@ class LoginResult {
   final String token;
   final User user;
   final List<String> permissions;
+  final bool totpRequired;
 
   LoginResult({
     required this.success,
     required this.token,
     required this.user,
     required this.permissions,
+    required this.totpRequired
   });
 
   factory LoginResult.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,7 @@ class LoginResult {
       token: json['token'],
       user: User.fromJson(json['user']),
       permissions: List<String>.from(json['permissions']),
+      totpRequired: json['totpRequired']
     );
   }
 }
