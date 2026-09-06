@@ -44,15 +44,15 @@ class Dialogs {
         icon: icon != null ? Icon(icon, size: 48) : null,
         title: Text(title),
         content: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Text(content)
+          scrollDirection: Axis.vertical,
+          child: Text(content)
         ),
         actions: [
           ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(buttonText ?? lm.dialog_confirm)
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text(buttonText ?? lm.dialog_confirm)
           )
         ],
       )
@@ -80,7 +80,20 @@ class Dialogs {
     );
   }
 
-  static Future<String?> showInputDialog(BuildContext context, String title, String label, {String? initialValue, String? hintText, String? confirmText, String? cancelText}) async {
+  static Future<String?> showInputDialog(
+      BuildContext context,
+      String title,
+      String label, {
+        String? description,
+        String? initialValue,
+        String? hintText,
+        String? confirmText,
+        String? cancelText,
+        Iterable<String>? autoFillHints,
+        double maxWidth = double.infinity
+
+      }) async {
+
     final lm = AppLocalizations.of(context)!;
     final TextEditingController controller = TextEditingController(text: initialValue ?? "");
 
@@ -89,18 +102,31 @@ class Dialogs {
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        constraints: BoxConstraints(
+          maxWidth: maxWidth
+        ),
         title: Text(title),
-        content: TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            labelText: label,
-            hintText: hintText,
-          ),
-          autofocus: true,
-          onSubmitted: (value) {
-            result = value;
-            Navigator.pop(context);
-          },
+        content: Column(
+          spacing: 8,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (description != null)
+              Text(description),
+
+            TextField(
+              controller: controller,
+              decoration: InputDecoration(
+                labelText: label,
+                hintText: hintText,
+              ),
+              autofocus: true,
+              onSubmitted: (value) {
+                result = value;
+                Navigator.pop(context);
+              },
+              autofillHints: autoFillHints,
+            ),
+          ],
         ),
         actions: [
           TextButton(

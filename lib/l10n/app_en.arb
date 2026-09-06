@@ -49,6 +49,10 @@
   "login_button_login": "Log In",
   "login_error": "Login failed. Error message: {error}",
   "login_invalid_credentials": "Invalid username or password.",
+  "login_totp_title": "2-factor authentication",
+  "login_totp_description": "Enter the 6 digit number from your authenticator app or the verification email:",
+  "login_totp_failed": "2-factor authentication failed. Please try again.",
+  "login_totp_rate_limited": "Too many attempts. Try again later.",
 
   "section_recently_listened": "Recently Listened",
   "section_random_tracks": "Discover",

@@ -49,6 +49,10 @@
   "login_button_login": "Anmelden",
   "login_error": "Die Anmeldung ist fehlgeschlagen. Fehlermeldung: {error}",
   "login_invalid_credentials": "Ungültiger Benutzername oder Passwort.",
+  "login_totp_title": "2-Faktor-Authentifizierung",
+  "login_totp_description": "Gib den 6-stelligen Code aus deiner Authenticator-App oder der Verifizierungs-E-Mail ein:",
+  "login_totp_failed": "Die 2-Faktor-Authentifizierung ist fehlgeschlagen. Bitte versuche es erneut.",
+  "login_totp_rate_limited": "Zu viele Versuche in zu kurzer Zeit. Versuche es später erneut.",
 
   "section_recently_listened": "Wieder reinhören",
   "section_random_tracks": "Entdecken",
@@ -550,7 +554,7 @@
 
   "settings_app_security_title": "Sicherheit",
 
-  "settings_app_totp_title": "2-Faktor Authentifizierung",
+  "settings_app_totp_title": "2-Faktor-Authentifizierung",
   "settings_app_totp_desc_mail": "Konfiguriert via E-Mail. Bitte beachte, dass dies nur funktioniert, wenn du eine gültige E-Mail Adresse in deinem Profil eingetragen hast und E-Mails vom Administrator dieser Instanz aktiviert wurden!",
   "settings_app_totp_desc_totp": "Konfiguriert via Authenticator-App.",
   "settings_app_totp_desc_none": "Nicht konfiguriert.",

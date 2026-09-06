@@ -1,9 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/auth/auth_state.dart';
+import 'package:vibin_app/dtos/login_result.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/main.dart';
+import 'package:vibin_app/utils/dialogs.dart';
+import 'package:vibin_app/utils/error_handler.dart';
 
 import '../../l10n/app_localizations.dart';
 
@@ -26,12 +30,61 @@ class _LoginPageState extends State<LoginPage> {
   late final _router = GoRouter.of(context);
   late final _theme = Theme.of(context);
 
+  /// Tries to authenticate a session with a 2fa code.
+  /// Returns false if the request failed (wrong code or rate limited) or true
+  /// if the code was correct and the session was verified.
+  /// Also shows an error and waits for it to get closed before returning.
+  Future<bool> _tryAuthenticate2fa(String token, String code) async {
+    try {
+      return (await _apiManager.service.authenticateTotp(token, code)).success;
+    }
+    catch (e, st) {
+      if (!mounted) return false;
+      if (e is DioException && e.response?.statusCode == 429) {
+        await ErrorHandler.showErrorDialog(context, _lm.login_totp_rate_limited, error: e, stackTrace: st);
+      }
+      else {
+        await ErrorHandler.showErrorDialog(context, _lm.login_totp_failed, error: e, stackTrace: st);
+      }
+      return false;
+    }
+  }
+
+  /// Prompts the user for a 2fa code until a correct code is entered or the
+  /// user cancels the input.
+  Future<bool> _prompt2fa(LoginResult loginResult) async {
+    String? totpCode;
+    do {
+      if (!mounted) return false;
+
+      totpCode = await Dialogs.showInputDialog(
+        context,
+        _lm.login_totp_title,
+        _lm.settings_app_totp_setup_code,
+        description: _lm.login_totp_description,
+        autoFillHints: [AutofillHints.oneTimeCode],
+        maxWidth: 400
+      );
+
+      if (totpCode == null) return false;
+
+    } while(!(await _tryAuthenticate2fa(loginResult.token, totpCode)));
+
+    return true;
+  }
+  
   Future<void> _login() async {
     try {
       await _authState.loadDeviceId();
       final deviceName = await _authState.loadDeviceName();
       final loginResult = await _apiManager.service.login(_usernameController.text, _passwordController.text, _authState.deviceId!, deviceName);
       if (loginResult.success) {
+        if (loginResult.totpRequired) {
+          final totpSuccessful = await _prompt2fa(loginResult);
+          if (!totpSuccessful) {
+            return;
+          }
+        }
         _apiManager.setToken(loginResult.token);
         _authState.login(_apiManager.baseUrl, loginResult);
         _router.replace("/home");
