@@ -156,6 +156,7 @@ class _TotpSetupDialogState extends State<TotpSetupDialog> {
             hintText: _lm.settings_app_totp_setup_code
           ),
           textAlign: TextAlign.center,
+          onSubmitted: (s) => _isCodeValid ? _send() : null,
         ),
         FilledButton(
           onPressed: _isCodeValid ? _send : null,
