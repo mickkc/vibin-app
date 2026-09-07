@@ -84,6 +84,15 @@ Please note that this project, just like the server, is currently in beta and st
 
 ---
 
+## Credits
+
+Thank you to everyone who contributed to Vibin'! ❤️
+
+- @Vistaus - Dutch translation
+- @WreckingBANG, @blorg - Testing, Issue reporting
+
+---
+
 ## License
 
 This project is licensed under the **[GNU General Public License v3.0](LICENSE)** (GPLv3).
