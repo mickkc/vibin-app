@@ -46,7 +46,9 @@ enum PermissionType {
   manageWidgets("manage_widgets"),
 
   createTrackRelations("create_track_relations"),
-  deleteTrackRelations("delete_track_relations");
+  deleteTrackRelations("delete_track_relations"),
+
+  manageOwn2fa("manage_own_2fa");
 
   final String value;
   const PermissionType(this.value);

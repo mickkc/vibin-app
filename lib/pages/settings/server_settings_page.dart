@@ -258,6 +258,17 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
               icon: Icons.location_pin
             ),
 
+            ServerNumberSettingsField(
+              settingKey: "totp_mail_expiration_validity",
+              initialValue: settings.settings["totp_mail_expiration_validity"],
+              title: _lm.settings_server_security_totp_mail_validity_title,
+              description: _lm.settings_server_security_totp_mail_validity_desc,
+              icon: Icons.mark_email_read,
+              parser: (str) => DurationConverter.parseDuration(str),
+              formatter: (num) => DurationConverter.formatDurationFull(num),
+              errorMessage: _lm.settings_server_security_login_notification_validity_parsing_error,
+            ),
+
             const Divider(),
 
             SettingsTitle(title: _lm.settings_server_misc_title),

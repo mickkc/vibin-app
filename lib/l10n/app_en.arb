@@ -49,6 +49,10 @@
   "login_button_login": "Log In",
   "login_error": "Login failed. Error message: {error}",
   "login_invalid_credentials": "Invalid username or password.",
+  "login_totp_title": "2-factor authentication",
+  "login_totp_description": "Enter the 6 digit number from your authenticator app or the verification email:",
+  "login_totp_failed": "2-factor authentication failed. Please try again.",
+  "login_totp_rate_limited": "Too many attempts. Try again later.",
 
   "section_recently_listened": "Recently Listened",
   "section_random_tracks": "Discover",
@@ -544,6 +548,27 @@
   "settings_app_discord_rpc_display_type_state": "State",
   "settings_app_discord_rpc_display_type_details": "Details",
 
+  "settings_app_security_title": "Security",
+
+  "settings_app_totp_title": "2-factor authentication",
+  "settings_app_totp_desc_mail": "Configured via email. Please not that this only works if you have configured a valid email address in your account settings and the administrator of this instance has enabled E-Mail support!",
+  "settings_app_totp_desc_totp": "Configured via authenticator app.",
+  "settings_app_totp_desc_none": "Not configured.",
+
+  "settings_app_totp_configure_mail": "Enable email",
+  "settings_app_totp_configure_totp": "Setup authenticator",
+  "settings_app_totp_disable": "Disable 2fa",
+
+  "settings_app_totp_setup": "Scan the above QR code using an authenticator app (Google Authenticator, FreeOTP, etc.) and enter the 6-digit code below:",
+  "settings_app_totp_setup_code": "Code",
+  "settings_app_totp_setup_code_invalid": "The code you provided is invalid. Please try again.",
+  "settings_app_totp_setup_code_error": "An error occurred while validating the code.",
+  "settings_app_totp_setup_code_success": "TOTP has been configured successfully!",
+  "settings_app_totp_open_app": "Open in app",
+  "settings_app_totp_copy_secret": "Copy secret",
+  "settings_app_totp_copy_secret_success": "The secret was copied to the clipboard.",
+  "settings_app_totp_copy_secret_failed": "An error occured while copying the secret.",
+  "settings_app_totp_open_app_failed": "No authentication app was found. Please scan the QR code or copy the secret into the app manually.",
 
 
 
@@ -706,6 +731,9 @@
 
   "settings_server_security_location_in_login_notification_title": "Show location in login notifications",
   "settings_server_security_location_in_login_notification_desc": "When enabled, the location of the client trying to log in is looked up using ifconfig.co, and gets included in the notification email.",
+
+  "settings_server_security_totp_mail_validity_title": "TOTP-Mail expiration",
+  "settings_server_security_totp_mail_validity_desc": "How long two-factor authentication codes sent via mail remain valid.",
 
 
   "settings_server_misc_title": "Miscellaneous",

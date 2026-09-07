@@ -36,6 +36,7 @@ import 'package:vibin_app/dtos/streamable.dart';
 import 'package:vibin_app/dtos/success.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/dtos/tags/tag_edit_data.dart';
+import 'package:vibin_app/dtos/totp_status.dart';
 import 'package:vibin_app/dtos/track/minimal_track.dart';
 import 'package:vibin_app/dtos/track/related_track.dart';
 import 'package:vibin_app/dtos/track/track.dart';
@@ -215,6 +216,17 @@ abstract class ApiService {
 
   @GET("/api/playlists/containing/{trackId}")
   Future<List<Playlist>> getPlaylistsContainingTrack(@Path("trackId") int trackId);
+
+  // Security
+
+  @GET("/api/auth/totp")
+  Future<TotpStatus> getTotpStatus();
+
+  @PUT("/api/auth/totp")
+  Future<Success> updateTotp(@Query("type") String type, @Query("code") String? code);
+
+  @POST("/api/auth/totp")
+  Future<Success> authenticateTotp(@Query("token") String token, @Query("code") String code);
 
   // Settings
 
