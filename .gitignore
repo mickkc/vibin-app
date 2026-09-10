@@ -53,6 +53,9 @@ ios/Podfile.lock
 ios/Pods/
 ios/Runner.xcodeproj/project.pbxproj
 ios/Runner.xcworkspace/contents.xcworkspacedata
+ios/Runner.ipa
+ios/Runner.app.*.zip
+ios/fastlane/report.xml
 
 # Auto-generated
 lib/l10n/app_localizations*.dart

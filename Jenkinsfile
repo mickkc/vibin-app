@@ -8,7 +8,16 @@ pipeline {
         disableConcurrentBuilds()
     }
 
+    environment {
+        MATCH_PASSWORD = credentials('match-password')
+        ASC_KEY_ID = credentials('asc-api-key-id')
+        ASC_ISSUER_ID = credentials('asc-api-issuer-id')
+        ASC_KEY_FILEPATH = credentials('asc-api-key-p8')
+        TEAM_ID = credentials('apple-team-id')
+    }
+
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -63,9 +72,22 @@ EOF
             }
         }
 
+        stage('Publish to TestFlight') {
+            steps {
+                sshagent(credentials: ['match-git-ssh-key']) {
+                    dir('ios') {
+                        sh 'bundle install'
+                        sh 'bundle exec fastlane ios beta'
+                    }
+                } 
+            }
+        }
+
         stage('Archive Artifacts') {
             steps {
                 archiveArtifacts artifacts: 'build/app/outputs/flutter-apk/*.apk',
+                                  fingerprint: true
+                archiveArtifacts artifacts: 'build/app/outputs/flutter-apk/*.apk, ios/build/ios/ipa/*.ipa',
                                   fingerprint: true
             }
         }
@@ -75,6 +97,7 @@ EOF
         always {
             sh '''
                 flutter clean || true
+                security delete-keychain fastlane_tmp_keychain-db 2>/dev/null || true
                 rm -f android/key.properties android/release.jks
             '''
         }

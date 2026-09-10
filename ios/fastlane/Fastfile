@@ -1,0 +1,59 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Build and push to TestFlight"
+  lane :beta do
+    api_key = app_store_connect_api_key(
+      key_id: ENV['ASC_KEY_ID'],
+      issuer_id: ENV['ASC_ISSUER_ID'],
+      key_filepath: ENV['ASC_KEY_FILEPATH'],
+      in_house: false
+    )
+
+    setup_ci(force: true) if is_ci
+
+    disable_automatic_code_signing(
+      path: "Runner.xcodeproj",
+      use_automatic_signing: false,
+      targets: ["Runner"]
+    )
+
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      path: "Runner.xcodeproj",
+      team_id: ENV['TEAM_ID'],
+      code_sign_identity: "Apple Distribution",
+      profile_name: "match AppStore de.mickkc.vibin",
+      targets: ["Runner"]
+    )
+
+    match(
+      type: "appstore",
+      api_key: api_key,
+      readonly: is_ci
+    )
+
+    increment_build_number(
+      build_number: ENV['IOS_BUILD_NUMBER'] || latest_testflight_build_number(api_key: api_key, app_identifier: "de.mickkc.vibin") + 1,
+      xcodeproj: "Runner.xcodeproj"
+    )
+
+    build_app(
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "de.mickkc.vibin" => "match AppStore de.mickkc.vibin"
+        }
+      },
+      output_directory: "../build/ios/ipa",
+      output_name: "Runner.ipa"
+    )
+
+    upload_to_testflight(
+      api_key: api_key,
+      skip_waiting_for_build_processing: true
+    )
+  end
+end
