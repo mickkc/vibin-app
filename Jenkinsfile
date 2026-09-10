@@ -97,7 +97,7 @@ EOF
         always {
             sh '''
                 flutter clean || true
-                security delete-keychain fastlane_tmp_keychain-db 2>/dev/null || true
+                security delete-keychain ~/Library/Keychains/fastlane_tmp_keychain-db 2>/dev/null || true
                 rm -f android/key.properties android/release.jks
             '''
         }
