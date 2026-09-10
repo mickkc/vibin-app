@@ -80,6 +80,14 @@ EOF
             }
         }
 
+        stage('Build iOS (unsigned)') {
+            steps {
+                sh '''
+                    flutter build ios --release --no-codesign
+                '''
+            }
+        }
+
         stage('Prepare iOS Keychain') {
             steps {
                 sh '''
@@ -92,9 +100,9 @@ EOF
                         security create-keychain -p "$PW" "$KC"
                     fi
 
-                    # No auto-lock (can't lock mid-build), unlock for this run.
-                    security set-keychain-settings "$KC"
+                    # MUST BE UNLOCKED FIRST!
                     security unlock-keychain -p "$PW" "$KC"
+                    security set-keychain-settings "$KC"
 
                     # Add to the search list ALONGSIDE login + System.
                     security list-keychains -d user -s "$HOME/Library/Keychains/login.keychain-db" "$KC" "/Library/Keychains/System.keychain"
