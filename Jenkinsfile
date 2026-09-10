@@ -12,6 +12,11 @@ pipeline {
         LANG = 'en_US.UTF-8'
         LC_ALL = 'en_US.UTF-8'
 
+        // Dedicated, persistent keychain for iOS code signing.
+        CI_KEYCHAIN = "${env.HOME}/Library/Keychains/ci.keychain-db"
+        MATCH_KEYCHAIN_NAME = "${env.HOME}/Library/Keychains/ci.keychain-db"
+        MATCH_KEYCHAIN_PASSWORD = 'ci'
+
         MATCH_PASSWORD = credentials('match-password')
         ASC_KEY_ID = credentials('asc-api-key-id')
         ASC_ISSUER_ID = credentials('asc-api-issuer-id')
@@ -75,6 +80,28 @@ EOF
             }
         }
 
+        stage('Prepare iOS Keychain') {
+            steps {
+                sh '''
+                    set -e
+                    KC="$CI_KEYCHAIN"
+                    PW="$MATCH_KEYCHAIN_PASSWORD"
+
+                    # Create once, reused on every subsequent build.
+                    if [ ! -f "$KC" ]; then
+                        security create-keychain -p "$PW" "$KC"
+                    fi
+
+                    # No auto-lock (can't lock mid-build), unlock for this run.
+                    security set-keychain-settings "$KC"
+                    security unlock-keychain -p "$PW" "$KC"
+
+                    # Add to the search list ALONGSIDE login + System.
+                    security list-keychains -d user -s "$HOME/Library/Keychains/login.keychain-db" "$KC" "/Library/Keychains/System.keychain"
+                '''
+            }
+        }
+
         stage('Publish to TestFlight') {
             steps {
                 sshagent(credentials: ['match-git-ssh-key']) {
@@ -100,7 +127,15 @@ EOF
         always {
             sh '''
                 flutter clean || true
+
+                # Lock the dedicated CI keychain and restore the plain search list.
+                security lock-keychain "$CI_KEYCHAIN" 2>/dev/null || true
+                security list-keychains -d user -s ~/Library/Keychains/login.keychain-db /Library/Keychains/System.keychain || true
+
+                # TODO: remove after this ran once
                 security delete-keychain ~/Library/Keychains/fastlane_tmp_keychain-db 2>/dev/null || true
+                security default-keychain -d user -s ~/Library/Keychains/login.keychain-db || true
+
                 rm -f android/key.properties android/release.jks
             '''
         }

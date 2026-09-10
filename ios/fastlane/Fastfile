@@ -9,8 +9,15 @@ platform :ios do
       key_filepath: ENV['ASC_KEY_FILEPATH'],
       in_house: false
     )
-
-    setup_ci(force: true) if is_ci
+    
+    if ENV["MATCH_KEYCHAIN_NAME"]
+      unlock_keychain(
+        path: ENV["MATCH_KEYCHAIN_NAME"],
+        password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+        set_default: false,
+        add_to_search_list: true
+      )
+    end
 
     disable_automatic_code_signing(
       path: "Runner.xcodeproj",
@@ -30,7 +37,9 @@ platform :ios do
     match(
       type: "appstore",
       api_key: api_key,
-      readonly: is_ci
+      readonly: is_ci,
+      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
+      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"]
     )
 
     increment_build_number(
