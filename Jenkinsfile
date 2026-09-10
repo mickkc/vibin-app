@@ -9,6 +9,9 @@ pipeline {
     }
 
     environment {
+        LANG = 'en_US.UTF-8'
+        LC_ALL = 'en_US.UTF-8'
+
         MATCH_PASSWORD = credentials('match-password')
         ASC_KEY_ID = credentials('asc-api-key-id')
         ASC_ISSUER_ID = credentials('asc-api-issuer-id')
