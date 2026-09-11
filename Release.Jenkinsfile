@@ -81,6 +81,7 @@ EOF
     post {
         always {
             sh '''
+                flutter clean || true
                 rm -f android/key.properties android/release.jks
             '''
         }
