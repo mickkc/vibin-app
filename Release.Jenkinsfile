@@ -1,3 +1,9 @@
+/*
+    Creates a new app release. This pipeline is run when a new tag is created.
+
+    Currently, only the android version is built and archived, but in the future more platforms will be added and the
+    artifacts will get published as a Codeberg release and in app stores.
+*/
 pipeline {
     agent { label 'macos' }
 
@@ -9,6 +15,7 @@ pipeline {
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm

@@ -1,0 +1,119 @@
+/*
+    Builds the app for iOS and publishes it to TestFlight.
+
+    This pipeline is only run when the main branch gets updated, or a branch starting with "ios-" gets updated.
+*/
+
+pipeline {
+    agent { label 'macos' }
+
+    options {
+        skipDefaultCheckout(false)
+        buildDiscarder(logRotator(numToKeepStr: '20'))
+        timestamps()
+        disableConcurrentBuilds()
+    }
+
+    environment {
+        LANG = 'en_US.UTF-8'
+        LC_ALL = 'en_US.UTF-8'
+
+        // Dedicated, persistent keychain for iOS code signing.
+        CI_KEYCHAIN = "${env.HOME}/Library/Keychains/ci.keychain-db"
+        MATCH_KEYCHAIN_NAME = "${env.HOME}/Library/Keychains/ci.keychain-db"
+        MATCH_KEYCHAIN_PASSWORD = 'ci'
+
+        MATCH_PASSWORD = credentials('match-password')
+        ASC_KEY_ID = credentials('asc-api-key-id')
+        ASC_ISSUER_ID = credentials('asc-api-issuer-id')
+        ASC_KEY_FILEPATH = credentials('asc-api-key-p8')
+        TEAM_ID = credentials('apple-team-id')
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Flutter Setup') {
+            steps {
+                sh '''
+                    flutter --version
+                    flutter doctor -v
+                    flutter clean
+                    flutter pub get
+                '''
+            }
+        }
+
+        stage('Build API') {
+            steps {
+                sh '''
+                    flutter pub run build_runner build --delete-conflicting-outputs
+                '''
+            }
+        }
+
+        stage('Build iOS (unsigned)') {
+            steps {
+                sh '''
+                    flutter build ios --release --no-codesign
+                '''
+            }
+        }
+
+        stage('Prepare iOS Keychain') {
+            steps {
+                sh '''
+                    set -e
+                    KC="$CI_KEYCHAIN"
+                    PW="$MATCH_KEYCHAIN_PASSWORD"
+
+                    # Create once, reused on every subsequent build.
+                    if [ ! -f "$KC" ]; then
+                        security create-keychain -p "$PW" "$KC"
+                    fi
+
+                    # MUST BE UNLOCKED FIRST!
+                    security unlock-keychain -p "$PW" "$KC"
+                    security set-keychain-settings "$KC"
+
+                    # Add to the search list ALONGSIDE login + System.
+                    security list-keychains -d user -s "$HOME/Library/Keychains/login.keychain-db" "$KC" "/Library/Keychains/System.keychain"
+                '''
+            }
+        }
+
+        stage('Publish to TestFlight') {
+            steps {
+                sshagent(credentials: ['match-git-ssh-key']) {
+                    dir('ios') {
+                        sh 'bundle install'
+                        sh 'bundle exec fastlane ios beta'
+                    }
+                } 
+            }
+        }
+    }
+
+    post {
+        always {
+            sh '''
+                flutter clean || true
+
+                # Lock the dedicated CI keychain and restore the plain search list.
+                security lock-keychain "$CI_KEYCHAIN" 2>/dev/null || true
+                security list-keychains -d user -s ~/Library/Keychains/login.keychain-db /Library/Keychains/System.keychain || true
+            '''
+        }
+        success {
+            echo "Build succeeded"
+        }
+        failure {
+            echo "Build failed"
+        }
+    }
+}
