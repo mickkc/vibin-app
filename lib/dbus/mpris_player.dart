@@ -247,7 +247,7 @@ class MprisPlayer extends DBusObject {
         "LoopStatus": DBusString(fromLoopMode(loopMode)),
       });
     });
-    _audioManager.correctedPositionStream.listen((position) {
+    _audioManager.audioPlayer.positionStream.listen((position) {
       emitPropertiesChanged("org.mpris.MediaPlayer2.Player", changedProperties: {
         "Position": DBusInt64(position.inMicroseconds),
       });

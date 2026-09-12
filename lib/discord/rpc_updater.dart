@@ -207,8 +207,8 @@ class RpcUpdater {
           smallAsset: _audioManager!.isPlaying ? null : DiscordAsset.fromKey("paused",
             text: _formatTemplate(_settingsManager.get(Settings.smallAssetTemplate), mediaItem)),
           timestamps: _audioManager!.isPlaying ? DiscordTimestamps.range(
-            DateTime.now().subtract(_audioManager!.correctedPosition),
-            DateTime.now().subtract(_audioManager!.correctedPosition).add(mediaItem.duration ?? Duration.zero)
+            DateTime.now().subtract(_audioManager!.position),
+            DateTime.now().subtract(_audioManager!.position).add(mediaItem.duration ?? Duration.zero)
           ) : null,
         ));
       }
