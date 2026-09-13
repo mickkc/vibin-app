@@ -242,9 +242,9 @@ class PlaybackSessionUpdater {
     'trackId': trackId
   });
 
-  void played() => _sendWebSocket("play", data: { "position": _audioManager.correctedPosition.inSeconds });
-  void paused() => _sendWebSocket("pause", data: { "position": _audioManager.correctedPosition.inSeconds });
-  void stopped() => _sendWebSocket("stop", data: { "position": _audioManager.correctedPosition.inSeconds });
+  void played() => _sendWebSocket("play", data: { "position": _audioManager.position.inSeconds });
+  void paused() => _sendWebSocket("pause", data: { "position": _audioManager.position.inSeconds });
+  void stopped() => _sendWebSocket("stop", data: { "position": _audioManager.position.inSeconds });
   void buffering() => _sendWebSocket("buffering");
 
   void repeatModeChanged(LoopMode mode) => _sendWebSocket("repeat", data: { "mode": mode.name });

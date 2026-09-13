@@ -107,7 +107,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
 
   void _setupPositionListener() {
     _positionSubscription?.cancel();
-    _positionSubscription = _audioManager.correctedPositionStream.listen((position) {
+    _positionSubscription = _audioManager.audioPlayer.positionStream.listen((position) {
       if (_parsedLyrics == null || !_parsedLyrics!.isSynced) {
         return;
       }
