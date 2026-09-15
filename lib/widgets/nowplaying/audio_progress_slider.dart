@@ -24,7 +24,7 @@ class _AudioProgressSliderState extends State<AudioProgressSlider> {
   Widget build(BuildContext context) {
     final audioManager = getIt<AudioManager>();
     return StreamBuilder(
-      stream: audioManager.audioPlayer.positionStream,
+      stream: audioManager.correctedPositionStream,
       builder: (context, snapshot) {
         final position = snapshot.data ?? Duration.zero;
         final duration = audioManager.getCurrentMediaItem()?.duration ?? audioManager.audioPlayer.duration ?? Duration.zero;
