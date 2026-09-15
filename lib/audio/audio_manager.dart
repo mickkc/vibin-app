@@ -58,6 +58,14 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   int? _currentlyLoadedTrackId;
   Streamable? _currentStreamable;
 
+  // Offset added to just_audio's position when the backend serves a fresh transcode from ?start=X
+  Duration _seekOffset = Duration.zero;
+
+  Stream<Duration> get correctedPositionStream =>
+      audioPlayer.positionStream.map((pos) => pos + _seekOffset);
+
+  Duration get correctedPosition => audioPlayer.position + _seekOffset;
+
   // Prevent concurrent track completion handling
   bool _isHandlingCompletion = false;
 
@@ -121,7 +129,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
           ProcessingState.completed: AudioProcessingState.completed,
         }[audioPlayer.processingState]!,
         playing: audioPlayer.playing,
-        updatePosition: audioPlayer.position,
+        updatePosition: audioPlayer.position + _seekOffset,
         bufferedPosition: audioPlayer.bufferedPosition,
         speed: audioPlayer.speed,
         queueIndex: _currentIndex,
@@ -232,6 +240,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       _shufflePosition = 0;
       _currentlyLoadedTrackId = null;
       _currentStreamable = null;
+      _seekOffset = Duration.zero;
       _updateMediaItem();
       sequenceStreamController.add([]);
 
@@ -342,7 +351,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     }
 
     // If more than 3 seconds into track, restart current track
-    if (position.inSeconds > 3) {
+    if (correctedPosition.inSeconds > 3) {
       await seek(Duration.zero);
       return;
     }
@@ -386,7 +395,23 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final streamable = _currentStreamable;
     if (trackId == null || streamable == null) return;
 
-    audioPlayer.seek(position);
+    final item = getCurrentMediaItem();
+    final source = AudioSource.uri(
+      _getStreamUrl(trackId, streamable, position: position),
+      tag: item,
+      headers: {'Authorization': 'Bearer ${_apiManager.accessToken}'},
+    );
+
+    _seekOffset = position;
+    final wasPlaying = audioPlayer.playing;
+    try {
+      if (kIsWeb) await audioPlayer.stop();
+      await audioPlayer.setAudioSource(source);
+      if (wasPlaying) await play();
+    } catch (e, st) {
+      logger.handle(e, st, "Error seeking to $position");
+      return;
+    }
 
     _seekStreamController.add(position);
   }
@@ -420,7 +445,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
   double get speed => audioPlayer.speed;
   set speed(double value) => setSpeed(value);
 
-  Duration get position => audioPlayer.position;
+  Duration get position => correctedPosition;
 
   bool get hasNext {
     if (_queue.isEmpty) return false;
@@ -473,6 +498,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     );
 
     _currentlyLoadedTrackId = trackId;
+    _seekOffset = Duration.zero;
 
     try {
       // Only pause on mobile, stop on web to clear cache
@@ -627,7 +653,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     }
 
     final wasPlaying = audioPlayer.playing;
-    final position = audioPlayer.position;
+    final position = correctedPosition;
     final wasCurrentTrack = oldIndex == _currentIndex;
 
     final item = _queue.removeAt(oldIndex);
@@ -715,7 +741,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     if (streamableList.isEmpty) return;
     _currentStreamable = streamableList.single;
     // Use cache busting on web to force reload
-    final trackUri = _getStreamUrl(trackId, _currentStreamable!, bustCache: true);
+    final trackUri = _getStreamUrl(trackId, _currentStreamable!, bustCache: true, position: position);
 
     _updateMediaItem();
 
@@ -728,15 +754,16 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     );
 
     _currentlyLoadedTrackId = trackId;
+    _seekOffset = position;
 
     try {
       if (kIsWeb) {
         // On web, we need to fully stop to prevent caching issues
         await audioPlayer.stop();
-        await audioPlayer.setAudioSource(source, initialPosition: position);
+        await audioPlayer.setAudioSource(source);
       } else {
         // On Android/iOS, just set the new source to avoid notification flicker
-        await audioPlayer.setAudioSource(source, initialPosition: position);
+        await audioPlayer.setAudioSource(source);
       }
 
       if (wasPlaying) {
@@ -1226,7 +1253,7 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
   /// Constructs the stream URL for the specified track ID and media token.
   /// If [bustCache] is true and running on web, adds a cache buster parameter.
-  Uri _getStreamUrl(int trackId, Streamable streamable, {bool bustCache = false}) {
+  Uri _getStreamUrl(int trackId, Streamable streamable, {bool bustCache = false, Duration position = Duration.zero}) {
     var baseUrl = UrlUtils.getUrl(
             "api/streams/$trackId"
             "?sig=${streamable.streamSignature}"
@@ -1243,6 +1270,10 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     // Add cache buster for web to force reload
     if (bustCache && kIsWeb) {
       baseUrl += "&_cb=${DateTime.now().millisecondsSinceEpoch}";
+    }
+
+    if (position > Duration.zero) {
+      baseUrl += "&start=${position.inSeconds}";
     }
 
     return Uri.parse(baseUrl);
