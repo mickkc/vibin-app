@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/audio/audio_type.dart';
-import 'package:vibin_app/audio/media_item_parser.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dialogs/add_track_to_playlist_dialog.dart';
 import 'package:vibin_app/extensions.dart';
@@ -36,32 +35,6 @@ class _TrackActionBarState extends State<TrackActionBar> {
   final _authState = getIt<AuthState>();
   final _apiManager = getIt<ApiManager>();
   final _audioManager = getIt<AudioManager>();
-
-  bool _isCurrentTrack = false;
-  bool _isPlaying = false;
-
-  late final StreamSubscription? _playingSubscription;
-  late final StreamSubscription? _sequenceSubscription;
-
-  _TrackActionBarState() {
-    _playingSubscription = _audioManager.audioPlayer.playingStream.listen((event) {
-      setState(() {
-        _isPlaying = event;
-      });
-    });
-    _sequenceSubscription = _audioManager.currentMediaItemStream.listen((mediaItem) {
-      setState(() {
-        _isCurrentTrack = mediaItem?.trackId == widget.trackId;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _playingSubscription?.cancel();
-    _sequenceSubscription?.cancel();
-    super.dispose();
-  }
 
   void _playTrack(Track track) {
     _audioManager.playTrack(track);
