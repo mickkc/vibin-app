@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibin_app/audio/audio_type.dart';
 import 'package:vibin_app/audio/media_item_parser.dart';
 import 'package:vibin_app/auth/auth_state.dart';
 import 'package:vibin_app/dialogs/add_track_to_playlist_dialog.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/utils/track_downloader.dart';
+import 'package:vibin_app/widgets/bars/action_bar_play_button.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
-import 'package:vibin_app/widgets/play_button.dart';
 
 import '../../api/api_manager.dart';
 import '../../audio/audio_manager.dart';
@@ -79,16 +80,14 @@ class _TrackActionBarState extends State<TrackActionBar> {
       spacing: 16,
       children: [
         if (_authState.hasPermission(PermissionType.streamTracks)) ... [
-          PlayButton(
-            isPlaying: _isCurrentTrack && _isPlaying,
-            onTap: () async {
-              if (_isCurrentTrack) {
-                _audioManager.playPause();
-              } else {
-                final track = await _apiManager.service.getTrack(widget.trackId);
-                _playTrack(track);
-              }
-            }
+          ActionBarPlayButton(
+            audioType: AudioType.tracks,
+            audioId: widget.trackId,
+            showShuffleButton: false,
+            onPlay: (shuffle) async {
+              final track = await _apiManager.service.getTrack(widget.trackId);
+              _playTrack(track);
+            },
           ),
           IconButton(
             onPressed: () => _addToQueue(context, widget.trackId),

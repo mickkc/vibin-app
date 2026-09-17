@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
@@ -10,7 +8,7 @@ import 'package:vibin_app/dtos/playlist/playlist_data.dart';
 import 'package:vibin_app/dtos/playlist/playlist_edit_data.dart';
 import 'package:vibin_app/dtos/shuffle_state.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
-import 'package:vibin_app/widgets/play_button.dart';
+import 'package:vibin_app/widgets/bars/action_bar_play_button.dart';
 
 import '../../api/api_manager.dart';
 import '../../audio/audio_type.dart';
@@ -38,60 +36,6 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
   final _authState = getIt<AuthState>();
   final _apiManager = getIt<ApiManager>();
 
-  bool _isCurrent = false;
-  late bool _isPlaying = _audioManager.isPlaying;
-  late bool _isShuffleEnabled = _audioManager.isShuffling;
-  final List<StreamSubscription> _subscriptions = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _subscriptions.add(_audioManager.currentMediaItemStream.listen((mediaItem) {
-      if (!mounted) return;
-      setState(() {
-        if (mediaItem == null) {
-          _isCurrent = false;
-          return;
-        }
-        _isCurrent = _audioManager.currentAudioType != null &&
-            _audioManager.currentAudioType!.audioType == AudioType.playlist &&
-            _audioManager.currentAudioType!.id == widget.playlistData.playlist.id;
-      });
-    }));
-    _subscriptions.add(_audioManager.audioPlayer.playingStream.listen((playing) {
-      if (!mounted) return;
-      setState(() {
-        _isPlaying = playing;
-      });
-    }));
-  }
-
-  @override
-  void dispose() {
-    for (var sub in _subscriptions) {
-      sub.cancel();
-    }
-    super.dispose();
-  }
-
-  void _toggleShuffle() {
-    if (_isCurrent) {
-      _audioManager.toggleShuffle();
-    }
-    setState(() {
-      _isShuffleEnabled = !_isShuffleEnabled;
-    });
-    widget.shuffleState?.isShuffling = _isShuffleEnabled;
-  }
-
-  void _playPause() {
-    if (!_isCurrent) {
-      _audioManager.playPlaylistData(widget.playlistData, shuffle: _isShuffleEnabled);
-    } else {
-      _audioManager.playPause();
-    }
-  }
-
   bool _allowEdit() {
     if (!_authState.hasPermission(PermissionType.managePlaylists)) {
       return false;
@@ -106,28 +50,21 @@ class _PlaylistActionBarState extends State<PlaylistActionBar> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final lm = AppLocalizations.of(context)!;
     return Row(
       spacing: 16,
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        if (_authState.hasPermission(PermissionType.streamTracks)) ... [
-          PlayButton(
-            isPlaying: _isCurrent && _isPlaying,
-            onTap: _playPause
+        if (_authState.hasPermission(PermissionType.streamTracks))
+          ActionBarPlayButton(
+            audioType: AudioType.playlist,
+            audioId: widget.playlistData.playlist.id,
+            shuffleState: widget.shuffleState,
+            onPlay: (shuffle) async {
+              _audioManager.playPlaylistData(widget.playlistData, shuffle: shuffle);
+            }
           ),
-          IconButton(
-            onPressed: _toggleShuffle,
-            tooltip: _isShuffleEnabled ? lm.playlist_actions_disable_shuffling : lm.playlist_actions_enable_shuffling,
-            icon: Icon(
-              Icons.shuffle,
-              color: _isShuffleEnabled ? theme.colorScheme.primary : theme.colorScheme.onSurface,
-              size: 32,
-            )
-          )
-        ],
 
         if (
           _authState.hasPermissions([PermissionType.managePlaylists, PermissionType.viewUsers])
