@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 
 import '../../../audio/audio_manager.dart';
@@ -26,9 +27,22 @@ class PlayPauseToggle extends StatelessWidget {
     final audioManager = getIt<AudioManager>();
 
     return StreamBuilder(
-      stream: audioManager.audioPlayer.playingStream,
+      stream: audioManager.audioPlayer.playerStateStream,
+      initialData: audioManager.audioPlayer.playerState,
       builder: (context, snapshot) {
-        final playing = snapshot.data ?? false;
+
+        if (snapshot.data?.processingState == ProcessingState.loading || snapshot.data?.processingState == ProcessingState.buffering) {
+          return Padding(
+            padding: EdgeInsets.all(backgroundColor == null ? 8.0 : 12.0),
+            child: SizedBox(
+              width: size ?? 24,
+              height: size ?? 24,
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        final playing = snapshot.data?.playing ?? false;
 
         if (backgroundColor == null) {
           return IconButton(
