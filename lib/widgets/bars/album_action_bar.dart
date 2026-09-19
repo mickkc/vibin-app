@@ -1,14 +1,12 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/shuffle_state.dart';
+import 'package:vibin_app/widgets/bars/action_bar_play_button.dart';
 import 'package:vibin_app/widgets/entity_card.dart';
 import 'package:vibin_app/widgets/favorite_icon_button.dart';
-import 'package:vibin_app/widgets/play_button.dart';
 
 import '../../audio/audio_type.dart';
 import '../../auth/auth_state.dart';
@@ -33,51 +31,6 @@ class _AlbumActionBarState extends State<AlbumActionBar> {
   late final _audioManager = getIt<AudioManager>();
   late final _apiManager = getIt<ApiManager>();
   late final _authState = getIt<AuthState>();
-  late bool _isPlaying = _audioManager.isPlaying;
-  late bool _isCurrent = false;
-  late bool _isShuffleEnabled = _audioManager.isShuffling;
-
-  final List<StreamSubscription> _subscriptions = [];
-
-  _AlbumActionBarState() {
-    _subscriptions.add(_audioManager.currentMediaItemStream.listen((mediaItem) {
-      if (!mounted) return;
-      setState(() {
-        if (mediaItem == null) {
-          _isCurrent = false;
-          return;
-        }
-        _isCurrent = _audioManager.currentAudioType != null &&
-            _audioManager.currentAudioType!.audioType == AudioType.album &&
-            _audioManager.currentAudioType!.id == widget.albumId;
-      });
-    }));
-    _subscriptions.add(_audioManager.audioPlayer.playingStream.listen((playing) {
-      if (!mounted) return;
-      setState(() {
-        _isPlaying = playing;
-      });
-    }));
-  }
-
-  void _playPause() async {
-    if (!_isCurrent) {
-      final album = await _apiManager.service.getAlbum(widget.albumId);
-      _audioManager.playAlbumData(album, shuffle: _isShuffleEnabled);
-    } else {
-      await _audioManager.playPause();
-    }
-  }
-
-  void _toggleShuffle() {
-    if (_isCurrent) {
-      _audioManager.toggleShuffle();
-    }
-    setState(() {
-      _isShuffleEnabled = !_isShuffleEnabled;
-    });
-    widget.shuffleState?.isShuffling = _isShuffleEnabled;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,20 +39,16 @@ class _AlbumActionBarState extends State<AlbumActionBar> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        if (_authState.hasPermission(PermissionType.streamTracks)) ... [
-          PlayButton(
-            isPlaying: _isCurrent && _isPlaying,
-            onTap: _playPause
+        if (_authState.hasPermission(PermissionType.streamTracks))
+          ActionBarPlayButton(
+            audioType: AudioType.album,
+            audioId: widget.albumId,
+            shuffleState: widget.shuffleState,
+            onPlay: (shuffle) async {
+              final album = await _apiManager.service.getAlbum(widget.albumId);
+              _audioManager.playAlbumData(album, shuffle: shuffle);
+            }
           ),
-          IconButton(
-            onPressed: _toggleShuffle,
-            icon: Icon(
-              Icons.shuffle,
-              color: _isShuffleEnabled ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
-              size: 32
-            ),
-          )
-        ],
         if (_authState.hasPermission(PermissionType.manageAlbums))
           IconButton(
             onPressed: () {
