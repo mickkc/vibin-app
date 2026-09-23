@@ -802,6 +802,9 @@
   "permissions_create_track_relations": "Verwandte Titel hinzufügen",
   "permissions_delete_track_relations": "Verwandte Titel entfernen",
 
+  "permissions_manage_own_2fa": "2-Faktor-Authentifizierung verwalten",
+  "permissions_use_server_api_credentials": "Anmeldedaten des Servers für APIs (Spotify, last.fm) verwenden",
+
   "permissions_change_error": "Beim Ändern der Berechtigungen ist ein Fehler aufgetreten.",
 
 

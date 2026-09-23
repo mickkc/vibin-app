@@ -798,6 +798,9 @@
   "permissions_create_track_relations": "Add Track Relations",
   "permissions_delete_track_relations": "Remove Track Relations",
 
+  "permissions_manage_own_2fa": "Manage 2-factor authentication",
+  "permissions_use_server_api_credentials": "Use the server''s credentials for APIs (Spotify, last.fm)",
+
   "permissions_change_error": "An error occurred while changing permissions.",
 
 

@@ -53,6 +53,9 @@ extension PermissionsTranslator on AppLocalizations {
       PermissionType.createTrackRelations => permissions_create_track_relations,
       PermissionType.deleteTrackRelations => permissions_delete_track_relations,
 
+      PermissionType.manageOwn2fa => permissions_manage_own_2fa,
+      PermissionType.useServerApiCredentials => permissions_use_server_api_credentials,
+
       _ => type.value
     };
   }
