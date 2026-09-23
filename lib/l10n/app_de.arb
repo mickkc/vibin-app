@@ -480,6 +480,10 @@
   "settings_app_blocked_tags_description": "Verwalte die Liste der Tags, die du blockiert hast. Titel mit blockierten Tags werden in Übersichten und Suchergebnissen ausgeblendet.",
 
 
+  "settings_app_credentials_title": "Zugangsdaten",
+  "settings_app_credentials_description": "Hier kannst du optionale Zugangsdaten eintragen, die für das Abfragen von Metadaten und Scrobbling verwendet werden.",
+
+
   "settings_app_related_scores_title": "Empfehlungen",
   "settings_app_related_scores_description": "Passe an, wie ähnliche Titel gesucht und empfohlen werden. Die gewichtung berechnet sich aus: ('{Wert}' × Künstler) + Album + ('{Wert}' × Übereinstimmende Tags) - ('{Wert}' × Nicht übereinstimmende Tags)",
 
@@ -679,6 +683,9 @@
 
   "settings_server_lastfm_api_key_title": "Last.fm API-Schlüssel",
   "settings_server_lastfm_api_key_description": "API-Schlüssel für die Last.fm API. Notwendig, um Metadaten von Last.fm abzurufen.",
+
+  "settings_server_lastfm_shared_secret_title": "Last.fm shared Secret",
+  "settings_server_lastfm_shared_secret_description": "Shared Secret für die Last.fm API. Wird nur für Scrobbling benötigt, nicht zum Abfragen von Metadaten.",
 
   "settings_server_parsing_title": "Datei-Parsing",
 

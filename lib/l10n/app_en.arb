@@ -478,6 +478,10 @@
   "settings_app_blocked_tags_description": "Manage the list of tags you have blocked. Tracks with blocked tags will be hidden in overviews and search results.",
 
 
+  "settings_app_credentials_title": "Credentials",
+  "settings_app_credentials_description": "Here you can configure optional credentials used for fetching metadata and scrobbling.",
+
+
   "settings_app_related_scores_title": "Recommendations",
   "settings_app_related_scores_description": "Configure how similar tracks are determined and recommended. The score is calculated as: ('{Value}' × Artists) + Album + ('{Value}' × Matching Tags) - ('{Value}' × Non-matching Tags)",
 
@@ -676,6 +680,9 @@
 
   "settings_server_lastfm_api_key_title": "Last.fm API Key",
   "settings_server_lastfm_api_key_description": "API Key for the Last.fm API. Necessary to fetch metadata from Last.fm.",
+
+  "settings_server_lastfm_shared_secret_title": "Last.fm Shared Secret",
+  "settings_server_lastfm_shared_secret_description": "Shared Secret for the Last.fm API. Only used for scrobbling, not for fetching metadata.",
 
   "settings_server_parsing_title": "Parsing Settings",
 

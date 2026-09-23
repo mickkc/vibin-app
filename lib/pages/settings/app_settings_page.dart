@@ -8,6 +8,7 @@ import 'package:vibin_app/discord/discord.dart';
 import 'package:vibin_app/discord/rpc_updater.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/pages/settings/app_user_settings_view.dart';
+import 'package:vibin_app/pages/settings/user_credentials_view.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/settings/accent_color_picker.dart';
@@ -171,7 +172,10 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
         if (_authState.hasPermission(PermissionType.changeOwnUserSettings)) ... [
           const Divider(),
           const AppUserSettingsView(),
+          const Divider(),
+          const UserCredentialsView(),
         ],
+
 
         if (_authState.hasPermission(PermissionType.streamTracks)) ... [
           const Divider(),
