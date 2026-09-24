@@ -382,7 +382,7 @@
     "settings_app_normalize_volume_title": "Volumeniveau normaliseren",
     "settings_app_normalize_volume_description": "Trek het volumeniveau van alle nummers gelijk, zodat er geen verschillen te horen zijn.",
     "settings_app_embed_images_as_base64_title": "Afbeeldingen bijvoegen als Base64",
-    "settings_app_embed_images_as_base64_description": "Schakel in om metagegevens in te sluiten als Base64-tekenreeksen in plaats van dat ze van url's worden geladen. Dit kan de compatibiliteit vergroten, maar ook het geheugenverbruik.",
+    "settings_app_embed_images_as_base64_description": "Schakel in om metagegevens in te sluiten als Base64-tekenreeksen in plaats van dat ze van url''s worden geladen. Dit kan de compatibiliteit vergroten, maar ook het geheugenverbruik.",
     "settings_app_metadata_image_size_title": "Metagegevens: afbeeldingsgrootte",
     "settings_app_metadata_image_size_description": "Geef aan hoe groot de afbeeldingen op albumhoezen in de metagegevens moet zijn. Dit is van toepassing op alle nummers die na het instellen hiervan worden toegevoegd aan de wachtrij.",
     "settings_app_metadata_image_size_small": "Klein (128px)",
