@@ -681,5 +681,11 @@
     "permissions_delete_tracks": "Nummers verwijderen",
     "permissions_view_albums": "Albums bekijken",
     "permissions_manage_albums": "Albums beheren",
-    "permissions_delete_albums": "Albums verwijderen"
+    "permissions_delete_albums": "Albums verwijderen",
+    "settings_app_credentials_title": "Inloggegevens",
+    "settings_app_credentials_description": "Hier kun je optionele inloggegevens instellen voor het ophalen van metagegevens en scrobbelen.",
+    "settings_server_lastfm_shared_secret_title": "Last.fm: gedeeld geheim",
+    "settings_server_lastfm_shared_secret_description": "Het gedeelde geheim van de Last.fm-api. Wordt alleen gebruikt voor scrobbelen, niet voor het ophalen van metagegevens.",
+    "permissions_manage_own_2fa": "Verificatie in twee stappen beheren",
+    "permissions_use_server_api_credentials": "Inloggegevens van server gebruiken voor api's (Spotify, Last.fm)"
 }
