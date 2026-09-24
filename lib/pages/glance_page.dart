@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -125,8 +126,12 @@ class _GlancePageState extends State<GlancePage> {
                     },
                   ),
                   items: sequence.map((item) {
-                    return Builder(
-                      builder: (BuildContext context) {
+                    return LayoutBuilder(
+                      builder: (BuildContext context, BoxConstraints constraints) {
+                        final size = min(constraints.maxWidth - 32, constraints.maxHeight / 2);
+                        final fontSizeTitle = min(theme.textTheme.headlineLarge?.fontSize ?? 40, size / 10);
+                        final fontSizeArtist = min(theme.textTheme.headlineSmall?.fontSize ?? 28, size / 15);
+
                         return Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
@@ -136,17 +141,19 @@ class _GlancePageState extends State<GlancePage> {
                                 child: NetworkImageWidget(
                                   url: "/api/tracks/${item.trackId}/cover",
                                   borderRadius: BorderRadius.circular(8),
+                                  width: size,
+                                  height: size,
                                 ),
                               ),
-                              const SizedBox(height: 32),
+                              SizedBox(height: min(size / 46, 32)),
                               Text(
                                 item.title,
-                                style: theme.textTheme.headlineLarge,
+                                style: theme.textTheme.headlineLarge?.copyWith(fontSize: fontSizeTitle),
                                 textAlign: TextAlign.center,
                               ),
                               Text(
                                 item.artist ?? "",
-                                style: theme.textTheme.headlineSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                                style: theme.textTheme.headlineSmall?.copyWith(color: theme.colorScheme.onSurfaceVariant, fontSize: fontSizeArtist),
                                 textAlign: TextAlign.center,
                               ),
                             ],
