@@ -89,7 +89,7 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
                   activeTrackColor: theme.colorScheme.primary,
                   thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 4),
                   overlayShape: const RoundSliderOverlayShape(overlayRadius: 4),
-                  padding: EdgeInsets.all(8.0)
+                  padding: EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 0.0)
                 ),
                 showTimes: false,
               ),
@@ -101,7 +101,7 @@ class _NowPlayingBarState extends State<NowPlayingBar> {
                   children: [
                     if (_currentMediaItem?.artUri != null) ...[
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: NetworkImageWidget(
                           url: _currentMediaItem!.artUri.toString(),
                           width: 44,
