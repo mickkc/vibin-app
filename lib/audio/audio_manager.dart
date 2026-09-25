@@ -571,6 +571,40 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     _shufflePosition = 0;
   }
 
+  /// Adds [count] items that were inserted into the queue at [queueIndex] to
+  /// the shuffle order without reshuffling the existing items.
+  /// If [next] is true, the new items are played directly after the current
+  /// track (in order), otherwise they are appended to the end of the shuffle
+  /// order in random order.
+  void _insertIntoShuffleOrder(int queueIndex, int count, bool next) {
+    if (_shuffleIndices.length != _queue.length - count) {
+      _createShuffleOrder();
+      return;
+    }
+
+    _shuffleIndices = _shuffleIndices.map((i) => i >= queueIndex ? i + count : i).toList();
+
+    final newIndices = List.generate(count, (i) => queueIndex + i);
+    if (!next) newIndices.shuffle();
+
+    final insertPosition = next ? _shufflePosition + 1 : _shuffleIndices.length;
+    _shuffleIndices.insertAll(insertPosition, newIndices);
+  }
+
+  /// Removes the item that was removed from the queue at [queueIndex] from the
+  /// shuffle order.
+  void _removeFromShuffleOrder(int queueIndex) {
+    final position = _shuffleIndices.indexOf(queueIndex);
+    if (position == -1) return;
+
+    _shuffleIndices.removeAt(position);
+    if (position < _shufflePosition) {
+      _shufflePosition -= 1;
+    }
+
+    _shuffleIndices = _shuffleIndices.map((i) => i > queueIndex ? i - 1 : i).toList();
+  }
+
   /// Updates the current media item in the notification
   void _updateMediaItem() {
     final item = getCurrentMediaItem();
@@ -668,9 +702,15 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       _currentIndex += 1;
     }
 
-    // Recreate shuffle order if shuffling
+    // Map the shuffle order to the new queue indices, keeping the shuffled
+    // order intact
     if (_isShuffling) {
-      _createShuffleOrder();
+      _shuffleIndices = _shuffleIndices.map((i) {
+        if (i == oldIndex) return newIndex;
+        if (oldIndex < i && i <= newIndex) return i - 1;
+        if (newIndex <= i && i < oldIndex) return i + 1;
+        return i;
+      }).toList();
     }
 
     // Reload current track if it changed position
@@ -688,24 +728,78 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     _queue.removeAt(index);
 
+    if (_isShuffling) {
+      _removeFromShuffleOrder(index);
+    }
+
     if (index < _currentIndex) {
       _currentIndex -= 1;
     } else if (index == _currentIndex) {
       // Current item removed
-      if (_queue.isNotEmpty) {
+      if (_queue.isEmpty) {
+        await audioPlayer.stop();
+      } else if (_isShuffling) {
+        // The next track in the shuffle order has moved up to the current
+        // shuffle position
+        _shufflePosition = _shufflePosition.clamp(0, _shuffleIndices.length - 1);
+        await playTrackAtIndex(_shuffleIndices[_shufflePosition]);
+      } else {
         _currentIndex = _currentIndex.clamp(0, _queue.length - 1);
         await playTrackAtIndex(_currentIndex);
-      } else {
-        await audioPlayer.stop();
       }
     }
 
-    // Recreate shuffle order if shuffling
-    if (_isShuffling && _queue.isNotEmpty) {
-      _createShuffleOrder();
+    _updateQueue();
+  }
+
+  /// Moves an item in the playback sequence (respecting shuffle) from
+  /// [oldPosition] to [newPosition].
+  Future<void> moveSequenceItem(int oldPosition, int newPosition) async {
+    if (!_isShuffling) {
+      return moveQueueItem(oldPosition, newPosition);
+    }
+
+    if (oldPosition < 0 || oldPosition >= _shuffleIndices.length) return;
+    if (newPosition < 0 || newPosition > _shuffleIndices.length) return;
+
+    // Adjust newPosition if moving down the list
+    if (newPosition > oldPosition) {
+      newPosition -= 1;
+    }
+
+    final queueIndex = _shuffleIndices.removeAt(oldPosition);
+    _shuffleIndices.insert(newPosition, queueIndex);
+
+    // Update current shuffle position
+    if (oldPosition == _shufflePosition) {
+      _shufflePosition = newPosition;
+    } else if (oldPosition < _shufflePosition && newPosition >= _shufflePosition) {
+      _shufflePosition -= 1;
+    } else if (oldPosition > _shufflePosition && newPosition <= _shufflePosition) {
+      _shufflePosition += 1;
     }
 
     _updateQueue();
+  }
+
+  /// Removes the item at the specified position in the playback sequence (respecting shuffle).
+  Future<void> removeSequenceItemAt(int position) async {
+    if (!_isShuffling) {
+      return removeQueueItemAt(position);
+    }
+
+    if (position < 0 || position >= _shuffleIndices.length) return;
+    await removeQueueItemAt(_shuffleIndices[position]);
+  }
+
+  /// Skips to the item at the specified position in the playback sequence (respecting shuffle).
+  Future<void> skipToSequenceItem(int position) async {
+    if (!_isShuffling) {
+      return skipToQueueItem(position);
+    }
+
+    if (position < 0 || position >= _shuffleIndices.length) return;
+    await skipToQueueItem(_shuffleIndices[position]);
   }
 
   /// Updates the queue in audio_service
@@ -1017,16 +1111,17 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     final wasEmpty = _queue.isEmpty;
 
-    if (next && _queue.isNotEmpty) {
-      _queue.insert(_currentIndex + 1, item);
-    } else {
-      _queue.add(item);
-    }
+    final insertIndex = next && _queue.isNotEmpty ? _currentIndex + 1 : _queue.length;
+    _queue.insert(insertIndex, item);
 
     setAudioType(AudioType.tracks, null);
 
     if (_isShuffling) {
-      _createShuffleOrder();
+      if (wasEmpty) {
+        _createShuffleOrder();
+      } else {
+        _insertIntoShuffleOrder(insertIndex, 1, next);
+      }
     }
 
     _updateQueue();
@@ -1055,16 +1150,17 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
 
     final wasEmpty = _queue.isEmpty;
 
-    if (next && _queue.isNotEmpty) {
-      _queue.insert(_currentIndex + 1, item);
-    } else {
-      _queue.add(item);
-    }
+    final insertIndex = next && _queue.isNotEmpty ? _currentIndex + 1 : _queue.length;
+    _queue.insert(insertIndex, item);
 
     setAudioType(AudioType.tracks, null);
 
     if (_isShuffling) {
-      _createShuffleOrder();
+      if (wasEmpty) {
+        _createShuffleOrder();
+      } else {
+        _insertIntoShuffleOrder(insertIndex, 1, next);
+      }
     }
 
     _updateQueue();
@@ -1091,14 +1187,15 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
       return;
     }
 
-    if (next && _queue.isNotEmpty) {
-      _queue.insertAll(_currentIndex + 1, items);
-    } else {
-      _queue.addAll(items);
-    }
+    final insertIndex = next && _queue.isNotEmpty ? _currentIndex + 1 : _queue.length;
+    _queue.insertAll(insertIndex, items);
 
     if (_isShuffling) {
-      _createShuffleOrder();
+      if (wasEmpty) {
+        _createShuffleOrder();
+      } else {
+        _insertIntoShuffleOrder(insertIndex, items.length, next);
+      }
     }
 
     _updateQueue();
@@ -1124,14 +1221,15 @@ class AudioManager extends BaseAudioHandler with QueueHandler, SeekHandler {
     final streamables = await _getStreamablesFromIds(playlistData.tracks.map((t) => t.track.id).toList());
     final items = await Future.wait(streamables.map((track) => _buildMediaItem(track)));
 
-    if (next && _queue.isNotEmpty) {
-      _queue.insertAll(_currentIndex + 1, items);
-    } else {
-      _queue.addAll(items);
-    }
+    final insertIndex = next && _queue.isNotEmpty ? _currentIndex + 1 : _queue.length;
+    _queue.insertAll(insertIndex, items);
 
     if (_isShuffling) {
-      _createShuffleOrder();
+      if (wasEmpty) {
+        _createShuffleOrder();
+      } else {
+        _insertIntoShuffleOrder(insertIndex, items.length, next);
+      }
     }
 
     _updateQueue();

@@ -115,7 +115,7 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
                   child: Icon(Icons.delete, color: Theme.of(context).colorScheme.onError),
                 ),
                 onDismissed: (direction) {
-                  _audioManager.removeQueueItemAt(index);
+                  _audioManager.removeSequenceItemAt(index);
                 },
                 child: ListTile(
                   leading: NetworkImageWidget(
@@ -134,14 +134,14 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
                        ) : const Icon(Icons.drag_handle)
                   ),
                   onTap: () {
-                    _audioManager.skipToQueueItem(index);
+                    _audioManager.skipToSequenceItem(index);
                     if (widget.isBottomSheet) Navigator.pop(context);
                   },
                 ),
               );
             },
             onReorder: (oldIndex, newIndex) {
-              _audioManager.moveQueueItem(oldIndex, newIndex);
+              _audioManager.moveSequenceItem(oldIndex, newIndex);
             },
           ),
     );
