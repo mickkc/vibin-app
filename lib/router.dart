@@ -123,9 +123,10 @@ GoRouter configureRouter(AuthState authState) {
                   });
                 }
               },
-              child: !authState.loggedIn ? child : MainLayoutView(
+              child: MainLayoutView(
+                showSidebar: loggedIn,
                 mainContent: Listener(
-                  onPointerDown: enableMouseNavigation ? (PointerDownEvent event) async {
+                  onPointerDown: enableMouseNavigation && loggedIn ? (PointerDownEvent event) async {
                     final router = GoRouter.of(context);
                     if (event.kind == PointerDeviceKind.mouse) {
                       if (event.buttons == kBackMouseButton && router.canPop()) {

@@ -10,10 +10,12 @@ enum SidebarType {
 
 class MainLayoutView extends StatefulWidget {
   final Widget mainContent;
+  final bool showSidebar;
 
   const MainLayoutView({
     super.key,
-    required this.mainContent
+    required this.mainContent,
+    this.showSidebar = true
   });
 
   @override
@@ -45,7 +47,7 @@ class _MainLayoutViewState extends State<MainLayoutView> {
           child: widget.mainContent,
         ),
 
-        if (_width > 900)
+        if (widget.showSidebar && _width > 900)
           ValueListenableBuilder(
             valueListenable: sidebarNotifier,
             builder: (context, value, child) {

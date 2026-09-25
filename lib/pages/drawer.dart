@@ -133,8 +133,8 @@ class DrawerComponent extends StatelessWidget {
           onTap: () async {
             Navigator.pop(context);
             final apiManager = getIt<ApiManager>();
-            await apiManager.service.logout();
             authState.logout();
+            await apiManager.service.logout();
           },
         ),
       ],
