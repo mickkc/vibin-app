@@ -56,7 +56,7 @@ class _HomePagState extends State<HomePage> {
     return ColumnPage(
       children: [
         RecommendedStartSection(),
-        ..._settingsManager.get(Settings.homepageSections).map((section) {
+        ..._settingsManager.getFilledMap(Settings.homepageSections, true.toString()).map((section) {
           if (section.value != true.toString()) return null;
           return getSection(section.key);
         }).nonNulls

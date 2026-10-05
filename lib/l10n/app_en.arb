@@ -438,6 +438,18 @@
   "settings_app_homepage_sections_title": "Homepage Sections",
   "settings_app_homepage_sections_description": "Select which sections to display on the homepage and in which order.",
 
+  "settings_app_track_fields_title": "Track properties",
+  "settings_app_track_fields_description": "Reorder or hide specific track properties displayed on the track''s page.",
+
+  "settings_app_track_field_duration": "Duration",
+  "settings_app_track_field_listening_duration": "Listening duration",
+  "settings_app_track_field_year": "Release year",
+  "settings_app_track_field_track_count_number": "Track number / Total tracks",
+  "settings_app_track_field_disc_count_number": "Disc number / Total discs",
+  "settings_app_track_field_bitrate": "Bitrate",
+  "settings_app_track_field_explicit": "Explicit",
+  "settings_app_track_field_has_lyrics": "Lyrics available",
+
   "settings_app_metadata_providers_title": "Metadata Providers",
   "settings_app_metadata_providers_description": "Select which metadata providers to use for fetching metadata from the internet.",
 

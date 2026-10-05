@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/mock/mock_tracks.dart';
+import 'package:vibin_app/settings/enums/track_info_field.dart';
+import 'package:vibin_app/settings/setting_definitions.dart';
+import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/tag_widget.dart';
 import 'package:vibin_app/widgets/track_listen_duration.dart';
 
@@ -34,11 +37,14 @@ class TrackInfoView extends StatelessWidget {
   }
 
   final _apiManager = getIt<ApiManager>();
+
   late final _trackFuture = _apiManager.service.getTrack(trackId);
+
+  final _settingsManager = getIt<SettingsManager>();
+  late final _infoFields = showMetadata ? _settingsManager.getFilledMap(Settings.trackInfoFields, true.toString()) : null;
 
   @override
   Widget build(BuildContext context) {
-
     final lm = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
@@ -92,31 +98,30 @@ class TrackInfoView extends StatelessWidget {
                 runSpacing: 16,
                 runAlignment: WrapAlignment.center,
                 alignment: WrapAlignment.start,
-                children: [
-                  if (track.duration != null)
-                    IconText(icon: Icons.schedule, text: formatDurationMs(track.duration!)),
-
-                  TrackListenDuration(trackId),
-
-                  if (track.year != null)
-                    IconText(icon: Icons.date_range, text: track.year!.toString()),
-
-                  if (track.trackCount != null || track.trackNumber != null)
-                    IconText(icon: Icons.music_note, text: "${track.trackNumber ?? "?"}/${track.trackCount ?? "?"}"),
-
-                  if (track.discCount != null || track.discNumber != null)
-                    IconText(icon: Icons.album, text: "${track.discNumber ?? "?"}/${track.discCount ?? "?"}"),
-
-                  if (track.bitrate != null)
-                    IconText(icon: Icons.multitrack_audio, text: "${track.bitrate!} kbps"),
-
-                  if (track.explicit)
-                    IconText(icon: Icons.explicit, text: lm.edit_track_explicit),
-
-                  if (track.hasLyrics)
-                    IconText(icon: Icons.lyrics, text: lm.edit_track_lyrics),
-
-                ],
+                children: _infoFields?.map<Widget?>((field) {
+                  if (field.value != true.toString()) return null;
+                  switch(field.key) {
+                    case TrackInfoField.duration when track.duration != null:
+                      return IconText(icon: Icons.schedule, text: formatDurationMs(track.duration!));
+                    case TrackInfoField.listeningDuration:
+                      return TrackListenDuration(trackId);
+                    case TrackInfoField.year when track.year != null:
+                      return IconText(icon: Icons.date_range, text: track.year!.toString());
+                    case TrackInfoField.trackCountNumber when track.trackNumber != null || track.trackCount != null:
+                      return IconText(icon: Icons.music_note, text: "${track.trackNumber ?? "?"}/${track.trackCount ?? "?"}");
+                    case TrackInfoField.discCountNumber when track.discNumber != null || track.discCount != null:
+                      return IconText(icon: Icons.album, text: "${track.discNumber ?? "?"}/${track.discCount ?? "?"}");
+                    case TrackInfoField.bitrate when track.bitrate != null:
+                      return IconText(icon: Icons.multitrack_audio, text: "${track.bitrate!} kbps");
+                    case TrackInfoField.explicit when track.explicit:
+                      IconText(icon: Icons.explicit, text: lm.edit_track_explicit);
+                    case TrackInfoField.hasLyrics when track.hasLyrics:
+                      IconText(icon: Icons.lyrics, text: lm.edit_track_lyrics);
+                    default:
+                      return null;
+                  }
+                  return null;
+                }).nonNulls.toList() ?? List.empty()
               ),
 
               if (track.tags.isNotEmpty)

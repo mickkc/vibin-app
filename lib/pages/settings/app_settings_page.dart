@@ -9,6 +9,8 @@ import 'package:vibin_app/discord/rpc_updater.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/pages/settings/app_user_settings_view.dart';
 import 'package:vibin_app/pages/settings/user_credentials_view.dart';
+import 'package:vibin_app/settings/enums/homepage_section.dart';
+import 'package:vibin_app/settings/enums/track_info_field.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/settings/accent_color_picker.dart';
@@ -163,7 +165,63 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
 
         const Divider(),
 
-        HomepageSectionsList(),
+        OrderedMapSettingsView(
+          title: _lm.settings_app_track_fields_title,
+          subtitle: _lm.settings_app_track_fields_description,
+          settingsKey: Settings.trackInfoFields,
+          nameFunc: (key, lm) {
+            switch (key) {
+              case TrackInfoField.duration:
+                return lm.settings_app_track_field_duration;
+              case TrackInfoField.listeningDuration:
+                return lm.settings_app_track_field_listening_duration;
+              case TrackInfoField.year:
+                return lm.settings_app_track_field_year;
+              case TrackInfoField.trackCountNumber:
+                return lm.settings_app_track_field_track_count_number;
+              case TrackInfoField.discCountNumber:
+                return lm.settings_app_track_field_disc_count_number;
+              case TrackInfoField.bitrate:
+                return lm.settings_app_track_field_bitrate;
+              case TrackInfoField.explicit:
+                return lm.settings_app_track_field_explicit;
+              case TrackInfoField.hasLyrics:
+                return lm.settings_app_track_field_has_lyrics;
+              default:
+                return key;
+            }
+          }
+        ),
+
+        const Divider(),
+
+        OrderedMapSettingsView(
+          settingsKey: Settings.homepageSections,
+          title: _lm.settings_app_homepage_sections_title,
+          subtitle: _lm.settings_app_homepage_sections_description,
+          nameFunc: (key, lm) {
+            switch (key) {
+              case HomepageSection.recentlyListened:
+                return _lm.section_recently_listened;
+              case HomepageSection.explore:
+                return _lm.section_random_tracks;
+              case HomepageSection.topArtists:
+                return _lm.section_top_artists;
+              case HomepageSection.topTracks:
+                return _lm.section_top_tracks;
+              case HomepageSection.newReleases:
+                return _lm.section_newest_tracks;
+              case HomepageSection.popular:
+                return _lm.section_popular_items;
+              case HomepageSection.playlists:
+                return _lm.section_playlists;
+              case HomepageSection.stats:
+                return _lm.section_global_stats;
+              default:
+                return key;
+            }
+          }
+        ),
 
         const Divider(),
 

@@ -1,10 +1,11 @@
-import 'package:vibin_app/discord/discord.dart';
 import 'package:flutter/material.dart';
 import 'package:vibin_app/dialogs/lyrics_dialog.dart';
+import 'package:vibin_app/discord/discord.dart';
 import 'package:vibin_app/dtos/stream_format.dart';
+import 'package:vibin_app/settings/enums/homepage_section.dart';
 import 'package:vibin_app/settings/enums/metadata_image_size.dart';
+import 'package:vibin_app/settings/enums/track_info_field.dart';
 import 'package:vibin_app/settings/settings_key.dart';
-import 'package:vibin_app/widgets/settings/homepage_sections_list.dart';
 
 import '../themes/color_scheme_list.dart';
 
@@ -19,7 +20,10 @@ class Settings {
   static final advancedTrackSearch = BoolSettingsKey("advancedTrackSearch", false);
   static final pageSize = IntSettingsKey("pageSize", 50);
   static final homepageSections = OrderedMapSettingsKey("homepageSections",
-      HomepageSectionsList.sections.map((key) => Entry<String, String>(key, true.toString())).toList());
+      HomepageSection.values.map((key) => Entry<String, String>(key, true.toString())).toList());
+
+  static final trackInfoFields = OrderedMapSettingsKey("trackInfoFields",
+      TrackInfoField.values.map((value) => Entry(value, true.toString())).toList());
 
   static final artistMetadataProvider = StringSettingsKey("artistMetadataProvider", "Deezer");
   static final albumMetadataProvider = StringSettingsKey("albumMetadataProvider", "Deezer");
