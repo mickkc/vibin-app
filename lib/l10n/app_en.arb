@@ -450,6 +450,9 @@
   "settings_app_track_field_explicit": "Explicit",
   "settings_app_track_field_has_lyrics": "Lyrics available",
 
+  "settings_app_track_field_show_comment": "Show comment",
+  "settings_app_track_field_show_tags": "Show tags",
+
   "settings_app_metadata_providers_title": "Metadata Providers",
   "settings_app_metadata_providers_description": "Select which metadata providers to use for fetching metadata from the internet.",
 

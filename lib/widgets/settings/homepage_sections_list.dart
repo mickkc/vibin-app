@@ -32,6 +32,7 @@ class _OrderedMapSettingsViewState extends State<OrderedMapSettingsView> {
   
   late List<Entry<String, String>> _currentValue;
   late final _lm = AppLocalizations.of(context)!;
+  late final _cs = Theme.of(context).colorScheme;
 
   @override
   void initState() {
@@ -63,18 +64,22 @@ class _OrderedMapSettingsViewState extends State<OrderedMapSettingsView> {
           subtitle: widget.subtitle,
         ),
         ReorderableListView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           children: [
             for (int index = 0; index < _currentValue.length; index++)
-              ListTile(
+              Padding(
                 key: Key('$index'),
-                title: Text(widget.nameFunc(_currentValue[index].key, _lm)),
-                leading: Checkbox(
-                  value: _currentValue[index].value == true.toString(),
-                  onChanged: (value) {
-                    _toggleEntry(_currentValue[index].key);
-                  },
+                padding: const EdgeInsets.all(2.0),
+                child: ListTile(
+                  title: Text(widget.nameFunc(_currentValue[index].key, _lm)),
+                  leading: Checkbox(
+                    value: _currentValue[index].value == true.toString(),
+                    onChanged: (value) {
+                      _toggleEntry(_currentValue[index].key);
+                    },
+                  ),
+                  tileColor: _cs.surfaceContainer,
                 ),
               ),
           ],

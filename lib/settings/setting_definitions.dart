@@ -24,6 +24,8 @@ class Settings {
 
   static final trackInfoFields = OrderedMapSettingsKey("trackInfoFields",
       TrackInfoField.values.map((value) => Entry(value, true.toString())).toList());
+  static final showTrackComment = BoolSettingsKey("showTrackComment", true);
+  static final showTrackTags = BoolSettingsKey("showTrackTags", true);
 
   static final artistMetadataProvider = StringSettingsKey("artistMetadataProvider", "Deezer");
   static final albumMetadataProvider = StringSettingsKey("albumMetadataProvider", "Deezer");

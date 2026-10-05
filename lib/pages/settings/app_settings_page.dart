@@ -193,6 +193,18 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
           }
         ),
 
+        BoolSettingsField(
+          settingsKey: Settings.showTrackComment,
+          title: _lm.settings_app_track_field_show_comment,
+          icon: Icons.comment,
+        ),
+
+        BoolSettingsField(
+          settingsKey: Settings.showTrackTags,
+          title: _lm.settings_app_track_field_show_tags,
+          icon: Icons.sell,
+        ),
+
         const Divider(),
 
         OrderedMapSettingsView(

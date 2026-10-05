@@ -89,42 +89,43 @@ class TrackInfoView extends StatelessWidget {
                 ),
               ],
             ),
-            if (track.comment != null && track.comment!.isNotEmpty && showMetadata) ... [
+            if (track.comment != null && track.comment!.isNotEmpty && showMetadata && _settingsManager.get(Settings.showTrackComment)) ... [
               IconText(icon: Icons.comment, text: track.comment!)
             ],
             if (showMetadata) ... [
-              Wrap(
-                spacing: 16,
-                runSpacing: 16,
-                runAlignment: WrapAlignment.center,
-                alignment: WrapAlignment.start,
-                children: _infoFields?.map<Widget?>((field) {
-                  if (field.value != true.toString()) return null;
-                  switch(field.key) {
-                    case TrackInfoField.duration when track.duration != null:
-                      return IconText(icon: Icons.schedule, text: formatDurationMs(track.duration!));
-                    case TrackInfoField.listeningDuration:
-                      return TrackListenDuration(trackId);
-                    case TrackInfoField.year when track.year != null:
-                      return IconText(icon: Icons.date_range, text: track.year!.toString());
-                    case TrackInfoField.trackCountNumber when track.trackNumber != null || track.trackCount != null:
-                      return IconText(icon: Icons.music_note, text: "${track.trackNumber ?? "?"}/${track.trackCount ?? "?"}");
-                    case TrackInfoField.discCountNumber when track.discNumber != null || track.discCount != null:
-                      return IconText(icon: Icons.album, text: "${track.discNumber ?? "?"}/${track.discCount ?? "?"}");
-                    case TrackInfoField.bitrate when track.bitrate != null:
-                      return IconText(icon: Icons.multitrack_audio, text: "${track.bitrate!} kbps");
-                    case TrackInfoField.explicit when track.explicit:
-                      IconText(icon: Icons.explicit, text: lm.edit_track_explicit);
-                    case TrackInfoField.hasLyrics when track.hasLyrics:
-                      IconText(icon: Icons.lyrics, text: lm.edit_track_lyrics);
-                    default:
-                      return null;
-                  }
-                  return null;
-                }).nonNulls.toList() ?? List.empty()
-              ),
+              if (_infoFields != null && _infoFields.any((i) => i.value == true.toString()))
+                Wrap(
+                  spacing: 16,
+                  runSpacing: 16,
+                  runAlignment: WrapAlignment.center,
+                  alignment: WrapAlignment.start,
+                  children: _infoFields.map<Widget?>((field) {
+                    if (field.value != true.toString()) return null;
+                    switch(field.key) {
+                      case TrackInfoField.duration when track.duration != null:
+                        return IconText(icon: Icons.schedule, text: formatDurationMs(track.duration!));
+                      case TrackInfoField.listeningDuration:
+                        return TrackListenDuration(trackId);
+                      case TrackInfoField.year when track.year != null:
+                        return IconText(icon: Icons.date_range, text: track.year!.toString());
+                      case TrackInfoField.trackCountNumber when track.trackNumber != null || track.trackCount != null:
+                        return IconText(icon: Icons.music_note, text: "${track.trackNumber ?? "?"}/${track.trackCount ?? "?"}");
+                      case TrackInfoField.discCountNumber when track.discNumber != null || track.discCount != null:
+                        return IconText(icon: Icons.album, text: "${track.discNumber ?? "?"}/${track.discCount ?? "?"}");
+                      case TrackInfoField.bitrate when track.bitrate != null:
+                        return IconText(icon: Icons.multitrack_audio, text: "${track.bitrate!} kbps");
+                      case TrackInfoField.explicit when track.explicit:
+                        IconText(icon: Icons.explicit, text: lm.edit_track_explicit);
+                      case TrackInfoField.hasLyrics when track.hasLyrics:
+                        IconText(icon: Icons.lyrics, text: lm.edit_track_lyrics);
+                      default:
+                        return null;
+                    }
+                    return null;
+                  }).nonNulls.toList()
+                ),
 
-              if (track.tags.isNotEmpty)
+              if (track.tags.isNotEmpty && _settingsManager.get(Settings.showTrackTags))
                 Wrap(
                   spacing: 16,
                   runSpacing: 16,
