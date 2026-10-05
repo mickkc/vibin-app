@@ -7,9 +7,10 @@ class TrackInfoField {
   static const String bitrate = "bitrate";
   static const String explicit = "explicit";
   static const String hasLyrics = "hasLyrics";
+  static const String uploader = "uploader";
 
   static List<String> values = [
-    duration, listeningDuration, year, trackCountNumber, discCountNumber,
+    uploader, duration, listeningDuration, year, trackCountNumber, discCountNumber,
     bitrate, explicit, hasLyrics
   ];
 }

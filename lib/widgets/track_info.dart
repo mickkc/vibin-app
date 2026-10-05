@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibin_app/auth/auth_state.dart';
+import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/mock/mock_tracks.dart';
 import 'package:vibin_app/settings/enums/track_info_field.dart';
@@ -37,6 +39,7 @@ class TrackInfoView extends StatelessWidget {
   }
 
   final _apiManager = getIt<ApiManager>();
+  final _authState = getIt<AuthState>();
 
   late final _trackFuture = _apiManager.service.getTrack(trackId);
 
@@ -115,13 +118,18 @@ class TrackInfoView extends StatelessWidget {
                       case TrackInfoField.bitrate when track.bitrate != null:
                         return IconText(icon: Icons.multitrack_audio, text: "${track.bitrate!} kbps");
                       case TrackInfoField.explicit when track.explicit:
-                        IconText(icon: Icons.explicit, text: lm.edit_track_explicit);
+                        return IconText(icon: Icons.explicit, text: lm.edit_track_explicit);
                       case TrackInfoField.hasLyrics when track.hasLyrics:
-                        IconText(icon: Icons.lyrics, text: lm.edit_track_lyrics);
+                        return IconText(icon: Icons.lyrics, text: lm.edit_track_lyrics);
+                      case TrackInfoField.uploader when track.uploader != null && _authState.hasPermission(PermissionType.viewUsers):
+                        return IconText(
+                          icon: Icons.person_add, text:
+                          track.uploader!.displayName ?? track.uploader!.username,
+                          onTap: () => GoRouter.of(context).push('/users/${track.uploader!.id}'),
+                        );
                       default:
                         return null;
                     }
-                    return null;
                   }).nonNulls.toList()
                 ),
 
