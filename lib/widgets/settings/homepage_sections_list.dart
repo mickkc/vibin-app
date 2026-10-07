@@ -1,83 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
-import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_key.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/settings/settings_title.dart';
 
 import '../../main.dart';
 
-class HomepageSectionsList extends StatefulWidget {
-  const HomepageSectionsList({super.key});
+class OrderedMapSettingsView extends StatefulWidget {
+
+  final String title;
+  final String? subtitle;
+
+  final OrderedMapSettingsKey settingsKey;
+  final String Function(String, AppLocalizations) nameFunc;
+
+  const OrderedMapSettingsView({
+    super.key,
+    required this.title,
+    this.subtitle,
+    required this.settingsKey,
+    required this.nameFunc
+  });
 
   @override
-  State<HomepageSectionsList> createState() => _HomepageSectionsListState();
-
-  static List<String> sections = [
-    "RECENTLY_LISTENED",
-    "EXPLORE",
-    "TOP_ARTISTS",
-    "TOP_TRACKS",
-    "NEW_RELEASES",
-    "POPULAR",
-    "PLAYLISTS",
-    "STATS"
-  ];
+  State<OrderedMapSettingsView> createState() => _OrderedMapSettingsViewState();
 }
 
-class _HomepageSectionsListState extends State<HomepageSectionsList> {
+class _OrderedMapSettingsViewState extends State<OrderedMapSettingsView> {
 
   final _settingsManager = getIt<SettingsManager>();
   
-  late List<Entry<String, String>> _selectedSections;
+  late List<Entry<String, String>> _currentValue;
   late final _lm = AppLocalizations.of(context)!;
-
-  String _getSectionName(String key) {
-
-    switch (key) {
-      case "RECENTLY_LISTENED":
-        return _lm.section_recently_listened;
-      case "EXPLORE":
-        return _lm.section_random_tracks;
-      case "TOP_ARTISTS":
-        return _lm.section_top_artists;
-      case "TOP_TRACKS":
-        return _lm.section_top_tracks;
-      case "NEW_RELEASES":
-        return _lm.section_newest_tracks;
-      case "POPULAR":
-        return _lm.section_popular_items;
-      case "PLAYLISTS":
-        return _lm.section_playlists;
-      case "STATS":
-        return _lm.section_global_stats;
-      default:
-        return key;
-    }
-  }
+  late final _cs = Theme.of(context).colorScheme;
 
   @override
   void initState() {
-    _selectedSections = _settingsManager.get(Settings.homepageSections);
-    for (final entry in HomepageSectionsList.sections) {
-      if (!_selectedSections.any((s) => s.key == entry)) {
-        _selectedSections.add(Entry<String, String>(entry, true.toString()));
-      }
-    }
-    _settingsManager.set(Settings.homepageSections, _selectedSections);
+    _currentValue = _settingsManager.getFilledMap(widget.settingsKey, true.toString());
     super.initState();
   }
 
-  void _toggleSection(String sectionKey) {
+  void _toggleEntry(String entryKey) {
     setState(() {
-      final section = _selectedSections.firstWhere((s) => s.key == sectionKey);
-      section.value = (section.value == false.toString()).toString();
+      final entry = _currentValue.firstWhere((s) => s.key == entryKey);
+      entry.value = (entry.value == false.toString()).toString();
     });
     _save();
   }
 
   void _save() {
-    _settingsManager.set(Settings.homepageSections, _selectedSections);
+    _settingsManager.set(widget.settingsKey, _currentValue);
   }
 
   @override
@@ -88,22 +60,26 @@ class _HomepageSectionsListState extends State<HomepageSectionsList> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SettingsTitle(
-          title: _lm.settings_app_homepage_sections_title,
-          subtitle: _lm.settings_app_homepage_sections_description,
+          title: widget.title,
+          subtitle: widget.subtitle,
         ),
         ReorderableListView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           children: [
-            for (int index = 0; index < _selectedSections.length; index++)
-              ListTile(
+            for (int index = 0; index < _currentValue.length; index++)
+              Padding(
                 key: Key('$index'),
-                title: Text(_getSectionName(_selectedSections[index].key)),
-                leading: Checkbox(
-                  value: _selectedSections[index].value == true.toString(),
-                  onChanged: (value) {
-                    _toggleSection(_selectedSections[index].key);
-                  },
+                padding: const EdgeInsets.all(2.0),
+                child: ListTile(
+                  title: Text(widget.nameFunc(_currentValue[index].key, _lm)),
+                  leading: Checkbox(
+                    value: _currentValue[index].value == true.toString(),
+                    onChanged: (value) {
+                      _toggleEntry(_currentValue[index].key);
+                    },
+                  ),
+                  tileColor: _cs.surfaceContainer,
                 ),
               ),
           ],
@@ -112,10 +88,10 @@ class _HomepageSectionsListState extends State<HomepageSectionsList> {
               if (newIndex > oldIndex) {
                 newIndex -= 1;
               }
-              final key = _selectedSections.elementAt(oldIndex);
-              final section = _selectedSections.firstWhere((s) => s.key == key.key);
-              _selectedSections.remove(section);
-              _selectedSections.insert(newIndex, section);
+              final key = _currentValue.elementAt(oldIndex);
+              final entry = _currentValue.firstWhere((s) => s.key == key.key);
+              _currentValue.remove(entry);
+              _currentValue.insert(newIndex, entry);
               _save();
             });
           },

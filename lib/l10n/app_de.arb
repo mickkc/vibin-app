@@ -439,6 +439,21 @@
   "settings_app_homepage_sections_title": "Startseiten-Abschnitte",
   "settings_app_homepage_sections_description": "Wähle die Abschnitte aus, die auf der Startseite angezeigt werden sollen, und ordne sie per Drag & Drop neu an.",
 
+  "settings_app_track_fields_title": "Titel-Felder",
+  "settings_app_track_fields_description": "Verschiebe oder verstecke bestimmte Felder, die in der Detail-Seite eines Titels gezeigt werden.",
+
+  "settings_app_track_field_duration": "Dauer",
+  "settings_app_track_field_listening_duration": "Hörzeit",
+  "settings_app_track_field_year": "Erscheinungsjahr",
+  "settings_app_track_field_track_count_number": "Tracknummer / Trackanzahl",
+  "settings_app_track_field_disc_count_number": "Discnummer / Discanzahl",
+  "settings_app_track_field_bitrate": "Bitrate",
+  "settings_app_track_field_explicit": "Explizit",
+  "settings_app_track_field_has_lyrics": "Songtext verfügbar",
+
+  "settings_app_track_field_show_comment": "Kommentar anzeigen",
+  "settings_app_track_field_show_tags": "Tags anzeigen",
+
   "settings_app_metadata_providers_title": "Metadaten-Anbieter",
   "settings_app_metadata_providers_description": "Wähle die Metadaten-Anbieter aus, die für die Suche nach Metadaten aus dem Internet verwendet werden sollen.",
 

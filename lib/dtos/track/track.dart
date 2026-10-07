@@ -4,6 +4,7 @@ import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/id_name.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/dtos/track/base_track.dart';
+import 'package:vibin_app/dtos/user/user.dart';
 
 @JsonSerializable()
 class Track implements BaseTrack {
@@ -29,6 +30,7 @@ class Track implements BaseTrack {
   final bool hasLyrics;
   final int createdAt;
   final int? updatedAt;
+  final User? uploader;
 
   Track({
     required this.id,
@@ -52,6 +54,7 @@ class Track implements BaseTrack {
     required this.hasLyrics,
     required this.createdAt,
     this.updatedAt,
+    this.uploader
   });
 
   factory Track.fromJson(Map<String, dynamic> json) {
@@ -81,6 +84,7 @@ class Track implements BaseTrack {
       hasLyrics: json['hasLyrics'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
+      uploader: json['uploader'] != null ? User.fromJson(json['uploader']) : null
     );
   }
 
