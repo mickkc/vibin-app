@@ -33,7 +33,7 @@ class _AutoLoginErrorPageState extends State<AutoLoginErrorPage> {
 
   void _reconnect() async {
     await _authState.logout();
-    _router.replace('/connect');
+    _router.replace('/login');
   }
 
   void _quit() {
@@ -52,7 +52,7 @@ class _AutoLoginErrorPageState extends State<AutoLoginErrorPage> {
     final lm = AppLocalizations.of(context)!;
 
     if (_autoLoginResult!.error! is VersionMismatchException) {
-      return lm.connect_version_mismatch(
+      return lm.login_connection_version_mismatch(
         (_autoLoginResult!.error! as VersionMismatchException).appVersion,
         (_autoLoginResult!.error! as VersionMismatchException).serverVersion,
       );
