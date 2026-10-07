@@ -23,7 +23,6 @@ class _LoginPageState extends State<LoginPage> {
 
   final _apiManager = getIt<ApiManager>();
   final _authState = getIt<AuthState>();
-  late final _cs = Theme.of(context).colorScheme;
 
   late final _serverAddressController = TextEditingController(text: _apiManager.baseUrl);
   final _usernameController = TextEditingController();
@@ -174,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                   suffixIcon: _serverUrlValid != null
                     ? Icon(
                         _serverUrlValid! ? Icons.check_circle : Icons.error,
-                        color: _serverUrlValid! ? _cs.primary : _cs.error
+                        color: _serverUrlValid! ? _theme.colorScheme.primary : _theme.colorScheme.error
                       )
                     : null,
                   prefixIcon: Icon(Icons.dns),
