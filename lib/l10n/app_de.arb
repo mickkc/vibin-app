@@ -44,7 +44,7 @@
   "login_error": "Die Anmeldung ist fehlgeschlagen. Fehlermeldung: {error}",
   "login_invalid_credentials": "Ungültiger Benutzername oder Passwort.",
   "login_connection_error": "Die Verbindung zur Instanz konnte nicht hergestellt werden. Bitte überprüfe die URL und deine Internetverbindung.",
-  "login_connection_version_mismatch": "Die Version der Instanz ({serverVersion}) ist nicht mit der App-Version ({appVersion}) kompatibel. Bitte aktualisiere die App oder kotaktiere den Server-Administrator.",
+  "login_connection_version_mismatch": "Die Version der Instanz ({serverVersion}) ist nicht mit der App-Version ({appVersion}) kompatibel. Bitte aktualisiere die App oder kontaktiere den Server-Administrator.",
   "login_totp_title": "2-Faktor-Authentifizierung",
   "login_totp_description": "Gib den 6-stelligen Code aus deiner Authenticator-App oder der Verifizierungs-E-Mail ein:",
   "login_totp_failed": "Die 2-Faktor-Authentifizierung ist fehlgeschlagen. Bitte versuche es erneut.",
