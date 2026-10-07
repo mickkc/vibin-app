@@ -9,6 +9,7 @@ import 'package:vibin_app/main.dart';
 import 'package:vibin_app/utils/dialogs.dart';
 import 'package:vibin_app/utils/error_handler.dart';
 
+import '../../api/exceptions/version_mismatch_exception.dart';
 import '../../l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
@@ -23,8 +24,11 @@ class _LoginPageState extends State<LoginPage> {
   final _apiManager = getIt<ApiManager>();
   final _authState = getIt<AuthState>();
 
+  late final _serverAddressController = TextEditingController(text: _apiManager.baseUrl);
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  bool? _serverUrlValid;
 
   late final _lm = AppLocalizations.of(context)!;
   late final _router = GoRouter.of(context);
@@ -72,8 +76,37 @@ class _LoginPageState extends State<LoginPage> {
 
     return true;
   }
+
+  Future<bool> _setAndValidateServerUrl() async {
+    if (isEmbeddedMode()) return true;
+    try {
+      var url = _serverAddressController.text;
+      if (url.isEmpty) return false;
+      _apiManager.setBaseUrl(url);
+      await _apiManager.checkConnection();
+      setState(() {
+        _serverUrlValid = true;
+      });
+      return true;
+    }
+    catch (e, st) {
+      if (mounted) {
+        if (e is VersionMismatchException) {
+          ErrorHandler.showErrorDialog(context, _lm.login_connection_version_mismatch(e.appVersion, e.serverVersion));
+        }
+        else {
+          ErrorHandler.showErrorDialog(context, _lm.login_connection_error, error: e, stackTrace: st);
+        }
+      }
+      setState(() {
+        _serverUrlValid = false;
+      });
+      return false;
+    }
+  }
   
   Future<void> _login() async {
+    if (!(await _setAndValidateServerUrl())) return;
     try {
       await _authState.loadDeviceId();
       final deviceName = await _authState.loadDeviceName();
@@ -93,9 +126,29 @@ class _LoginPageState extends State<LoginPage> {
         throw _lm.login_invalid_credentials;
       }
     }
-    catch (e) {
-      if (mounted) showSnackBar(context, _lm.login_error(e));
+    catch (e, st) {
+      if (e is DioException) {
+        if (e.response?.statusCode == 401 && mounted) {
+          ErrorHandler.showErrorDialog(context, _lm.login_invalid_credentials);
+          return;
+        }
+      }
+      if (mounted) ErrorHandler.showErrorDialog(context, _lm.login_error(e), error: e, stackTrace: st);
     }
+  }
+
+  @override
+  void initState() {
+    _setAndValidateServerUrl();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    _serverAddressController.dispose();
+    super.dispose();
   }
 
   @override
@@ -114,14 +167,43 @@ class _LoginPageState extends State<LoginPage> {
             _lm.login_description,
             style: _theme.textTheme.bodyMedium,
           ),
+          if (!isEmbeddedMode())
+            SizedBox(
+              width: 300,
+              child: TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: _lm.login_placeholder_instance_url,
+                  suffixIcon: _serverUrlValid != null
+                    ? Icon(
+                        _serverUrlValid! ? Icons.check_circle : Icons.error,
+                        color: _serverUrlValid! ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.error
+                      )
+                    : null,
+                  prefixIcon: Icon(Icons.dns)
+                ),
+                onChanged: (s) {
+                  if (_serverUrlValid != null) {
+                    setState(() {
+                      _serverUrlValid = null;
+                    });
+                  }
+                },
+                keyboardType: TextInputType.url,
+                textInputAction: TextInputAction.done,
+                controller: _serverAddressController,
+                autofillHints: [AutofillHints.url],
+              ),
+            ),
           SizedBox(
             width: 300,
             child: TextField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: _lm.login_placeholder_username
+                labelText: _lm.login_placeholder_username,
+                prefixIcon: Icon(Icons.person)
               ),
-              keyboardType: TextInputType.url,
+              keyboardType: TextInputType.name,
               textInputAction: TextInputAction.done,
               controller: _usernameController,
               autofillHints: [AutofillHints.username],
@@ -132,7 +214,8 @@ class _LoginPageState extends State<LoginPage> {
             child: TextField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: _lm.login_placeholder_password
+                labelText: _lm.login_placeholder_password,
+                prefixIcon: Icon(Icons.lock)
               ),
               obscureText: true,
               textInputAction: TextInputAction.done,

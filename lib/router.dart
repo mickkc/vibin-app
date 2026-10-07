@@ -25,7 +25,6 @@ import 'package:vibin_app/pages/info/playlist_info_page.dart';
 import 'package:vibin_app/pages/info/track_info_page.dart';
 import 'package:vibin_app/pages/info/user/user_info_page.dart';
 import 'package:vibin_app/pages/login/auto_login_error_page.dart';
-import 'package:vibin_app/pages/login/connect_page.dart';
 import 'package:vibin_app/pages/login/login_page.dart';
 import 'package:vibin_app/pages/overview/albums_page.dart';
 import 'package:vibin_app/pages/overview/artists_page.dart';
@@ -151,7 +150,6 @@ GoRouter configureRouter(AuthState authState) {
           );
         },
         routes: [
-          GoRoute(path: '/connect', builder: (context, state) => const ConnectPage()),
           GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
           GoRoute(path: '/home', builder: (context, state) => const HomePage()),
           GoRoute(path: '/login-error', builder: (context, state) => const AutoLoginErrorPage()),
@@ -188,7 +186,7 @@ GoRouter configureRouter(AuthState authState) {
         ],
       )
     ],
-    initialLocation: isEmbeddedMode() ? "/login" : '/connect',
+    initialLocation: "/login",
     redirect: (context, state) {
 
       final hasAutoLoginError = authState.autoLoginResult != null && authState.autoLoginResult!.isError();
@@ -197,10 +195,10 @@ GoRouter configureRouter(AuthState authState) {
       }
 
       final loggedIn = authState.loggedIn;
-      final loggingIn = state.fullPath == '/connect' || state.fullPath == '/login';
+      final loggingIn = state.fullPath == '/login';
 
       if (!loggedIn && !loggingIn) {
-        return isEmbeddedMode() ? "/login" : '/connect'; // not logged in, redirect to login
+        return "/login"; // not logged in, redirect to login
       }
       if (loggedIn && loggingIn) return '/home'; // already logged in, skip login
 
