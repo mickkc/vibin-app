@@ -88,20 +88,24 @@ class _LoginPageState extends State<LoginPage> {
     if (isEmbeddedMode()) return true;
     if (_checkState == _ServerUrlCheckState.checking) return false;
 
+    var url = _serverAddressController.text;
+    if (url.isEmpty) return false;
+
     try {
       setState(() {
         _checkState = _ServerUrlCheckState.checking;
       });
-      var url = _serverAddressController.text;
-      if (url.isEmpty) return false;
       _apiManager.setBaseUrl(url);
       await _apiManager.checkConnection();
       if (mounted) {
+        if (_serverAddressController.text != url) {
+          // URL was edited while checking, result no longer applies.
+          setState(() {
+            _checkState = _ServerUrlCheckState.none;
+          });
+          return false;
+        }
         setState(() {
-          // Reset the input text to avoid marking an URL as valid that has been
-          // changed by the user while waiting for the server response
-          _serverAddressController.text = url;
-          _serverAddressController.clearComposing();
           _checkState = _ServerUrlCheckState.succeeded;
         });
       }
@@ -109,6 +113,14 @@ class _LoginPageState extends State<LoginPage> {
     }
     catch (e, st) {
       if (mounted) {
+        if (_serverAddressController.text != url) {
+          // URL was edited while checking, result no longer applies.
+          setState(() {
+            _checkState = _ServerUrlCheckState.none;
+          });
+          return false;
+        }
+
         if (e is VersionMismatchException) {
           ErrorHandler.showErrorDialog(context, _lm.login_connection_version_mismatch(e.appVersion, e.serverVersion));
         }
@@ -253,7 +265,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           ElevatedButton(
-            onPressed: _login,
+            onPressed: _checkState == _ServerUrlCheckState.checking ? null : _login,
             child: Text(_lm.login_button_login),
           )
         ],
