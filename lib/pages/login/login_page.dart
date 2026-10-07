@@ -19,6 +19,13 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
+enum _ServerUrlCheckState {
+  none,
+  checking,
+  failed,
+  succeeded
+}
+
 class _LoginPageState extends State<LoginPage> {
 
   final _apiManager = getIt<ApiManager>();
@@ -28,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  bool? _serverUrlValid;
+  _ServerUrlCheckState _checkState = _ServerUrlCheckState.none;
 
   late final _lm = AppLocalizations.of(context)!;
   late final _router = GoRouter.of(context);
@@ -79,14 +86,23 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<bool> _setAndValidateServerUrl() async {
     if (isEmbeddedMode()) return true;
+    if (_checkState == _ServerUrlCheckState.checking) return false;
+
     try {
+      setState(() {
+        _checkState = _ServerUrlCheckState.checking;
+      });
       var url = _serverAddressController.text;
       if (url.isEmpty) return false;
       _apiManager.setBaseUrl(url);
       await _apiManager.checkConnection();
       if (mounted) {
         setState(() {
-          _serverUrlValid = true;
+          // Reset the input text to avoid marking an URL as valid that has been
+          // changed by the user while waiting for the server response
+          _serverAddressController.text = url;
+          _serverAddressController.clearComposing();
+          _checkState = _ServerUrlCheckState.succeeded;
         });
       }
       return true;
@@ -100,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
           ErrorHandler.showErrorDialog(context, _lm.login_connection_error, error: e, stackTrace: st);
         }
         setState(() {
-          _serverUrlValid = false;
+          _checkState = _ServerUrlCheckState.failed;
         });
       }
       return false;
@@ -108,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
   }
   
   Future<void> _login() async {
-    if (_serverUrlValid != true && !(await _setAndValidateServerUrl())) return;
+    if (_checkState != _ServerUrlCheckState.succeeded && !(await _setAndValidateServerUrl())) return;
     try {
       await _authState.loadDeviceId();
       final deviceName = await _authState.loadDeviceName();
@@ -147,6 +163,25 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  Widget? _getServerUrlSuffix() {
+    switch (_checkState) {
+      case _ServerUrlCheckState.none:
+        return null;
+      case _ServerUrlCheckState.checking:
+        return SizedBox(
+          width: 24,
+          height: 24,
+          child: const CircularProgressIndicator(
+            padding: EdgeInsets.all(8.0)
+          )
+        );
+      case _ServerUrlCheckState.failed:
+        return Icon(Icons.error, color: _theme.colorScheme.error);
+      case _ServerUrlCheckState.succeeded:
+        return Icon(Icons.check_circle, color: _theme.colorScheme.primary);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AutofillGroup(
@@ -170,19 +205,14 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: _lm.login_placeholder_instance_url,
-                  suffixIcon: _serverUrlValid != null
-                    ? Icon(
-                        _serverUrlValid! ? Icons.check_circle : Icons.error,
-                        color: _serverUrlValid! ? _theme.colorScheme.primary : _theme.colorScheme.error
-                      )
-                    : null,
+                  suffixIcon: _getServerUrlSuffix(),
                   prefixIcon: Icon(Icons.dns),
                   hintText: "http://localhost:8080"
                 ),
                 onChanged: (s) {
-                  if (_serverUrlValid != null) {
+                  if (_checkState != _ServerUrlCheckState.none && _checkState != _ServerUrlCheckState.checking) {
                     setState(() {
-                      _serverUrlValid = null;
+                      _checkState = _ServerUrlCheckState.none;
                     });
                   }
                 },
