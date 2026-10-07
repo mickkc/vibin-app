@@ -23,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final _apiManager = getIt<ApiManager>();
   final _authState = getIt<AuthState>();
+  late final _cs = Theme.of(context).colorScheme;
 
   late final _serverAddressController = TextEditingController(text: _apiManager.baseUrl);
   final _usernameController = TextEditingController();
@@ -84,9 +85,11 @@ class _LoginPageState extends State<LoginPage> {
       if (url.isEmpty) return false;
       _apiManager.setBaseUrl(url);
       await _apiManager.checkConnection();
-      setState(() {
-        _serverUrlValid = true;
-      });
+      if (mounted) {
+        setState(() {
+          _serverUrlValid = true;
+        });
+      }
       return true;
     }
     catch (e, st) {
@@ -97,16 +100,16 @@ class _LoginPageState extends State<LoginPage> {
         else {
           ErrorHandler.showErrorDialog(context, _lm.login_connection_error, error: e, stackTrace: st);
         }
+        setState(() {
+          _serverUrlValid = false;
+        });
       }
-      setState(() {
-        _serverUrlValid = false;
-      });
       return false;
     }
   }
   
   Future<void> _login() async {
-    if (!(await _setAndValidateServerUrl())) return;
+    if (_serverUrlValid != true && !(await _setAndValidateServerUrl())) return;
     try {
       await _authState.loadDeviceId();
       final deviceName = await _authState.loadDeviceName();
@@ -135,12 +138,6 @@ class _LoginPageState extends State<LoginPage> {
       }
       if (mounted) ErrorHandler.showErrorDialog(context, _lm.login_error(e), error: e, stackTrace: st);
     }
-  }
-
-  @override
-  void initState() {
-    _setAndValidateServerUrl();
-    super.initState();
   }
 
   @override
@@ -177,10 +174,11 @@ class _LoginPageState extends State<LoginPage> {
                   suffixIcon: _serverUrlValid != null
                     ? Icon(
                         _serverUrlValid! ? Icons.check_circle : Icons.error,
-                        color: _serverUrlValid! ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.error
+                        color: _serverUrlValid! ? _cs.primary : _cs.error
                       )
                     : null,
-                  prefixIcon: Icon(Icons.dns)
+                  prefixIcon: Icon(Icons.dns),
+                  hintText: "http://localhost:8080"
                 ),
                 onChanged: (s) {
                   if (_serverUrlValid != null) {
@@ -189,6 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                     });
                   }
                 },
+                onSubmitted: (_) => _setAndValidateServerUrl(),
                 keyboardType: TextInputType.url,
                 textInputAction: TextInputAction.done,
                 controller: _serverAddressController,
