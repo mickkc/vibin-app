@@ -88,8 +88,9 @@ Please note that this project, just like the server, is currently in beta and st
 
 Thank you to everyone who contributed to Vibin'! ❤️
 
-- @Vistaus - Dutch translation
-- @WreckingBANG, @blorg - Testing, Issue reporting
+- **@Vistaus** - Dutch translation
+- **@rhododendrhon** - Romanian translation
+- **@WreckingBANG**, **@blorg** - Testing, Issue reporting
 
 ---
 
