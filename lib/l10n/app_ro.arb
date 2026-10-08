@@ -672,5 +672,16 @@
     "batch_edit_actions_change_album": "Schimbare album",
     "batch_edit_actions_regex_old": "Text de înlocuit (RegEx)",
     "batch_edit_actions_regex_new": "Înlocuitor (suportă și grupuri RegEx)",
-    "batch_edit_actions_remove_listen_duration_description": "Durata de ascultare pentru piesele selectate va fi resetată la 0, pentru toți utilizatorii."
+    "batch_edit_actions_remove_listen_duration_description": "Durata de ascultare pentru piesele selectate va fi resetată la 0, pentru toți utilizatorii.",
+    "batch_edit_actions_regenerate_file_metadata_description": "Regenerează metadatele precum bitrate, durată, rată de eșantionare etc. pentru piesele selectate.",
+    "batch_edit_run": "Rulare",
+    "batch_edit_dry_run": "Rulare de test",
+    "batch_edit_run_error": "A intervenit o eroare la editarea în masă.",
+    "batch_edit_report_title": "Rezultate",
+    "batch_edit_report_affected_tracks": "Piese afectate",
+    "batch_edit_report_affected_fields": "Câmpuri afectate",
+    "batch_edit_report_written_to_database": "Bază de date modificată",
+    "batch_edit_report_field_listen_duration": "Durată de ascultare",
+    "batch_edit_report_field_file_metadata": "Metadate fișier",
+    "batch_edit_report_field_empty": "<gol>"
 }
