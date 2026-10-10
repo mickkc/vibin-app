@@ -407,6 +407,9 @@
   "settings_app_theme_tokyonight_title": "Tokyo Night",
   "settings_app_theme_tokyonight_storm_title": "Tokyo Night Storm",
 
+  "settings_app_language_title": "Language",
+  "settings_app_language_device": "Device default",
+
   "settings_app_lyrics_design_title": "Lyrics Design",
   "settings_app_lyrics_design_system": "System",
   "settings_app_lyrics_design_primary": "Primary Color",
@@ -445,6 +448,7 @@
   "settings_app_track_field_bitrate": "Bitrate",
   "settings_app_track_field_explicit": "Explicit",
   "settings_app_track_field_has_lyrics": "Lyrics available",
+  "settins_app_track_field_uploader": "Uploader",
 
   "settings_app_track_field_show_comment": "Show comment",
   "settings_app_track_field_show_tags": "Show tags",

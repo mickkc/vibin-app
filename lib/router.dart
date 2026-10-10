@@ -166,7 +166,7 @@ GoRouter configureRouter(AuthState authState) {
           GoRoute(path: '/artists', builder: (context, state) => const ArtistsPage()),
           GoRoute(path: '/artists/:id', builder: (context, state) => ArtistInfoPage(artistId: int.parse(state.pathParameters['id']!))),
           GoRoute(path: '/artists/:id/edit', builder: (context, state) => ArtistEditPage(artistId: int.parse(state.pathParameters['id']!))),
-          GoRoute(path: '/settings/app', builder: (context, state) => const AppSettingsPage()),
+          GoRoute(path: '/settings/app', builder: (context, state) => AppSettingsPage(key: UniqueKey())),
           GoRoute(path: '/settings/server', builder: (context, state) => const ServerSettingsPage()),
           GoRoute(path: '/tags', builder: (context, state) => const TagOverviewPage()),
           GoRoute(path: '/users', builder: (context, state) => const UsersPage()),

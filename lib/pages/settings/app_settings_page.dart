@@ -103,7 +103,34 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
                       ),
                     ),
                     leading: Icon(Icons.palette),
-                  )
+                  ),
+
+                EnumSettingsField(
+                  key: ValueKey("app_language_field_${value.locale?.toLanguageTag()}"),
+                  settingKey: Settings.language,
+                  title: _lm.settings_app_language_title,
+                  icon: Icons.translate,
+                  optionLabel: (ln) {
+                    switch (ln?.languageCode) {
+                      case null:
+                        return _lm.settings_app_language_device;
+                      case "en":
+                        return "English";
+                      case "de":
+                        return "Deutsch";
+                      case "nl":
+                        return "Nederlands";
+                      case "ro":
+                        return "Română";
+                      default:
+                        return ln!.languageCode;
+                    }
+                  },
+                  onChanged: (ln) {
+                    themeNotifier.value = themeNotifier.value.setLanguage(ln);
+                    context.pushReplacement("/settings/app", extra: DateTime.now().millisecondsSinceEpoch);
+                  },
+                )
               ],
             );
           }
@@ -187,6 +214,8 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
                 return lm.settings_app_track_field_explicit;
               case TrackInfoField.hasLyrics:
                 return lm.settings_app_track_field_has_lyrics;
+              case TrackInfoField.uploader:
+                return lm.settins_app_track_field_uploader;
               default:
                 return key;
             }

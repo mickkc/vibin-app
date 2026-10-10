@@ -9,14 +9,21 @@ class ThemeSettings {
   ThemeMode themeMode;
   Color accentColor;
   ColorSchemeKey colorSchemeKey;
+  Locale? locale;
 
-  ThemeSettings({this.themeMode = ThemeMode.system, this.accentColor = Colors.green, this.colorSchemeKey = ColorSchemeKey.material3});
+  ThemeSettings({
+    this.themeMode = ThemeMode.system,
+    this.accentColor = Colors.green,
+    this.colorSchemeKey = ColorSchemeKey.material3,
+    this.locale
+  });
 
   ThemeSettings setThemeMode(ThemeMode mode) {
     return ThemeSettings(
       themeMode: mode,
       accentColor: accentColor,
       colorSchemeKey: colorSchemeKey,
+      locale: locale
     );
   }
 
@@ -25,6 +32,7 @@ class ThemeSettings {
       themeMode: themeMode,
       accentColor: color,
       colorSchemeKey: colorSchemeKey,
+      locale: locale
     );
   }
 
@@ -33,6 +41,16 @@ class ThemeSettings {
       themeMode: themeMode,
       accentColor: accentColor,
       colorSchemeKey: key,
+      locale: locale
+    );
+  }
+
+  ThemeSettings setLanguage(Locale? newLocale) {
+    return ThemeSettings(
+      themeMode: themeMode,
+      accentColor: accentColor,
+      colorSchemeKey: colorSchemeKey,
+      locale: newLocale
     );
   }
 
@@ -59,6 +77,7 @@ class ThemeSettings {
       themeMode: themeMode,
       accentColor: validAccentColor,
       colorSchemeKey: validColorSchemeKey,
+      locale: locale
     );
   }
 }

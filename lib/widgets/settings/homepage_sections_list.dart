@@ -32,7 +32,6 @@ class _OrderedMapSettingsViewState extends State<OrderedMapSettingsView> {
   
   late List<Entry<String, String>> _currentValue;
   late final _lm = AppLocalizations.of(context)!;
-  late final _cs = Theme.of(context).colorScheme;
 
   @override
   void initState() {
@@ -79,7 +78,7 @@ class _OrderedMapSettingsViewState extends State<OrderedMapSettingsView> {
                       _toggleEntry(_currentValue[index].key);
                     },
                   ),
-                  tileColor: _cs.surfaceContainer,
+                  tileColor: ColorScheme.of(context).surfaceContainerLowest,
                 ),
               ),
           ],

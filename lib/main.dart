@@ -35,6 +35,11 @@ final supportedServerVersions = [
   "0.0.15"
 ];
 
+final supportedLanguages = [
+  null, // Device default
+  ...AppLocalizations.supportedLocales
+];
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -101,6 +106,7 @@ class _MyAppState extends State<MyApp> {
     themeNotifier.value.accentColor = settingsManager.get(Settings.accentColor);
     themeNotifier.value.colorSchemeKey = settingsManager.get(Settings.colorScheme);
     themeNotifier.value.themeMode = settingsManager.get(Settings.themeMode);
+    themeNotifier.value.locale = settingsManager.get(Settings.language);
 
     if (isEmbeddedMode()) {
       final apiManager = getIt<ApiManager>();
@@ -129,6 +135,7 @@ class _MyAppState extends State<MyApp> {
       builder: (context, themeSettings, _) {
         return MaterialApp.router(
           title: 'Vibin\'',
+          locale: themeSettings.locale,
           theme: ColorSchemeList.get(themeSettings.colorSchemeKey)
             .generateThemeData(accentColor: themeSettings.accentColor, brightness: Brightness.light),
           darkTheme: ColorSchemeList.get(themeSettings.colorSchemeKey)
