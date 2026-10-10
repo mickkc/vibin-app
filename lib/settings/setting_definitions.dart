@@ -7,6 +7,7 @@ import 'package:vibin_app/settings/enums/metadata_image_size.dart';
 import 'package:vibin_app/settings/enums/track_info_field.dart';
 import 'package:vibin_app/settings/settings_key.dart';
 
+import '../main.dart';
 import '../themes/color_scheme_list.dart';
 
 class Settings {
@@ -14,6 +15,7 @@ class Settings {
   static final colorScheme = EnumSettingsKey("colorScheme", ColorSchemeKey.material3, ColorSchemeKey.values);
   static final accentColor = ColorSettingsKey("accentColor", Colors.green);
   static final lyricsDesign = EnumSettingsKey("lyricsDesign", LyricsDesign.dynamic, LyricsDesign.values);
+  static final language = EnumSettingsKey("language", null, supportedLanguages);
 
   static final showOwnPlaylistsByDefault = BoolSettingsKey("showOwnPlaylistsByDefault", true);
   static final showSinglesInAlbumsByDefault = BoolSettingsKey("showSinglesInAlbumsByDefault", false);

@@ -41,13 +41,13 @@ class _EnumSettingsFieldState<T> extends State<EnumSettingsField<T>> {
       trailing: DropdownButton<T>(
         value: _value,
         onChanged: (T? newValue) {
-          if (newValue != null) {
+          if (null is T || newValue != null) {
             _settingsManager.set(widget.settingKey, newValue);
             setState(() {
-              _value = newValue;
+              _value = newValue as T;
             });
             if (widget.onChanged != null) {
-              widget.onChanged!(newValue);
+              widget.onChanged!(newValue as T);
             }
           }
         },

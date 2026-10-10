@@ -103,7 +103,34 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
                       ),
                     ),
                     leading: Icon(Icons.palette),
-                  )
+                  ),
+
+                EnumSettingsField(
+                  key: ValueKey("app_language_field_${value.locale?.toLanguageTag()}"),
+                  settingKey: Settings.language,
+                  title: _lm.settings_app_language_title,
+                  icon: Icons.translate,
+                  optionLabel: (ln) {
+                    switch (ln?.languageCode) {
+                      case null:
+                        return _lm.settings_app_language_device;
+                      case "en":
+                        return _lm.settings_app_language_english;
+                      case "de":
+                        return _lm.settings_app_language_german;
+                      case "nl":
+                        return _lm.settings_app_language_dutch;
+                      case "ro":
+                        return _lm.settings_app_language_romanian;
+                      default:
+                        return ln!.languageCode;
+                    }
+                  },
+                  onChanged: (ln) {
+                    themeNotifier.value = themeNotifier.value.setLanguage(ln);
+                    context.pushReplacement("/settings/app", extra: DateTime.now().millisecondsSinceEpoch);
+                  },
+                )
               ],
             );
           }

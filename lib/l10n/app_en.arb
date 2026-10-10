@@ -407,6 +407,13 @@
   "settings_app_theme_tokyonight_title": "Tokyo Night",
   "settings_app_theme_tokyonight_storm_title": "Tokyo Night Storm",
 
+  "settings_app_language_title": "Language",
+  "settings_app_language_device": "Device default",
+  "settings_app_language_english": "English",
+  "settings_app_language_german": "German",
+  "settings_app_language_dutch": "Dutch",
+  "settings_app_language_romanian": "Romanian",
+
   "settings_app_lyrics_design_title": "Lyrics Design",
   "settings_app_lyrics_design_system": "System",
   "settings_app_lyrics_design_primary": "Primary Color",
