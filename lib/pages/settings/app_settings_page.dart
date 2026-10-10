@@ -214,6 +214,8 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
                 return lm.settings_app_track_field_explicit;
               case TrackInfoField.hasLyrics:
                 return lm.settings_app_track_field_has_lyrics;
+              case TrackInfoField.uploader:
+                return lm.settins_app_track_field_uploader;
               default:
                 return key;
             }
