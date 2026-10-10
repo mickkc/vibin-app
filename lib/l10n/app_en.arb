@@ -409,10 +409,6 @@
 
   "settings_app_language_title": "Language",
   "settings_app_language_device": "Device default",
-  "settings_app_language_english": "English",
-  "settings_app_language_german": "German",
-  "settings_app_language_dutch": "Dutch",
-  "settings_app_language_romanian": "Romanian",
 
   "settings_app_lyrics_design_title": "Lyrics Design",
   "settings_app_lyrics_design_system": "System",

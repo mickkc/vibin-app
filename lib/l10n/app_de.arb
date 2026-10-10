@@ -410,10 +410,6 @@
 
   "settings_app_language_title": "Sprache",
   "settings_app_language_device": "Geräte-Standard",
-  "settings_app_language_english": "Englisch",
-  "settings_app_language_german": "Deutsch",
-  "settings_app_language_dutch": "Niederländisch",
-  "settings_app_language_romanian": "Rumänisch",
 
   "settings_app_lyrics_design_title": "Liedtext-Design",
   "settings_app_lyrics_design_system": "System",

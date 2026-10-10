@@ -115,13 +115,13 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
                       case null:
                         return _lm.settings_app_language_device;
                       case "en":
-                        return _lm.settings_app_language_english;
+                        return "English";
                       case "de":
-                        return _lm.settings_app_language_german;
+                        return "Deutsch";
                       case "nl":
-                        return _lm.settings_app_language_dutch;
+                        return "Nederlands";
                       case "ro":
-                        return _lm.settings_app_language_romanian;
+                        return "Română";
                       default:
                         return ln!.languageCode;
                     }
