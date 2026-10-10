@@ -78,7 +78,7 @@
     "track_actions_add_to_playlist": "Toevoegen aan afspeellijst",
     "track_actions_add_to_queue": "Toevoegen aan wachtrij",
     "track_actions_added_to_queue": "Toegevoegd aan wachtrij",
-    "track_actions_goto_track": "Nummerinformatie",
+    "track_actions_goto_track": "Nummer bekijken",
     "track_actions_goto_album": "Albuminformatie",
     "track_actions_goto_artist": "Artiesten bekijken",
     "track_actions_glance_view": "Overzicht bekijken",
@@ -683,5 +683,17 @@
     "settings_server_lastfm_shared_secret_title": "Last.fm: gedeeld geheim",
     "settings_server_lastfm_shared_secret_description": "Het gedeelde geheim van de Last.fm-api. Wordt alleen gebruikt voor scrobbelen, niet voor het ophalen van metagegevens.",
     "permissions_manage_own_2fa": "Verificatie in twee stappen beheren",
-    "permissions_use_server_api_credentials": "Inloggegevens van server gebruiken voor api''s (Spotify, Last.fm)"
+    "permissions_use_server_api_credentials": "Inloggegevens van server gebruiken voor api''s (Spotify, Last.fm)",
+    "settings_app_track_fields_title": "Nummerinformatie",
+    "settings_app_track_fields_description": "Herorden of verberg bepaalde nummerinformatie op de nummerpagina.",
+    "settings_app_track_field_duration": "Duur",
+    "settings_app_track_field_listening_duration": "Luisterduur",
+    "settings_app_track_field_year": "Uitgavejaar",
+    "settings_app_track_field_track_count_number": "Volgnummer/Totaalaantal nummers",
+    "settings_app_track_field_disc_count_number": "Schijfnummer/Totaalaantal schijven",
+    "settings_app_track_field_bitrate": "Bitsnelheid",
+    "settings_app_track_field_explicit": "Volwassen inhoud",
+    "settings_app_track_field_has_lyrics": "Songtekst beschikbaar",
+    "settings_app_track_field_show_comment": "Opmerking tonen",
+    "settings_app_track_field_show_tags": "Tags tonen"
 }
