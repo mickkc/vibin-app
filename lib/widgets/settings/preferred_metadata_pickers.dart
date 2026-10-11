@@ -4,6 +4,8 @@ import 'package:vibin_app/main.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/future_content.dart';
+import 'package:vibin_app/widgets/row_small_column.dart';
+import 'package:vibin_app/widgets/settings/base_setting_widget.dart';
 import 'package:vibin_app/widgets/settings/settings_title.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -30,11 +32,15 @@ class _PreferredMetadataPickersState extends State<PreferredMetadataPickers> {
 
   late final _providersFuture = _apiManager.service.getMetadataProviders();
 
-  Widget _buildPicker(String title, String currentValue, List<String> options, Function(String) onChanged) {
+  Widget _buildPicker(String title, IconData icon, String currentValue, List<String> options, Function(String) onChanged) {
     final actualSelected = options.contains(currentValue) ? currentValue : options.first;
-    return ListTile(
-      title: Text(title),
-      trailing: DropdownButton<String>(
+
+    return BaseSettingWidget(
+      title: title,
+      icon: icon,
+      child: (context, rowCol) => DropdownButton<String>(
+        isExpanded: rowCol == RowColumn.column,
+        isDense: rowCol == RowColumn.column,
         value: actualSelected,
         items: options.map((option) {
           return DropdownMenuItem<String>(
@@ -47,7 +53,7 @@ class _PreferredMetadataPickersState extends State<PreferredMetadataPickers> {
             onChanged(value);
           }
         },
-      ),
+      )
     );
   }
 
@@ -68,6 +74,7 @@ class _PreferredMetadataPickersState extends State<PreferredMetadataPickers> {
 
             _buildPicker(
               _lm.artists,
+              Icons.person,
               _artistProvider,
               providers.artist,
               (value) {
@@ -80,6 +87,7 @@ class _PreferredMetadataPickersState extends State<PreferredMetadataPickers> {
 
             _buildPicker(
               _lm.albums,
+              Icons.album,
               _albumProvider,
               providers.album,
               (value) {
@@ -92,6 +100,7 @@ class _PreferredMetadataPickersState extends State<PreferredMetadataPickers> {
 
             _buildPicker(
               _lm.tracks,
+              Icons.library_music,
               _trackProvider,
               providers.track,
               (value) {
@@ -104,6 +113,7 @@ class _PreferredMetadataPickersState extends State<PreferredMetadataPickers> {
 
             _buildPicker(
               _lm.lyrics_p,
+              Icons.lyrics,
               _lyricsProvider,
               providers.lyrics,
               (value) {

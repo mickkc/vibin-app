@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/settings/settings_key.dart';
+import 'package:vibin_app/widgets/row_small_column.dart';
+import 'package:vibin_app/widgets/settings/base_setting_widget.dart';
 
 import '../../main.dart';
 import '../../settings/settings_manager.dart';
@@ -35,10 +37,13 @@ class _EnumSettingsFieldState<T> extends State<EnumSettingsField<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(widget.title),
-      subtitle: widget.description != null ? Text(widget.description!) : null,
-      trailing: DropdownButton<T>(
+    return BaseSettingWidget(
+      title: widget.title,
+      description: widget.description,
+      icon: widget.icon,
+      child: (context, rowCol) => DropdownButton<T>(
+        isExpanded: rowCol == RowColumn.column,
+        isDense: rowCol == RowColumn.column,
         value: _value,
         onChanged: (T? newValue) {
           if (null is T || newValue != null) {
@@ -64,8 +69,7 @@ class _EnumSettingsFieldState<T> extends State<EnumSettingsField<T>> {
             ),
           );
         }).toList(),
-      ),
-      leading: widget.icon != null ? Icon(widget.icon) : null,
+      )
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/utils/error_handler.dart';
+import 'package:vibin_app/widgets/settings/base_setting_widget.dart';
 
 import '../../../api/api_manager.dart';
 import '../../../main.dart';
@@ -71,11 +72,12 @@ class _ServerIntSettingsFieldState<Number> extends State<ServerNumberSettingsFie
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: widget.icon != null ? Icon(widget.icon) : null,
-      title: Text(widget.title),
-      subtitle: widget.description != null ? Text(widget.description!) : null,
-      trailing: Row(
+    return BaseSettingWidget(
+      title: widget.title,
+      description: widget.description,
+      icon: widget.icon,
+      rowWidgetWidth: 200,
+      child: (context, rowCol) => Row(
         mainAxisSize: MainAxisSize.min,
         spacing: 8,
         children: [
@@ -85,8 +87,7 @@ class _ServerIntSettingsFieldState<Number> extends State<ServerNumberSettingsFie
               icon: const Icon(Icons.save),
             ),
 
-          SizedBox(
-            width: 200,
+          Expanded(
             child: TextField(
               controller: _controller,
               decoration: InputDecoration(
@@ -109,7 +110,7 @@ class _ServerIntSettingsFieldState<Number> extends State<ServerNumberSettingsFie
             ),
           ),
         ],
-      ),
+      )
     );
   }
 }
