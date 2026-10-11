@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/settings/settings_key.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
+import 'package:vibin_app/widgets/settings/base_setting_widget.dart';
 
 class StringSettingsField extends StatefulWidget {
   final StringSettingsKey settingsKey;
@@ -32,28 +33,26 @@ class _StringSettingsFieldState extends State<StringSettingsField> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: widget.icon != null ? Icon(widget.icon) : null,
-      title: Text(widget.label),
-      subtitle: widget.description != null ? Text(widget.description!) : null,
-      trailing: SizedBox(
-        width: widget.fieldWidth,
-        child: TextField(
-          controller: _controller,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            isDense: true,
-            contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-          ),
-          textAlign: TextAlign.start,
-          onSubmitted: (text) {
-            _settingsManager.set(widget.settingsKey, text);
-            setState(() {
-              _value = text;
-            });
-          },
+    return BaseSettingWidget(
+      title: widget.label,
+      description: widget.description,
+      icon: widget.icon,
+      rowWidgetWidth: widget.fieldWidth,
+      child: (context, rowCol) => TextField(
+        controller: _controller,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         ),
-      )
+        textAlign: TextAlign.start,
+        onSubmitted: (text) {
+          _settingsManager.set(widget.settingsKey, text);
+          setState(() {
+            _value = text;
+          });
+        },
+      ),
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/widgets/row_small_column.dart';
+import 'package:vibin_app/widgets/settings/base_setting_widget.dart';
 
 import '../../../api/api_manager.dart';
 import '../../../main.dart';
@@ -48,11 +50,13 @@ class _ServerStringDropdownFieldState extends State<ServerStringDropdownField> {
   
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(widget.title),
-      subtitle: widget.description != null ? Text(widget.description!) : null,
-      leading: widget.icon != null ? Icon(widget.icon) : null,
-      trailing: DropdownButton<String>(
+    return BaseSettingWidget(
+      title: widget.title,
+      description: widget.description,
+      icon: widget.icon,
+      child: (context, rowCol) => DropdownButton<String>(
+        isExpanded: rowCol == RowColumn.column,
+        isDense: rowCol == RowColumn.column,
         value: _currentValue,
         onChanged: (String? newValue) async {
           if (newValue != null) {
@@ -70,7 +74,7 @@ class _ServerStringDropdownFieldState extends State<ServerStringDropdownField> {
             ),
           );
         }).toList(),
-      ),
+      )
     );
   }
 }
