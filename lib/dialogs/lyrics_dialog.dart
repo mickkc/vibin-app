@@ -180,6 +180,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
         _parsedLyrics = lyrics.lyrics == null ? null : LrcParser.parseLyrics(lyrics.lyrics!);
         _currentLyricIndex = null;
         _setupPositionListener();
+        _initializeSyncing();
         return lyrics;
       });
     });
