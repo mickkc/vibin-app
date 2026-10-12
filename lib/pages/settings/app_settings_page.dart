@@ -49,7 +49,7 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
   final _authState = getIt<AuthState>();
 
   final _apiManager = getIt<ApiManager>();
-  Future<Success>? _mailSupoprtedFuture;
+  Future<Success>? _mailSupportedFuture;
 
   late final _lm = AppLocalizations.of(context)!;
 
@@ -420,7 +420,7 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
           ),
 
           FutureContent(
-            future: _mailSupoprtedFuture ??= _apiManager.service.isMailSupported(),
+            future: _mailSupportedFuture ??= _apiManager.service.isMailSupported(),
             mockData: () => Success(success: true),
             builder: (context, supported) {
               return Column(
