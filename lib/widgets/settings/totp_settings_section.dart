@@ -10,7 +10,13 @@ import 'package:vibin_app/widgets/settings/base_setting_widget.dart';
 import 'package:vibin_app/widgets/settings/totp_setup_dialog.dart';
 
 class TotpSettingsSection extends StatefulWidget {
-  const TotpSettingsSection({super.key});
+
+  final bool mailSupported;
+
+  const TotpSettingsSection({
+    super.key,
+    required this.mailSupported
+  });
 
   @override
   State<StatefulWidget> createState() => _TotpSettingsSectionState();
@@ -81,7 +87,6 @@ class _TotpSettingsSectionState extends State<TotpSettingsSection> {
       },
       future: _statusFuture,
       builder: (context, status) {
-
         return BaseSettingWidget(
           title: _lm.settings_app_totp_title,
           description: getSubtitle(status.status),
@@ -97,12 +102,13 @@ class _TotpSettingsSectionState extends State<TotpSettingsSection> {
                     label: Text(_lm.settings_app_totp_configure_totp),
                     icon: const Icon(Icons.safety_check)
                   ),
-                  FilledButton.icon(
-                    onPressed: _emailConfigured ? () => setTotp(mailConfigured) : null,
-                    label: Text(_lm.settings_app_totp_configure_mail),
-                    icon: const Icon(Icons.mail_lock),
-                    style: FilledButton.styleFrom(backgroundColor: _cs.secondary),
-                  )
+                  if (widget.mailSupported)
+                    FilledButton.icon(
+                      onPressed: _emailConfigured ? () => setTotp(mailConfigured) : null,
+                      label: Text(_lm.settings_app_totp_configure_mail),
+                      icon: const Icon(Icons.mail_lock),
+                      style: FilledButton.styleFrom(backgroundColor: _cs.secondary),
+                    )
                 ]
                 else
                   FilledButton.icon(

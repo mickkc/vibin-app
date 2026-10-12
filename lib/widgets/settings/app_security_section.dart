@@ -9,8 +9,12 @@ import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 
 class AppSecuritySection extends StatefulWidget {
+  final bool mailSupported;
 
-  const AppSecuritySection({ super.key });
+  const AppSecuritySection({
+    super.key,
+    required this.mailSupported
+  });
 
   @override
   State<StatefulWidget> createState() => _AppSecuritySectionState();
@@ -22,6 +26,7 @@ class _AppSecuritySectionState extends State<AppSecuritySection> {
   final _authState = getIt<AuthState>();
 
   late final _settingsFuture = _apiManager.service.getUserSettings();
+
   late final _lm = AppLocalizations.of(context)!;
 
   late final _enableLoginNotificationSetting = _authState.user?.email?.isNotEmpty ?? false;
@@ -35,16 +40,17 @@ class _AppSecuritySectionState extends State<AppSecuritySection> {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           children: [
-            ServerBooleanSettingsField(
-              enabled: _enableLoginNotificationSetting,
-              settingKey: "send_mail_on_new_login",
-              initialValue: _enableLoginNotificationSetting && settings.settings["send_mail_on_new_login"],
-              title: _lm.settings_app_security_login_notification_title,
-              description: _enableLoginNotificationSetting
-                ? _lm.settings_app_security_login_notification_description
-                : _lm.settings_app_security_login_notification_unavailable,
-              icon: Icons.notification_important,
-            )
+            if (widget.mailSupported)
+              ServerBooleanSettingsField(
+                enabled: _enableLoginNotificationSetting,
+                settingKey: "send_mail_on_new_login",
+                initialValue: _enableLoginNotificationSetting && settings.settings["send_mail_on_new_login"],
+                title: _lm.settings_app_security_login_notification_title,
+                description: _enableLoginNotificationSetting
+                  ? _lm.settings_app_security_login_notification_description
+                  : _lm.settings_app_security_login_notification_unavailable,
+                icon: Icons.notification_important,
+              )
           ],
         );
       }

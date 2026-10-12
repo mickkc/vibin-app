@@ -461,4 +461,7 @@ abstract class ApiService {
 
   @GET("/api/misc/welcome")
   Future<String> getWelcomeMessage();
+
+  @GET("/api/mail/supported")
+  Future<Success> isMailSupported();
 }
