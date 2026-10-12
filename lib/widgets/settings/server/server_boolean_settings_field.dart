@@ -10,6 +10,7 @@ class ServerBooleanSettingsField extends StatefulWidget {
   final String title;
   final String? description;
   final IconData? icon;
+  final bool enabled;
 
   const ServerBooleanSettingsField({
     super.key,
@@ -18,6 +19,7 @@ class ServerBooleanSettingsField extends StatefulWidget {
     required this.title,
     this.description,
     this.icon,
+    this.enabled = true
   });
 
   @override
@@ -50,12 +52,12 @@ class _ServerBooleanSettingsFieldState extends State<ServerBooleanSettingsField>
       subtitle: widget.description != null ? Text(widget.description!) : null,
       secondary: widget.icon != null ? Icon(widget.icon) : null,
       value: _currentValue,
-      onChanged: (bool newValue) async {
+      onChanged: widget.enabled ? (bool newValue) async {
         setState(() {
           _currentValue = newValue;
         });
         await _save();
-      },
+      } : null,
     );
   }
 }

@@ -14,6 +14,7 @@ import 'package:vibin_app/settings/enums/track_info_field.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
 import 'package:vibin_app/widgets/settings/accent_color_picker.dart';
+import 'package:vibin_app/widgets/settings/app_security_section.dart';
 import 'package:vibin_app/widgets/settings/bool_settings_field.dart';
 import 'package:vibin_app/widgets/settings/enum_settings_field.dart';
 import 'package:vibin_app/widgets/settings/homepage_sections_list.dart';
@@ -414,6 +415,9 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
 
           TotpSettingsSection()
         ],
+
+        if (_authState.hasPermission(PermissionType.manageOwnUser))
+          AppSecuritySection(),
 
         const Divider(),
 

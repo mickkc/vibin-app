@@ -182,4 +182,8 @@ class AuthState extends ChangeNotifier {
     }
     return true;
   }
+
+  void updateUser(User updatedUser) {
+    _user = updatedUser;
+  }
 }
