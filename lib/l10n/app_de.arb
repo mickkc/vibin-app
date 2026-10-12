@@ -593,6 +593,8 @@
   "settings_app_totp_copy_secret_failed": "Secret konnte nicht kopiert werden.",
   "settings_app_totp_open_app_failed": "Es wurde keine Authentication-App gefunden, die geöffnet werden kann. Bitte verwende den QR Code oder kopiere das Secret manuell in die App.",
 
+  "settings_app_security_login_notification_title": "Login-Benachrichtigungen",
+  "settings_app_security_login_notification_description": "Benachrichtigungen bei Anmeldungen von neuen Geräten per E-Mail erhalten.",
 
   "settings_task_fetch_error": "Beim Laden der Aufgaben ist ein Fehler aufgetreten.",
 
