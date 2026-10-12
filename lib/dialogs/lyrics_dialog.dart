@@ -5,6 +5,7 @@ import 'package:flutter/material.dart' hide ColorScheme;
 import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/audio/audio_manager.dart';
+import 'package:vibin_app/audio/media_item_parser.dart';
 import 'package:vibin_app/dtos/lyrics.dart';
 import 'package:vibin_app/extensions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
@@ -53,12 +54,13 @@ class _LyricsDialogState extends State<LyricsDialog> {
   StreamSubscription? _currentMediaItemSubscription;
   StreamSubscription? _positionSubscription;
 
-  final _listController = ListController();
-  final _scrollController = ScrollController();
+  late final _listController = ListController(onAttached: _initializeSyncing);
+  late final _scrollController = ScrollController(onAttach: (_) => _initializeSyncing());
 
   int? _currentLyricIndex;
   int? _lastPositionMs;
   ParsedLyrics? _parsedLyrics;
+  bool _syncingInitialized = false;
 
   Color _getBackgroundColor(LyricsDesign lyricsDesign, ColorScheme? cs, ThemeData theme) {
 
@@ -105,10 +107,54 @@ class _LyricsDialogState extends State<LyricsDialog> {
     };
   }
 
+  void _initializeSyncing() {
+    if (_syncingInitialized || !mounted) return;
+
+    if (!_scrollController.hasClients || !_listController.isAttached) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => _highlightCurrentLine(_audioManager.position));
+
+    _syncingInitialized = true;
+  }
+
+  void _highlightCurrentLine(Duration position) {
+    if (_parsedLyrics == null || !_parsedLyrics!.isSynced) {
+      return;
+    }
+
+    // Find the closest lyric line that is less than or equal to the current position
+    int? newIndex;
+    for (var (index, line) in _parsedLyrics!.lines.indexed) {
+      if (line.timestamp.inMilliseconds <= position.inMilliseconds) {
+        newIndex = index;
+      } else {
+        break;
+      }
+    }
+
+    if (newIndex != _currentLyricIndex) {
+
+      setState(() {
+        _currentLyricIndex = newIndex;
+      });
+
+      // Scroll to the current lyric line
+      if (newIndex != null && _scrollController.hasClients && _listController.isAttached) {
+        _listController.animateToItem(
+          index: newIndex,
+          scrollController: _scrollController,
+          duration: (_) => const Duration(milliseconds: 300),
+          curve: (_) => Curves.easeInOut,
+          alignment: 0.5
+        );
+      }
+    }
+  }
+
   void _setupPositionListener() {
     _positionSubscription?.cancel();
     _positionSubscription = _audioManager.correctedPositionStream.listen((position) {
-      if (_parsedLyrics == null || !_parsedLyrics!.isSynced) {
+      if (_parsedLyrics == null || !_parsedLyrics!.isSynced || !_syncingInitialized) {
         return;
       }
 
@@ -119,39 +165,12 @@ class _LyricsDialogState extends State<LyricsDialog> {
       }
       _lastPositionMs = positionMs;
 
-      // Find the closest lyric line that is less than or equal to the current position
-      int? newIndex;
-      for (var (index, line) in _parsedLyrics!.lines.indexed) {
-        if (line.timestamp.inMilliseconds <= positionMs) {
-          newIndex = index;
-        } else {
-          break;
-        }
-      }
-
-      if (newIndex != _currentLyricIndex) {
-
-        setState(() {
-          _currentLyricIndex = newIndex;
-        });
-
-        // Scroll to the current lyric line
-        if (newIndex != null && _scrollController.hasClients && _listController.isAttached) {
-          _listController.animateToItem(
-            index: newIndex,
-            scrollController: _scrollController,
-            duration: (_) => const Duration(milliseconds: 300),
-            curve: (_) => Curves.easeInOut,
-            alignment: 0.5
-          );
-        }
-      }
+      _highlightCurrentLine(position);
     });
   }
 
   void _fetchLyrics() {
-    final idParts = _currentMediaItem?.id.split("-");
-    final id = idParts == null || idParts.isEmpty ? null : int.tryParse(idParts[0]);
+    final id = _currentMediaItem?.trackId;
     setState(() {
       if (id == null) {
         _lyricsFuture = Future.value(null);
@@ -161,6 +180,7 @@ class _LyricsDialogState extends State<LyricsDialog> {
         _parsedLyrics = lyrics.lyrics == null ? null : LrcParser.parseLyrics(lyrics.lyrics!);
         _currentLyricIndex = null;
         _setupPositionListener();
+        _initializeSyncing();
         return lyrics;
       });
     });
