@@ -92,9 +92,9 @@ class _UserEditPageState extends State<UserEditPage> {
 
       final editData = UserEditData(
         username: _usernameController.text,
-        displayName: _displayNameController.text.isEmpty ? null : _displayNameController.text,
-        description: _descriptionController.text.isEmpty ? null : _descriptionController.text,
-        email: _emailController.text.isEmpty ? null : _emailController.text,
+        displayName: _displayNameController.text,
+        description: _descriptionController.text,
+        email: _emailController.text,
         isAdmin: _isAdmin,
         isActive: _isActive,
         password: _passwordController.text.isEmpty ? null : _passwordController.text,
@@ -105,6 +105,8 @@ class _UserEditPageState extends State<UserEditPage> {
       final savedUser = widget.userId == null
         ? await _apiManager.service.createUser(editData)
         : await _apiManager.service.updateUser(widget.userId!, editData);
+
+      _authState.updateUser(savedUser);
 
       if (_profileImageUrl != null) {
         imageCache.clear();
