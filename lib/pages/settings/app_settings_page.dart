@@ -7,12 +7,14 @@ import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/discord/discord.dart';
 import 'package:vibin_app/discord/rpc_updater.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
+import 'package:vibin_app/dtos/success.dart';
 import 'package:vibin_app/pages/settings/app_user_settings_view.dart';
 import 'package:vibin_app/pages/settings/user_credentials_view.dart';
 import 'package:vibin_app/settings/enums/homepage_section.dart';
 import 'package:vibin_app/settings/enums/track_info_field.dart';
 import 'package:vibin_app/settings/setting_definitions.dart';
 import 'package:vibin_app/settings/settings_manager.dart';
+import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/settings/accent_color_picker.dart';
 import 'package:vibin_app/widgets/settings/app_security_section.dart';
 import 'package:vibin_app/widgets/settings/bool_settings_field.dart';
@@ -24,6 +26,7 @@ import 'package:vibin_app/widgets/settings/settings_title.dart';
 import 'package:vibin_app/widgets/settings/string_settings_field.dart';
 import 'package:vibin_app/widgets/settings/totp_settings_section.dart';
 
+import '../../api/api_manager.dart';
 import '../../auth/auth_state.dart';
 import '../../dialogs/lyrics_dialog.dart';
 import '../../l10n/app_localizations.dart';
@@ -44,6 +47,10 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
 
   final _settingsManager = getIt<SettingsManager>();
   final _authState = getIt<AuthState>();
+
+  final _apiManager = getIt<ApiManager>();
+  Future<Success>? _mailSupportedFuture;
+
   late final _lm = AppLocalizations.of(context)!;
 
   @override
@@ -406,18 +413,29 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
           )
         ],
 
-        if (_authState.hasPermission(PermissionType.manageOwn2fa)) ... [
+        if (_authState.hasAnyPermission([PermissionType.manageOwn2fa, PermissionType.manageOwnUser])) ... [
           const Divider(),
-
           SettingsTitle(
             title: _lm.settings_app_security_title,
           ),
 
-          TotpSettingsSection()
-        ],
+          FutureContent(
+            future: _mailSupportedFuture ??= _apiManager.service.isMailSupported(),
+            mockData: () => Success(success: true),
+            builder: (context, supported) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (_authState.hasPermission(PermissionType.manageOwn2fa))
+                    TotpSettingsSection(mailSupported: supported.success),
 
-        if (_authState.hasPermission(PermissionType.manageOwnUser))
-          AppSecuritySection(),
+                  if (_authState.hasPermission(PermissionType.manageOwnUser))
+                    AppSecuritySection(mailSupported: supported.success),
+                ],
+              );
+            },
+          )
+        ],
 
         const Divider(),
 
