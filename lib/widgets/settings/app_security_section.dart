@@ -24,6 +24,8 @@ class _AppSecuritySectionState extends State<AppSecuritySection> {
   late final _settingsFuture = _apiManager.service.getUserSettings();
   late final _lm = AppLocalizations.of(context)!;
 
+  late final _enableLoginNotificationSetting = _authState.user?.email?.isNotEmpty ?? false;
+
   @override
   Widget build(BuildContext context) {
     return FutureContent(
@@ -34,11 +36,13 @@ class _AppSecuritySectionState extends State<AppSecuritySection> {
           shrinkWrap: true,
           children: [
             ServerBooleanSettingsField(
-              enabled: _authState.user?.email?.isNotEmpty ?? false,
+              enabled: _enableLoginNotificationSetting,
               settingKey: "send_mail_on_new_login",
-              initialValue: settings.settings["send_mail_on_new_login"],
+              initialValue: _enableLoginNotificationSetting && settings.settings["send_mail_on_new_login"],
               title: _lm.settings_app_security_login_notification_title,
-              description: _lm.settings_app_security_login_notification_description,
+              description: _enableLoginNotificationSetting
+                ? _lm.settings_app_security_login_notification_description
+                : _lm.settings_app_security_login_notification_unavailable,
               icon: Icons.notification_important,
             )
           ],

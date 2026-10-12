@@ -595,6 +595,7 @@
 
   "settings_app_security_login_notification_title": "Login-Benachrichtigungen",
   "settings_app_security_login_notification_description": "Benachrichtigungen bei Anmeldungen von neuen Geräten per E-Mail erhalten.",
+  "settings_app_security_login_notification_unavailable": "Trage eine E-Mail-Adresse in deinem Profil ein, um diese Funktion zu verwenden.",
 
   "settings_task_fetch_error": "Beim Laden der Aufgaben ist ein Fehler aufgetreten.",
 
