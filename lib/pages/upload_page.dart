@@ -90,6 +90,9 @@ class _UploadPageState extends State<UploadPage> {
     try {
       List<PendingUpload> newPendingUploads = [];
 
+      var sent = 0;
+      var total = result.files.length;
+
       for (final file in result.files) {
         try {
           if (mounted) _loadingOverlay.show(context, message: _lm.uploads_tracks_uploading);
@@ -120,6 +123,10 @@ class _UploadPageState extends State<UploadPage> {
           }
 
           logger.handle(e, st, _lm.uploads_upload_error(file.name));
+        }
+        finally {
+          sent++;
+          _loadingOverlay.setProgress(sent / total);
         }
       }
 
