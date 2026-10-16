@@ -32,7 +32,10 @@ class NowPlayingQueue extends StatefulWidget {
           minChildSize: 0.3,
           maxChildSize: 0.9,
           builder: (context, scrollController) {
-            return NowPlayingQueue(scrollController: scrollController, isBottomSheet: true);
+            return NowPlayingQueue(
+              scrollController: scrollController,
+              isBottomSheet: true
+            );
           },
         );
       },
@@ -46,6 +49,7 @@ class NowPlayingQueue extends StatefulWidget {
 class _NowPlayingQueueState extends State<NowPlayingQueue> {
 
   late final _audioManager = getIt<AudioManager>();
+  late final _defaultScrollController = ScrollController();
 
   late MediaItem? _currentItem = _audioManager.getCurrentMediaItem();
   late bool _isPlaying = _audioManager.isPlaying;
@@ -54,6 +58,10 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
   late final StreamSubscription _currentItemSubscription;
   late final StreamSubscription _playingSubscription;
   late List<MediaItem> _sequence = _audioManager.getSequence();
+
+  static const _itemHeight = 64.0;
+
+  ScrollController get _scrollController => widget.scrollController ?? _defaultScrollController;
 
   _NowPlayingQueueState() {
     _sequenceSubscription = _audioManager.sequenceStream.listen((event) {
@@ -80,10 +88,25 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
         _isPlaying = event;
       });
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToCurrentItem());
+  }
+
+  void _scrollToCurrentItem() {
+    if (!mounted || !_scrollController.hasClients) return;
+    if (_sequence.isEmpty) return;
+
+    final position = _audioManager.getSequencePosition();
+    if (position < 0 || position >= _sequence.length) return;
+
+    final targetOffset = (position * _itemHeight).clamp(0.0, _scrollController.position.maxScrollExtent);
+
+    _scrollController.jumpTo(targetOffset);
   }
 
   @override
   void dispose() {
+    _defaultScrollController.dispose();
     _sequenceSubscription.cancel();
     _playingSubscription.cancel();
     _currentItemSubscription.cancel();
@@ -99,7 +122,7 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
             child: Text(AppLocalizations.of(context)!.now_playing_nothing)
           )
         : ReorderableListView.builder(
-            scrollController: widget.scrollController,
+            scrollController: _scrollController,
             buildDefaultDragHandles: false,
             itemCount: _sequence.length,
             itemBuilder: (context, index) {
