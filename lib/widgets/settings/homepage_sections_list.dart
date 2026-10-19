@@ -82,14 +82,9 @@ class _OrderedMapSettingsViewState extends State<OrderedMapSettingsView> {
                 ),
               ),
           ],
-          onReorder: (int oldIndex, int newIndex) {
+          onReorderItem: (int item, int newIndex) {
             setState(() {
-              if (newIndex > oldIndex) {
-                newIndex -= 1;
-              }
-              final key = _currentValue.elementAt(oldIndex);
-              final entry = _currentValue.firstWhere((s) => s.key == key.key);
-              _currentValue.remove(entry);
+              final entry = _currentValue.removeAt(item);
               _currentValue.insert(newIndex, entry);
               _save();
             });

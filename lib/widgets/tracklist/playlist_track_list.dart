@@ -94,46 +94,44 @@ class _PlaylistTrackListState extends State<PlaylistTrackList> {
           child: child,
         );
       },
-      onReorder: (int oldIndex, int newIndex) async {
-
+      onReorderItem: (int item, int newIndex) async {
         final before = _tracks.toList();
 
-        PlaylistTrack item = _tracks[oldIndex];
-
-        // Null = first position
-        PlaylistTrack? afterItem;
-        if (newIndex > 0) {
-          if (newIndex > oldIndex) {
-            afterItem = _tracks[newIndex - 1];
-          }
-          else {
-            afterItem = _tracks[newIndex - 1];
-          }
-        }
+        PlaylistTrack playlistTrack = _tracks[item];
 
         // Prevent moving vibedef tracks (addedBy == null)
-        if (item.addedBy == null) {
+        if (playlistTrack.addedBy == null) {
           return;
         }
 
         // Find the first vibedef track index
         final firstVibedefIndex = _tracks.indexWhere((t) => t.addedBy == null);
 
-        // Prevent moving user tracks to or below vibedef tracks
-        if (firstVibedefIndex != -1 && newIndex > firstVibedefIndex) {
-          return;
+        // Prevent moving user tracks below vibedef tracks
+        if (firstVibedefIndex != -1) {
+          final newVibedefIndex = item < firstVibedefIndex
+              ? firstVibedefIndex - 1
+              : firstVibedefIndex;
+          if (newIndex > newVibedefIndex) {
+            return;
+          }
+        }
+
+        PlaylistTrack? afterItem;
+        if (newIndex > 0) {
+          afterItem = _tracks[newIndex > item ? newIndex : newIndex - 1];
         }
 
         setState(() {
-          _tracks.removeAt(oldIndex);
-          _tracks.insert(newIndex > oldIndex ? newIndex - 1 : newIndex, item);
+          _tracks.removeAt(item);
+          _tracks.insert(newIndex, playlistTrack);
         });
 
         try {
           final newTracks = await apiManager.service.reorderPlaylistTracks(
             widget.playlistId,
-            item.track.id,
-            afterItem?.track.id
+            playlistTrack.track.id,
+            afterItem?.track.id,
           );
           setState(() {
             _tracks = newTracks;

@@ -163,8 +163,8 @@ class _NowPlayingQueueState extends State<NowPlayingQueue> {
                 ),
               );
             },
-            onReorder: (oldIndex, newIndex) {
-              _audioManager.moveSequenceItem(oldIndex, newIndex);
+            onReorderItem: (item, newIndex) {
+              _audioManager.moveSequenceItem(item, newIndex > item ? newIndex + 1 : newIndex);
             },
           ),
     );
