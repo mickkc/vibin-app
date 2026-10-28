@@ -28,7 +28,7 @@ class _TotpSettingsSectionState extends State<TotpSettingsSection> {
   final _apiManager = getIt<ApiManager>();
   final _authState = getIt<AuthState>();
 
-  late final _emailConfigured = _authState.user?.email?.isNotEmpty ?? false;
+  late final _emailConfigured = (_authState.user?.email?.isNotEmpty ?? false) && (_authState.user?.emailVerified ?? false);
 
   late Future<TotpStatus> _statusFuture;
   late final _lm = AppLocalizations.of(context)!;
@@ -102,7 +102,7 @@ class _TotpSettingsSectionState extends State<TotpSettingsSection> {
                     label: Text(_lm.settings_app_totp_configure_totp),
                     icon: const Icon(Icons.safety_check)
                   ),
-                  if (widget.mailSupported && _authState.user?.emailVerified == true)
+                  if (widget.mailSupported)
                     FilledButton.icon(
                       onPressed: _emailConfigured ? () => setTotp(mailConfigured) : null,
                       label: Text(_lm.settings_app_totp_configure_mail),

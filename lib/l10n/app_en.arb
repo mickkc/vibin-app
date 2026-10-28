@@ -595,7 +595,7 @@
 
   "settings_app_security_login_notification_title": "Login notifications",
   "settings_app_security_login_notification_description": "Receive notifications via email when a new device logs into your account.",
-  "settings_app_security_login_notification_unavailable": "Set an email address in your profile to use this feature.",
+  "settings_app_security_login_notification_unavailable": "Set and verify an email address in your profile to use this feature.",
 
   "settings_task_fetch_error": "An error occurred while fetching tasks.",
 
