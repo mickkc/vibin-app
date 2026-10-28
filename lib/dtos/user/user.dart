@@ -8,6 +8,7 @@ class User {
   final String description;
   final int? imageId;
   final String? email;
+  final bool emailVerified;
   final bool isActive;
   final bool isAdmin;
   final int? lastLogin;
@@ -21,6 +22,7 @@ class User {
     this.description,
     this.imageId,
     this.email,
+    this.emailVerified,
     this.isActive,
     this.isAdmin,
     this.lastLogin,
@@ -36,6 +38,7 @@ class User {
       json['description'],
       json['imageId'],
       json['email'],
+      json['emailVerified'],
       json['isActive'],
       json['isAdmin'],
       json['lastLogin'],

@@ -28,7 +28,7 @@ class _TotpSettingsSectionState extends State<TotpSettingsSection> {
   final _apiManager = getIt<ApiManager>();
   final _authState = getIt<AuthState>();
 
-  late final _emailConfigured = _authState.user?.email?.isNotEmpty ?? false;
+  late final _emailConfigured = (_authState.user?.email?.isNotEmpty ?? false) && (_authState.user?.emailVerified ?? false);
 
   late Future<TotpStatus> _statusFuture;
   late final _lm = AppLocalizations.of(context)!;

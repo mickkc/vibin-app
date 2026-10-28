@@ -70,12 +70,12 @@ String getDurationString(int totalSeconds) {
   }
 }
 
-void showSnackBar(BuildContext context, String message) {
+void showSnackBar(BuildContext context, String message, { int seconds = 2 }) {
   if (!context.mounted) return;
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(message),
-      duration: const Duration(seconds: 2),
+      duration: Duration(seconds: seconds),
     ),
   );
 }

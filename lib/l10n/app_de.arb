@@ -144,6 +144,10 @@
   "user_info_not_set": "Nicht gesetzt",
   "user_info_bio": "Bio",
   "user_info_email": "E-Mail",
+  "user_info_email_unverified": "{email} (Nicht verifiziert)",
+  "user_info_email_resend": "Verifizierungs-Mail erneut senden",
+  "user_info_email_resend_success": "Eine Verifizierungs-Mail wurde an {email} gesendet. Bitte beachte, dass du die App nach der Verifizierung eventuell neu starten musst, um alle E-Mail-Einstellungen zu sehen.",
+  "user_info_email_resend_error": "Beim Senden der Verifizierungs-Mail ist ein Fehler aufgetreten.",
   "user_info_joined": "Beigetreten",
   "user_info_admin": "Admin",
   "user_info_active": "Aktiv",
@@ -595,7 +599,7 @@
 
   "settings_app_security_login_notification_title": "Login-Benachrichtigungen",
   "settings_app_security_login_notification_description": "Benachrichtigungen bei Anmeldungen von neuen Geräten per E-Mail erhalten.",
-  "settings_app_security_login_notification_unavailable": "Trage eine E-Mail-Adresse in deinem Profil ein, um diese Funktion zu verwenden.",
+  "settings_app_security_login_notification_unavailable": "Trage eine E-Mail-Adresse in deinem Profil ein und bestätige diese, um diese Funktion zu verwenden.",
 
   "settings_task_fetch_error": "Beim Laden der Aufgaben ist ein Fehler aufgetreten.",
 

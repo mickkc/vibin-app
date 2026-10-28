@@ -29,7 +29,7 @@ class _AppSecuritySectionState extends State<AppSecuritySection> {
 
   late final _lm = AppLocalizations.of(context)!;
 
-  late final _enableLoginNotificationSetting = _authState.user?.email?.isNotEmpty ?? false;
+  late final _enableLoginNotificationSetting = (_authState.user?.email?.isNotEmpty ?? false) && (_authState.user?.emailVerified ?? false);
 
   @override
   Widget build(BuildContext context) {

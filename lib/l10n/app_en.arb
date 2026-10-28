@@ -143,6 +143,10 @@
   "user_info_display_name": "Display Name",
   "user_info_bio": "Bio",
   "user_info_email": "Email",
+  "user_info_email_unverified": "{email} (unverified)",
+  "user_info_email_resend": "Resend verification mail",
+  "user_info_email_resend_success": "A verification mail has been sent to {email}. Please note that you may need to restart the app after verification to see all email-related settings.",
+  "user_info_email_resend_error": "An error occurred while sending the verification mail.",
   "user_info_not_set": "Not set",
   "user_info_joined": "Joined",
   "user_info_admin": "Admin",
@@ -591,7 +595,7 @@
 
   "settings_app_security_login_notification_title": "Login notifications",
   "settings_app_security_login_notification_description": "Receive notifications via email when a new device logs into your account.",
-  "settings_app_security_login_notification_unavailable": "Set an email address in your profile to use this feature.",
+  "settings_app_security_login_notification_unavailable": "Set and verify an email address in your profile to use this feature.",
 
   "settings_task_fetch_error": "An error occurred while fetching tasks.",
 
