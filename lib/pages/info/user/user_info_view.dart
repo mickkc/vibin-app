@@ -32,7 +32,7 @@ class _UserInfoViewState extends State<UserInfoView> {
       final response = await _apiManager.service.sendVerificationEmail();
       if (!mounted) return;
       if (response.success) {
-        showSnackBar(context, _lm.user_info_email_resend_success(widget.user.email!));
+        showSnackBar(context, _lm.user_info_email_resend_success(widget.user.email!), seconds: 10);
       }
       else {
         ErrorHandler.showErrorDialog(context, _lm.user_info_email_resend_error);

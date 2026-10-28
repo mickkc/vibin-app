@@ -145,7 +145,7 @@
   "user_info_email": "Email",
   "user_info_email_unverified": "{email} (unverified)",
   "user_info_email_resend": "Resend verification mail",
-  "user_info_email_resend_success": "A verification mail has been sent to {email}.",
+  "user_info_email_resend_success": "A verification mail has been sent to {email}. Please note that you may need to restart the app after verification to see all email-related settings.",
   "user_info_email_resend_error": "An error occurred while sending the verification mail.",
   "user_info_not_set": "Not set",
   "user_info_joined": "Joined",

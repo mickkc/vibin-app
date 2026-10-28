@@ -146,7 +146,7 @@
   "user_info_email": "E-Mail",
   "user_info_email_unverified": "{email} (Nicht verifiziert)",
   "user_info_email_resend": "Verifizierungs-Mail erneut senden",
-  "user_info_email_resend_success": "Eine Verifizierungs-Mail wurde an {email} gesendet.",
+  "user_info_email_resend_success": "Eine Verifizierungs-Mail wurde an {email} gesendet. Bitte beachte, dass du die App nach der Verifizierung eventuell neu starten musst, um alle E-Mail-Einstellungen zu sehen.",
   "user_info_email_resend_error": "Beim Senden der Verifizierungs-Mail ist ein Fehler aufgetreten.",
   "user_info_joined": "Beigetreten",
   "user_info_admin": "Admin",
