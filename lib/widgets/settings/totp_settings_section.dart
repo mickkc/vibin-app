@@ -102,7 +102,7 @@ class _TotpSettingsSectionState extends State<TotpSettingsSection> {
                     label: Text(_lm.settings_app_totp_configure_totp),
                     icon: const Icon(Icons.safety_check)
                   ),
-                  if (widget.mailSupported)
+                  if (widget.mailSupported && _authState.user?.emailVerified == true)
                     FilledButton.icon(
                       onPressed: _emailConfigured ? () => setTotp(mailConfigured) : null,
                       label: Text(_lm.settings_app_totp_configure_mail),
