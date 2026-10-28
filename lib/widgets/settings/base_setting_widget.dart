@@ -5,7 +5,7 @@ class BaseSettingWidget extends StatelessWidget {
   final IconData? icon;
   final String title;
   final String? description;
-  final Function(BuildContext, RowColumn) child;
+  final Function(BuildContext, RowColumn)? child;
   final double? rowWidgetWidth;
 
   const BaseSettingWidget({
@@ -56,10 +56,12 @@ class BaseSettingWidget extends StatelessWidget {
                     ),
                   ),
 
-                  if (rowCol == RowColumn.row)
-                    SizedBox(width: rowWidgetWidth, child: child(context, rowCol))
-                  else
-                    child(context, rowCol)
+                  if (child != null) ... [
+                    if (rowCol == RowColumn.row)
+                      SizedBox(width: rowWidgetWidth, child: child!(context, rowCol))
+                    else
+                      child!(context, rowCol)
+                  ]
                 ];
               }
             ),

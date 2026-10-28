@@ -89,6 +89,12 @@ abstract class ApiService {
   @DELETE("/api/auth/sessions/all")
   Future<Success> deleteAllSessions();
 
+  @POST("/api/auth/mail/verify")
+  Future<Success> sendVerificationEmail();
+
+  @GET("/api/auth/mail/can-verify")
+  Future<Success> canVerifyEmail();
+
   // Albums
 
   @GET("/api/albums")
