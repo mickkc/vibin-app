@@ -695,5 +695,15 @@
     "settings_app_track_field_explicit": "Volwassen inhoud",
     "settings_app_track_field_has_lyrics": "Songtekst beschikbaar",
     "settings_app_track_field_show_comment": "Opmerking tonen",
-    "settings_app_track_field_show_tags": "Tags tonen"
+    "settings_app_track_field_show_tags": "Tags tonen",
+    "user_info_email_unverified": "{email} (niet-geverifieerd)",
+    "user_info_email_resend": "Verificatiemail opnieuw versturen",
+    "user_info_email_resend_success": "Er is een verificatiemail verstuurd naar {email}. Let op: na de verificatie moet je mogelijk de app herstarten.",
+    "user_info_email_resend_error": "Er is een fout opgetreden tijdens het versturen van de verificatiemail.",
+    "settings_app_language_title": "Taal",
+    "settings_app_language_device": "Systeemtaal",
+    "settins_app_track_field_uploader": "Uploader",
+    "settings_app_security_login_notification_title": "Inlogmeldingen",
+    "settings_app_security_login_notification_description": "Ontvang meldingen per e-mail als een nieuw apparaat inlogt op je account.",
+    "settings_app_security_login_notification_unavailable": "Stel een e-mailadres in en verifieer dit om gebruik te kunnen maken van deze functie."
 }
