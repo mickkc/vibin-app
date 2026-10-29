@@ -261,6 +261,15 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
                 },
               ),
 
+            ListTile(
+              leading: const Icon(Icons.bar_chart),
+              title: Text(_lm.settings_scrobbling_title),
+              subtitle: Text(_lm.settings_scrobbling_desc),
+              onTap: () {
+                GoRouter.of(context).push("/settings/scrobbling");
+              },
+            ),
+
             StringListSetting(
               setting: settings.settings["welcome_texts"]!,
               title: _lm.settings_server_welcome_messages_title,

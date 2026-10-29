@@ -33,6 +33,7 @@ import 'package:vibin_app/pages/overview/tag_overview_page.dart';
 import 'package:vibin_app/pages/overview/tracks_page.dart';
 import 'package:vibin_app/pages/overview/users_page.dart';
 import 'package:vibin_app/pages/settings/app_settings_page.dart';
+import 'package:vibin_app/pages/settings/scrobbler_settings_page.dart';
 import 'package:vibin_app/pages/settings/server_settings_page.dart';
 import 'package:vibin_app/pages/settings/session_management_page.dart';
 import 'package:vibin_app/pages/settings/task_management_page.dart';
@@ -168,6 +169,7 @@ GoRouter configureRouter(AuthState authState) {
           GoRoute(path: '/artists/:id/edit', builder: (context, state) => ArtistEditPage(artistId: int.parse(state.pathParameters['id']!))),
           GoRoute(path: '/settings/app', builder: (context, state) => AppSettingsPage(key: UniqueKey())),
           GoRoute(path: '/settings/server', builder: (context, state) => const ServerSettingsPage()),
+          GoRoute(path: '/settings/scrobbling', builder: (context, state) => const ScrobblerSettingsPage()),
           GoRoute(path: '/tags', builder: (context, state) => const TagOverviewPage()),
           GoRoute(path: '/users', builder: (context, state) => const UsersPage()),
           GoRoute(path: '/users/create', builder: (context, state) => UserEditPage(userId: null, onSave: (u) => GoRouter.of(context).push("/users/${u.id}"))),
