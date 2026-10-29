@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/dtos/settings/setting.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/widgets/settings/base_setting_widget.dart';
 
@@ -6,8 +7,7 @@ import '../../../api/api_manager.dart';
 import '../../../main.dart';
 
 class ServerStringSettingsField extends StatefulWidget {
-  final String settingKey;
-  final String initialValue;
+  final Setting setting;
   final String title;
   final String? description;
   final IconData? icon;
@@ -15,8 +15,7 @@ class ServerStringSettingsField extends StatefulWidget {
 
   const ServerStringSettingsField({
     super.key,
-    required this.settingKey,
-    required this.initialValue,
+    required this.setting,
     required this.title,
     this.description,
     this.icon,
@@ -30,15 +29,15 @@ class ServerStringSettingsField extends StatefulWidget {
 class _ServerStringSettingsFieldState extends State<ServerStringSettingsField> {
 
   final _apiManager = getIt<ApiManager>();
-  late final _controller = TextEditingController(text: widget.initialValue);
+  late final _controller = TextEditingController(text: widget.setting.value);
   late final _lm = AppLocalizations.of(context)!;
 
-  late String _currentValue = widget.initialValue;
-  late String _lastSavedValue = widget.initialValue;
+  late String _currentValue = widget.setting.value;
+  late String _lastSavedValue = widget.setting.value;
 
   Future<void> _save() async {
     try {
-      final updated = await _apiManager.service.updateSetting(widget.settingKey, _controller.text);
+      final updated = await _apiManager.service.updateSetting(widget.setting.key, _controller.text);
       setState(() {
         _controller.text = updated.value as String;
         _lastSavedValue = _controller.text;

@@ -51,6 +51,7 @@ import 'package:vibin_app/dtos/widgets/create_widget.dart';
 import '../dtos/artist/artist_edit_data.dart';
 import '../dtos/batch/batch_edit_result.dart';
 import '../dtos/create_metadata.dart';
+import '../dtos/scrobbling/scrobbler.dart';
 import '../dtos/tasks/task_dto.dart';
 import '../dtos/uploads/pending_upload.dart';
 import '../dtos/widgets/shared_widget.dart';
@@ -222,6 +223,20 @@ abstract class ApiService {
 
   @GET("/api/playlists/containing/{trackId}")
   Future<List<Playlist>> getPlaylistsContainingTrack(@Path("trackId") int trackId);
+
+  // Scrobbling
+
+  @GET("/api/scrobbling/scrobblers/all")
+  Future<List<Scrobbler>> getAllScrobblers();
+
+  @GET("/api/scrobbling/scrobblers/enabled")
+  Future<List<Scrobbler>> getEnabledScrobblers();
+
+  @PUT("/api/scrobbling/scrobblers/{id}/enabled")
+  Future<Success> setScrobblerEnabled(@Path("id") String scrobblerId, @Query("state") bool state);
+
+  @PUT("/api/scrobbling/scrobblers/{id}/settings")
+  Future<SettingsMap> getScrobblerSettings(@Path("id") String scrobblerId);
 
   // Security
 

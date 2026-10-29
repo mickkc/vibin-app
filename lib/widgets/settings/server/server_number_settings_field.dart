@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/dtos/settings/setting.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/widgets/settings/base_setting_widget.dart';
@@ -7,8 +8,7 @@ import '../../../api/api_manager.dart';
 import '../../../main.dart';
 
 class ServerNumberSettingsField<Number> extends StatefulWidget {
-  final String settingKey;
-  final Number initialValue;
+  final Setting setting;
   final String title;
   final String? description;
   final IconData? icon;
@@ -18,8 +18,7 @@ class ServerNumberSettingsField<Number> extends StatefulWidget {
 
   const ServerNumberSettingsField({
     super.key,
-    required this.settingKey,
-    required this.initialValue,
+    required this.setting,
     required this.title,
     this.description,
     this.icon,
@@ -29,17 +28,17 @@ class ServerNumberSettingsField<Number> extends StatefulWidget {
   });
 
   @override
-  State<ServerNumberSettingsField> createState() => _ServerIntSettingsFieldState();
+  State<ServerNumberSettingsField> createState() => _ServerNumberSettingsFieldState<Number>();
 }
 
-class _ServerIntSettingsFieldState<Number> extends State<ServerNumberSettingsField<Number>> {
+class _ServerNumberSettingsFieldState<Number> extends State<ServerNumberSettingsField<Number>> {
 
   final _apiManager = getIt<ApiManager>();
   late final _lm = AppLocalizations.of(context)!;
-  late final _controller = TextEditingController(text: _format(widget.initialValue));
+  late final _controller = TextEditingController(text: _format(widget.setting.value));
 
-  late Number _currentValue = widget.initialValue;
-  late Number _lastSavedValue = widget.initialValue;
+  late Number _currentValue = widget.setting.value;
+  late Number _lastSavedValue = widget.setting.value;
 
   String _format(Number num) {
     if (widget.formatter != null) {
@@ -59,7 +58,7 @@ class _ServerIntSettingsFieldState<Number> extends State<ServerNumberSettingsFie
         return;
       }
 
-      final updated = await _apiManager.service.updateSetting(widget.settingKey, parsedValue.toString());
+      final updated = await _apiManager.service.updateSetting(widget.setting.key, parsedValue.toString());
       setState(() {
         _controller.text = _format(updated.value as Number);
         _lastSavedValue = updated.value as Number;

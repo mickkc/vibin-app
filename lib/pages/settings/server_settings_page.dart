@@ -42,8 +42,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
         return SuperListView(
           children: [
             StringListSetting(
-              settingKey: "artist_name_delimiters",
-              initialValue: settings.settings["artist_name_delimiters"],
+              setting: settings.settings["artist_name_delimiters"]!,
               title: _lm.settings_server_artist_seperator_title,
               description: _lm.settings_server_artist_seperator_description,
               itemBuilder: (context, seperator) {
@@ -56,16 +55,14 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
             SettingsTitle(title: _lm.settings_server_metadata_title),
 
             ServerStringSettingsField(
-              settingKey: "metadata_language",
-              initialValue: settings.settings["metadata_language"],
+              setting: settings.settings["metadata_language"]!,
               title: _lm.settings_server_metadata_language_title,
               description: _lm.settings_server_metadata_language_description,
               icon: Icons.translate,
             ),
 
-            ServerNumberSettingsField(
-              settingKey: "metadata_limit",
-              initialValue: settings.settings["metadata_limit"],
+            ServerNumberSettingsField<int>(
+              setting: settings.settings["metadata_limit"]!,
               title: _lm.settings_server_metadata_limit_title,
               description: _lm.settings_server_metadata_limit_description,
               icon: Icons.format_list_numbered,
@@ -73,8 +70,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
             ),
             
             ServerBooleanSettingsField(
-              settingKey: "extended_metadata",
-              initialValue: settings.settings["extended_metadata"],
+              setting: settings.settings["extended_metadata"]!,
               title: _lm.settings_server_metadata_extended_title,
               description: _lm.settings_server_metadata_extended_description,
               icon: Icons.info,
@@ -83,16 +79,14 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
             const Divider(),
 
             ServerStringSettingsField(
-              settingKey: "spotify_client_id",
-              initialValue: settings.settings["spotify_client_id"],
+              setting: settings.settings["spotify_client_id"]!,
               title: _lm.settings_server_spotify_client_id_title,
               description: _lm.settings_server_spotify_client_id_description,
               icon: Icons.devices,
             ),
 
             ServerStringSettingsField(
-              settingKey: "spotify_client_secret",
-              initialValue: settings.settings["spotify_client_secret"],
+              setting: settings.settings["spotify_client_secret"]!,
               title: _lm.settings_server_spotify_client_secret_title,
               description: _lm.settings_server_spotify_client_secret_description,
               icon: Icons.key,
@@ -100,8 +94,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
             ),
 
             ServerStringSettingsField(
-              settingKey: "lastfm_api_key",
-              initialValue: settings.settings["lastfm_api_key"],
+              setting: settings.settings["lastfm_api_key"]!,
               title: _lm.settings_server_lastfm_api_key_title,
               description: _lm.settings_server_lastfm_api_key_description,
               icon: Icons.key,
@@ -113,8 +106,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
             SettingsTitle(title: _lm.settings_server_parsing_title),
 
             ServerStringSettingsField(
-              settingKey: "lyric_file_path_template",
-              initialValue: settings.settings["lyric_file_path_template"],
+              setting: settings.settings["lyric_file_path_template"]!,
               title: _lm.settings_server_lyrics_path_template_title,
               description: _lm.settings_server_lyrics_path_template_description,
               icon: Icons.lyrics,
@@ -127,16 +119,14 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
                   spacing: 8,
                   children: [
                     ServerStringDropdownField(
-                      settingKey: "primary_metadata_source",
-                      initialValue: settings.settings["primary_metadata_source"],
+                      setting: settings.settings["primary_metadata_source"]!,
                       title: _lm.settings_server_primary_metadata_source_title,
                       description: _lm.settings_server_primary_metadata_source_description,
                       icon: Icons.source,
                       options: providers.file + ["None"]
                     ),
                     ServerStringDropdownField(
-                      settingKey: "fallback_metadata_source",
-                      initialValue: settings.settings["fallback_metadata_source"],
+                      setting: settings.settings["fallback_metadata_source"]!,
                       title: _lm.settings_server_secondary_metadata_source_title,
                       description: _lm.settings_server_secondary_metadata_source_description,
                       icon: Icons.source,
@@ -144,8 +134,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
                     ),
 
                     ServerBooleanSettingsField(
-                      settingKey: "add_genre_as_tag",
-                      initialValue: settings.settings["add_genre_as_tag"],
+                      setting: settings.settings["add_genre_as_tag"]!,
                       title: _lm.settings_server_genre_as_tags_title,
                       description: _lm.settings_server_genre_as_tags_description,
                       icon: Icons.sell,
@@ -154,8 +143,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
                     const Divider(),
 
                     ServerStringDropdownField(
-                      settingKey: "artist_metadata_fetch_type",
-                      initialValue: settings.settings["artist_metadata_fetch_type"],
+                      setting: settings.settings["artist_metadata_fetch_type"]!,
                       title: _lm.settings_server_artist_metadata_matching_type_title,
                       description: _lm.settings_server_artist_metadata_matching_type_description,
                       icon: Icons.filter_list,
@@ -164,8 +152,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
                     ),
 
                     ServerStringDropdownField(
-                      settingKey: "artist_metadata_source",
-                      initialValue: settings.settings["artist_metadata_source"],
+                      setting: settings.settings["artist_metadata_source"]!,
                       title: _lm.settings_server_artist_metadata_provider_title,
                       description: _lm.settings_server_artist_metadata_provider_description,
                       icon: Icons.source,
@@ -173,8 +160,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
                     ),
 
                     ServerStringDropdownField(
-                      settingKey: "album_metadata_fetch_type",
-                      initialValue: settings.settings["album_metadata_fetch_type"],
+                      setting: settings.settings["album_metadata_fetch_type"]!,
                       title: _lm.settings_server_album_metadata_matching_type_title,
                       description: _lm.settings_server_album_metadata_matching_type_description,
                       icon: Icons.filter_list,
@@ -183,8 +169,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
                     ),
 
                     ServerStringDropdownField(
-                      settingKey: "album_metadata_source",
-                      initialValue: settings.settings["album_metadata_source"],
+                      setting: settings.settings["album_metadata_source"]!,
                       title: _lm.settings_server_album_metadata_provider_title,
                       description: _lm.settings_server_album_metadata_provider_description,
                       icon: Icons.source,
@@ -192,8 +177,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
                     ),
 
                     ServerStringDropdownField(
-                      settingKey: "lyrics_metadata_source",
-                      initialValue: settings.settings["lyrics_metadata_source"],
+                      setting: settings.settings["lyrics_metadata_source"]!,
                       title: _lm.settings_server_lyrics_metadata_provider_title,
                       description: _lm.settings_server_lyrics_metadata_provider_description,
                       icon: Icons.source,
@@ -209,8 +193,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
             SettingsTitle(title: _lm.settings_server_uploads_title),
 
             ServerStringSettingsField(
-              settingKey: "upload_path",
-              initialValue: settings.settings["upload_path"],
+              setting: settings.settings["upload_path"]!,
               title: _lm.settings_server_uploads_path_template_title,
               description: _lm.settings_server_uploads_path_template_description,
               icon: Icons.upload_file,
@@ -220,52 +203,47 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
 
             SettingsTitle(title: _lm.settings_server_security_title),
 
-            ServerNumberSettingsField(
-              settingKey: "session_expiration_validity",
-              initialValue: settings.settings["session_expiration_validity"],
+            ServerNumberSettingsField<int>(
+              setting: settings.settings["session_expiration_validity"]!,
               title: _lm.settings_server_security_session_expiration_title,
               description: _lm.settings_server_security_session_expiration_description,
               icon: Icons.security,
               parser: (str) => DurationConverter.parseDuration(str),
-              formatter: (num) => DurationConverter.formatDurationFull(num),
+              formatter: (int num) => DurationConverter.formatDurationFull(num),
               errorMessage: _lm.settings_server_security_session_expiration_parsing_error,
             ),
 
-            ServerNumberSettingsField(
-              settingKey: "login_notification_validity",
-              initialValue: settings.settings["login_notification_validity"],
+            ServerNumberSettingsField<int>(
+              setting: settings.settings["login_notification_validity"]!,
               title: _lm.settings_server_security_login_notification_validity_title,
               description: _lm.settings_server_security_login_notification_validity_description,
               icon: Icons.mail_lock,
               parser: (str) => DurationConverter.parseDuration(str),
-              formatter: (num) => DurationConverter.formatDurationFull(num),
+              formatter: (int num) => DurationConverter.formatDurationFull(num),
               errorMessage: _lm.settings_server_security_login_notification_validity_parsing_error,
             ),
 
             ServerBooleanSettingsField(
-              settingKey: "include_ip_in_login_notification",
-              initialValue: settings.settings["include_ip_in_login_notification"],
+              setting: settings.settings["include_ip_in_login_notification"]!,
               title: _lm.settings_server_security_ip_in_login_notification_title,
               description: _lm.settings_server_security_ip_in_login_notification_desc,
               icon: Icons.onetwothree
             ),
 
             ServerBooleanSettingsField(
-              settingKey: "include_location_in_login_notification",
-              initialValue: settings.settings["include_location_in_login_notification"],
+              setting: settings.settings["include_location_in_login_notification"]!,
               title: _lm.settings_server_security_location_in_login_notification_title,
               description: _lm.settings_server_security_location_in_login_notification_desc,
               icon: Icons.location_pin
             ),
 
-            ServerNumberSettingsField(
-              settingKey: "totp_mail_expiration_validity",
-              initialValue: settings.settings["totp_mail_expiration_validity"],
+            ServerNumberSettingsField<int>(
+              setting: settings.settings["totp_mail_expiration_validity"]!,
               title: _lm.settings_server_security_totp_mail_validity_title,
               description: _lm.settings_server_security_totp_mail_validity_desc,
               icon: Icons.mark_email_read,
               parser: (str) => DurationConverter.parseDuration(str),
-              formatter: (num) => DurationConverter.formatDurationFull(num),
+              formatter: (int num) => DurationConverter.formatDurationFull(num),
               errorMessage: _lm.settings_server_security_login_notification_validity_parsing_error,
             ),
 
@@ -284,8 +262,7 @@ class _ServerSettingsPageState extends State<ServerSettingsPage> {
               ),
 
             StringListSetting(
-              settingKey: "welcome_texts",
-              initialValue: settings.settings["welcome_texts"],
+              setting: settings.settings["welcome_texts"]!,
               title: _lm.settings_server_welcome_messages_title,
               description: _lm.settings_server_welcome_messages_description,
             ),

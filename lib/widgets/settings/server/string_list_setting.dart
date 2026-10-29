@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:vibin_app/dtos/settings/setting.dart';
 import 'package:vibin_app/widgets/settings/settings_title.dart';
 
 import '../../../api/api_manager.dart';
@@ -8,8 +9,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../main.dart';
 
 class StringListSetting extends StatefulWidget {
-  final String settingKey;
-  final List<dynamic> initialValue;
+  final Setting setting;
   final String title;
   final String? description;
   final void Function(List<String>)? onChanged;
@@ -17,8 +17,7 @@ class StringListSetting extends StatefulWidget {
 
   const StringListSetting({
     super.key,
-    required this.settingKey,
-    required this.initialValue,
+    required this.setting,
     required this.title,
     this.description,
     this.onChanged,
@@ -32,14 +31,14 @@ class StringListSetting extends StatefulWidget {
 class _StringListSettingState extends State<StringListSetting> {
 
   final _newItemController = TextEditingController();
-  late List<String> _value = widget.initialValue.map((e) => e as String).toList();
+  late List<String> _value = (widget.setting.value as List<dynamic>).map((e) => e as String).toList();
 
   final _apiManager = getIt<ApiManager>();
   late final _lm = AppLocalizations.of(context)!;
 
   Future<void> _save() async {
     try {
-      final updated = await _apiManager.service.updateSetting(widget.settingKey, jsonEncode(_value));
+      final updated = await _apiManager.service.updateSetting(widget.setting.key, jsonEncode(_value));
       _value = (updated.value as List<dynamic>).map((e) => e as String).toList();
     }
     catch (e, st) {
