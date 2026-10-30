@@ -235,7 +235,7 @@ abstract class ApiService {
   @PUT("/api/scrobbling/scrobblers/{id}/enabled")
   Future<Success> setScrobblerEnabled(@Path("id") String scrobblerId, @Query("state") bool state);
 
-  @PUT("/api/scrobbling/scrobblers/{id}/settings")
+  @GET("/api/scrobbling/scrobblers/{id}/settings")
   Future<SettingsMap> getScrobblerSettings(@Path("id") String scrobblerId);
 
   // Security

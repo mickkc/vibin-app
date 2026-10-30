@@ -3,6 +3,7 @@ import 'package:vibin_app/api/api_manager.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
 import 'package:vibin_app/pages/column_page.dart';
+import 'package:vibin_app/pages/settings/scrobbling/lastfm_settings_dialog.dart';
 import 'package:vibin_app/utils/error_handler.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/settings/settings_title.dart';
@@ -45,9 +46,22 @@ class _ScrobblerSettingsPageState extends State<ScrobblerSettingsPage> {
     _updateScrobblers();
   }
 
+  void showSettingsDialog(Scrobbler scrobbler) {
+    switch (scrobbler.id) {
+      case "last_fm":
+        LastFmSettingsDialog.show(context, scrobbler, () => setState(() {
+          _updateScrobblers();
+        }));
+        return;
+    }
+  }
+
   void setScrobblerEnabled(String scrobblerId, bool enabled) async {
     try {
       await _apiManager.service.setScrobblerEnabled(scrobblerId, enabled);
+      setState(() {
+        _updateEnabledScrobblerIds();
+      });
     }
     catch (e, st) {
       if (!mounted) return;
@@ -104,7 +118,7 @@ class _ScrobblerSettingsPageState extends State<ScrobblerSettingsPage> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           IconButton(
-                            onPressed: (){},
+                            onPressed: () => showSettingsDialog(scrobbler),
                             icon: const Icon(Icons.settings)
                           ),
                           Switch(

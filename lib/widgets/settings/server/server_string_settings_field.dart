@@ -12,6 +12,7 @@ class ServerStringSettingsField extends StatefulWidget {
   final String? description;
   final IconData? icon;
   final bool isPassword;
+  final double? breakpoint;
 
   const ServerStringSettingsField({
     super.key,
@@ -20,6 +21,7 @@ class ServerStringSettingsField extends StatefulWidget {
     this.description,
     this.icon,
     this.isPassword = false,
+    this.breakpoint
   });
 
   @override
@@ -50,12 +52,19 @@ class _ServerStringSettingsFieldState extends State<ServerStringSettingsField> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BaseSettingWidget(
       title: widget.title,
       description: widget.description,
       icon: widget.icon,
       rowWidgetWidth: 200,
+      breakpoint: widget.breakpoint,
       child: (context, rowCol) => Row(
         mainAxisSize: MainAxisSize.min,
         spacing: 8,

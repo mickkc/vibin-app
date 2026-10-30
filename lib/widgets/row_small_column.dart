@@ -100,7 +100,7 @@ class RowSmallColumnBuilderV2 extends StatelessWidget {
   final MainAxisAlignment columnMainAxisAlignment;
   final CrossAxisAlignment columnCrossAxisAlignment;
   final MainAxisSize columnMainAxisSize;
-  final int breakpoint = 600;
+  final double? breakpoint;
 
   const RowSmallColumnBuilderV2({
     super.key,
@@ -111,14 +111,15 @@ class RowSmallColumnBuilderV2 extends StatelessWidget {
     this.rowMainAxisSize = MainAxisSize.min,
     this.columnMainAxisAlignment = MainAxisAlignment.start,
     this.columnCrossAxisAlignment = CrossAxisAlignment.center,
-    this.columnMainAxisSize = MainAxisSize.min
+    this.columnMainAxisSize = MainAxisSize.min,
+    this.breakpoint
   });
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth < breakpoint) {
+        if (constraints.maxWidth < (breakpoint ?? 600)) {
           return Column(
             mainAxisSize: columnMainAxisSize,
             mainAxisAlignment: columnMainAxisAlignment,

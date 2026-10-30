@@ -709,6 +709,9 @@
   "settings_server_lastfm_shared_secret_title": "Last.fm shared Secret",
   "settings_server_lastfm_shared_secret_description": "Shared Secret für die Last.fm API. Wird nur für Scrobbling benötigt, nicht zum Abfragen von Metadaten.",
 
+  "settings_server_lastfm_username_title": "Nutzername",
+  "settings_server_lastfm_password_title": "Passwort",
+
   "settings_server_parsing_title": "Datei-Parsing",
 
   "settings_server_lyrics_path_template_title": "Liedtext-Pfad-Template",

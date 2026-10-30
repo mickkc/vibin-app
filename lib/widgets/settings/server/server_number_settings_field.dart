@@ -70,6 +70,12 @@ class _ServerNumberSettingsFieldState<Number> extends State<ServerNumberSettings
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BaseSettingWidget(
       title: widget.title,
