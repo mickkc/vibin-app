@@ -781,6 +781,7 @@
   "settings_scrobbling_desc": "Verfolge und teile deine Aktivität mit Drittanbieter-Diensten.",
   "settings_scrobbling_enabling_failed": "Das Aktivieren des Scrobblers ist fehlgeschlagen.",
   "settings_scrobbling_disabling_failed": "Das Deaktivieren des Scrobblers ist fehlgeschlagen.",
+  "settings_scrobbling_not_configured": "Nicht konfiguriert",
 
   "permissions_change_server_settings": "Server-Einstellungen ändern",
   "permissions_change_own_settings": "Eigene Einstellungen ändern",

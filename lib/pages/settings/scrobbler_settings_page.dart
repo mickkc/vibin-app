@@ -121,11 +121,14 @@ class _ScrobblerSettingsPageState extends State<ScrobblerSettingsPage> {
                             onPressed: () => showSettingsDialog(scrobbler),
                             icon: const Icon(Icons.settings)
                           ),
-                          Switch(
-                            value: scrobbler.available && enabledScrobblerIds.contains(scrobbler.id),
-                            onChanged: scrobbler.available
-                              ? (e) => setScrobblerEnabled(scrobbler.id, e)
-                              : null
+                          Tooltip(
+                            message: !scrobbler.available ? _lm.settings_scrobbling_not_configured : "",
+                            child: Switch(
+                              value: scrobbler.available && enabledScrobblerIds.contains(scrobbler.id),
+                              onChanged: scrobbler.available
+                                ? (e) => setScrobblerEnabled(scrobbler.id, e)
+                                : null
+                            ),
                           )
                         ],
                       )

@@ -776,6 +776,7 @@
   "settings_scrobbling_desc": "Track and share what you are listening to using third-party services.",
   "settings_scrobbling_enabling_failed": "On error occurred while enabling the scrobbler.",
   "settings_scrobbling_disabling_failed": "On error occurred while disabling the scrobbler.",
+  "settings_scrobbling_not_configured": "Not configured",
 
 
   "permissions_change_server_settings": "Change Server Settings",
