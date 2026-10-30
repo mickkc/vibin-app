@@ -12,7 +12,7 @@ class Setting {
   });
 
   bool isValid(String input) {
-    return _validationPattern?.hasMatch(input) ?? true;
+    return input.isEmpty || (_validationPattern?.hasMatch(input) ?? true);
   }
 
   factory Setting.fromJson(Map<String, dynamic> json) {
