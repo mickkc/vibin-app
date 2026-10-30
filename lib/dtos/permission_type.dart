@@ -49,7 +49,9 @@ enum PermissionType {
   deleteTrackRelations("delete_track_relations"),
 
   manageOwn2fa("manage_own_2fa"),
-  useServerApiCredentials("use_server_api_credentials");
+  useServerApiCredentials("use_server_api_credentials"),
+
+  manageScrobbling("manage_scrobbling");
 
   final String value;
   const PermissionType(this.value);

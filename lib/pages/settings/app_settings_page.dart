@@ -443,6 +443,16 @@ class _AppSettingsPageState extends State<AppSettingsPage> {
           title: _lm.settings_app_advanced_title,
         ),
 
+        if (_authState.hasPermission(PermissionType.manageScrobbling))
+          ListTile(
+            leading: const Icon(Icons.bar_chart),
+            title: Text(_lm.settings_scrobbling_title),
+            subtitle: Text(_lm.settings_scrobbling_desc),
+            onTap: () {
+              GoRouter.of(context).push("/settings/scrobbling");
+            },
+          ),
+
         if (_authState.hasPermission(PermissionType.manageSessions))
           ListTile(
             leading: const Icon(Icons.manage_accounts),
