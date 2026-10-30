@@ -40,10 +40,10 @@ class _AppUserSettingsViewState extends State<AppUserSettingsView> {
   void initState() {
     _settingsFuture = _apiManager.service.getUserSettings().then((settings) {
       _blockedArtistsFuture = _apiManager.service.getArtistsByIds(
-          (settings.settings["blocked_artists"] as List<dynamic>).cast<int>().join(",")
+          (settings.settings["blocked_artists"]!.value as List<dynamic>).cast<int>().join(",")
       );
       _blockedTagsFuture = _apiManager.service.getTagsByIds(
-          (settings.settings["blocked_tags"] as List<dynamic>).cast<int>().join(",")
+          (settings.settings["blocked_tags"]!.value as List<dynamic>).cast<int>().join(",")
       );
       return settings;
     });
