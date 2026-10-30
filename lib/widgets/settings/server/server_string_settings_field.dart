@@ -37,7 +37,10 @@ class _ServerStringSettingsFieldState extends State<ServerStringSettingsField> {
   late String _currentValue = widget.setting.value;
   late String _lastSavedValue = widget.setting.value;
 
+  bool get _isValid => widget.setting.isValid(_currentValue);
+
   Future<void> _save() async {
+    if (!_isValid) return;
     try {
       final updated = await _apiManager.service.updateSetting(widget.setting.key, _controller.text);
       setState(() {
@@ -57,6 +60,12 @@ class _ServerStringSettingsFieldState extends State<ServerStringSettingsField> {
     super.dispose();
   }
 
+  InputBorder _errorBorder(BuildContext context, {double width = 1}) {
+    return OutlineInputBorder(
+      borderSide: BorderSide(color: ColorScheme.of(context).error, width: width),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseSettingWidget(
@@ -69,7 +78,7 @@ class _ServerStringSettingsFieldState extends State<ServerStringSettingsField> {
         mainAxisSize: MainAxisSize.min,
         spacing: 8,
         children: [
-          if (_currentValue != _lastSavedValue)
+          if (_currentValue != _lastSavedValue && _isValid)
             IconButton(
               onPressed: _save,
               icon: const Icon(Icons.save),
@@ -80,6 +89,8 @@ class _ServerStringSettingsFieldState extends State<ServerStringSettingsField> {
               controller: _controller,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
+                enabledBorder: _isValid ? null : _errorBorder(context),
+                focusedBorder: _isValid ? null : _errorBorder(context, width: 2),
                 isDense: true,
               ),
               obscureText: widget.isPassword,

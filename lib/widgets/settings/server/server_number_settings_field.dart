@@ -40,6 +40,14 @@ class _ServerNumberSettingsFieldState<Number> extends State<ServerNumberSettings
   late Number _currentValue = widget.setting.value;
   late Number _lastSavedValue = widget.setting.value;
 
+  late bool _isValid = widget.setting.isValid(_controller.text);
+
+  InputBorder _errorBorder(BuildContext context, {double width = 1}) {
+    return OutlineInputBorder(
+      borderSide: BorderSide(color: ColorScheme.of(context).error, width: width),
+    );
+  }
+
   String _format(Number num) {
     if (widget.formatter != null) {
       return widget.formatter!(num);
@@ -48,6 +56,7 @@ class _ServerNumberSettingsFieldState<Number> extends State<ServerNumberSettings
   }
 
   Future<void> _save() async {
+    if (!_isValid) return;
     try {
       final parsedValue = widget.parser(_controller.text);
 
@@ -86,7 +95,7 @@ class _ServerNumberSettingsFieldState<Number> extends State<ServerNumberSettings
         mainAxisSize: MainAxisSize.min,
         spacing: 8,
         children: [
-          if (_currentValue != _lastSavedValue)
+          if (_currentValue != _lastSavedValue && _isValid)
             IconButton(
               onPressed: _save,
               icon: const Icon(Icons.save),
@@ -97,11 +106,14 @@ class _ServerNumberSettingsFieldState<Number> extends State<ServerNumberSettings
               controller: _controller,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
+                enabledBorder: _isValid ? null : _errorBorder(context),
+                focusedBorder: _isValid ? null : _errorBorder(context, width: 2),
                 isDense: true,
               ),
               keyboardType: TextInputType.number,
               onSubmitted: (_) => _save(),
               onChanged: (v) => setState(() {
+                _isValid = widget.setting.isValid(v);
                 try {
                   final parsedValue = widget.parser(v);
                   if (parsedValue != null) {
