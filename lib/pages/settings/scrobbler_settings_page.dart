@@ -46,7 +46,7 @@ class _ScrobblerSettingsPageState extends State<ScrobblerSettingsPage> {
     _updateScrobblers();
   }
 
-  void showSettingsDialog(Scrobbler scrobbler) {
+  void _showSettingsDialog(Scrobbler scrobbler) {
     switch (scrobbler.id) {
       case "last_fm":
         LastFmSettingsDialog.show(context, scrobbler, () => setState(() {
@@ -56,7 +56,7 @@ class _ScrobblerSettingsPageState extends State<ScrobblerSettingsPage> {
     }
   }
 
-  void setScrobblerEnabled(String scrobblerId, bool enabled) async {
+  void _setScrobblerEnabled(String scrobblerId, bool enabled) async {
     try {
       await _apiManager.service.setScrobblerEnabled(scrobblerId, enabled);
       setState(() {
@@ -72,6 +72,10 @@ class _ScrobblerSettingsPageState extends State<ScrobblerSettingsPage> {
         stackTrace: st
       );
     }
+  }
+
+  void _showScrobblerError(String? message) async {
+    ErrorHandler.showErrorDialog(context, message ?? _lm.settings_scrobbling_unknown_error);
   }
 
   @override
@@ -114,19 +118,28 @@ class _ScrobblerSettingsPageState extends State<ScrobblerSettingsPage> {
                       const Divider(),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           IconButton(
-                            onPressed: () => showSettingsDialog(scrobbler),
+                            onPressed: () => _showSettingsDialog(scrobbler),
                             icon: const Icon(Icons.settings)
                           ),
+                          Expanded(child: SizedBox()),
+                          if (scrobbler.status != null) ... [
+                            if (!scrobbler.status!.error)
+                              Icon(Icons.check_circle, color: ColorScheme.of(context).primary)
+                            else
+                              IconButton(
+                                icon: Icon(Icons.error, color: ColorScheme.of(context).error),
+                                onPressed: () => _showScrobblerError(scrobbler.status!.message),
+                              )
+                          ],
                           Tooltip(
                             message: !scrobbler.available ? _lm.settings_scrobbling_not_configured : "",
                             child: Switch(
                               value: scrobbler.available && enabledScrobblerIds.contains(scrobbler.id),
                               onChanged: scrobbler.available
-                                ? (e) => setScrobblerEnabled(scrobbler.id, e)
+                                ? (e) => _setScrobblerEnabled(scrobbler.id, e)
                                 : null
                             ),
                           )

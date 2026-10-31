@@ -782,6 +782,7 @@
   "settings_scrobbling_enabling_failed": "Das Aktivieren des Scrobblers ist fehlgeschlagen.",
   "settings_scrobbling_disabling_failed": "Das Deaktivieren des Scrobblers ist fehlgeschlagen.",
   "settings_scrobbling_not_configured": "Nicht konfiguriert",
+  "settings_scrobbling_unknown_error": "Der Scrobbler ist aus einem unbekannten Grund fehlgeschlagen.",
 
   "permissions_change_server_settings": "Server-Einstellungen ändern",
   "permissions_change_own_settings": "Eigene Einstellungen ändern",

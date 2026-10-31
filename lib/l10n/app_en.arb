@@ -777,6 +777,7 @@
   "settings_scrobbling_enabling_failed": "On error occurred while enabling the scrobbler.",
   "settings_scrobbling_disabling_failed": "On error occurred while disabling the scrobbler.",
   "settings_scrobbling_not_configured": "Not configured",
+  "settings_scrobbling_unknown_error": "Scrobbling failed for an unknown reason.",
 
 
   "permissions_change_server_settings": "Change Server Settings",
