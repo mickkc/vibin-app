@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/dtos/settings/setting.dart';
 
 import '../../../api/api_manager.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../main.dart';
 
 class ServerMultipleSelectionField<T> extends StatefulWidget {
-  final String settingKey;
+  final Setting setting;
   final String title;
   final String? description;
   final IconData? icon;
@@ -16,7 +17,7 @@ class ServerMultipleSelectionField<T> extends StatefulWidget {
 
   const ServerMultipleSelectionField({
     super.key,
-    required this.settingKey,
+    required this.setting,
     required this.title,
     this.description,
     this.icon,
@@ -40,7 +41,7 @@ class _ServerMultipleSelectionFieldState<T> extends State<ServerMultipleSelectio
   Future<void> _save() async {
     try {
       final serverValue = widget.toServerFormat(_selectedValues);
-      await apiManager.service.updateSetting(widget.settingKey, serverValue);
+      await apiManager.service.updateSetting(widget.setting.key, serverValue);
     }
     catch (e, st) {
       logger.handle(e, st, lm.settings_server_update_error);

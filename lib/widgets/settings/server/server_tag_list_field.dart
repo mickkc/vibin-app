@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:vibin_app/dtos/settings/setting.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
 import 'package:vibin_app/widgets/edit/tag_search_bar.dart';
 
@@ -10,7 +11,7 @@ import '../../../main.dart';
 
 class ServerTagListField extends StatefulWidget {
 
-  final String settingKey;
+  final Setting setting;
   final String title;
   final String? description;
   final List<Tag> initialValues;
@@ -18,7 +19,7 @@ class ServerTagListField extends StatefulWidget {
 
   const ServerTagListField({
     super.key,
-    required this.settingKey,
+    required this.setting,
     required this.title,
     this.description,
     required this.initialValues,
@@ -39,7 +40,7 @@ class _ServerTagListFieldState extends State<ServerTagListField> {
   Future<void> _save() async {
     try {
       final tagIds = _selectedTags.map((tag) => tag.id).toList();
-      await _apiManager.service.updateSetting(widget.settingKey, jsonEncode(tagIds));
+      await _apiManager.service.updateSetting(widget.setting.key, jsonEncode(tagIds));
     }
     catch (e, st) {
       logger.handle(e, st, _lm.settings_server_update_error);

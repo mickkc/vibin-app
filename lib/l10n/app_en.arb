@@ -705,6 +705,9 @@
   "settings_server_lastfm_shared_secret_title": "Last.fm Shared Secret",
   "settings_server_lastfm_shared_secret_description": "Shared Secret for the Last.fm API. Only used for scrobbling, not for fetching metadata.",
 
+  "settings_server_lastfm_username_title": "Username",
+  "settings_server_lastfm_password_title": "Password",
+
   "settings_server_parsing_title": "Parsing Settings",
 
   "settings_server_lyrics_path_template_title": "Lyrics Path Template",
@@ -768,6 +771,13 @@
 
   "settings_server_welcome_messages_title": "Welcome Messages",
   "settings_server_welcome_messages_description": "Configure welcome messages displayed to users on the home screen. A random message will be shown each time.",
+
+  "settings_scrobbling_title": "Scrobbling",
+  "settings_scrobbling_desc": "Track and share what you are listening to using third-party services.",
+  "settings_scrobbling_enabling_failed": "On error occurred while enabling the scrobbler.",
+  "settings_scrobbling_disabling_failed": "On error occurred while disabling the scrobbler.",
+  "settings_scrobbling_not_configured": "Not configured",
+  "settings_scrobbling_unknown_error": "Scrobbling failed for an unknown reason.",
 
 
   "permissions_change_server_settings": "Change Server Settings",

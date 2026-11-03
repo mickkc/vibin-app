@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/dtos/settings/setting.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/widgets/row_small_column.dart';
 import 'package:vibin_app/widgets/settings/base_setting_widget.dart';
@@ -7,20 +8,18 @@ import '../../../api/api_manager.dart';
 import '../../../main.dart';
 
 class ServerStringDropdownField extends StatefulWidget {
-  final String settingKey;
+  final Setting setting;
   final String title;
   final String? description;
-  final String initialValue;
   final List<String> options;
   final IconData? icon;
   final String Function(String)? itemFormatter;
 
   const ServerStringDropdownField({
     super.key,
-    required this.settingKey,
+    required this.setting,
     required this.title,
     this.description,
-    required this.initialValue,
     required this.options,
     this.icon,
     this.itemFormatter,
@@ -32,13 +31,13 @@ class ServerStringDropdownField extends StatefulWidget {
 
 class _ServerStringDropdownFieldState extends State<ServerStringDropdownField> {
   
-  late String _currentValue = widget.initialValue;
+  late String _currentValue = widget.setting.value;
   final _apiManager = getIt<ApiManager>();
   late final _lm = AppLocalizations.of(context)!;
 
   Future<void> _save() async {
     try {
-      final updated = await _apiManager.service.updateSetting(widget.settingKey, _currentValue);
+      final updated = await _apiManager.service.updateSetting(widget.setting.key, _currentValue);
       setState(() {
         _currentValue = updated.value as String;
       });

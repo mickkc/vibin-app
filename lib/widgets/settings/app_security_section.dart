@@ -36,6 +36,11 @@ class _AppSecuritySectionState extends State<AppSecuritySection> {
     return FutureContent(
       future: _settingsFuture,
       builder: (context, settings) {
+        final setting = settings.settings["send_mail_on_new_login"]!;
+        if (!_enableLoginNotificationSetting) {
+          setting.value = false;
+        }
+
         return SuperListView(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
@@ -43,8 +48,7 @@ class _AppSecuritySectionState extends State<AppSecuritySection> {
             if (widget.mailSupported)
               ServerBooleanSettingsField(
                 enabled: _enableLoginNotificationSetting,
-                settingKey: "send_mail_on_new_login",
-                initialValue: _enableLoginNotificationSetting && settings.settings["send_mail_on_new_login"],
+                setting: settings.settings["send_mail_on_new_login"]!,
                 title: _lm.settings_app_security_login_notification_title,
                 description: _enableLoginNotificationSetting
                   ? _lm.settings_app_security_login_notification_description

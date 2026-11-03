@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:vibin_app/api/api_manager.dart';
+import 'package:vibin_app/dtos/settings/setting.dart';
 import 'package:vibin_app/dtos/settings/settings_map.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 import 'package:vibin_app/main.dart';
@@ -28,10 +29,10 @@ class _UserCredentialsViewState extends State<UserCredentialsView> {
       future: _settingsFuture,
       mockData: () {
         return SettingsMap(settings: {
-          "spotify_user_client_id": BoneMock.chars(32),
-          "spotify_user_client_secret": BoneMock.chars(32),
-          "lastfm_user_api_key": BoneMock.chars(32),
-          "lastfm_user_shared_secret": BoneMock.chars(32)
+          "spotify_user_client_id": Setting(key: "spotify_user_client_id", value: BoneMock.chars(32)),
+          "spotify_user_client_secret": Setting(key: "spotify_user_client_secret", value: BoneMock.chars(32)),
+          "lastfm_user_api_key": Setting(key: "lastfm_user_api_key", value: BoneMock.chars(32)),
+          "lastfm_user_shared_secret": Setting(key: "lastfm_user_shared_secret", value: BoneMock.chars(32))
         });
       },
       builder: (context, settings) {
@@ -45,31 +46,27 @@ class _UserCredentialsViewState extends State<UserCredentialsView> {
               subtitle: _lm.settings_app_credentials_description,
             ),
             ServerStringSettingsField(
-              settingKey: "spotify_user_client_id",
-              initialValue: settings.settings["spotify_user_client_id"],
+              setting: settings.settings["spotify_user_client_id"]!,
               title: _lm.settings_server_spotify_client_id_title,
               description: _lm.settings_server_spotify_client_id_description,
               icon: Icons.devices,
             ),
             ServerStringSettingsField(
-              settingKey: "spotify_user_client_secret",
-              initialValue: settings.settings["spotify_user_client_secret"],
+              setting: settings.settings["spotify_user_client_secret"]!,
               title: _lm.settings_server_spotify_client_secret_title,
               description: _lm.settings_server_spotify_client_secret_description,
               icon: Icons.key,
               isPassword: true,
             ),
             ServerStringSettingsField(
-              settingKey: "lastfm_user_api_key",
-              initialValue: settings.settings["lastfm_user_api_key"],
+              setting: settings.settings["lastfm_user_api_key"]!,
               title: _lm.settings_server_lastfm_api_key_title,
               description: _lm.settings_server_lastfm_api_key_description,
               icon: Icons.key,
               isPassword: true,
             ),
             ServerStringSettingsField(
-              settingKey: "lastfm_user_shared_secret",
-              initialValue: settings.settings["lastfm_user_shared_secret"],
+              setting: settings.settings["lastfm_user_shared_secret"]!,
               title: _lm.settings_server_lastfm_shared_secret_title,
               description: _lm.settings_server_lastfm_shared_secret_description,
               icon: Icons.password,

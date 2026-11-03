@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/dtos/settings/setting.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 
 import '../../../api/api_manager.dart';
 import '../../../main.dart';
 
 class ServerBooleanSettingsField extends StatefulWidget {
-  final String settingKey;
-  final bool initialValue;
+  final Setting setting;
   final String title;
   final String? description;
   final IconData? icon;
@@ -14,8 +14,7 @@ class ServerBooleanSettingsField extends StatefulWidget {
 
   const ServerBooleanSettingsField({
     super.key,
-    required this.settingKey,
-    required this.initialValue,
+    required this.setting,
     required this.title,
     this.description,
     this.icon,
@@ -28,14 +27,14 @@ class ServerBooleanSettingsField extends StatefulWidget {
 
 class _ServerBooleanSettingsFieldState extends State<ServerBooleanSettingsField> {
 
-  late bool _currentValue = widget.initialValue;
+  late bool _currentValue = widget.setting.value;
   final _apiManager = getIt<ApiManager>();
   late final _lm = AppLocalizations.of(context)!;
 
 
   Future<void> _save() async {
     try {
-      final updated = await _apiManager.service.updateSetting(widget.settingKey, _currentValue.toString());
+      final updated = await _apiManager.service.updateSetting(widget.setting.key, _currentValue.toString());
       setState(() {
         _currentValue = updated.value as bool;
       });

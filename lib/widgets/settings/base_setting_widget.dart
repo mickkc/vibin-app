@@ -7,6 +7,7 @@ class BaseSettingWidget extends StatelessWidget {
   final String? description;
   final Function(BuildContext, RowColumn)? child;
   final double? rowWidgetWidth;
+  final double? breakpoint;
 
   const BaseSettingWidget({
     super.key,
@@ -14,7 +15,8 @@ class BaseSettingWidget extends StatelessWidget {
     required this.title,
     this.description,
     required this.child,
-    this.rowWidgetWidth
+    this.rowWidgetWidth,
+    this.breakpoint
   });
 
   @override
@@ -35,6 +37,7 @@ class BaseSettingWidget extends StatelessWidget {
             child: RowSmallColumnBuilderV2(
               columnCrossAxisAlignment: CrossAxisAlignment.stretch,
               rowMainAxisSize: MainAxisSize.max,
+              breakpoint: breakpoint,
               builder: (context, rowCol) {
                 return [
                   ConditionalExpanded(
