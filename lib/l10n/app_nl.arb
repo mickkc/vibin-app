@@ -705,5 +705,13 @@
     "settins_app_track_field_uploader": "Uploader",
     "settings_app_security_login_notification_title": "Inlogmeldingen",
     "settings_app_security_login_notification_description": "Ontvang meldingen per e-mail als een nieuw apparaat inlogt op je account.",
-    "settings_app_security_login_notification_unavailable": "Stel een e-mailadres in en verifieer dit om gebruik te kunnen maken van deze functie."
+    "settings_app_security_login_notification_unavailable": "Stel een e-mailadres in en verifieer dit om gebruik te kunnen maken van deze functie.",
+    "settings_server_lastfm_username_title": "Gebruikersnaam",
+    "settings_server_lastfm_password_title": "Wachtwoord",
+    "settings_scrobbling_title": "Scrobbelen",
+    "settings_scrobbling_desc": "Houd bij en deel waar je naar luistert, met behulp van externe diensten.",
+    "settings_scrobbling_enabling_failed": "Er is een fout opgetreden tijdens het inschakelen van de scrobbeler.",
+    "settings_scrobbling_disabling_failed": "Er is een fout opgetreden tijdens het uitschakelen van de scrobbeler.",
+    "settings_scrobbling_not_configured": "Niet ingesteld",
+    "settings_scrobbling_unknown_error": "Het scrobbelen is om onbekende reden mislukt."
 }
