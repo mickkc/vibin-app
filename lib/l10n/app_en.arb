@@ -779,6 +779,8 @@
   "settings_scrobbling_not_configured": "Not configured",
   "settings_scrobbling_unknown_error": "Scrobbling failed for an unknown reason.",
 
+  "settings_scrobbling_listenbrainz_token": "Benutzer-Token",
+
 
   "permissions_change_server_settings": "Change Server Settings",
   "permissions_change_own_settings": "Change Own Settings",
