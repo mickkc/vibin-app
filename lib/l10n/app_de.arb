@@ -251,7 +251,7 @@
   "edit_image_remove": "Bild entfernen",
   "edit_image_enter_url": "Bild-URL eingeben",
   "edit_image_reset": "Zurücksetzen",
-  "edit_image_invalid_extension": "Ungültige Dateierweiterung. Unterstützte Erweiterungen sind: .jpg, .jpeg, .png, .gif",
+  "edit_image_invalid_extension": "Ungültiges Dateiformat. Unterstützte Formate sind: .jpg, .jpeg, .png, .gif",
   "edit_image_too_large": "Die Bilddatei ist zu groß. Die maximale Dateigröße beträgt 5 MB.",
   "edit_image_error": "Beim Hochladen des Bildes ist ein Fehler aufgetreten.",
 
