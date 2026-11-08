@@ -275,7 +275,7 @@
   "edit_track_visibility_title": "Sichtbarkeit",
   "edit_track_visibility_public_title": "Öffentlich",
   "edit_track_visibility_public_desc": "Der Titel wird mittels Scrobbling mit Drittanbietern geteilt und erscheint in Widgets.",
-  "edit_track_visibility_instance_title": "Instant",
+  "edit_track_visibility_instance_title": "Instanz",
   "edit_track_visibility_instance_desc": "Der Titel ist für alle Nutzer dieser Instanz sichtbar, wird aber nicht beim Scrobbling oder in Widgets angezeigt.",
 
   "edit_track_lyrics": "Liedtext",
