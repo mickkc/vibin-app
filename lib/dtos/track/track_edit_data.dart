@@ -15,6 +15,7 @@ class TrackEditData {
   final List<int>? artists;
   final List<int>? tags;
   final String? lyrics;
+  final String? visibility;
 
   TrackEditData({
     this.title,
@@ -30,6 +31,7 @@ class TrackEditData {
     this.artists,
     this.tags,
     this.lyrics,
+    this.visibility
   });
 
   factory TrackEditData.fromJson(Map<String, dynamic> json) {
@@ -47,6 +49,7 @@ class TrackEditData {
       artists: json['artists'] != null ? List<int>.from(json['artists']) : null,
       tags: json['tags'] != null ? List<int>.from(json['tags']) : null,
       lyrics: json['lyrics'],
+      visibility: json['visibility']
     );
   }
 
@@ -65,6 +68,7 @@ class TrackEditData {
       'artists': artists,
       'tags': tags,
       'lyrics': lyrics,
+      'visibility': visibility
     };
   }
 }
