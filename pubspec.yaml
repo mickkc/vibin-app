@@ -99,5 +99,5 @@ flutter:
     - assets/images/checkerboard.png
     - assets/images/Cat_Searching_Pose.svg
     - assets/images/Error_State_Pose.svg
-
     - assets/icons/services/last_fm.svg
+    - assets/icons/services/listenbrainz.svg
