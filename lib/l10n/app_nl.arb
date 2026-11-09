@@ -713,5 +713,11 @@
     "settings_scrobbling_enabling_failed": "Er is een fout opgetreden tijdens het inschakelen van de scrobbeler.",
     "settings_scrobbling_disabling_failed": "Er is een fout opgetreden tijdens het uitschakelen van de scrobbeler.",
     "settings_scrobbling_not_configured": "Niet ingesteld",
-    "settings_scrobbling_unknown_error": "Het scrobbelen is om onbekende reden mislukt."
+    "settings_scrobbling_unknown_error": "Het scrobbelen is om onbekende reden mislukt.",
+    "edit_track_visibility_title": "Zichtbaarheid",
+    "edit_track_visibility_public_title": "Openbaar",
+    "edit_track_visibility_public_desc": "Het nummer wordt gedeeld met externe diensten en gedeelde widgets.",
+    "edit_track_visibility_instance_title": "Instantie",
+    "edit_track_visibility_instance_desc": "Het nummer wordt gedeeld met alle gebruikers van deze instantie, maar niet gedeeld met externe diensten en gedeelde widgets.",
+    "settings_scrobbling_listenbrainz_token": "Gebruikerssleutel"
 }
