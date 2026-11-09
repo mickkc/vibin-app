@@ -65,34 +65,32 @@ class ImageEditField extends StatelessWidget {
 
   Future<ImageUploadResult> _uploadImage() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
+      PlatformFile? result = await FilePicker.pickFile(
         type: FileType.image,
-        allowMultiple: false,
-        withData: true
       );
-      if (result != null && result.files.length == 1) {
-        final file = result.files.single;
-        if (file.size > 5 * 1024 * 1024) {
-          return ImageUploadResult.fileTooLarge;
-        }
-        if (file.extension == null || file.extension!.isEmpty) {
-          return ImageUploadResult.unsupportedFileType;
-        }
-        if (!['jpg', 'jpeg', 'png', 'gif'].contains(file.extension!.toLowerCase())) {
-          return ImageUploadResult.unsupportedFileType;
-        }
-        final bytes = file.bytes;
-        if (bytes != null) {
-          final base64Data = base64Encode(bytes);
-          onImageChanged("data:image/${file.extension?.toLowerCase()};base64,$base64Data");
-          return ImageUploadResult.success;
-        }
-        else {
-          return ImageUploadResult.error;
-        }
+
+      if (result == null) return ImageUploadResult.noFileSelected;
+
+      final size = await result.length();
+      if (size == null) return ImageUploadResult.error;
+
+      if (size > 5 * 1024 * 1024) {
+        return ImageUploadResult.fileTooLarge;
+      }
+      if (result.extension == null || result.extension!.isEmpty) {
+        return ImageUploadResult.unsupportedFileType;
+      }
+      if (!['jpg', 'jpeg', 'png', 'gif'].contains(result.extension!.toLowerCase())) {
+        return ImageUploadResult.unsupportedFileType;
+      }
+      final bytes = await result.readAsBytes();
+      if (bytes.isNotEmpty) {
+        final base64Data = base64Encode(bytes);
+        onImageChanged("data:image/${result.extension?.toLowerCase()};base64,$base64Data");
+        return ImageUploadResult.success;
       }
       else {
-        return ImageUploadResult.noFileSelected;
+        return ImageUploadResult.error;
       }
     }
     catch (e, st) {
