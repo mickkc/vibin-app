@@ -76,7 +76,8 @@ class FutureContent<T> extends StatelessWidget {
                         context,
                         lm.dialog_error_generic_message,
                         error: error,
-                        stackTrace: stacktrace
+                        stackTrace: stacktrace,
+                        showDetails: true
                       ),
                       child: IconText(
                         icon: Icons.open_in_browser,

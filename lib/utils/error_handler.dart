@@ -8,39 +8,52 @@ import 'package:share_plus/share_plus.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
 
 class ErrorHandler {
-  static Future<void> showErrorDialog(BuildContext context, String errorMessage, {Object? error, StackTrace? stackTrace}) async {
+  static Future<void> showErrorDialog(BuildContext context, String errorMessage, {Object? error, StackTrace? stackTrace, bool showDetails = false}) async {
     return showDialog(
       context: context,
       builder: (context) => ErrorDialog(
         errorMessage: errorMessage,
         error: error,
         stackTrace: stackTrace,
+        showDetails: showDetails,
       ),
     );
   }
 }
 
-
-class ErrorDialog extends StatelessWidget {
+class ErrorDialog extends StatefulWidget {
   final String errorMessage;
   final Object? error;
   final StackTrace? stackTrace;
+  final bool showDetails;
 
   const ErrorDialog({
     super.key,
     required this.errorMessage,
     this.error,
     this.stackTrace,
+    this.showDetails = false
   });
 
+  @override
+  State<StatefulWidget> createState() => _ErrorDialogState();
+}
+
+class _ErrorDialogState extends State<ErrorDialog> {
+
+  late final _hasDetails = widget.error != null || widget.stackTrace != null;
+  late var _showDetails = _hasDetails && widget.showDetails;
+
+  late final _lm = AppLocalizations.of(context)!;
+
   String _formatErrorDetails() {
-    String message = "Error Message: $errorMessage\n\n"
+    String message = "Error Message: ${widget.errorMessage}\n\n"
         "Platform: ${kIsWeb ? "Web" : Platform.operatingSystem} - ${kIsWeb ? "Web" : Platform.operatingSystemVersion}\n"
         "Timestamp: ${DateTime.now().toIso8601String()}\n\n"
-        "Error Details:\n${error.toString()}\n\n";
+        "Error Details:\n${widget.error.toString()}\n\n";
 
-    if (error is DioException) {
-      final dioError = error as DioException;
+    if (widget.error is DioException) {
+      final dioError = widget.error as DioException;
       message += "Dio Exception Details:\n"
           "Type: ${dioError.type}\n"
           "Path: ${dioError.requestOptions.path}\n"
@@ -57,7 +70,7 @@ class ErrorDialog extends StatelessWidget {
     }
 
 
-    message += "Stack Trace:\n$stackTrace";
+    message += "Stack Trace:\n${widget.stackTrace}";
     return message;
   }
 
@@ -90,8 +103,6 @@ class ErrorDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final lm = AppLocalizations.of(context)!;
-
     return AlertDialog(
       icon: Icon(
         Icons.error,
@@ -100,14 +111,14 @@ class ErrorDialog extends StatelessWidget {
       constraints: BoxConstraints(
         maxWidth: 600
       ),
-      title: Text(lm.dialog_error),
+      title: Text(_lm.dialog_error),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         spacing: 16,
         children: [
-          Text(errorMessage),
-          if (error != null)
+          Text(widget.errorMessage),
+          if (_showDetails && _hasDetails)
             Container(
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
@@ -130,17 +141,26 @@ class ErrorDialog extends StatelessWidget {
         ],
       ),
       actions: [
-        TextButton(
-          onPressed: () => _shareError(context),
-          child: Text(lm.dialog_share)
-        ),
-        TextButton(
-          onPressed: () => _copyErrorDetails(context),
-          child: Text(lm.dialog_copy)
-        ),
+        if (!_showDetails) ... [
+          if (_hasDetails)
+            TextButton(
+                onPressed: () => setState(() { _showDetails = true; }),
+                child: Text(_lm.dialog_error_details)
+            )
+        ]
+        else ... [
+          TextButton(
+            onPressed: () => _shareError(context),
+            child: Text(_lm.dialog_share)
+          ),
+          TextButton(
+            onPressed: () => _copyErrorDetails(context),
+            child: Text(_lm.dialog_copy)
+          ),
+        ],
         ElevatedButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(lm.dialog_close),
+          child: Text(_lm.dialog_close),
         ),
       ],
     );

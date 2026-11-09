@@ -119,7 +119,7 @@ GoRouter configureRouter(AuthState authState) {
               listener: (data) {
                 if (data.logLevel == LogLevel.error || data.logLevel == LogLevel.critical) {
                   showErrorSnackBar(context, data.displayMessage, AppLocalizations.of(context)!.dialog_error_details, () {
-                    ErrorHandler.showErrorDialog(context, data.displayMessage, error: data.exception ?? data.error, stackTrace: data.stackTrace);
+                    ErrorHandler.showErrorDialog(context, data.displayMessage, error: data.exception ?? data.error, stackTrace: data.stackTrace, showDetails: true);
                   });
                 }
               },
