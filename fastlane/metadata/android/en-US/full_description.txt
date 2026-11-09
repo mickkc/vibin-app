@@ -1,5 +1,10 @@
-Vibin' is a sleek client for your self-hosted music server, letting you stream your personal collection from anywhere without handing your library over to Big Streaming.
-Built for people who'd rather own their music than rent it.
+Vibin' is a self-hosted music streaming server that allows you to upload, manage, and stream your music collection from anywhere.
+
+This is the client application, built with Flutter. To set up a self-server, check out <a href="https://vibin.rip/docs/installation" target="_blank">the documentation</a>.
+
+You can also try out the demo instance by connecting to <a href="https://demo.vibin.rip" target="_blank">https://demo.vibin.rip</a> and using the credentials "Demo" for the username, and "DemoDemo" for the password.
+
+Checkout the <a href="https://vibin.rip" target="_blank">website</a> for more information and documentation.
 
 <big>Features:</big>
 
@@ -12,7 +17,7 @@ Built for people who'd rather own their music than rent it.
     <li>Upload new tracks directly from your device.</li>
     <li>Manage your server from anywhere.</li>
     <li>Bulk edit multiple tracks at once.</li>
-    <li>Generate embedable widgets (iframes & images).</li>
+    <li>Generate embeddable widgets (iframes, scripts & images).</li>
     <li>Completely open source & private.</li>
 </ul>
 
