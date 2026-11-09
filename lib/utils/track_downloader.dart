@@ -26,17 +26,16 @@ class TrackDownloader {
 
       if (!context.mounted) return;
 
-      final saveFile = await FilePicker.platform.saveFile(
+      final saveFile = await FilePicker.saveFile(
           dialogTitle: lm.track_actions_download,
           fileName: track.path.split("/").last,
-          bytes: Uint8List.fromList(bytes.data),
-          type: FileType.audio
+          bytes: Uint8List.fromList(bytes.data)
       );
 
       if (saveFile == null) return;
 
       if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-        final file = File(saveFile);
+        final file = File(saveFile.toFilePath(windows: Platform.isWindows));
         await file.writeAsBytes(bytes.data);
       }
 

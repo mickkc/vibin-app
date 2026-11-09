@@ -78,27 +78,25 @@ class _UploadPageState extends State<UploadPage> {
   }
 
   void _uploadFiles() async {
-    final result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.pickFiles(
       dialogTitle: _lm.uploads_upload_file,
-      type: FileType.audio,
-      allowMultiple: true,
-      withData: true,
+      type: FileType.audio
     );
 
-    if (result == null || result.files.isEmpty) return;
+    if (result.isEmpty) return;
 
     try {
       List<PendingUpload> newPendingUploads = [];
 
       var sent = 0;
-      var total = result.files.length;
+      var total = result.length;
 
-      for (final file in result.files) {
+      for (final file in result) {
         try {
           if (mounted) _loadingOverlay.show(context, message: _lm.uploads_tracks_uploading);
-          final fileContentBytes = file.bytes;
+          final fileContentBytes = await file.readAsBytes();
 
-          if (fileContentBytes == null) {
+          if (fileContentBytes.isEmpty) {
             logger.error(_lm.uploads_upload_error(file.name));
             _loadingOverlay.hide();
             continue;

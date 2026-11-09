@@ -1,5 +1,6 @@
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:vibin_app/dtos/album/album.dart';
 import 'package:vibin_app/dtos/album/album_data.dart';
@@ -378,7 +379,7 @@ abstract class ApiService {
 
   @GET("/api/tracks/{id}/stream")
   @DioResponseType(ResponseType.stream)
-  Future<HttpResponse<List<int>>> streamTrack(@Path("id") int id);
+  Stream<Uint8List> streamTrack(@Path("id") int id);
 
   @GET("/api/tracks/{id}/cover")
   @DioResponseType(ResponseType.bytes)

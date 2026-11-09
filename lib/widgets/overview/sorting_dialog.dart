@@ -17,7 +17,7 @@ class SortingDialog<C> extends StatefulWidget {
     C criteria,
     (String, IconData) Function(C) labelGenerator,
     SortOrder sortOrder,
-    final Function(C, SortOrder) onSortingChanged) {
+    Function(C, SortOrder) onSortingChanged) {
 
     showDialog(
       context: context,

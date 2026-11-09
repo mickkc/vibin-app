@@ -14,7 +14,7 @@ class DeleteUserDialog extends StatefulWidget {
     required this.userId,
   });
 
-  static void show(BuildContext context, final int userId, void Function(bool confirmed, bool deleteData) onClose) {
+  static void show(BuildContext context, int userId, void Function(bool confirmed, bool deleteData) onClose) {
     showDialog(
       context: context,
       builder: (context) => DeleteUserDialog(
