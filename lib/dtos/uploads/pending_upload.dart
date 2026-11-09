@@ -19,6 +19,7 @@ class PendingUpload {
   final String comment;
   final int uploaderId;
   final int? lastUpdated;
+  final String visibility;
 
   PendingUpload({
     required this.id,
@@ -37,6 +38,7 @@ class PendingUpload {
     required this.uploaderId,
     required this.tags,
     this.lastUpdated,
+    required this.visibility
   });
 
   factory PendingUpload.fromJson(Map<String, dynamic> json) {
@@ -61,6 +63,7 @@ class PendingUpload {
       lyrics: json['lyrics'],
       uploaderId: json['uploaderId'],
       lastUpdated: json['lastUpdated'],
+      visibility: json['visibility']
     );
   }
 }

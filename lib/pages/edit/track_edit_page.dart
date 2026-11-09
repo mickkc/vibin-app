@@ -7,6 +7,7 @@ import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/create_metadata.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
+import 'package:vibin_app/dtos/track/track.dart';
 import 'package:vibin_app/dtos/track/track_edit_data.dart';
 import 'package:vibin_app/dtos/uploads/pending_upload.dart';
 import 'package:vibin_app/main.dart';
@@ -55,6 +56,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
   late int? _year;
   late String? _imageUrl;
   late String? _fallbackImageUrl;
+  late String  _visibility;
 
   late int? _trackDuration;
 
@@ -91,6 +93,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
         _fallbackImageUrl = "/api/uploads/${widget.pendingUpload?.id}/cover";
         _commentController.text = widget.pendingUpload?.comment ?? "";
         _lyricsController.text = widget.pendingUpload?.lyrics ?? "";
+        _visibility = widget.pendingUpload?.visibility ?? Track.visibilityPublic;
 
         _album = widget.pendingUpload?.album;
         _artists = widget.pendingUpload?.artists ?? [];
@@ -121,6 +124,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
         _tags = data.tags;
 
         _trackDuration = data.duration;
+        _visibility = data.visibility;
 
         initialized = true;
       });
@@ -254,7 +258,8 @@ class _TrackEditPageState extends State<TrackEditPage> {
         album: _album?.id,
         artists: _artists.map((a) => a.id).toList(),
         tags: _tags.map((t) => t.id).toList(),
-        lyrics: _lyricsController.text.isEmpty ? null : _lyricsController.text
+        lyrics: _lyricsController.text.isEmpty ? null : _lyricsController.text,
+        visibility: _visibility
       );
 
       if (widget.onSave != null) {
@@ -296,19 +301,17 @@ class _TrackEditPageState extends State<TrackEditPage> {
   @override
   Widget build(BuildContext context) {
 
-    final lm = AppLocalizations.of(context)!;
-
     return !initialized ? Center(child: CircularProgressIndicator()) : Material(
       child: Form(
         key: _formKey,
         child: ResponsiveEditView(
-          title: lm.edit_track_title,
+          title: _lm.edit_track_title,
           onClose: widget.onClose,
           actions: [
             if (_authState.hasPermission(PermissionType.deleteTracks) && widget.trackId != null)
               ElevatedButton.icon(
                 onPressed: _delete,
-                label: Text(lm.dialog_delete),
+                label: Text(_lm.dialog_delete),
                 icon: Icon(Icons.delete_forever),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: _theme.colorScheme.errorContainer,
@@ -318,7 +321,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
 
             ElevatedButton.icon(
               onPressed: _searchMetadata,
-              label: Text(lm.edit_track_search_metadata),
+              label: Text(_lm.edit_track_search_metadata),
               icon: Icon(Icons.search),
               style: ElevatedButton.styleFrom(
                 backgroundColor: _theme.colorScheme.secondaryContainer,
@@ -328,7 +331,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
             ElevatedButton.icon(
               onPressed: _save,
               icon: Icon(Icons.save),
-              label: Text(lm.dialog_save),
+              label: Text(_lm.dialog_save),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -344,20 +347,20 @@ class _TrackEditPageState extends State<TrackEditPage> {
             },
             fallbackImageUrl: _fallbackImageUrl,
             size: 256,
-            label: lm.edit_track_cover,
+            label: _lm.edit_track_cover,
           ),
           children: [
             TextFormField(
               decoration: InputDecoration(
-                labelText: lm.edit_track_name,
+                labelText: _lm.edit_track_name,
               ),
               controller: _titleController,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
-                  return lm.edit_track_name_validation_empty;
+                  return _lm.edit_track_name_validation_empty;
                 }
                 if (value.length > 255) {
-                  return lm.edit_track_name_validation_length;
+                  return _lm.edit_track_name_validation_length;
                 }
                 return null;
               },
@@ -365,7 +368,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
             TextField(
               readOnly: true,
               decoration: InputDecoration(
-                labelText: lm.edit_track_artists
+                labelText: _lm.edit_track_artists
               ),
               controller: TextEditingController(text: _artists.map((a) => a.name).join(", ")),
               onTap: _showArtistPicker,
@@ -373,14 +376,14 @@ class _TrackEditPageState extends State<TrackEditPage> {
             TextField(
               readOnly: true,
               decoration: InputDecoration(
-                  labelText: lm.edit_track_album
+                  labelText: _lm.edit_track_album
               ),
               controller: TextEditingController(text: _album?.title ?? ""),
               onTap: _showAlbumPicker,
             ),
             TextFormField(
               decoration: InputDecoration(
-                labelText: lm.edit_track_comment,
+                labelText: _lm.edit_track_comment,
               ),
               controller: _commentController,
               maxLines: null,
@@ -390,7 +393,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
               onChanged: (yr) {
                 _year = yr;
               },
-              label: lm.edit_track_year,
+              label: _lm.edit_track_year,
             ),
             Row(
               spacing: 16,
@@ -404,7 +407,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
                     onChanged: (tn) {
                       _trackNumber = tn;
                     },
-                    label: lm.edit_track_number,
+                    label: _lm.edit_track_number,
                   ),
                 ),
                 Text("/"),
@@ -414,7 +417,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
                     onChanged: (tc) {
                       _trackCount = tc;
                     },
-                    label: lm.edit_track_count,
+                    label: _lm.edit_track_count,
                   ),
                 ),
               ],
@@ -431,7 +434,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
                     onChanged: (dn) {
                       _discNumber = dn;
                     },
-                    label: lm.edit_track_disc_number,
+                    label: _lm.edit_track_disc_number,
                   ),
                 ),
                 Text("/"),
@@ -441,7 +444,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
                     onChanged: (dc) {
                       _discCount = dc;
                     },
-                    label: lm.edit_track_disc_count,
+                    label: _lm.edit_track_disc_count,
                   ),
                 ),
               ],
@@ -453,17 +456,17 @@ class _TrackEditPageState extends State<TrackEditPage> {
                   _isExplicit = value;
                 });
               },
-              title: Text(lm.edit_track_explicit)
+              title: Text(_lm.edit_track_explicit)
             ),
             Divider(),
             Text(
-              lm.tags,
+              _lm.tags,
               style: _theme.textTheme.headlineMedium,
             ),
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: _tags.isEmpty ? [Text(lm.edit_track_no_tags)] : _tags.map((tag) => TagWidget(
+              children: _tags.isEmpty ? [Text(_lm.edit_track_no_tags)] : _tags.map((tag) => TagWidget(
                 tag: tag,
                 onTap: () async {
                   setState(() {
@@ -481,22 +484,50 @@ class _TrackEditPageState extends State<TrackEditPage> {
               },
             ),
             Divider(),
+            Text(
+              _lm.edit_track_visibility_title,
+              style: _theme.textTheme.headlineMedium,
+            ),
+            RadioGroup<String>(
+              groupValue: _visibility,
+              onChanged: (visibility) {
+                if (visibility == null) return;
+                setState(() {
+                  _visibility = visibility;
+                });
+              },
+              child: Column(
+                children: [
+                  RadioListTile(
+                    value: Track.visibilityPublic,
+                    title: Text(_lm.edit_track_visibility_public_title),
+                    subtitle: Text(_lm.edit_track_visibility_public_desc),
+                  ),
+                  RadioListTile(
+                    value: Track.visibilityInstance,
+                    title: Text(_lm.edit_track_visibility_instance_title),
+                    subtitle: Text(_lm.edit_track_visibility_instance_desc),
+                  )
+                ],
+              ),
+            ),
+            Divider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  lm.edit_track_lyrics,
+                  _lm.edit_track_lyrics,
                   style: _theme.textTheme.headlineMedium,
                 ),
                 IconButton(
                   onPressed: _searchLyrics,
                   icon: Icon(Icons.search),
-                  tooltip: lm.edit_track_search_lyrics,
+                  tooltip: _lm.edit_track_search_lyrics,
                 )
               ],
             ),
-            Text(lm.edit_track_lyrics_hint),
+            Text(_lm.edit_track_lyrics_hint),
             TextField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
@@ -509,15 +540,15 @@ class _TrackEditPageState extends State<TrackEditPage> {
               onPressed: () async {
                 final strAmount = await Dialogs.showInputDialog(
                   context,
-                  lm.edit_track_lyrics_shift_title,
-                  lm.edit_track_lyrics_shift_amount,
-                  hintText: lm.edit_track_lyrics_shift_amount_hint
+                  _lm.edit_track_lyrics_shift_title,
+                  _lm.edit_track_lyrics_shift_amount,
+                  hintText: _lm.edit_track_lyrics_shift_amount_hint
                 );
                 if (strAmount == null || strAmount.isEmpty || !context.mounted) return;
 
                 final amount = double.tryParse(strAmount.trim().replaceFirst(",", "."));
                 if (amount == null) {
-                  ErrorHandler.showErrorDialog(context, lm.edit_track_lyrics_shift_amount_validation);
+                  ErrorHandler.showErrorDialog(context, _lm.edit_track_lyrics_shift_amount_validation);
                   return;
                 }
 
@@ -525,7 +556,7 @@ class _TrackEditPageState extends State<TrackEditPage> {
                 parsed.shiftAll(Duration(milliseconds: (amount * 1000).round()));
                 _lyricsController.text = LrcParser.writeLrc(parsed);
               },
-              label: Text(lm.edit_track_lyrics_shift_title),
+              label: Text(_lm.edit_track_lyrics_shift_title),
               icon: Icon(Icons.schedule),
             )
           ],

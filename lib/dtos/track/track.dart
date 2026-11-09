@@ -28,6 +28,7 @@ class Track implements BaseTrack {
   final String path;
   final List<Tag> tags;
   final bool hasLyrics;
+  final String visibility;
   final int createdAt;
   final int? updatedAt;
   final User? uploader;
@@ -52,6 +53,7 @@ class Track implements BaseTrack {
     required this.path,
     required this.tags,
     required this.hasLyrics,
+    required this.visibility,
     required this.createdAt,
     this.updatedAt,
     this.uploader
@@ -82,6 +84,7 @@ class Track implements BaseTrack {
           .map((tagJson) => Tag.fromJson(tagJson))
           .toList(),
       hasLyrics: json['hasLyrics'],
+      visibility: json['visibility'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
       uploader: json['uploader'] != null ? User.fromJson(json['uploader']) : null
@@ -107,4 +110,7 @@ class Track implements BaseTrack {
 
   @override
   int? getDuration() => duration;
+
+  static final String visibilityPublic = "Public";
+  static final String visibilityInstance = "Instance";
 }

@@ -251,7 +251,7 @@
   "edit_image_remove": "Bild entfernen",
   "edit_image_enter_url": "Bild-URL eingeben",
   "edit_image_reset": "Zurücksetzen",
-  "edit_image_invalid_extension": "Ungültige Dateierweiterung. Unterstützte Erweiterungen sind: .jpg, .jpeg, .png, .gif",
+  "edit_image_invalid_extension": "Ungültiges Dateiformat. Unterstützte Formate sind: .jpg, .jpeg, .png, .gif",
   "edit_image_too_large": "Die Bilddatei ist zu groß. Die maximale Dateigröße beträgt 5 MB.",
   "edit_image_error": "Beim Hochladen des Bildes ist ein Fehler aufgetreten.",
 
@@ -271,7 +271,13 @@
   "edit_track_explicit": "Explizit",
   "edit_track_save_error": "Beim Speichern des Titels ist ein Fehler aufgetreten.",
   "edit_track_search_metadata": "Metadaten suchen",
-"edit_track_search_metadata_provider": "Metadaten-Quelle:",
+  "edit_track_search_metadata_provider": "Metadaten-Quelle:",
+  "edit_track_visibility_title": "Sichtbarkeit",
+  "edit_track_visibility_public_title": "Öffentlich",
+  "edit_track_visibility_public_desc": "Der Titel wird mittels Scrobbling mit Drittanbietern geteilt und erscheint in Widgets.",
+  "edit_track_visibility_instance_title": "Instanz",
+  "edit_track_visibility_instance_desc": "Der Titel ist für alle Nutzer dieser Instanz sichtbar, wird aber nicht beim Scrobbling oder in Widgets angezeigt.",
+
   "edit_track_lyrics": "Liedtext",
   "edit_track_lyrics_hint": "Gib den Liedtext im .lrc-Format (synchronisiert) oder als reinen Text ein.",
   "edit_track_search_lyrics": "Liedtext suchen",

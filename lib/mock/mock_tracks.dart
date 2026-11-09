@@ -27,6 +27,7 @@ Track getMockedTrack() {
     trackCount: 5,
     trackNumber: 3,
     year: 2020,
+    visibility: Track.visibilityPublic,
     createdAt: 1779115233,
     updatedAt: 1779115233
   );
