@@ -106,7 +106,9 @@ class _UserEditPageState extends State<UserEditPage> {
         ? await _apiManager.service.createUser(editData)
         : await _apiManager.service.updateUser(widget.userId!, editData);
 
-      _authState.updateUser(savedUser);
+      if (savedUser.id == _authState.user?.id) {
+        _authState.updateUser(savedUser);
+      }
 
       if (_profileImageUrl != null) {
         imageCache.clear();
