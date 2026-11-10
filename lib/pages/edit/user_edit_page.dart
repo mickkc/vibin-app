@@ -78,7 +78,7 @@ class _UserEditPageState extends State<UserEditPage> {
 
     try {
 
-      if (_initialUsername != null && _initialUsername != _usernameController.text) {
+      if (_initialUsername != null && _initialUsername?.toLowerCase() != _usernameController.text.toLowerCase()) {
         final doesUserNameExist = await _apiManager.service.checkUsernameExists(
           _usernameController.text
         );
