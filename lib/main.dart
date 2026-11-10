@@ -32,7 +32,7 @@ final getIt = GetIt.instance;
 final logger = Talker();
 
 final supportedServerVersions = [
-  "0.0.15"
+  "0.1.0"
 ];
 
 final supportedLanguages = [
