@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/widgets/conditional_hero.dart';
 
 class SettingsTitle extends StatelessWidget {
   final String title;
   final String? subtitle;
+  final IconData? icon;
+  final String? heroTag;
 
   const SettingsTitle({
     super.key,
     required this.title,
-    this.subtitle
+    this.subtitle,
+    this.icon,
+    this.heroTag
   });
 
   @override
@@ -20,9 +25,22 @@ class SettingsTitle extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            title,
-            style: theme.textTheme.headlineMedium,
+          Row(
+            spacing: 8,
+            children: [
+              if (icon != null)
+                ConditionalHero(
+                  tag: heroTag == null ? null : "$heroTag-icon",
+                  child: Icon(icon, size: 32),
+                ),
+              ConditionalHero(
+                tag: heroTag == null ? null : "$heroTag-title",
+                child: Text(
+                  title,
+                  style: theme.textTheme.headlineMedium,
+                ),
+              ),
+            ],
           ),
           if (subtitle != null)
             Text(

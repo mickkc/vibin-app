@@ -429,8 +429,6 @@
   "settings_app_accent_color_title": "Accent Color",
   "settings_app_accent_color_not_supported": "The selected theme does not support accent colors.",
 
-  "settings_app_behavior_title": "Behavior",
-
   "settings_app_page_size_title": "Page Size",
   "settings_app_page_size_description": "Number of items to load per page in overviews.",
 
@@ -462,10 +460,10 @@
   "settings_app_track_field_show_comment": "Show comment",
   "settings_app_track_field_show_tags": "Show tags",
 
+  "settings_app_metadata_title": "Metadata",
+
   "settings_app_metadata_providers_title": "Metadata Providers",
   "settings_app_metadata_providers_description": "Select which metadata providers to use for fetching metadata from the internet.",
-
-  "settings_app_advanced_title": "Advanced Settings",
 
   "settings_app_manage_sessions_title": "Session Management",
   "settings_app_manage_sessions_description": "View and manage all active sessions for your user account on this server.",
@@ -486,8 +484,10 @@
   "settings_app_metadata_image_size_medium": "Medium (256px)",
   "settings_app_metadata_image_size_large": "Large (512px)",
 
-  "settings_app_manage_tasks_title": "Background Task Management",
+  "settings_app_manage_tasks_title": "Background Tasks",
   "settings_app_manage_tasks_description": "View and manage all background tasks currently running on the server.",
+
+  "settings_app_integrations_title": "Integrations",
 
   "settings_app_content_title": "Content Settings",
   "settings_app_content_description": "Select which content to display in the app. These settings are synced with your user account and will apply across all devices.",

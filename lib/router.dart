@@ -32,10 +32,19 @@ import 'package:vibin_app/pages/overview/playlists_page.dart';
 import 'package:vibin_app/pages/overview/tag_overview_page.dart';
 import 'package:vibin_app/pages/overview/tracks_page.dart';
 import 'package:vibin_app/pages/overview/users_page.dart';
-import 'package:vibin_app/pages/settings/app_settings_page.dart';
+import 'package:vibin_app/pages/settings/appearance_settings_page.dart';
+import 'package:vibin_app/pages/settings/content_settings_page.dart';
+import 'package:vibin_app/pages/settings/integration_settings_page.dart';
+import 'package:vibin_app/pages/settings/metadata_settings_page.dart';
 import 'package:vibin_app/pages/settings/scrobbler_settings_page.dart';
-import 'package:vibin_app/pages/settings/server_settings_page.dart';
+import 'package:vibin_app/pages/settings/security_settings_page.dart';
+import 'package:vibin_app/pages/settings/server_metadata_settings_page.dart';
+import 'package:vibin_app/pages/settings/server_misc_settings_page.dart';
+import 'package:vibin_app/pages/settings/server_security_settings_page.dart';
+import 'package:vibin_app/pages/settings/server_uploads_settings_page.dart';
 import 'package:vibin_app/pages/settings/session_management_page.dart';
+import 'package:vibin_app/pages/settings/settings_page.dart';
+import 'package:vibin_app/pages/settings/streaming_settings_page.dart';
 import 'package:vibin_app/pages/settings/task_management_page.dart';
 import 'package:vibin_app/pages/settings/widget_management_page.dart';
 import 'package:vibin_app/pages/upload_page.dart';
@@ -167,16 +176,10 @@ GoRouter configureRouter(AuthState authState) {
           GoRoute(path: '/artists', builder: (context, state) => const ArtistsPage()),
           GoRoute(path: '/artists/:id', builder: (context, state) => ArtistInfoPage(artistId: int.parse(state.pathParameters['id']!))),
           GoRoute(path: '/artists/:id/edit', builder: (context, state) => ArtistEditPage(artistId: int.parse(state.pathParameters['id']!))),
-          GoRoute(path: '/settings/app', builder: (context, state) => AppSettingsPage(key: UniqueKey())),
-          GoRoute(path: '/settings/server', builder: (context, state) => const ServerSettingsPage()),
-          GoRoute(path: '/settings/scrobbling', builder: (context, state) => const ScrobblerSettingsPage()),
           GoRoute(path: '/tags', builder: (context, state) => const TagOverviewPage()),
           GoRoute(path: '/users', builder: (context, state) => const UsersPage()),
           GoRoute(path: '/users/create', builder: (context, state) => UserEditPage(userId: null, onSave: (u) => GoRouter.of(context).push("/users/${u.id}"))),
           GoRoute(path: '/users/:id', builder: (context, state) => UserInfoPage(userId: int.parse(state.pathParameters['id']!))),
-          GoRoute(path: '/sessions', builder: (context, state) => const SessionManagementPage()),
-          GoRoute(path: '/tasks', builder: (context, state) => const TaskManagementPage()),
-          GoRoute(path: '/widgets', builder: (context, state) => const WidgetManagementPage()),
           GoRoute(path: '/uploads', builder: (context, state) => const UploadPage()),
           GoRoute(path: '/glance', builder: (context, state) => const GlancePage()),
           GoRoute(path: '/bulk', builder: (context, state) => const BatchEditPage()),
@@ -185,6 +188,22 @@ GoRouter configureRouter(AuthState authState) {
             textColor: Theme.of(context).colorScheme.onSurface,
             cardColor: Theme.of(context).colorScheme.surfaceContainer
           ))),
+
+          GoRoute(path: '/settings', builder: (context, state) => SettingsPage(key: UniqueKey())),
+          GoRoute(path: '/settings/scrobbling', builder: (context, state) => const ScrobblerSettingsPage()),
+          GoRoute(path: "/settings/appearance", builder: (context, state) => const AppearanceSettingsPage()),
+          GoRoute(path: "/settings/metadata", builder: (context, state) => const MetadataSettingsPage()),
+          GoRoute(path: "/settings/content", builder: (context, state) => const ContentSettingsPage()),
+          GoRoute(path: "/settings/streaming", builder: (context, state) => const StreamingSettingsPage()),
+          GoRoute(path: "/settings/security", builder: (context, state) => const SecuritySettingsPage()),
+          GoRoute(path: '/settings/widgets', builder: (context, state) => const WidgetManagementPage()),
+          GoRoute(path: '/settings/sessions', builder: (context, state) => const SessionManagementPage()),
+          GoRoute(path: '/settings/integrations', builder: (context, state) => const IntegrationSettingsPage()),
+          GoRoute(path: '/settings/server/metadata', builder: (context, state) => const ServerMetadataSettingsPage()),
+          GoRoute(path: '/settings/server/tasks', builder: (context, state) => const TaskManagementPage()),
+          GoRoute(path: '/settings/server/security', builder: (context, state) => const ServerSecuritySettingsPage()),
+          GoRoute(path: '/settings/server/misc', builder: (context, state) => const ServerMiscSettingsPage()),
+          GoRoute(path: '/settings/server/uploads', builder: (context, state) => const ServerUploadsSettingsPage()),
         ],
       )
     ],

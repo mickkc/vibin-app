@@ -152,6 +152,8 @@ class _TaskManagementPageState extends State<TaskManagementPage> {
         SettingsTitle(
           title: _lm.settings_app_manage_tasks_title,
           subtitle: _lm.settings_app_manage_tasks_description,
+          icon: Icons.refresh,
+          heroTag: "settings-server-tasks",
         ),
 
         const Divider(),
