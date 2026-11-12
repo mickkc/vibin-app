@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vibin_app/pages/column_page.dart';
 
 import '../../dialogs/lyrics_dialog.dart';
 import '../../l10n/app_localizations.dart';
@@ -26,7 +27,8 @@ class AppearanceSettingsPage extends StatelessWidget {
     late final lm = AppLocalizations.of(context)!;
     final settingsManager = getIt<SettingsManager>();
 
-    return ListView(
+    return ColumnPage(
+      spacing: 0,
       children: [
         SettingsTitle(
           title: lm.settings_app_appearance_title,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/pages/column_page.dart';
 
 import '../../settings/enums/metadata_image_size.dart';
 import '../../settings/setting_definitions.dart';
@@ -17,7 +18,8 @@ class StreamingSettingsPage extends StatelessWidget {
 
     final lm = AppLocalizations.of(context)!;
 
-    return ListView(
+    return ColumnPage(
+      spacing: 0,
       children: [
         SettingsTitle(
           title: lm.settings_app_streaming_title,

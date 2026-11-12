@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
+import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/pages/settings/settings_category_grid.dart';
 
 import '../../auth/auth_state.dart';
@@ -112,7 +112,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SuperListView(
+    return ColumnPage(
+      spacing: 0,
       children: [
         Text(
           _lm.drawer_app_settings,

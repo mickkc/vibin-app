@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibin_app/l10n/app_localizations.dart';
+import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/pages/settings/user_credentials_view.dart';
 
 import '../../auth/auth_state.dart';
@@ -16,7 +17,8 @@ class MetadataSettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authState = getIt<AuthState>();
     final lm = AppLocalizations.of(context)!;
-    return ListView(
+    return ColumnPage(
+      spacing: 0,
       children: [
         SettingsTitle(
           title: lm.settings_app_metadata_title,

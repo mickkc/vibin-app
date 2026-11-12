@@ -7,6 +7,7 @@ import 'package:vibin_app/dtos/artist/artist.dart';
 import 'package:vibin_app/dtos/permission_type.dart';
 import 'package:vibin_app/dtos/settings/settings_map.dart';
 import 'package:vibin_app/dtos/tags/tag.dart';
+import 'package:vibin_app/pages/column_page.dart';
 import 'package:vibin_app/widgets/future_content.dart';
 import 'package:vibin_app/widgets/settings/server/server_boolean_settings_field.dart';
 import 'package:vibin_app/widgets/settings/server/server_number_settings_field.dart';
@@ -51,7 +52,8 @@ class _ContentSettingsPageState extends State<ContentSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return ColumnPage(
+      spacing: 0,
       children: [
         SettingsTitle(
           title: _lm.settings_app_content_title,

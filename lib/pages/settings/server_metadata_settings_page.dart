@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vibin_app/pages/column_page.dart';
 
 import '../../api/api_manager.dart';
 import '../../dtos/metadata_fetch_type.dart';
@@ -32,7 +32,8 @@ class _ServerMetadataSettingsPageState extends State<ServerMetadataSettingsPage>
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return ColumnPage(
+      spacing: 0,
       children: [
         SettingsTitle(
           title: _lm.settings_server_metadata_title,

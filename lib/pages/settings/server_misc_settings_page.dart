@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/pages/column_page.dart';
 
 import '../../api/api_manager.dart';
 import '../../l10n/app_localizations.dart';
@@ -24,7 +25,8 @@ class _ServerMiscSettingsPageState extends State<ServerMiscSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return ColumnPage(
+      spacing: 0,
       children: [
         SettingsTitle(
           title: _lm.settings_server_misc_title,

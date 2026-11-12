@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibin_app/pages/column_page.dart';
 
 import '../../api/api_manager.dart';
 import '../../auth/auth_state.dart';
@@ -35,7 +36,8 @@ class _SecuritySettingsPage extends State<SecuritySettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return ColumnPage(
+      spacing: 0,
       children: [
         SettingsTitle(
           title: _lm.settings_app_security_title,

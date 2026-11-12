@@ -6,6 +6,7 @@ import 'package:vibin_app/l10n/app_localizations.dart';
 
 import 'package:vibin_app/discord/discord.dart';
 import 'package:vibin_app/discord/rpc_updater.dart';
+import 'package:vibin_app/pages/column_page.dart';
 import '../../settings/setting_definitions.dart';
 import '../../widgets/settings/bool_settings_field.dart';
 import '../../widgets/settings/enum_settings_field.dart';
@@ -21,7 +22,8 @@ class IntegrationSettingsPage extends StatelessWidget {
 
     final lm = AppLocalizations.of(context)!;
 
-    return ListView(
+    return ColumnPage(
+      spacing: 0,
       children: [
         SettingsTitle(
           title: lm.settings_app_integrations_title,

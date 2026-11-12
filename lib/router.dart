@@ -66,6 +66,24 @@ class PopObserver extends NavigatorObserver {
   }
 }
 
+Page<void> _buildTransitionPage({required Widget child, required LocalKey? key}) {
+  return CustomTransitionPage<void>(
+    key: key,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final curved = CurvedAnimation(parent: animation, curve: Curves.easeOut);
+      return FadeTransition(
+        opacity: curved,
+        child: SlideTransition(
+          position: Tween<Offset>(begin: const Offset(0, 0.05), end: Offset.zero).animate(curved),
+          child: child,
+        ),
+      );
+    },
+    transitionDuration: const Duration(milliseconds: 300),
+  );
+}
+
 GoRouter configureRouter(AuthState authState) {
 
   // Workaround to differentiate between mouse-initiated and code-initiated pushes
@@ -189,21 +207,21 @@ GoRouter configureRouter(AuthState authState) {
             cardColor: Theme.of(context).colorScheme.surfaceContainer
           ))),
 
-          GoRoute(path: '/settings', builder: (context, state) => SettingsPage(key: UniqueKey())),
-          GoRoute(path: '/settings/scrobbling', builder: (context, state) => const ScrobblerSettingsPage()),
-          GoRoute(path: "/settings/appearance", builder: (context, state) => const AppearanceSettingsPage()),
-          GoRoute(path: "/settings/metadata", builder: (context, state) => const MetadataSettingsPage()),
-          GoRoute(path: "/settings/content", builder: (context, state) => const ContentSettingsPage()),
-          GoRoute(path: "/settings/streaming", builder: (context, state) => const StreamingSettingsPage()),
-          GoRoute(path: "/settings/security", builder: (context, state) => const SecuritySettingsPage()),
-          GoRoute(path: '/settings/widgets', builder: (context, state) => const WidgetManagementPage()),
-          GoRoute(path: '/settings/sessions', builder: (context, state) => const SessionManagementPage()),
-          GoRoute(path: '/settings/integrations', builder: (context, state) => const IntegrationSettingsPage()),
-          GoRoute(path: '/settings/server/metadata', builder: (context, state) => const ServerMetadataSettingsPage()),
-          GoRoute(path: '/settings/server/tasks', builder: (context, state) => const TaskManagementPage()),
-          GoRoute(path: '/settings/server/security', builder: (context, state) => const ServerSecuritySettingsPage()),
-          GoRoute(path: '/settings/server/misc', builder: (context, state) => const ServerMiscSettingsPage()),
-          GoRoute(path: '/settings/server/uploads', builder: (context, state) => const ServerUploadsSettingsPage()),
+          GoRoute(path: '/settings', pageBuilder: (c, s) => _buildTransitionPage(child: const SettingsPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/scrobbling', pageBuilder: (c, s) => _buildTransitionPage(child: const ScrobblerSettingsPage(), key: s.pageKey)),
+          GoRoute(path: "/settings/appearance", pageBuilder: (c, s) => _buildTransitionPage(child: const AppearanceSettingsPage(), key: s.pageKey)),
+          GoRoute(path: "/settings/metadata", pageBuilder: (c, s) => _buildTransitionPage(child: const MetadataSettingsPage(), key: s.pageKey)),
+          GoRoute(path: "/settings/content", pageBuilder: (c, s) => _buildTransitionPage(child: const ContentSettingsPage(), key: s.pageKey)),
+          GoRoute(path: "/settings/streaming", pageBuilder: (c, s) => _buildTransitionPage(child: const StreamingSettingsPage(), key: s.pageKey)),
+          GoRoute(path: "/settings/security", pageBuilder: (c, s) => _buildTransitionPage(child: const SecuritySettingsPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/widgets', pageBuilder: (c, s) => _buildTransitionPage(child: const WidgetManagementPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/sessions', pageBuilder: (c, s) => _buildTransitionPage(child: const SessionManagementPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/integrations', pageBuilder: (c, s) => _buildTransitionPage(child: const IntegrationSettingsPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/server/metadata', pageBuilder: (c, s) => _buildTransitionPage(child: const ServerMetadataSettingsPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/server/tasks', pageBuilder: (c, s) => _buildTransitionPage(child: const TaskManagementPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/server/security', pageBuilder: (c, s) => _buildTransitionPage(child: const ServerSecuritySettingsPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/server/misc', pageBuilder: (c, s) => _buildTransitionPage(child: const ServerMiscSettingsPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/server/uploads', pageBuilder: (c, s) => _buildTransitionPage(child: const ServerUploadsSettingsPage(), key: s.pageKey)),
         ],
       )
     ],
