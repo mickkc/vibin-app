@@ -32,10 +32,19 @@ import 'package:vibin_app/pages/overview/playlists_page.dart';
 import 'package:vibin_app/pages/overview/tag_overview_page.dart';
 import 'package:vibin_app/pages/overview/tracks_page.dart';
 import 'package:vibin_app/pages/overview/users_page.dart';
-import 'package:vibin_app/pages/settings/app_settings_page.dart';
+import 'package:vibin_app/pages/settings/appearance_settings_page.dart';
+import 'package:vibin_app/pages/settings/content_settings_page.dart';
+import 'package:vibin_app/pages/settings/integration_settings_page.dart';
+import 'package:vibin_app/pages/settings/metadata_settings_page.dart';
 import 'package:vibin_app/pages/settings/scrobbler_settings_page.dart';
-import 'package:vibin_app/pages/settings/server_settings_page.dart';
+import 'package:vibin_app/pages/settings/security_settings_page.dart';
+import 'package:vibin_app/pages/settings/server_metadata_settings_page.dart';
+import 'package:vibin_app/pages/settings/server_misc_settings_page.dart';
+import 'package:vibin_app/pages/settings/server_security_settings_page.dart';
+import 'package:vibin_app/pages/settings/server_uploads_settings_page.dart';
 import 'package:vibin_app/pages/settings/session_management_page.dart';
+import 'package:vibin_app/pages/settings/settings_page.dart';
+import 'package:vibin_app/pages/settings/streaming_settings_page.dart';
 import 'package:vibin_app/pages/settings/task_management_page.dart';
 import 'package:vibin_app/pages/settings/widget_management_page.dart';
 import 'package:vibin_app/pages/upload_page.dart';
@@ -55,6 +64,24 @@ class PopObserver extends NavigatorObserver {
     super.didPush(route, previousRoute);
     onPush();
   }
+}
+
+Page<void> _buildTransitionPage({required Widget child, required LocalKey? key}) {
+  return CustomTransitionPage<void>(
+    key: key,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final curved = CurvedAnimation(parent: animation, curve: Curves.easeOut);
+      return FadeTransition(
+        opacity: curved,
+        child: SlideTransition(
+          position: Tween<Offset>(begin: const Offset(0, 0.05), end: Offset.zero).animate(curved),
+          child: child,
+        ),
+      );
+    },
+    transitionDuration: const Duration(milliseconds: 300),
+  );
 }
 
 GoRouter configureRouter(AuthState authState) {
@@ -151,40 +178,50 @@ GoRouter configureRouter(AuthState authState) {
           );
         },
         routes: [
-          GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
-          GoRoute(path: '/home', builder: (context, state) => const HomePage()),
-          GoRoute(path: '/login-error', builder: (context, state) => const AutoLoginErrorPage()),
-          GoRoute(path: '/tracks', builder: (context, state) => const TrackPage()),
-          GoRoute(path: '/tracks/:id', builder: (context, state) => TrackInfoPage(trackId: int.parse(state.pathParameters['id']!))),
-          GoRoute(path: '/tracks/:id/edit', builder: (context, state) => TrackEditPage(trackId: int.parse(state.pathParameters['id']!))),
-          GoRoute(path: '/playlists', builder: (context, state) => const PlaylistsPage()),
-          GoRoute(path: '/playlists/create', builder: (context, state) => PlaylistEditPage(playlistId: null)),
-          GoRoute(path: '/playlists/:id', builder: (context, state) => PlaylistInfoPage(playlistId: int.parse(state.pathParameters['id']!))),
-          GoRoute(path: '/playlists/:id/edit', builder: (context, state) => PlaylistEditPage(playlistId: int.parse(state.pathParameters['id']!))),
-          GoRoute(path: '/albums', builder: (context, state) => const AlbumPage()),
-          GoRoute(path: '/albums/:id', builder: (context, state) => AlbumInfoPage(albumId: int.parse(state.pathParameters['id']!))),
-          GoRoute(path: '/albums/:id/edit', builder: (context, state) => AlbumEditPage(albumId: int.parse(state.pathParameters['id']!))),
-          GoRoute(path: '/artists', builder: (context, state) => const ArtistsPage()),
-          GoRoute(path: '/artists/:id', builder: (context, state) => ArtistInfoPage(artistId: int.parse(state.pathParameters['id']!))),
-          GoRoute(path: '/artists/:id/edit', builder: (context, state) => ArtistEditPage(artistId: int.parse(state.pathParameters['id']!))),
-          GoRoute(path: '/settings/app', builder: (context, state) => AppSettingsPage(key: UniqueKey())),
-          GoRoute(path: '/settings/server', builder: (context, state) => const ServerSettingsPage()),
-          GoRoute(path: '/settings/scrobbling', builder: (context, state) => const ScrobblerSettingsPage()),
-          GoRoute(path: '/tags', builder: (context, state) => const TagOverviewPage()),
-          GoRoute(path: '/users', builder: (context, state) => const UsersPage()),
-          GoRoute(path: '/users/create', builder: (context, state) => UserEditPage(userId: null, onSave: (u) => GoRouter.of(context).push("/users/${u.id}"))),
-          GoRoute(path: '/users/:id', builder: (context, state) => UserInfoPage(userId: int.parse(state.pathParameters['id']!))),
-          GoRoute(path: '/sessions', builder: (context, state) => const SessionManagementPage()),
-          GoRoute(path: '/tasks', builder: (context, state) => const TaskManagementPage()),
-          GoRoute(path: '/widgets', builder: (context, state) => const WidgetManagementPage()),
-          GoRoute(path: '/uploads', builder: (context, state) => const UploadPage()),
-          GoRoute(path: '/glance', builder: (context, state) => const GlancePage()),
-          GoRoute(path: '/bulk', builder: (context, state) => const BatchEditPage()),
-          GoRoute(path: '/logs', builder: (context, state) => TalkerScreen(talker: logger, appBarTitle: AppLocalizations.of(context)!.drawer_logs, theme: TalkerScreenTheme(
-            backgroundColor: Theme.of(context).colorScheme.surface,
-            textColor: Theme.of(context).colorScheme.onSurface,
-            cardColor: Theme.of(context).colorScheme.surfaceContainer
-          ))),
+          GoRoute(path: '/login', pageBuilder: (c, s) => _buildTransitionPage(child: const LoginPage(), key: s.pageKey)),
+          GoRoute(path: '/home', pageBuilder: (c, s) => _buildTransitionPage(child: const HomePage(), key: s.pageKey)),
+          GoRoute(path: '/login-error', pageBuilder: (c, s) => _buildTransitionPage(child: const AutoLoginErrorPage(), key: s.pageKey)),
+          GoRoute(path: '/tracks', pageBuilder: (c, s) => _buildTransitionPage(child: const TrackPage(), key: s.pageKey)),
+          GoRoute(path: '/tracks/:id', pageBuilder: (c, s) => _buildTransitionPage(child: TrackInfoPage(trackId: int.parse(s.pathParameters['id']!)), key: s.pageKey)),
+          GoRoute(path: '/tracks/:id/edit', pageBuilder: (c, s) => _buildTransitionPage(child: TrackEditPage(trackId: int.parse(s.pathParameters['id']!)), key: s.pageKey)),
+          GoRoute(path: '/playlists', pageBuilder: (c, s) => _buildTransitionPage(child: const PlaylistsPage(), key: s.pageKey)),
+          GoRoute(path: '/playlists/create', pageBuilder: (c, s) => _buildTransitionPage(child: PlaylistEditPage(playlistId: null), key: s.pageKey)),
+          GoRoute(path: '/playlists/:id', pageBuilder: (c, s) => _buildTransitionPage(child: PlaylistInfoPage(playlistId: int.parse(s.pathParameters['id']!)), key: s.pageKey)),
+          GoRoute(path: '/playlists/:id/edit', pageBuilder: (c, s) => _buildTransitionPage(child: PlaylistEditPage(playlistId: int.parse(s.pathParameters['id']!)), key: s.pageKey)),
+          GoRoute(path: '/albums', pageBuilder: (c, s) => _buildTransitionPage(child: const AlbumPage(), key: s.pageKey)),
+          GoRoute(path: '/albums/:id', pageBuilder: (c, s) => _buildTransitionPage(child: AlbumInfoPage(albumId: int.parse(s.pathParameters['id']!)), key: s.pageKey)),
+          GoRoute(path: '/albums/:id/edit', pageBuilder: (c, s) => _buildTransitionPage(child: AlbumEditPage(albumId: int.parse(s.pathParameters['id']!)), key: s.pageKey)),
+          GoRoute(path: '/artists', pageBuilder: (c, s) => _buildTransitionPage(child: const ArtistsPage(), key: s.pageKey)),
+          GoRoute(path: '/artists/:id', pageBuilder: (c, s) => _buildTransitionPage(child: ArtistInfoPage(artistId: int.parse(s.pathParameters['id']!)), key: s.pageKey)),
+          GoRoute(path: '/artists/:id/edit', pageBuilder: (c, s) => _buildTransitionPage(child: ArtistEditPage(artistId: int.parse(s.pathParameters['id']!)), key: s.pageKey)),
+          GoRoute(path: '/tags', pageBuilder: (c, s) => _buildTransitionPage(child: const TagOverviewPage(), key: s.pageKey)),
+          GoRoute(path: '/users', pageBuilder: (c, s) => _buildTransitionPage(child: const UsersPage(), key: s.pageKey)),
+          GoRoute(path: '/users/create', pageBuilder: (c, s) => _buildTransitionPage(child: UserEditPage(userId: null, onSave: (u) => GoRouter.of(c).push("/users/${u.id}")), key: s.pageKey)),
+          GoRoute(path: '/users/:id', pageBuilder: (c, s) => _buildTransitionPage(child: UserInfoPage(userId: int.parse(s.pathParameters['id']!)), key: s.pageKey)),
+          GoRoute(path: '/uploads', pageBuilder: (c, s) => _buildTransitionPage(child: const UploadPage(), key: s.pageKey)),
+          GoRoute(path: '/glance', pageBuilder: (c, s) => _buildTransitionPage(child: const GlancePage(), key: s.pageKey)),
+          GoRoute(path: '/bulk', pageBuilder: (c, s) => _buildTransitionPage(child: const BatchEditPage(), key: s.pageKey)),
+          GoRoute(path: '/logs', pageBuilder: (c, s) => _buildTransitionPage(child: TalkerScreen(talker: logger, appBarTitle: AppLocalizations.of(c)!.drawer_logs, theme: TalkerScreenTheme(
+            backgroundColor: Theme.of(c).colorScheme.surface,
+            textColor: Theme.of(c).colorScheme.onSurface,
+            cardColor: Theme.of(c).colorScheme.surfaceContainer
+          )), key: s.pageKey)),
+
+          GoRoute(path: '/settings', pageBuilder: (c, s) => _buildTransitionPage(child: const SettingsPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/scrobbling', pageBuilder: (c, s) => _buildTransitionPage(child: const ScrobblerSettingsPage(), key: s.pageKey)),
+          GoRoute(path: "/settings/appearance", pageBuilder: (c, s) => _buildTransitionPage(child: const AppearanceSettingsPage(), key: s.pageKey)),
+          GoRoute(path: "/settings/metadata", pageBuilder: (c, s) => _buildTransitionPage(child: const MetadataSettingsPage(), key: s.pageKey)),
+          GoRoute(path: "/settings/content", pageBuilder: (c, s) => _buildTransitionPage(child: const ContentSettingsPage(), key: s.pageKey)),
+          GoRoute(path: "/settings/streaming", pageBuilder: (c, s) => _buildTransitionPage(child: const StreamingSettingsPage(), key: s.pageKey)),
+          GoRoute(path: "/settings/security", pageBuilder: (c, s) => _buildTransitionPage(child: const SecuritySettingsPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/widgets', pageBuilder: (c, s) => _buildTransitionPage(child: const WidgetManagementPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/sessions', pageBuilder: (c, s) => _buildTransitionPage(child: const SessionManagementPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/integrations', pageBuilder: (c, s) => _buildTransitionPage(child: const IntegrationSettingsPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/server/metadata', pageBuilder: (c, s) => _buildTransitionPage(child: const ServerMetadataSettingsPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/server/tasks', pageBuilder: (c, s) => _buildTransitionPage(child: const TaskManagementPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/server/security', pageBuilder: (c, s) => _buildTransitionPage(child: const ServerSecuritySettingsPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/server/misc', pageBuilder: (c, s) => _buildTransitionPage(child: const ServerMiscSettingsPage(), key: s.pageKey)),
+          GoRoute(path: '/settings/server/uploads', pageBuilder: (c, s) => _buildTransitionPage(child: const ServerUploadsSettingsPage(), key: s.pageKey)),
         ],
       )
     ],

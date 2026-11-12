@@ -112,16 +112,9 @@ class DrawerComponent extends StatelessWidget {
           ),
         ListTile(
           leading: Icon(Icons.settings),
-          title: Text(lm.drawer_app_settings),
-          onTap: () => _goTo(context, '/settings/app'),
+          title: Text(lm.drawer_settings),
+          onTap: () => _goTo(context, '/settings'),
         ),
-        if (authState.hasPermission(PermissionType.changeServerSettings)) ... [
-          ListTile(
-            leading: Icon(Icons.electrical_services),
-            title: Text(lm.drawer_server_settings),
-            onTap: () => _goTo(context, '/settings/server'),
-          )
-        ],
         ListTile(
           leading: Icon(Icons.bug_report),
           title: Text(lm.drawer_logs),

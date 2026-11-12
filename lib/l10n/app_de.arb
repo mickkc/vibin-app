@@ -76,8 +76,7 @@
   "drawer_search": "Suche",
   "drawer_uploads": "Uploads",
   "drawer_profile": "Profil",
-  "drawer_app_settings": "App-Einstellungen",
-  "drawer_server_settings": "Server-Einstellungen",
+  "drawer_settings": "Einstellungen",
   "drawer_logs": "Logs",
   "drawer_logout": "Abmelden",
 
@@ -379,6 +378,8 @@
   "pick_playlist_track_add_error": "Beim Hinzufügen des Titels zur Playlist ist ein Fehler aufgetreten.",
   "pick_playlist_track_remove_error": "Beim Entfernen des Titels aus der Playlist ist ein Fehler aufgetreten.",
 
+  "settings_app_title": "App-Einstellungen",
+  "settings_server_title": "Server-Einstellungen",
 
   "settings_app_appearance_title": "Erscheinungsbild",
 
@@ -431,8 +432,6 @@
   "settings_app_accent_color_title": "Akzentfarbe",
   "settings_app_accent_color_not_supported": "Das gewählte Farbschema unterstützt keine Akzentfarben.",
 
-  "settings_app_behavior_title": "Verhalten",
-
   "settings_app_page_size_title": "Seitengröße",
   "settings_app_page_size_description": "Die Anzahl der Elemente, die pro Seite in Übersichten geladen werden.",
 
@@ -464,10 +463,10 @@
   "settings_app_track_field_show_comment": "Kommentar anzeigen",
   "settings_app_track_field_show_tags": "Tags anzeigen",
 
+  "settings_app_metadata_title": "Metadaten",
+
   "settings_app_metadata_providers_title": "Metadaten-Anbieter",
   "settings_app_metadata_providers_description": "Wähle die Metadaten-Anbieter aus, die für die Suche nach Metadaten aus dem Internet verwendet werden sollen.",
-
-  "settings_app_advanced_title": "Erweiterte Einstellungen",
 
   "settings_app_manage_sessions_title": "Sitzungen verwalten",
   "settings_app_manage_sessions_description": "Verwalte deine aktiven Sitzungen auf verschiedenen Geräten.",
@@ -488,9 +487,10 @@
   "settings_app_metadata_image_size_medium": "Mittel (256px)",
   "settings_app_metadata_image_size_large": "Groß (512px)",
 
-  "settings_app_manage_tasks_title": "Hintergrundaufgaben verwalten",
+  "settings_app_manage_tasks_title": "Hintergrundaufgaben",
   "settings_app_manage_tasks_description": "Verwalte Aufgaben, die auf dem Server im Hintergrund ausgeführt werden.",
 
+  "settings_app_integrations_title": "Integrationen",
 
   "settings_app_content_title": "Inhalt",
   "settings_app_content_description": "Passe an, welche Inhalte in der App angezeigt werden sollen. Diese Einstellungen werden zwischen Geräten synchronisiert.",

@@ -66,7 +66,9 @@ class _WidgetManagementPageState extends State<WidgetManagementPage> {
       children: [
         SettingsTitle(
           title: lm.settings_app_manage_widgets_title,
-          subtitle: lm.settings_app_manage_widgets_description
+          subtitle: lm.settings_app_manage_widgets_description,
+          icon: Icons.widgets,
+          heroTag: "settings-widgets",
         ),
 
         ElevatedButton.icon(

@@ -43,6 +43,7 @@ class FutureContent<T> extends StatelessWidget {
             if (mockData != null) {
               return Skeletonizer(
                 enabled: snapshot.connectionState == ConnectionState.waiting,
+                containersColor: theme.colorScheme.surfaceContainerHighest,
                 child: builder(context, mockData!()),
               );
             }

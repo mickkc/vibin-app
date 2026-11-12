@@ -91,6 +91,8 @@ class _ScrobblerSettingsPageState extends State<ScrobblerSettingsPage> {
         SettingsTitle(
           title: _lm.settings_scrobbling_title,
           subtitle: _lm.settings_scrobbling_desc,
+          icon: Icons.bar_chart,
+          heroTag: "settings-scrobbling",
         ),
         FutureContent(
           future: _scrobblersFuture,
