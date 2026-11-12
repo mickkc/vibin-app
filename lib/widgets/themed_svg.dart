@@ -66,6 +66,9 @@ class _ThemedSvgState extends State<ThemedSvg> {
         case "secondary":
           color = secondary;
           break;
+        case "background":
+          color = cs.brightness == Brightness.light ? lightest : darkest;
+          break;
         case "onbackground":
           color = cs.brightness == Brightness.light ? darkest : lightest;
           break;

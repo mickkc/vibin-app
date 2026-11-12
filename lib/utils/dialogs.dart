@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:vibin_app/widgets/themed_svg.dart';
 
 import '../l10n/app_localizations.dart';
 
@@ -160,25 +161,16 @@ class Dialogs {
       builder: (context) => AboutDialog(
         applicationName: lm.app_name,
         applicationVersion: packageInfo.version,
-        applicationIcon: const Icon(Icons.library_music, size: 64),
+        applicationIcon: const ThemedSvg(assetPath: "assets/images/icon-tr.svg", width: 64, height: 64),
         children: [
 
           SizedBox(
             width: 300,
-            height: 200,
+            height: 100,
             child: ListView(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-
-                ListTile(
-                  leading: const Icon(Icons.account_circle_outlined, size: 48),
-                  title: Text("MickKC"),
-                  subtitle: Text(lm.settings_app_about_credits_developer),
-                  onTap: () => launchUrl(Uri.parse("https://codeberg.org/mickkc")),
-                ),
-
-                const Divider(),
 
                 ListTile(
                   leading: const Icon(Icons.code),
