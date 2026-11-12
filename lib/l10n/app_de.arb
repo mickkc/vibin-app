@@ -76,8 +76,7 @@
   "drawer_search": "Suche",
   "drawer_uploads": "Uploads",
   "drawer_profile": "Profil",
-  "drawer_app_settings": "App-Einstellungen",
-  "drawer_server_settings": "Server-Einstellungen",
+  "drawer_settings": "Einstellungen",
   "drawer_logs": "Logs",
   "drawer_logout": "Abmelden",
 
@@ -379,6 +378,8 @@
   "pick_playlist_track_add_error": "Beim Hinzufügen des Titels zur Playlist ist ein Fehler aufgetreten.",
   "pick_playlist_track_remove_error": "Beim Entfernen des Titels aus der Playlist ist ein Fehler aufgetreten.",
 
+  "settings_app_title": "App-Einstellungen",
+  "settings_server_title": "Server-Einstellungen",
 
   "settings_app_appearance_title": "Erscheinungsbild",
 

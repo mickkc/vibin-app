@@ -116,7 +116,7 @@ class _SettingsPageState extends State<SettingsPage> {
       spacing: 0,
       children: [
         Text(
-          _lm.drawer_app_settings,
+          _lm.settings_app_title,
           style: TextTheme.of(context).headlineLarge,
         ),
 
@@ -126,7 +126,7 @@ class _SettingsPageState extends State<SettingsPage> {
           SizedBox(height: 16),
 
           Text(
-            _lm.drawer_server_settings,
+            _lm.settings_server_title,
             style: TextTheme.of(context).headlineLarge,
           ),
 

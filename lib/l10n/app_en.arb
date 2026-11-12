@@ -76,8 +76,7 @@
   "drawer_search": "Search",
   "drawer_profile": "Profile",
   "drawer_uploads": "Uploads",
-  "drawer_app_settings": "App Settings",
-  "drawer_server_settings": "Server Settings",
+  "drawer_settings": "Settings",
   "drawer_logs": "Logs",
   "drawer_logout": "Logout",
 
@@ -377,6 +376,8 @@
   "pick_playlist_track_add_error": "An error occurred while adding the track to the playlist.",
   "pick_playlist_track_remove_error": "An error occurred while removing the track from the playlist.",
 
+  "settings_app_title": "App Settings",
+  "settings_server_title": "Server Settings",
 
   "settings_app_appearance_title": "Appearance",
 
