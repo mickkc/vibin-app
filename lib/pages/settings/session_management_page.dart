@@ -67,7 +67,7 @@ class _SessionManagementPageState extends State<SessionManagementPage> {
           title: _lm.settings_app_manage_sessions_title,
           subtitle: _lm.settings_app_manage_sessions_description,
           icon: Icons.manage_accounts,
-          heroTag: "settings-server-sessions",
+          heroTag: "settings-sessions",
         ),
 
         ElevatedButton.icon(
