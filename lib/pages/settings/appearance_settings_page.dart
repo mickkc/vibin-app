@@ -110,7 +110,7 @@ class AppearanceSettingsPage extends StatelessWidget {
                   },
                   onChanged: (ln) {
                     themeNotifier.value = themeNotifier.value.setLanguage(ln);
-                    context.pushReplacement("/settings/app", extra: DateTime.now().millisecondsSinceEpoch);
+                    context.pushReplacement("/settings/appearance", extra: DateTime.now().millisecondsSinceEpoch);
                   },
                 )
               ],
