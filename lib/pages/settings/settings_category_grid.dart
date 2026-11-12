@@ -51,6 +51,7 @@ class SettingsCategoryGrid extends StatelessWidget {
                     ),
                     ConditionalHero(
                       tag: category.heroKey == null ? null : "${category.heroKey}-title",
+                      flightShuttleBuilder: textHeroFlightShuttleBuilder,
                       child: Text(category.name, textAlign: TextAlign.center)
                     )
                   ],

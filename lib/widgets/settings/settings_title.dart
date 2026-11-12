@@ -35,6 +35,7 @@ class SettingsTitle extends StatelessWidget {
                 ),
               ConditionalHero(
                 tag: heroTag == null ? null : "$heroTag-title",
+                flightShuttleBuilder: textHeroFlightShuttleBuilder,
                 child: Text(
                   title,
                   style: theme.textTheme.headlineMedium,
