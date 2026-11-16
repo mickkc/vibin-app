@@ -16,8 +16,6 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
 
-  cupertino_icons: ^2.0.0
-
   shared_preferences: ^2.5.4
   flutter_secure_storage: ^11.2.0
 
@@ -90,7 +88,7 @@ flutter:
   uses-material-design: true
   generate: true
   fonts:
-    - family: Roboto Flex
+    - family: Roboto
       fonts:
         - asset: assets/fonts/RobotoFlex-VariableFont.ttf
   assets:
