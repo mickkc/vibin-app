@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class TextThemes {
 
-  static const defaultHeadlineFontFamily = 'Roboto Flex';
-  static const defaultFontFamily = 'Roboto Flex';
+  static const defaultHeadlineFontFamily = 'Roboto';
+  static const defaultFontFamily = 'Roboto';
 
   static const defaultTextTheme = TextTheme(
     headlineLarge: TextStyle(

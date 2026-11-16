@@ -90,7 +90,7 @@ flutter:
   uses-material-design: true
   generate: true
   fonts:
-    - family: Roboto Flex
+    - family: Roboto
       fonts:
         - asset: assets/fonts/RobotoFlex-VariableFont.ttf
   assets:
