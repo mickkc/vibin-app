@@ -740,6 +740,9 @@
   "settings_server_lyrics_metadata_provider_title": "Lyrics Metadata Provider",
   "settings_server_lyrics_metadata_provider_description": "Select the metadata provider used for fetching lyrics automatically.",
 
+  "settings_server_preparser_provider_title": "File Metadata Scanner",
+  "settings_server_preparser_provider_description": "Used to extract sample rate, bitrate, duration, etc. from audio files.",
+
   "settings_server_metadata_matching_type_exact": "Exact Match",
   "settings_server_metadata_matching_type_case_insensitive": "Case Insensitive Match",
   "settings_server_metadata_matching_type_first": "First Result",
@@ -902,6 +905,7 @@
 
   "batch_edit_actions_remove_listen_duration_description": "The duration how long the selected tracks have been listened to will be reset to 0 seconds, for all users.",
   "batch_edit_actions_regenerate_file_metadata_description": "Regenerates metadata like bitrate, duration, sample rate, etc. for all selected tracks.",
+  "batch_edit_actions_regenerate_file_metadata_provider_default": "Default",
 
   "batch_edit_run": "Run",
   "batch_edit_dry_run": "Dry run",
