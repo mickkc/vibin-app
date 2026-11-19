@@ -910,6 +910,7 @@
 
   "batch_edit_actions_remove_listen_duration_description": "Die Dauer, wie lange die gewählten Titel gehört wurden, wird für alle Nutzer auf 0 Sekunden zurückgesetzt.",
   "batch_edit_actions_regenerate_file_metadata_description": "Regeneriert Metadaten wie Bitrate, Dauer, Sample-Rate, etc. für die gewählten Titel.",
+  "batch_edit_actions_regenerate_file_metadata_provider_default": "Standard",
 
   "batch_edit_run": "Starten",
   "batch_edit_dry_run": "Testen",
