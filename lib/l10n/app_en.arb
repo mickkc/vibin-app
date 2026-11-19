@@ -740,6 +740,9 @@
   "settings_server_lyrics_metadata_provider_title": "Lyrics Metadata Provider",
   "settings_server_lyrics_metadata_provider_description": "Select the metadata provider used for fetching lyrics automatically.",
 
+  "settings_server_preparser_provider_title": "File Metadata Scanner",
+  "settings_server_preparser_provider_description": "Used to extract sample rate, bitrate, duration, etc. from audio files.",
+
   "settings_server_metadata_matching_type_exact": "Exact Match",
   "settings_server_metadata_matching_type_case_insensitive": "Case Insensitive Match",
   "settings_server_metadata_matching_type_first": "First Result",

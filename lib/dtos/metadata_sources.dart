@@ -7,6 +7,7 @@ class MetadataSources {
   final List<String> album;
   final List<String> artist;
   final List<String> lyrics;
+  final List<String> preParsers;
 
   MetadataSources({
     required this.file,
@@ -14,6 +15,7 @@ class MetadataSources {
     required this.album,
     required this.artist,
     required this.lyrics,
+    required this.preParsers
   });
 
   factory MetadataSources.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class MetadataSources {
       track: List<String>.from(json['track']),
       artist: List<String>.from(json['artist']),
       lyrics: List<String>.from(json['lyrics']),
+      preParsers: List<String>.from(json['preParsers'])
     );
   }
 }

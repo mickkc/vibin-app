@@ -744,6 +744,9 @@
   "settings_server_lyrics_metadata_provider_title": "Liedtext Metadaten-Anbieter",
   "settings_server_lyrics_metadata_provider_description": "Wähle den Metadaten-Anbieter aus, der zum automatischen Abrufen von Liedtexten verwendet wird.",
 
+  "settings_server_preparser_provider_title": "Datei-Metadaten Scanner",
+  "settings_server_preparser_provider_description": "Wird verwendet um die Sample-Rate, Bitrate, Länge, etc. aus Audio-Dateien auszulesen.",
+
   "settings_server_metadata_matching_type_exact": "Genaue Übereinstimmung",
   "settings_server_metadata_matching_type_case_insensitive": "Groß-/Kleinschreibung ignorieren",
   "settings_server_metadata_matching_type_first": "Erstes Ergebnis",
