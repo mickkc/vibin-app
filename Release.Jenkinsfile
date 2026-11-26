@@ -70,7 +70,7 @@ EOF
         stage('Build Android APK') {
             steps {
                 sh '''
-                    flutter build apk --release
+                    flutter build apk --release --split-per-abi
                 '''
             }
         }
@@ -134,10 +134,12 @@ EOF
 
                         def uploadResponse = sh(
                             script: """
-                                curl -sS --fail-with-body -X POST \
-                                    -H "Authorization: token \$RELEASE_CODEBERG_TOKEN" \
-                                    -F "attachment=@build/app/outputs/flutter-apk/app-release.apk" \
-                                    "https://codeberg.org/api/v1/repos/${owner}/${repo}/releases/${id}/assets"
+                                for f in build/app/outputs/flutter-apk/*; do
+                                    curl -sS --fail-with-body -X POST \
+                                        -H "Authorization: token \$RELEASE_CODEBERG_TOKEN" \
+                                        -F "attachment=@\$f" \
+                                        "https://codeberg.org/api/v1/repos/${owner}/${repo}/releases/${id}/assets";
+                                done
                             """,
                             returnStdout: true
                         )
